@@ -1,36 +1,218 @@
-% put bibtex entries here!
-@Book{plotly,
-    author = {Carson Sievert},
-    title = {Interactive Web-Based Data Visualization with R, plotly, and shiny},
-    publisher = {Chapman and Hall/CRC},
-    year = {2020},
-    isbn = {9781138331457},
-    url = {https://plotly-r.com},
+
+
+@INPROCEEDINGS{scag,
+	author={L. Wilkinson and A. Anand and R. Grossman},
+	booktitle={IEEE Symposium on Information Visualization, 2005. INFOVIS 2005.},
+	title={Graph-theoretic scagnostics},
+	year={2005},
+	volume={},
+	number={},
+	pages={157-164},
+	ISSN={1522-404X},
+	month={Oct}}
+
+
+@article{scagdist,
+	author = {Leland Wilkinson and Graham Wills},
+	title = {Scagnostics Distributions},
+	journal = {Journal of Computational and Graphical Statistics},
+	volume = {17},
+	number = {2},
+	pages = {473-491},
+	year  = {2008},
+	publisher = {Taylor & Francis},}
+
+@misc{LWscagR,
+   author={Urbanek, S. and Wilkinson, L. and Anand, A.},
+   year=2012,
+   title={scagnostics: Compute scagnostics - scatterplot diagnostics},
+   howpublished={\url{https://cran.r-project.org/web/packages/scagnostics/index.html}}}
+
+
+@Article{tourr,
+    title = {{tourr}: An {R} Package for Exploring Multivariate Data with Projections},
+    author = {Hadley Wickham and Dianne Cook and Heike Hofmann and Andreas Buja},
+    journal = {Journal of Statistical Software},
+    year = {2011},
+    volume = {40},
+    number = {2},
+    pages = {1--18},
+}
+
+@phdthesis{Grimm,
+  author      = {Katrin Grimm},
+  title       = {Kennzahlenbasierte Grafikauswahl},
+  type        = {doctoral thesis},
+  pages       = {III, 210},
+  school      = {Universit{\"a}t Augsburg},
+  year        = {2016},
+}
+
+
+
+@book{rmarkdown,
+  author={Yihui Xie and Joseph J. Allaire and Garrett Grolemund},
+  year=2018,
+  title={R  Markdown: The Definitive Guide},
+  publisher={Chapman and Hall/CRC},
+  url={https://bookdown.org/yihui/rmarkdown}
+}
+
+
+@article{tourrpp,
+  year = 2020,
+  title = {{Using Tours to Visually Investigate Properties of New Projection Pursuit Indexes with Application to Problems in Physics}},
+  author = {Laa, U. and Cook, D.},
+  journal = {Computational Statistics},
+  volume = 35,
+  issue = 3,
+  pages = {1171--1205},
+  url = {https://doi.org/10.1007/s00180-020-00954-8}
+  }
+ 
+
+@article{crowding,
+ URL = {http://www.jstor.org/stable/2240961},
+ author = {Persi Diaconis and David Freedman},
+ journal = {The Annals of Statistics},
+ number = {3},
+ pages = {793--815},
+ publisher = {Institute of Mathematical Statistics},
+ title = {Asymptotics of Graphical Projection Pursuit},
+ volume = {12},
+ year = {1984}
+}
+
+@INPROCEEDINGS{scagexplorer,
+  author={Dang, Tuan Nhon and Wilkinson, Leland},
+  booktitle={2014 IEEE Pacific Visualization Symposium}, 
+  title={ScagExplorer: Exploring Scatterplots by Their Scagnostics}, 
+  year={2014},
+  volume={},
+  number={},
+  pages={73-80},
+  doi={10.1109/PacificVis.2014.42}}
+
+
+@article{burningsage,
+  title={Burning sage: Reversing the curse of dimensionality in the visualization of high-dimensional data},
+  author={U. Laa and D. Cook and S. Lee},
+  journal={arXiv: Computation},
+  year={2020}
+}
+
+@misc{liminal,
+      title={Casting Multiple Shadows: High-Dimensional Interactive Data Visualisation with Tours and Embeddings}, 
+      author={Stuart Lee and Ursula Laa and Dianne Cook},
+      year={2020},
+      eprint={2012.06077},
+      archivePrefix={arXiv},
+      primaryClass={stat.OT}
+}
+
+@article{sots,
+  journal = {Scientific data},
+  pages = {213--213},
+  volume = {7},
+  publisher = {Nature Publishing Group},
+  number = {1},
+  year = {2020},
+  title = {A self-organizing, living library of time-series data},
+  author = {Fulcher, Ben D and Lubba, Carl H and Sethi, Sarab S and Jones, Nick S},
+}
+
+@inbook{tukey,
+  author={John Tukey},
+  editor={William S. Cleveland},
+  year= {1988},
+  title={The Collected Works of John W. Tukey},
+  publisher={Chapman and Hall/CRC},
+  pages = {411,427,433}
+}
+
+@inbook{graphbook,
+  author={Antony Unwin},
+  year= {2015},
+  title={Graphical Data Analysis with R},
+  publisher={Chapman and Hall/CRC},
+  pages = {77}
+}
+
+@article{anscombe,
+	author = { F. J.   Anscombe },
+	title = {Graphs in Statistical Analysis},
+	journal = {The American Statistician},
+	volume = {27},
+	number = {1},
+	pages = {17-21},
+	year  = {1973},
+	publisher = {Taylor & Francis},
+	doi = {10.1080/00031305.1973.10478966},
+	URL = {https://www.tandfonline.com/doi/abs/10.1080/00031305.1973.10478966},
+	eprint = {https://www.tandfonline.com/doi/pdf/10.1080/00031305.1973.10478966}}
+
+
+@Manual{datasaurpkg,
+    title = {datasauRus: Datasets from the Datasaurus Dozen},
+    author = {Steph Locke and Lucy {D'Agostino McGowan}},
+    year = {2018},
+    note = {R package version 0.1.4},
+    url = {https://CRAN.R-project.org/package=datasauRus},
   }
 
-@Manual{crosstalk,
-  title = {crosstalk: Inter-Widget Interactivity for HTML Widgets},
-  author = {Joe Cheng and Carson Sievert},
-  year = {2021},
-  note = {R package version 1.1.1},
-  url = {https://CRAN.R-project.org/package=crosstalk},
+@Manual{R,
+  title = {R: A Language and Environment for Statistical Computing},
+  author = {{R Core Team}},
+  organization = {R Foundation for Statistical Computing},
+  address = {Vienna, Austria},
+  year = {2012},
+  note = {{ISBN} 3-900051-07-0},
+  url = {http://www.R-project.org/},
 }
 
-@article{RJ-2021-050,
-  author = {Earo Wang and Dianne Cook},
-  title = {Conversations in time: interactive visualisation to explore
-          structured temporal data},
-  year = {2021},
-  journal = {The R Journal},
-  doi = {10.32614/RJ-2021-050},
-  url = {https://journal.r-project.org/archive/2021/RJ-2021-050/index.html}
+@book{knitr,
+  title = {Dynamic Documents with {R} and knitr},
+  author = {Yihui Xie},
+  publisher = {Chapman and Hall/CRC},
+  address = {Boca Raton, Florida},
+  year = {2015},
+  edition = {2nd},
+  url = {https://yihui.name/knitr/},
 }
 
-@Manual{palmerpenguins,
-  title = {palmerpenguins: Palmer Archipelago (Antarctica) penguin data},
-  author = {Allison Marie Horst and Alison Presmanes Hill and Kristen B Gorman},
-  year = {2020},
-  note = {R package version 0.1.0},
-  url = {https://allisonhorst.github.io/palmerpenguins/},
-}
+@article{ihaka:1996,
+  Author = {Ihaka, Ross and Gentleman, Robert},
+	Journal = {Journal of Computational and Graphical Statistics},
+	Number = 3,
+	Pages = {299--314},
+	Title = {R: A Language for Data Analysis and Graphics},
+	Volume = 5,
+	Year = 1996}
 
+@Manual{alphahull,
+    title = {alphahull: Generalization of the Convex Hull of a Sample of Points in the
+Plane},
+    author = {Beatriz Pateiro-Lopez and Alberto Rodriguez-Casal and {.}},
+    year = {2019},
+    note = {R package version 2.2},
+    url = {https://CRAN.R-project.org/package=alphahull},
+  }
+
+@Article{igraph,
+    title = {The igraph software package for complex network research},
+    author = {Gabor Csardi and Tamas Nepusz},
+    journal = {InterJournal},
+    volume = {Complex Systems},
+    pages = {1695},
+    year = {2006},
+    url = {https://igraph.org},
+  }
+
+@article{binostics,
+	title = {binostics: Computing scagnostics measures in R and C++},
+	year = {2020},
+	url = {https://github.com/uschiLaa/paper-binostics},
+	author = {Ursula Laa and Hadley Wickham and Dianne Cook and Heike Hofmann}
+}
+	
+	
