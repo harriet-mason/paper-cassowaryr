@@ -40,7 +40,106 @@ Several scagnostics have been previously defined in *Graph-Theoretic Scagnostics
 ## Contribution
 The purpose of this research project is to create a user friendly R package that computes the previously established scagnostics and also introduce some new measures for features that are currently overlooked. There are two previously established scagnostics packages, the live package *scagnostics* [@scagdist] and the archived package *binostics* [@binostics]. Both are based on the original C++ code from the *Scagnostic Distributions* paper, which is difficult to read and therefore difficult to debug. Writing a new scagnostics package in R will allow for these techniques to be understood and extended upon, which is currently not possible with the C++ code.   
 
-# Scagnostic Assessment
+# Scagnostic Definitions
+## Underlying Definitions
+In order to capture the visual structure of the data, graph theory is used to calculate most of the scagnostics. The pairwise scatter plot is re-constructed as a graph with the data points as vertices and the edges are calculated using Delaunay triangulation. In the package this calculation is done using the alphahull package [@alphahull] to construct an object called a scree. This is the basis for all the other objects that are used to calculate the scagnostics (except for monotonic, dcor and splines which use the raw data). The graph (screen object) is then used to construct the three key structures on which the scagnostics are based; the convex hull, alpha hull and minimum-spanning tree (MST).
+
+- **Convex hull:** The outside vertices of the graph, connected to make a convex polygon that contains all points. It is constructed usnig the tripack package.
+
+- **Alpha hull:** A collection of boundaries that contain all the points in the graph. Unlike the convex hull, it does not need to be convex. It is calculated using the alphahull package [@alphahull].
+
+- **MST:** the minimum spanning tree, i.e the smallest distance of branches that can be used to connect all the points. In the package it is calculated from the graph using the igraph package [@igraph].  
+
+![](figures/draw1.png)
+
+## Measure Defintions
+The nine scagnostics defined in *Scagnostic Distributions* are detailed below with an explanation, formula, and visualisation.  We will let *A*= alpha Hull *C*= convex hull, *M* = minimum spanning tree, and *s*= the scagnostic measure. Since some of the measures have some sample size dependence, we will let *w* be a constant that adjusts for that.  
+
+- **Convex:** Measure of how convex the shape of the data is. Computed as the ratio between the area of the alpha hull (A) and convex hull (C).  
+  
+$$s_{convex}=w\frac{area(A)}{area(C)}$$  
+
+![](figures/drawconvex.png)  
+
+
+
+- **Skinny:** A measure of how "thin" the shape of the data is. It is calculated as the ratio between the area and perimeter of the alpha hull (A) with some normalisation such that 0 correspond to a perfect circle and values close to 1 indicate a skinny polygon.  
+
+$$s_{skinny}= 1-\frac{\sqrt{4\pi area(A)}}{perimeter(A)}$$  
+
+![](figures/drawskinny.png)
+
+- **Outlying:** A measure of proportion and severity of outliers in dataset. Calculated by comparing the edge lengths of the outlying points in the MST with the length of the entire MST.  
+
+$$s_{outlying}=\frac{length(M_{outliers})}{length(M)}$$  
+
+![](figures/drawoutlying.png)  
+
+
+- **Stringy:** This measure identifies a "stringy" shape with no branches, such as a thin line of data. It is calculated by comparing the number of vertices of degree two ($V^{(2)}$) with the total number of vertices ($V$), dropping those of degree one ($V^{(1)}$).  
+
+$$s_{stringy} = \frac{|V^{(2)}|}{|V|-|V^{(1)}|}$$  
+
+![](figures/drawstringy.png) 
+
+
+- **Skewed:** A measure of skewness in the edge lengths of the MST (not in the distribution of the data). It is calculated as the ratio between the 40% IQR and the 80% IQR, adjusted for sample size dependence.  
+
+$$s_{skewed} = 1-w(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}})$$  
+
+![](figures/drawskewed.png)  
+
+
+- **Sparse:**  Identifies if the data is sporadically located on the plane. Calculated as the 90th percentile of MST edge lengths.
+
+$$s_{sparse}= wq_{90}$$
+
+![](figures/drawsparse.png)
+
+
+- **Clumpy:** This measure is used to detect clustering and is calculated through an iterative process. First an edge J is selected and removed from the MST. From the two spanning trees that are created by this break, we select the largest edge from the smaller tree (K). The length of this edge (K) is compared to the removed edge (J) giving a clumpy measure for this edge. This process is repeated for every edge in the MST and the final clumpy measure is the maximum of this value over all edges.  
+
+$$\max_{j}[1-\frac{\max_{k}[length(e_k)]}{length(e_j)}]$$  
+![](figures/drawclumpy.png) 
+
+
+- **Striated:** This measure identifies features such as discreteness by finding parallel lines, or smooth algebraic functions. Calculated by counting the proportion of acute (0 to 40 degree) angles between the adjacent edges of vertices with only two edges.  
+
+$$\frac1{|V|}\sum_{v \in V^{2}}I(cos\theta_{e(v,a)e(v,b)}<-0.75)$$  
+![](figures/drawstriated.png) 
+
+  
+- **Monotonic:** Checks if the data has an increasing or decreasing trend. Calculated as the Spearman correlation coefficient, i.e. the Pearson correlation between the ranks of x and y.  
+
+$$s_{monotonic} = r^2_{spearman}$$
+![](figures/drawmonotonic.png)  
+
+
+The two additional scagnostics discussed by Katrin Grimm are described below.
+
+
+- **Splines:** Measures the functional non-linear dependence by fitting a penalised splines model on X using Y, and on Y using X. The variance of the residuals are scaled down by the axis so they are comparable, and finally the maximum is taken. Therefore the value will be closer to 1 if either relationship can be decently explained by a splines model.
+
+$$s_{splines}=\max_{i\in x,y}[1-\frac{Var(Residuals_{model~i=.})}{Var(i)}]$$
+
+![](figures/drawsplines.png) 
+
+
+- **Dcor:** A measure of non-linear dependence which is 0 if and only if the two variables are independent. Computed using an ANOVA like calculation on the pairwise distances between observations. 
+
+$$s_{dcor}= \sqrt{\frac{\mathcal{V}(X,Y)}{\mathcal{V}(X,X)\mathcal{V}(Y,Y)}}$$  
+where
+$$\mathcal{V}
+(X,Y)=\frac{1}{n^2}\sum_{k=1}^n\sum_{l=1}^nA_{kl}B_{kl}$$  
+where
+$$A_{kl}=a_{kl}-\bar{a}_{k.}-\bar{a}_{.j}-\bar{a}_{..}$$
+$$B_{kl}=b_{kl}-\bar{b}_{k.}-\bar{b}_{.j}-\bar{b}_{..}$$
+
+![](figures/drawdcor.png)
+
+
+# Example 
+## Scagnostic Assessment
 At present, all 11 scagnostics have, at a minimum, a draft version of their code. In their current state, they may not follow the most efficient method, but they work and calculate the measures according to their definition. This has introduced two new problems for the package.
 
 The first issue is that some of the scagnostics do not scale when calculated on large datasets. When the scagnostics were originally designed, they were calculated on binned data, that is, all the points within a certain area were pooled together. For the package we want this to remain optional. Unfortunately it turns out that a lot of the scagnsotics, with their current definitions do not work on data that has not been pooled. If we take a look at the scagnsotics computed on the datasaurus dozen dataset (which is loaded with the package to provide example code) several of the measures return values that, by the intuitive interpretation of their definition, should be incorrect.
@@ -69,354 +168,119 @@ To give just a few examples of how the measures are misbehaving, we can look at 
 
 Almost all the scagnostics built using the scree object have some strange result similar to the examples above, either because the binning step has been skipped, or the measure itself is not consistent. For this reason, the original 11 scagnostics will need more testing and work to make sure they are actually measuring what their definition implies they are.  
 
-# Time Series Application
-- As a final application to show the usefulness of scagnostics, I want to perform an exploratory data analysis on a time series dataset.
+## Analysis of Different Types of Time Series
+
+
+```{Get Data}
+# install.packages("devtools")
+#devtools::install_github("robjhyndman/compenginets")
+library(compenginets)
+library(tsfeatures)
+library(tidyverse)
+library(vaast)
+
+#get 3 different timeseries
+cets_birdsong <- get_cets("Birdsong")
+cets_finance <- get_cets("Finance")
+cets_music <- get_cets("Music")
+
+#idk what this does but im checking it
+feat_birdsongs <- tsfeatures(cets_birdsong) %>%
+  mutate(type="birdsongs")
+feat_finance <- tsfeatures(cets_finance)%>%
+  mutate(type="finance")
+feat_music <- tsfeatures(cets_music)%>%
+  mutate(type="music")
+
+#make timeseries plot
+
+#make big dataset
+features_bfm <- bind_rows(feat_birdsongs,feat_finance,feat_music)
+
+#scatterplot
+features_bfm %>%
+  GGally::ggpairs(columns = 8:16,ggplot2::aes(colour=type))
+
+
+
+#calcualte scagnsotics
+features_bfm %>%
+  group_by(type) %>%
+  summarise(monotonic=sc_monotonic(e_acf10,x_acf1), 
+            dcor=sc_dcor(e_acf10,x_acf1), 
+            splines=sc_splines(e_acf10,x_acf1),
+            skinny = sc_skinny(e_acf10,x_acf1),
+            convex = sc_convex(e_acf10,x_acf1),
+            striated = sc_striated(e_acf10,x_acf1),
+            stringy = sc_stringy(e_acf10,x_acf1),
+            ) %>%
+  knitr::kable(digits=4, align="c")
+
+#
+ggplot(features_bfm, aes(x=e_acf10,y=x_acf1, colour=type))+
+  geom_point()+
+  facet_wrap(~type,scales="free")+
+  theme(aspect.ratio=1)
+
+features_bfm %>%
+  group_by(type) %>%
+  summarise(monotonic=sc_monotonic(entropy,x_acf10), 
+            dcor=sc_dcor(entropy,x_acf10), 
+            splines=sc_splines(entropy,x_acf10),
+            skinny = sc_skinny(entropy,x_acf10),
+            convex = sc_convex(entropy,x_acf10),
+            striated = sc_striated(entropy,x_acf10),
+            stringy = sc_stringy(entropy,x_acf10),
+            ) %>%
+  knitr::kable(digits=4, align="c")
+
+#
+ggplot(features_bfm, aes(x=entropy,y=x_acf10, colour=type))+
+  geom_point()+
+  facet_wrap(~type,scales="free")+
+  theme(aspect.ratio=1)
+
+features_bfm %>%
+  group_by(type) %>%
+  summarise(monotonic=sc_monotonic(entropy,diff1_acf1), 
+            dcor=sc_dcor(entropy,diff1_acf1), 
+            splines=sc_splines(entropy,diff1_acf1),
+            skinny = sc_skinny(entropy,diff1_acf1),
+            convex = sc_convex(entropy,diff1_acf1),
+            striated = sc_striated(entropy,diff1_acf1),
+            stringy = sc_stringy(entropy,diff1_acf1),
+            ) %>%
+  knitr::kable(digits=4, align="c")
+
+#
+ggplot(features_bfm, aes(x=entropy,y=diff1_acf1, colour=type))+
+  geom_point()+
+  facet_wrap(~type,scales="free")+
+  theme(aspect.ratio=1)
+
+features_bfm %>%
+  group_by(type) %>%
+  summarise(monotonic=sc_monotonic(x_acf1,diff2_acf1), 
+            dcor=sc_dcor(x_acf1,diff2_acf1), 
+            splines=sc_splines(x_acf1,diff2_acf1),
+            skinny = sc_skinny(x_acf1,diff2_acf1),
+            convex = sc_convex(x_acf1,diff2_acf1),
+            striated = sc_striated(x_acf1,diff2_acf1),
+            stringy = sc_stringy(x_acf1,diff2_acf1),
+            ) %>%
+  knitr::kable(digits=4, align="c")
+
+#
+ggplot(features_bfm, aes(x=x_acf1,y=diff2_acf1, colour=type))+
+  geom_point()+
+  facet_wrap(~type,scales="free")+
+  theme(aspect.ratio=1)
+```
 
 # Appendix
 
 ```{r setup2, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
-```
-
-## Calculating Preliminary Objects
-In order to capture the visual structure of the data, graph theory is used to calculate most of the scagnostics. The pairwise scatter plot is re-constructed as a graph with the data points as vertices and the edges are calculated using Delaunay triangulation. In the package this calculation is done using the alphahull package [@alphahull] to construct an object called a scree. This is the basis for all the other objects that are used to calculate the scagnostics (except for monotonic, dcor and splines which use the raw data). The function to calculate the scree is written below.
-
-```{r, Scree}
-scree <- function(x, y, binner = NULL, ...) {
-  # checks on x,y
-  stopifnot(
-    is.numeric(x), is.numeric(y), length(x) == length(y)
-  )
-
-  if (!(is.null(binner) | is.function(binner)))
-    stop("binner must be a function")
-
-  # cast to a matrix
-  xy <- cbind(unitize(x), unitize(y))
-
-  if (is.function(binner)) {
-    xy <- binner(xy)
-  }
-
-  # compute delauney triangulation
-  del <- alphahull::delvor(xy)
-
-  # edge weights from the triangulation
-  weights <- gen_edge_lengths(del)
-
-  # alpha estimator
-  alpha <- psi(weights)
-
-  structure(
-    list(
-      del = del,
-      weights  = weights,
-      alpha = alpha
-    ),
-    class = "scree"
-  )
-}
-```
-
-The graph (screen object) is then used to construct the three key structures on which the scagnostics are based; the convex hull, alpha hull and minimum-spanning tree (MST).
-
-- **Convex hull:** The outside vertices of the graph, connected to make a convex polygon that contains all points. It is constructed usnig the tripack package.
-
-```{r, Generate Convex Hull}
-gen_conv_hull <- function(del) {
-  tripack::convex.hull(del$tri.obj)
-}
-```
-
-- **Alpha hull:** A collection of boundaries that contain all the points in the graph. Unlike the convex hull, it does not need to be convex. It is calculated using the alphahull package [@alphahull].
-
-```{r, Generate Alpha Hull}
-gen_alpha_hull <- function(del, alpha) {
-  alphahull::ahull(del, alpha = alpha)
-}
-```
-
-- **MST:** the minimum spanning tree, i.e the smallest distance of branches that can be used to connect all the points. In the package it is calculated from the graph using the igraph package [@igraph].  
-
-```{r, Generate MST}
-# generate MST
-gen_mst <- function(del, weights) {
-  edges <- del$mesh[, c("ind1", "ind2")]
-  graph <- igraph::graph_from_edgelist(edges, directed = FALSE)
-  graph <- igraph::set_edge_attr(graph, "weight", value = weights)
-  igraph::mst(graph, weights =  igraph::E(graph)$weight)
-}
-```
-
-![](figures/draw1.png)
-
-## Calculating Scagnostics
-The nine scagnostics defined in *Scagnostic Distributions* are detailed below with an explanation, formula, and visualisation.  We will let *A*= alpha Hull *C*= convex hull, *M* = minimum spanning tree, and *s*= the scagnostic measure. Since some of the measures have some sample size dependence, we will let *w* be a constant that adjusts for that.  
-
-- **Convex:** Measure of how convex the shape of the data is. Computed as the ratio between the area of the alpha hull (A) and convex hull (C).  
-  
-$$s_{convex}=w\frac{area(A)}{area(C)}$$  
-
-![](figures/drawconvex.png)  
-
-```{r, Convex Scagnostic Code}
-sc_convex.scree <- function(x,y = NULL) {
-  stopifnot(is.null(y))
-  chull <- gen_conv_hull(x$del)
-  chull_area <- splancs::areapl(cbind(chull$x, chull$y))
-  ahull <- gen_alpha_hull(x$del, x$alpha)
-  ahull_area <- alphahull::areaahull(ahull)
-  ahull_area / chull_area
-}
-```
-
-
-- **Skinny:** A measure of how "thin" the shape of the data is. It is calculated as the ratio between the area and perimeter of the alpha hull (A) with some normalisation such that 0 correspond to a perfect circle and values close to 1 indicate a skinny polygon.  
-
-$$s_{skinny}= 1-\frac{\sqrt{4\pi area(A)}}{perimeter(A)}$$  
-
-![](figures/drawskinny.png)
-
-```{r, Skinny Scagnsotic Code}
-sc_skinny.scree <- function(x, y = NULL) {
-  stopifnot(is.null(y))
-  ahull <- gen_alpha_hull(x$del, x$alpha)
-  ahull_area <- alphahull::areaahull(ahull)
-  1 - sqrt(4*pi * ahull_area) / ahull$length
-}
-```
-
-- **Outlying:** A measure of proportion and severity of outliers in dataset. Calculated by comparing the edge lengths of the outlying points in the MST with the length of the entire MST.  
-
-$$s_{outlying}=\frac{length(M_{outliers})}{length(M)}$$  
-
-![](figures/drawoutlying.png)  
-
-```{r, Outlying Scagnsotic Code}
-sc_outlying.scree <- function(x, y = NULL) {
-  #generate vector of MST edges
-  mymst <- gen_mst(x$del, x$weights)
-  mstmat <- matrix(mymst[], nrow=length(x[["del"]][["x"]][,1]))
-
-  #calculate w value
-  mstmat_diag <- mstmat
-  mstmat_diag[upper.tri(mstmat, diag = FALSE)]=0
-  edges <- sort(mstmat_diag[which(mstmat>0)])
-  q25 <- edges[floor(0.25*length(edges))]
-  q75 <- edges[floor(0.75*length(edges))]
-  w <- q75 + 1.5*(q75-q25)
-
-  #set values above w to 0 in matrix to find outlying
-  mstmat_check <- mstmat
-  mstmat_check[mstmat>w]=0
-  rowsum <- mstmat_check%*%rep(1, length(mstmat_check[1,])) #row sum of matrix, if 0 all edges are above this value
-
-  #calculate outlying value
-  numer <- sum(mstmat[which(rowsum==0),]) #sum of edges of outlying points
-  denom <- sum(mstmat)
-  outlying <- numer/denom
-
-  return(outlying)
-}
-```
-
-- **Stringy:** This measure identifies a "stringy" shape with no branches, such as a thin line of data. It is calculated by comparing the number of vertices of degree two ($V^{(2)}$) with the total number of vertices ($V$), dropping those of degree one ($V^{(1)}$).  
-
-$$s_{stringy} = \frac{|V^{(2)}|}{|V|-|V^{(1)}|}$$  
-
-![](figures/drawstringy.png) 
-
-```{r, Stringy Scagnostic Code}
-sc_stringy.scree <- function(x, y = NULL) {
-  stopifnot(is.null(y))
-  mst <- gen_mst(x$del, x$weights)
-  vertex_counts <- igraph::degree(mst)
-  sum(vertex_counts == 2) / (length(vertex_counts) - sum(vertex_counts == 1))
-}
-```
-
-- **Skewed:** A measure of skewness in the edge lengths of the MST (not in the distribution of the data). It is calculated as the ratio between the 40% IQR and the 80% IQR, adjusted for sample size dependence.  
-
-$$s_{skewed} = 1-w(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}})$$  
-
-![](figures/drawskewed.png)  
-
-```{r, Skewed Scagnostic Code}
-sc_skewed.scree <- function(x, y = NULL) {
-  #generate vector of MST edges
-  mymst <- gen_mst(x$del, x$weights)
-  mstmat <- matrix(mymst[], nrow=length(x[["del"]][["x"]][,1]))
-  mstmat[upper.tri(mstmat, diag = FALSE)]=0
-  edges <- sort(mstmat[which(mstmat>0)])
-  #calculate skewed value
-  q90 <- edges[floor(0.9*length(edges))]
-  q50 <- edges[floor(0.5*length(edges))]
-  q10 <- edges[floor(0.1*length(edges))]
-  skewed <- (q90-q50)/(q90/q50) #no size adjustment
-  return(skewed)
-}
-```
-
-- **Sparse:**  Identifies if the data is sporadically located on the plane. Calculated as the 90th percentile of MST edge lengths.
-
-$$s_{sparse}= wq_{90}$$
-
-![](figures/drawsparse.png)
-
-```{r, Sparse}
-sc_sparse.scree <- function(x, y = NULL) {
-  #generate vector of MST edges
-  mymst <- gen_mst(x$del, x$weights)
-  mstmat <- matrix(mymst[], nrow=length(x[["del"]][["x"]][,1]))
-  mstmat[upper.tri(mstmat, diag = FALSE)]=0
-  edges <- sort(mstmat[which(mstmat>0)])
-  #calculate sparse value
-  sparse <- edges[floor(0.9*length(edges))]
-  return(sparse)
-}
-```
-
-- **Clumpy:** This measure is used to detect clustering and is calculated through an iterative process. First an edge J is selected and removed from the MST. From the two spanning trees that are created by this break, we select the largest edge from the smaller tree (K). The length of this edge (K) is compared to the removed edge (J) giving a clumpy measure for this edge. This process is repeated for every edge in the MST and the final clumpy measure is the maximum of this value over all edges.  
-
-$$\max_{j}[1-\frac{\max_{k}[length(e_k)]}{length(e_j)}]$$  
-![](figures/drawclumpy.png) 
-
-```{r, Clumpy Scagnostic Code}
-sc_clumpy.scree <- function(x, y = NULL) {
-  mymst <- gen_mst(x$del, x$weights)
-  mstmat <- matrix(mymst[], nrow=length(x[["del"]][["x"]][,1]))
-  mstmat[upper.tri(mstmat, diag = FALSE)]=0
-  #get cols and rows of each value
-  edges <- which(mstmat>0)
-  rows <- edges %% length(mstmat[,1])
-  cols <- (edges-1) %/% length(mstmat[,1]) +1
-  clumpy <- rep(0,length(edges))
-  for(i in seq(length(edges))){
-    #set value for edge in consideration
-    jval <- mstmat[edges[i]]
-    #reset inner loop values and remove target edge
-    inedges <- edges[-i]
-    inrows <- rows[-i]
-    incols <- cols[-i]
-    #make cluster with remaining edges (this second for loop is bad computationally oof)
-    for(j in seq(length(inedges))){
-      if(j==1){
-        ind=1
-      }
-      checkvec <- c(inrows[ind],incols[ind]) #lower triang matrix so need to check rows and cols
-      if((inrows[j]%in%checkvec | incols[j]%in%checkvec)& (j!=1)){
-        ind <- c(ind,j)
-      }
-    }
-    cluster1 <- mstmat[inedges[ind]]
-    cluster2 <- mstmat[inedges[-ind]]
-    kval <- ifelse(sum(cluster1)<sum(cluster2), pmax(cluster1), pmax(cluster2))
-    clumpy[i] <- 1- (kval/jval)
-  }
-  clumpy <- clumpy[which(!is.na(clumpy))]
-  return(max(clumpy))
-}
-```
-
-- **Striated:** This measure identifies features such as discreteness by finding parallel lines, or smooth algebraic functions. Calculated by counting the proportion of acute (0 to 40 degree) angles between the adjacent edges of vertices with only two edges.  
-
-$$\frac1{|V|}\sum_{v \in V^{2}}I(cos\theta_{e(v,a)e(v,b)}<-0.75)$$  
-![](figures/drawstriated.png) 
-
-```{r, Striated Scagnostic Code}
-sc_striated.scree <- function(x, y = NULL) {
-  mst <- gen_mst(x$del, x$weights)
-  vertex_counts <- igraph::degree(mst)
-  angs <- which(vertex_counts==2)
-  angles_vect <- numeric(length(angs))
-  for(i in seq_len(length(angs))){
-    adjs <- which(mst[angs[i]]>0)
-    points <- x$del$x[adjs,]
-    origin <- x$del$x[angs[i],]
-    vects <- t(t(points)-origin)
-    angles_vect[i] <- (vects[1,]%*%vects[2,])/(prod(mst[angs[i]][adjs]))
-  }
-  striated <- (sum(ifelse(angles_vect<(-0.75),1,0)))/length(vertex_counts)
-  return(striated)
-}
-```
-  
-- **Monotonic:** Checks if the data has an increasing or decreasing trend. Calculated as the Spearman correlation coefficient, i.e. the Pearson correlation between the ranks of x and y.  
-
-$$s_{monotonic} = r^2_{spearman}$$
-![](figures/drawmonotonic.png)  
-
-```{r, Monotonic}
-sc_monotonic <- function(x, y){
-  abs(stats::cor(x, y, method='spearman'))
-}
-```
-
-The two additional scagnostics discussed by Katrin Grimm are described below.
-
-
-- **Splines:** Measures the functional non-linear dependence by fitting a penalised splines model on X using Y, and on Y using X. The variance of the residuals are scaled down by the axis so they are comparable, and finally the maximum is taken. Therefore the value will be closer to 1 if either relationship can be decently explained by a splines model.
-
-$$s_{splines}=\max_{i\in x,y}[1-\frac{Var(Residuals_{model~i=.})}{Var(i)}]$$
-
-![](figures/drawsplines.png) 
-```{r, Splines Scagnostic Code}
-sc_splines <- function(x,y) {
-  if (!requireNamespace("mgcv", quietly = TRUE)) {
-    stop("Package: mgcv must be installed to use splines scagnostic")
-  }
-  kx <- ifelse(length(unique(x[!is.na(x)])) < 20, 3, 10)
-  ky <- ifelse(length(unique(y[!is.na(y)])) < 20, 3, 10)
-  mgam1 <- mgcv::gam(y ~ s(x, bs = "cr", k = kx))
-  mgam2 <- mgcv::gam(x ~ s(y, bs = "cr", k = ky))
-  measure <- max(1 - var(residuals(mgam1), na.rm = T) / var(y, na.rm = T), 1 - var(residuals(mgam2), na.rm = T) / var(x, na.rm = T))
-  return(measure)
-}
-```
-
-
-- **Dcor:** A measure of non-linear dependence which is 0 if and only if the two variables are independent. Computed using an ANOVA like calculation on the pairwise distances between observations. 
-
-$$s_{dcor}= \sqrt{\frac{\mathcal{V}(X,Y)}{\mathcal{V}(X,X)\mathcal{V}(Y,Y)}}$$  
-where
-$$\mathcal{V}
-(X,Y)=\frac{1}{n^2}\sum_{k=1}^n\sum_{l=1}^nA_{kl}B_{kl}$$  
-where
-$$A_{kl}=a_{kl}-\bar{a}_{k.}-\bar{a}_{.j}-\bar{a}_{..}$$
-$$B_{kl}=b_{kl}-\bar{b}_{k.}-\bar{b}_{.j}-\bar{b}_{..}$$
-
-![](figures/drawdcor.png)
-
-```{r, dcor Scagnostic code}
-sc_dcor <- function(x,y) {
-  if (!requireNamespace("energy", quietly = TRUE)) {
-    stop("Package: energy is required to compute dcor scagnostic.")
-  }
-  xy <- na.omit(data.frame(x = x, y = y))
-  measure <- with(xy, energy::dcor(x, y))
-  return(measure)
-}
-```
-
-## Additional Functions
-In addition to calculating scagnostics, there are several other processing steps that the function needs to do.
-
-- Removing Outliers outliers can have large effects on the outputs of the scagnsotic functions, and so to make the measures more robust they are removed before calculating the scree object using the following function.
-```{r}
-# This is the edge filter from Wilkinson 05
-psi <- function(w, q = c(0.25, 0.75)) {
-  q <- quantile(w, probs = q)
-  unname(q[2] + 1.5 * diff(q))
-}
-```
-
-- Scale to Unit Interval Scagnostics are subject to change based on the scale of the data, so to make sure all the scagnostics range[0, 1] and are comparable between datasets the raw data is scaled to the unit interval before calculating the scree object.
-```{r}
-# rescale input to lie in unit interval
-unitize <- function(x, na.rm = TRUE) {
-  rng <- range(x, na.rm = na.rm)
-  (x - rng[1]) / diff(rng)
-}
 ```
 
 
