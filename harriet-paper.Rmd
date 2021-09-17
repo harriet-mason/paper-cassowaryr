@@ -171,13 +171,13 @@ Almost all the scagnostics built using the scree object have some strange result
 ## Analysis of Different Types of Time Series
 
 
-```{Get Data}
+```{r Get Data}
 # install.packages("devtools")
 #devtools::install_github("robjhyndman/compenginets")
 library(compenginets)
 library(tsfeatures)
 library(tidyverse)
-library(vaast)
+library(cassowaryr)
 
 #get 3 different timeseries
 cets_birdsong <- get_cets("Birdsong")
@@ -198,12 +198,21 @@ feat_music <- tsfeatures(cets_music)%>%
 features_bfm <- bind_rows(feat_birdsongs,feat_finance,feat_music)
 
 #scatterplot
+feat_birdsongs %>%
+  GGally::ggpairs(columns = 8:16)
+
 features_bfm %>%
   GGally::ggpairs(columns = 8:16,ggplot2::aes(colour=type))
 
 
 
 #calcualte scagnsotics
+scag_birdsongs <- calc_scags_wide(feat_birdsongs[,8:16])
+
+scag_birdsongs %>%
+  GGally::ggpairs()
+
+
 features_bfm %>%
   group_by(type) %>%
   summarise(monotonic=sc_monotonic(e_acf10,x_acf1), 
@@ -215,6 +224,7 @@ features_bfm %>%
             stringy = sc_stringy(e_acf10,x_acf1),
             ) %>%
   knitr::kable(digits=4, align="c")
+
 
 #
 ggplot(features_bfm, aes(x=e_acf10,y=x_acf1, colour=type))+
