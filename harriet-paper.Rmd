@@ -210,7 +210,7 @@ features_bfm %>%
 scag_birdsongs <- calc_scags_wide(feat_birdsongs[,8:16])
 
 scag_birdsongs %>%
-  GGally::ggpairs()
+  GGally::ggpairs(columns = 3:11)
 
 
 features_bfm %>%
