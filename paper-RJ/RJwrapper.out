@@ -1,0 +1,16 @@
+\BOOKMARK [0][-]{section*.1}{Teaching Computers to See Patterns in Scatterplots with Scagnostics}{}% 1
+\BOOKMARK [1][-]{section.2.1}{Introduction}{section*.1}% 2
+\BOOKMARK [1][-]{section.2.2}{Scagnostics}{section*.1}% 3
+\BOOKMARK [2][-]{subsection.2.2.1}{Building blocks for the graph-based metrics}{section.2.2}% 4
+\BOOKMARK [2][-]{subsection.2.2.2}{Graph-based scagnostics}{section.2.2}% 5
+\BOOKMARK [2][-]{subsection.2.2.3}{Association-based scagnostics}{section.2.2}% 6
+\BOOKMARK [2][-]{subsection.2.2.4}{Checking the scagnostics calculations}{section.2.2}% 7
+\BOOKMARK [1][-]{section.2.3}{Software implementation}{section*.1}% 8
+\BOOKMARK [2][-]{subsection.2.3.1}{Installation}{section.2.3}% 9
+\BOOKMARK [2][-]{subsection.2.3.2}{Functions}{section.2.3}% 10
+\BOOKMARK [2][-]{subsection.2.3.3}{Tests}{section.2.3}% 11
+\BOOKMARK [1][-]{section.2.4}{Examples}{section*.1}% 12
+\BOOKMARK [2][-]{subsection.2.4.1}{Collections of time series}{section.2.4}% 13
+\BOOKMARK [2][-]{subsection.2.4.2}{Parkinsons}{section.2.4}% 14
+\BOOKMARK [2][-]{subsection.2.4.3}{Black holes and netron star mergers?}{section.2.4}% 15
+\BOOKMARK [2][-]{subsection.2.4.4}{Summary}{section.2.4}% 16
