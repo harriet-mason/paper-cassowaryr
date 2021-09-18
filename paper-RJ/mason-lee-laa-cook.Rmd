@@ -232,13 +232,11 @@ scag_birdsongs <- calc_scags_wide(feat_birdsongs[,4:16])
 ```
 
 ```{r scatmat, fig.height=12, fig.width=16, out.width="100%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
-# interactive scatterplot NOT WORKING PROPERLY YET
+# interactive scatterplot 
 scag_birdsongs <- scag_birdsongs %>%
   mutate(id = paste(Var1, Var2))
-highlight_key(scag_birdsongs, key = "id") %>%
-  ggpairs(columns = 3:10) %>%
-  ggplotly() %>%
-  highlight("plotly_selected")
+
+ggplotly(ggpairs(scag_birdsongs, columns = 3:10, aes(label=id)))
 ```
 
 ```{r scatmatstatic, fig.height=10, fig.width=10, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
