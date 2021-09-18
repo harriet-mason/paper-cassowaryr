@@ -1,0 +1,103 @@
+\begin{thebibliography}{15}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Anscombe(1973)]{anscombe}
+F.~J. Anscombe.
+\newblock Graphs in statistical analysis.
+\newblock \emph{The American Statistician}, 27\penalty0 (1):\penalty0 17--21,
+  1973.
+\newblock \doi{10.1080/00031305.1973.10478966}.
+\newblock URL
+  \url{https://www.tandfonline.com/doi/abs/10.1080/00031305.1973.10478966}.
+
+\bibitem[Csardi and Nepusz(2006)]{igraph}
+G.~Csardi and T.~Nepusz.
+\newblock The igraph software package for complex network research.
+\newblock \emph{InterJournal}, Complex Systems:\penalty0 1695, 2006.
+\newblock URL \url{https://igraph.org}.
+
+\bibitem[Dang and Wilkinson(2014)]{scagexplorer}
+T.~N. Dang and L.~Wilkinson.
+\newblock Scagexplorer: Exploring scatterplots by their scagnostics.
+\newblock In \emph{2014 IEEE Pacific Visualization Symposium}, pages 73--80,
+  2014.
+\newblock \doi{10.1109/PacificVis.2014.42}.
+
+\bibitem[Diaconis and Freedman(1984)]{crowding}
+P.~Diaconis and D.~Freedman.
+\newblock Asymptotics of graphical projection pursuit.
+\newblock \emph{The Annals of Statistics}, 12\penalty0 (3):\penalty0 793--815,
+  1984.
+\newblock URL \url{http://www.jstor.org/stable/2240961}.
+
+\bibitem[Fulcher et~al.(2020)Fulcher, Lubba, Sethi, and Jones]{sots}
+B.~D. Fulcher, C.~H. Lubba, S.~S. Sethi, and N.~S. Jones.
+\newblock A self-organizing, living library of time-series data.
+\newblock \emph{Scientific data}, 7\penalty0 (1):\penalty0 213--213, 2020.
+
+\bibitem[Grimm(2016)]{Grimm}
+K.~Grimm.
+\newblock \emph{Kennzahlenbasierte Grafikauswahl}.
+\newblock doctoral thesis, Universit{\"a}t Augsburg, 2016.
+
+\bibitem[Laa and Cook(2020)]{tourrpp}
+U.~Laa and D.~Cook.
+\newblock {Using Tours to Visually Investigate Properties of New Projection
+  Pursuit Indexes with Application to Problems in Physics}.
+\newblock \emph{Computational Statistics}, 35:\penalty0 1171--1205, 2020.
+\newblock URL \url{https://doi.org/10.1007/s00180-020-00954-8}.
+
+\bibitem[Laa et~al.(2020{\natexlab{a}})Laa, Cook, and Lee]{burningsage}
+U.~Laa, D.~Cook, and S.~Lee.
+\newblock Burning sage: Reversing the curse of dimensionality in the
+  visualization of high-dimensional data.
+\newblock \emph{arXiv: Computation}, 2020{\natexlab{a}}.
+
+\bibitem[Laa et~al.(2020{\natexlab{b}})Laa, Wickham, Cook, and
+  Hofmann]{binostics}
+U.~Laa, H.~Wickham, D.~Cook, and H.~Hofmann.
+\newblock binostics: Computing scagnostics measures in r and c++.
+\newblock 2020{\natexlab{b}}.
+\newblock URL \url{https://github.com/uschiLaa/paper-binostics}.
+
+\bibitem[Lee et~al.(2020)Lee, Laa, and Cook]{liminal}
+S.~Lee, U.~Laa, and D.~Cook.
+\newblock Casting multiple shadows: High-dimensional interactive data
+  visualisation with tours and embeddings, 2020.
+
+\bibitem[Locke and {D'Agostino McGowan}(2018)]{datasaurpkg}
+S.~Locke and L.~{D'Agostino McGowan}.
+\newblock \emph{datasauRus: Datasets from the Datasaurus Dozen}, 2018.
+\newblock URL \url{https://CRAN.R-project.org/package=datasauRus}.
+\newblock R package version 0.1.4.
+
+\bibitem[Pateiro-Lopez et~al.(2019)Pateiro-Lopez, Rodriguez-Casal, and
+  {.}]{alphahull}
+B.~Pateiro-Lopez, A.~Rodriguez-Casal, and {.}
+\newblock \emph{alphahull: Generalization of the Convex Hull of a Sample of
+  Points in the Plane}, 2019.
+\newblock URL \url{https://CRAN.R-project.org/package=alphahull}.
+\newblock R package version 2.2.
+
+\bibitem[Tukey(1988)]{tukey}
+J.~Tukey.
+\newblock \emph{The Collected Works of John W. Tukey}, pages 411,427,433.
+\newblock Chapman and Hall/CRC, 1988.
+
+\bibitem[Wilkinson and Wills(2008)]{scagdist}
+L.~Wilkinson and G.~Wills.
+\newblock Scagnostics distributions.
+\newblock \emph{Journal of Computational and Graphical Statistics}, 17\penalty0
+  (2):\penalty0 473--491, 2008.
+
+\bibitem[Wilkinson et~al.(2005)Wilkinson, Anand, and Grossman]{scag}
+L.~Wilkinson, A.~Anand, and R.~Grossman.
+\newblock Graph-theoretic scagnostics.
+\newblock In \emph{IEEE Symposium on Information Visualization, 2005. INFOVIS
+  2005.}, pages 157--164, Oct 2005.
+
+\end{thebibliography}
