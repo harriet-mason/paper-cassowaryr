@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.2.13)  19 SEP 2021 17:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.2.13)  20 SEP 2021 08:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -985,32 +985,32 @@ Overfull \hbox (461.31499pt too wide) in paragraph at lines 315--316
 [][] 
  []
 
-<mason-lee-laa-cook_files/figure-latex/scatmatstatic-1.pdf, id=195, 712.6625pt 
+[7 <./figures/drawdcor.png>]
+<mason-lee-laa-cook_files/figure-latex/scatmatstatic-1.pdf, id=208, 712.6625pt 
 x 710.655pt>
 File: mason-lee-laa-cook_files/figure-latex/scatmatstatic-1.pdf Graphic file (t
 ype pdf)
 <use mason-lee-laa-cook_files/figure-latex/scatmatstatic-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/scatmatstatic-1.
-pdf  used on input line 365.
+pdf  used on input line 370.
 (pdftex.def)             Requested size: 398.33858pt x 397.21587pt.
 
-Overfull \hbox (15.0pt too wide) in paragraph at lines 365--366
+Overfull \hbox (15.0pt too wide) in paragraph at lines 370--371
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 365--366
+Underfull \hbox (badness 10000) in paragraph at lines 370--371
 
  []
 
-[7 <./figures/drawdcor.png>]
 <mason-lee-laa-cook_files/figure-latex/interesting-pair-static-1.pdf, id=209, 4
 59.7175pt x 315.1775pt>
 File: mason-lee-laa-cook_files/figure-latex/interesting-pair-static-1.pdf Graph
 ic file (type pdf)
 <use mason-lee-laa-cook_files/figure-latex/interesting-pair-static-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/interesting-pair
--static-1.pdf  used on input line 380.
+-static-1.pdf  used on input line 385.
 (pdftex.def)             Requested size: 199.16928pt x 136.54803pt.
 <mason-lee-laa-cook_files/figure-latex/interesting-ts-1.pdf, id=210, 457.71pt x
  313.17pt>
@@ -1018,7 +1018,7 @@ File: mason-lee-laa-cook_files/figure-latex/interesting-ts-1.pdf Graphic file (
 type pdf)
 <use mason-lee-laa-cook_files/figure-latex/interesting-ts-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/interesting-ts-1
-.pdf  used on input line 384.
+.pdf  used on input line 389.
 (pdftex.def)             Requested size: 457.7089pt x 313.16922pt.
 <mason-lee-laa-cook_files/figure-latex/interesting-ts-2.pdf, id=211, 457.71pt x
  313.17pt>
@@ -1026,20 +1026,20 @@ File: mason-lee-laa-cook_files/figure-latex/interesting-ts-2.pdf Graphic file (
 type pdf)
 <use mason-lee-laa-cook_files/figure-latex/interesting-ts-2.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/interesting-ts-2
-.pdf  used on input line 385.
+.pdf  used on input line 390.
 (pdftex.def)             Requested size: 457.7089pt x 313.16922pt.
 
-Overfull \hbox (74.37032pt too wide) in paragraph at lines 384--386
+Overfull \hbox (74.37032pt too wide) in paragraph at lines 389--391
 [][]
  []
 
 
-Overfull \hbox (59.37032pt too wide) in paragraph at lines 384--386
+Overfull \hbox (59.37032pt too wide) in paragraph at lines 389--391
 []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 384--386
+Underfull \hbox (badness 10000) in paragraph at lines 389--391
 
  []
 
@@ -1051,7 +1051,7 @@ File: mason-lee-laa-cook_files/figure-latex/interesting-pair-static2-1.pdf Grap
 hic file (type pdf)
 <use mason-lee-laa-cook_files/figure-latex/interesting-pair-static2-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/interesting-pair
--static2-1.pdf  used on input line 389.
+-static2-1.pdf  used on input line 394.
 (pdftex.def)             Requested size: 199.16928pt x 136.54803pt.
 [9 <./mason-lee-laa-cook_files/figure-latex/interesting-ts-1.pdf> <./mason-lee-
 laa-cook_files/figure-latex/interesting-ts-2.pdf>]
@@ -1061,15 +1061,15 @@ File: mason-lee-laa-cook_files/figure-latex/interesting-ts2-1.pdf Graphic file
 (type pdf)
 <use mason-lee-laa-cook_files/figure-latex/interesting-ts2-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/interesting-ts2-
-1.pdf  used on input line 393.
+1.pdf  used on input line 398.
 (pdftex.def)             Requested size: 457.7089pt x 313.16922pt.
 
-Overfull \hbox (74.37032pt too wide) in paragraph at lines 393--394
+Overfull \hbox (74.37032pt too wide) in paragraph at lines 398--399
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 393--394
+Underfull \hbox (badness 10000) in paragraph at lines 398--399
 
  []
 
@@ -1082,12 +1082,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 393--394
 )
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 437.
+(Font)              using `T1/zi4/m/n' instead on input line 442.
 
 LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
-(Font)              scaled to size 9.18004pt on input line 437.
+(Font)              scaled to size 9.18004pt on input line 442.
 
-Underfull \hbox (badness 10000) in paragraph at lines 447--448
+Underfull \hbox (badness 10000) in paragraph at lines 452--453
 
  []
 
@@ -1130,7 +1130,7 @@ ve/2020/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/local/texlive/2
 020/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2020/tex
 mf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2020/texmf-dist
 /fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (12 pages, 997452 bytes).
+Output written on RJwrapper.pdf (12 pages, 997698 bytes).
 PDF statistics:
  371 PDF objects out of 1000 (max. 8388607)
  301 compressed objects within 4 object streams

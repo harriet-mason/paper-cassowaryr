@@ -190,6 +190,8 @@ Maybe use Anscombe and datasaurus and the features data here
 
 ## Collections of time series
 
+GOAL: Use scagnostics to find difference in shapes between groups. Here we want to first use features to describe a time series, and then secondly choosing pairs of features where there is the biggest difference between groups according to a scagnostic.
+
 A paragraph describing the compenginets data
 
 Analysis notes:
