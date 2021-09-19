@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.2.13)  18 SEP 2021 17:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.2.13)  19 SEP 2021 17:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -816,7 +816,7 @@ LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 1
 (/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
 )
-<figures/draw1.png, id=129, 861.2175pt x 344.78813pt>
+<figures/draw1.png, id=133, 861.2175pt x 344.78813pt>
 File: figures/draw1.png Graphic file (type png)
 <use figures/draw1.png>
 Package pdftex.def Info: figures/draw1.png  used on input line 151.
@@ -869,7 +869,7 @@ LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 7.29405pt on input line 173.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 5.21004pt on input line 173.
-<figures/drawconvex.png, id=146, 642.14906pt x 137.7647pt>
+<figures/drawconvex.png, id=150, 642.14906pt x 137.7647pt>
 File: figures/drawconvex.png Graphic file (type png)
 <use figures/drawconvex.png>
 Package pdftex.def Info: figures/drawconvex.png  used on input line 175.
@@ -879,7 +879,7 @@ Overfull \hbox (258.80891pt too wide) in paragraph at lines 175--176
 [][] 
  []
 
-<figures/drawskinny.png, id=147, 556.32843pt x 119.69719pt>
+<figures/drawskinny.png, id=151, 556.32843pt x 119.69719pt>
 File: figures/drawskinny.png Graphic file (type png)
 <use figures/drawskinny.png>
 Package pdftex.def Info: figures/drawskinny.png  used on input line 188.
@@ -889,7 +889,7 @@ Overfull \hbox (172.9885pt too wide) in paragraph at lines 188--189
 [][] 
  []
 
-<figures/drawoutlying.png, id=148, 673.76718pt x 144.54pt>
+<figures/drawoutlying.png, id=152, 673.76718pt x 144.54pt>
 File: figures/drawoutlying.png Graphic file (type png)
 <use figures/drawoutlying.png>
 Package pdftex.def Info: figures/drawoutlying.png  used on input line 200.
@@ -901,7 +901,7 @@ Overfull \hbox (290.42696pt too wide) in paragraph at lines 200--201
 
 [3 <./figures/drawconvex.png> <./figures/drawskinny.png> <./figures/drawoutlyin
 g.png>]
-<figures/drawstringy.png, id=160, 453.19313pt x 119.69719pt>
+<figures/drawstringy.png, id=164, 453.19313pt x 119.69719pt>
 File: figures/drawstringy.png Graphic file (type png)
 <use figures/drawstringy.png>
 Package pdftex.def Info: figures/drawstringy.png  used on input line 214.
@@ -911,7 +911,7 @@ Overfull \hbox (69.85344pt too wide) in paragraph at lines 214--215
 [][] 
  []
 
-<figures/drawskewed.png, id=161, 651.93562pt x 138.5175pt>
+<figures/drawskewed.png, id=165, 651.93562pt x 138.5175pt>
 File: figures/drawskewed.png Graphic file (type png)
 <use figures/drawskewed.png>
 Package pdftex.def Info: figures/drawskewed.png  used on input line 227.
@@ -921,7 +921,7 @@ Overfull \hbox (268.59544pt too wide) in paragraph at lines 227--228
 [][] 
  []
 
-<figures/drawsparse.png, id=162, 699.36281pt x 146.04562pt>
+<figures/drawsparse.png, id=166, 699.36281pt x 146.04562pt>
 File: figures/drawsparse.png Graphic file (type png)
 <use figures/drawsparse.png>
 Package pdftex.def Info: figures/drawsparse.png  used on input line 238.
@@ -933,7 +933,7 @@ Overfull \hbox (316.02252pt too wide) in paragraph at lines 238--239
 
 [4 <./figures/drawstringy.png> <./figures/drawskewed.png> <./figures/drawsparse
 .png>]
-<figures/drawclumpy.png, id=170, 657.2053pt x 142.28156pt>
+<figures/drawclumpy.png, id=174, 657.2053pt x 142.28156pt>
 File: figures/drawclumpy.png Graphic file (type png)
 <use figures/drawclumpy.png>
 Package pdftex.def Info: figures/drawclumpy.png  used on input line 254.
@@ -943,7 +943,7 @@ Overfull \hbox (258.86511pt too wide) in paragraph at lines 253--255
 [] 
  []
 
-<figures/drawstriated.png, id=171, 649.67719pt x 139.27031pt>
+<figures/drawstriated.png, id=175, 649.67719pt x 139.27031pt>
 File: figures/drawstriated.png Graphic file (type png)
 <use figures/drawstriated.png>
 Package pdftex.def Info: figures/drawstriated.png  used on input line 266.
@@ -953,7 +953,7 @@ Overfull \hbox (251.33702pt too wide) in paragraph at lines 265--267
 [] 
  []
 
-<figures/drawmonotonic.png, id=172, 1044.15094pt x 277.035pt>
+<figures/drawmonotonic.png, id=176, 1044.15094pt x 277.035pt>
 File: figures/drawmonotonic.png Graphic file (type png)
 <use figures/drawmonotonic.png>
 Package pdftex.def Info: figures/drawmonotonic.png  used on input line 277.
@@ -964,7 +964,7 @@ Overfull \hbox (645.80983pt too wide) in paragraph at lines 276--278
  []
 
 [5 <./figures/drawclumpy.png> <./figures/drawstriated.png>]
-<figures/drawsplines.png, id=181, 876.27374pt x 211.54031pt>
+<figures/drawsplines.png, id=186, 876.27374pt x 211.54031pt>
 File: figures/drawsplines.png Graphic file (type png)
 <use figures/drawsplines.png>
 Package pdftex.def Info: figures/drawsplines.png  used on input line 299.
@@ -975,7 +975,7 @@ Overfull \hbox (492.93301pt too wide) in paragraph at lines 299--300
  []
 
 [6 <./figures/drawmonotonic.png> <./figures/drawsplines.png>]
-<figures/drawdcor.png, id=190, 844.65562pt x 243.91125pt>
+<figures/drawdcor.png, id=194, 844.65562pt x 243.91125pt>
 File: figures/drawdcor.png Graphic file (type png)
 <use figures/drawdcor.png>
 Package pdftex.def Info: figures/drawdcor.png  used on input line 315.
@@ -985,52 +985,124 @@ Overfull \hbox (461.31499pt too wide) in paragraph at lines 315--316
 [][] 
  []
 
-<mason-lee-laa-cook_files/figure-latex/scatmatstatic-1.pdf, id=191, 712.6625pt 
+<mason-lee-laa-cook_files/figure-latex/scatmatstatic-1.pdf, id=195, 712.6625pt 
 x 710.655pt>
 File: mason-lee-laa-cook_files/figure-latex/scatmatstatic-1.pdf Graphic file (t
 ype pdf)
 <use mason-lee-laa-cook_files/figure-latex/scatmatstatic-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/scatmatstatic-1.
-pdf  used on input line 346.
+pdf  used on input line 365.
 (pdftex.def)             Requested size: 398.33858pt x 397.21587pt.
 
-Overfull \hbox (15.0pt too wide) in paragraph at lines 346--347
+Overfull \hbox (15.0pt too wide) in paragraph at lines 365--366
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 346--347
+Underfull \hbox (badness 10000) in paragraph at lines 365--366
 
  []
 
-[7 <./figures/drawdcor.png>] (./RJwrapper.bbl (./RJwrapper.brf)
+[7 <./figures/drawdcor.png>]
+<mason-lee-laa-cook_files/figure-latex/interesting-pair-static-1.pdf, id=209, 4
+59.7175pt x 315.1775pt>
+File: mason-lee-laa-cook_files/figure-latex/interesting-pair-static-1.pdf Graph
+ic file (type pdf)
+<use mason-lee-laa-cook_files/figure-latex/interesting-pair-static-1.pdf>
+Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/interesting-pair
+-static-1.pdf  used on input line 380.
+(pdftex.def)             Requested size: 199.16928pt x 136.54803pt.
+<mason-lee-laa-cook_files/figure-latex/interesting-ts-1.pdf, id=210, 457.71pt x
+ 313.17pt>
+File: mason-lee-laa-cook_files/figure-latex/interesting-ts-1.pdf Graphic file (
+type pdf)
+<use mason-lee-laa-cook_files/figure-latex/interesting-ts-1.pdf>
+Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/interesting-ts-1
+.pdf  used on input line 384.
+(pdftex.def)             Requested size: 457.7089pt x 313.16922pt.
+<mason-lee-laa-cook_files/figure-latex/interesting-ts-2.pdf, id=211, 457.71pt x
+ 313.17pt>
+File: mason-lee-laa-cook_files/figure-latex/interesting-ts-2.pdf Graphic file (
+type pdf)
+<use mason-lee-laa-cook_files/figure-latex/interesting-ts-2.pdf>
+Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/interesting-ts-2
+.pdf  used on input line 385.
+(pdftex.def)             Requested size: 457.7089pt x 313.16922pt.
+
+Overfull \hbox (74.37032pt too wide) in paragraph at lines 384--386
+[][]
+ []
+
+
+Overfull \hbox (59.37032pt too wide) in paragraph at lines 384--386
+[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 384--386
+
+ []
+
+[8 <./mason-lee-laa-cook_files/figure-latex/scatmatstatic-1.pdf> <./mason-lee-l
+aa-cook_files/figure-latex/interesting-pair-static-1.pdf>]
+<mason-lee-laa-cook_files/figure-latex/interesting-pair-static2-1.pdf, id=230, 
+459.7175pt x 315.1775pt>
+File: mason-lee-laa-cook_files/figure-latex/interesting-pair-static2-1.pdf Grap
+hic file (type pdf)
+<use mason-lee-laa-cook_files/figure-latex/interesting-pair-static2-1.pdf>
+Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/interesting-pair
+-static2-1.pdf  used on input line 389.
+(pdftex.def)             Requested size: 199.16928pt x 136.54803pt.
+[9 <./mason-lee-laa-cook_files/figure-latex/interesting-ts-1.pdf> <./mason-lee-
+laa-cook_files/figure-latex/interesting-ts-2.pdf>]
+<mason-lee-laa-cook_files/figure-latex/interesting-ts2-1.pdf, id=249, 457.71pt 
+x 313.17pt>
+File: mason-lee-laa-cook_files/figure-latex/interesting-ts2-1.pdf Graphic file 
+(type pdf)
+<use mason-lee-laa-cook_files/figure-latex/interesting-ts2-1.pdf>
+Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/interesting-ts2-
+1.pdf  used on input line 393.
+(pdftex.def)             Requested size: 457.7089pt x 313.16922pt.
+
+Overfull \hbox (74.37032pt too wide) in paragraph at lines 393--394
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 393--394
+
+ []
+
+[10 <./mason-lee-laa-cook_files/figure-latex/interesting-pair-static2-1.pdf> <.
+/mason-lee-laa-cook_files/figure-latex/interesting-ts2-1.pdf>] (./RJwrapper.bbl
+(./RJwrapper.brf)
 \tf@brf=\write6
 \openout6 = `RJwrapper.brf'.
 
-[8 <./mason-lee-laa-cook_files/figure-latex/scatmatstatic-1.pdf>])
+)
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 372.
+(Font)              using `T1/zi4/m/n' instead on input line 437.
 
 LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
-(Font)              scaled to size 9.18004pt on input line 372.
+(Font)              scaled to size 9.18004pt on input line 437.
 
-Underfull \hbox (badness 10000) in paragraph at lines 382--383
+Underfull \hbox (badness 10000) in paragraph at lines 447--448
 
  []
 
-)
+[11])
 
 Package natbib Warning: There were undefined citations.
 
-[9]
+[12]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 27.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 27.
 (./RJwrapper.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 27.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 27.
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
-(rerunfilecheck)             Checksum: 20FC11CC810DCF34FED1C763D669824C;1172.
+(rerunfilecheck)             Checksum: F59CAE9B056C8927A7CADE5032DD57B4;1240.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
 (rerunfilecheck)             Checksum: 2B77C2E7B1C7948E01CA80638927E3DE;807.
 
@@ -1039,13 +1111,13 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 27.
  ) 
 Here is how much of TeX's memory you used:
- 22433 strings out of 480608
- 406695 string characters out of 5903630
- 685452 words of memory out of 5000000
- 37578 multiletter control sequences out of 15000+600000
- 571618 words of font info for 199 fonts, out of 8000000 for 9000
+ 22482 strings out of 480608
+ 409086 string characters out of 5903630
+ 687570 words of memory out of 5000000
+ 37613 multiletter control sequences out of 15000+600000
+ 571777 words of font info for 201 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 68i,12n,100p,425b,627s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 68i,12n,100p,425b,661s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}{
 /usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texl
 ive/2020/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/l
@@ -1058,10 +1130,10 @@ ve/2020/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/local/texlive/2
 020/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2020/tex
 mf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2020/texmf-dist
 /fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (9 pages, 845786 bytes).
+Output written on RJwrapper.pdf (12 pages, 997452 bytes).
 PDF statistics:
- 311 PDF objects out of 1000 (max. 8388607)
- 260 compressed objects within 3 object streams
- 59 named destinations out of 1000 (max. 500000)
- 30926 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 371 PDF objects out of 1000 (max. 8388607)
+ 301 compressed objects within 4 object streams
+ 65 named destinations out of 1000 (max. 500000)
+ 30959 words of extra memory for PDF output out of 35830 (max. 10000000)
 

@@ -341,16 +341,81 @@ series}\label{collections-of-time-series}}
 
 A paragraph describing the compenginets data
 
+Analysis notes:
+
+\begin{itemize}
+\tightlist
+\item
+  A big collection of time series. How do we understand the range of
+  types of time series?
+\item
+  Calculate time series features. Using tsfeatures this will give 13
+  values for each time series.
+\item
+  Use scagnostics to find pairs of tsfeatures that are interesting, eg
+  high on splines but low on monotonic
+\item
+  Plot the pair of tsfeatures, what's unusual about the two?
+\item
+  Select unusual series from the tsfeatures, and plot
+\end{itemize}
+
 \begin{Schunk}
 
 \includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/scatmatstatic-1} \end{Schunk}
 
+\begin{itemize}
+\tightlist
+\item
+  Maybe curvature and linearity are interesting? Have relatively higher
+  splines than monotonic.
+\item
+  Plot the linearity against curvature. It's mostly a sprinkling of
+  outliers. (Note, now, outlying scagnostic also has high value.) Select
+  outlier which is highest on curvature but relatively low on linearity
+\end{itemize}
+
+\begin{Schunk}
+
+\includegraphics[width=0.5\linewidth]{mason-lee-laa-cook_files/figure-latex/interesting-pair-static-1} \end{Schunk}
+
+\begin{Schunk}
+
+\includegraphics{mason-lee-laa-cook_files/figure-latex/interesting-ts-1} 
+\includegraphics{mason-lee-laa-cook_files/figure-latex/interesting-ts-2} \end{Schunk}
+
+\begin{Schunk}
+
+\includegraphics[width=0.5\linewidth]{mason-lee-laa-cook_files/figure-latex/interesting-pair-static2-1} \end{Schunk}
+
+\begin{Schunk}
+
+\includegraphics{mason-lee-laa-cook_files/figure-latex/interesting-ts2-1} \end{Schunk}
+
+\hypertarget{compare-two-sets-of-time-series}{%
+\subsubsection{Compare two sets of time
+series}\label{compare-two-sets-of-time-series}}
+
+I think that this is a promising use of scagnostics. This reveals a big
+difference between the three types is in sparse and splines, which
+points to a few of the tsfeatures including curvature and entropy.
+
+Need to refine this a lot more, and maybe just focus on differences
+between the three groups on each scagnostic.
+
+(Maybe also think about including a climate time series?)
+
 \hypertarget{parkinsons}{%
 \subsection{Parkinsons}\label{parkinsons}}
 
-\hypertarget{black-holes-and-netron-star-mergers}{%
-\subsection{Black holes and netron star
-mergers?}\label{black-holes-and-netron-star-mergers}}
+\hypertarget{black-holes-and-neutron-star-mergers}{%
+\subsection{Black holes and neutron star
+mergers?}\label{black-holes-and-neutron-star-mergers}}
+
+\hypertarget{sports-stats}{%
+\subsection{Sports stats?}\label{sports-stats}}
+
+Maybe AFL stats? Or tennis stats?
 
 \hypertarget{summary}{%
 \subsection{Summary}\label{summary}}
