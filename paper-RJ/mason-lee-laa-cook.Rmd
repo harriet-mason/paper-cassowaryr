@@ -371,7 +371,15 @@ library(fitzRoy)
 aflw <- fetch_player_stats(2020, comp = "AFLW")
 aflw_num <- aflw %>%
   select_if(is.numeric)
-calc_scags_wide(aflw_num[,5:37])
+scag_aflw <- calc_scags_wide(aflw_num[,5:37])
+
+# High on outlying
+ggplot(aflw, aes(x=metresGained, y=hitouts)) +
+  geom_point()
+
+# High on splines
+ggplot(aflw, aes(x=totalPossessions, y=disposals)) +
+  geom_point()
 ```
 
 ## NHANES
