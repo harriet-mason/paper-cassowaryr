@@ -366,7 +366,7 @@ ggplot(s_ts, aes(x=t, y=x)) + geom_line()
 
 Maybe AFL stats? Or tennis stats?
 
-```{r}
+```{r eval=FALSE}
 library(fitzRoy)
 aflw <- fetch_player_stats(2020, comp = "AFLW")
 aflw_num <- aflw %>%
