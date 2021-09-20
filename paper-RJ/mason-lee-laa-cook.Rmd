@@ -366,5 +366,33 @@ ggplot(s_ts, aes(x=t, y=x)) + geom_line()
 
 Maybe AFL stats? Or tennis stats?
 
+```{r}
+library(fitzRoy)
+aflw <- fetch_player_stats(2020, comp = "AFLW")
+aflw_num <- aflw %>%
+  select_if(is.numeric)
+calc_scags_wide(aflw_num[,5:37])
+```
+
+## NHANES
+
+```{r eval=FALSE}
+library(NHANES)
+NHANES_numeric <- NHANES %>%
+  select_if(is.numeric)
+
+# Lots of missing values, need to check
+library(naniar)
+vis_miss(NHANES_numeric)
+vm <- miss_var_summary(NHANES_numeric[,-1])
+
+# Keep only variables with less than 50% missing
+keep <- vm %>% filter(pct_miss < 50)
+
+# Now compute scagnostics
+scag_nhanes <- calc_scags_wide(NHANES_numeric[,keep$variable])
+```
+
+
 ## Summary
 
