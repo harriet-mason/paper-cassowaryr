@@ -57,6 +57,7 @@ library(tidyverse)
 library(plotly)
 library(patchwork)
 library(knitr)
+library(ggthemes)
 ```
 
 # Introduction
@@ -89,8 +90,30 @@ In order to capture the visual structure of the data, graph theory is used to ca
 
 - **MST:** the minimum spanning tree, i.e the smallest distance of branches that can be used to connect all the points. In the package it is calculated from the graph using the igraph package [@igraph].  
 
-```{r building-blocks, out.height = "30%", out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics"}
+```{r building-blocks, out.height = "30%", out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics", eval=FALSE}
 knitr::include_graphics("figures/draw1.png")
+```
+
+```{r building-blocks2, width = 150, height = 50, out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics"}
+library(alphahull)
+data("features")
+nl <- features %>% filter(feature == "nonlinear2")
+d1 <- draw_convexhull(nl$x, nl$y) +
+  ggtitle("a. Convex hull") +
+  xlab("") + ylab("") +
+  theme_void() +
+  theme(aspect.ratio=1, axis.text = element_blank())
+d2 <- draw_alphahull(nl$x, nl$y) +
+  ggtitle("b. Alpha hull") +
+  xlab("") + ylab("") +
+  theme_void() +
+  theme(aspect.ratio=1, axis.text = element_blank())
+d3 <- draw_mst(nl$x, nl$y) +
+  ggtitle("c. Min. span. tree") +
+  xlab("") + ylab("") +
+  theme_void() +
+  theme(aspect.ratio=1, axis.text = element_blank())
+d1 + d2 + d3
 ```
 
 ## Graph-based scagnostics
@@ -185,7 +208,16 @@ Maybe use Anscombe and datasaurus and the features data here
 
 ## Installation
 
+## Data sets
+
 ## Functions
+
+### Scagnostics functions
+
+### Drawing functions
+
+### Summary functions
+
 
 ## Tests
 

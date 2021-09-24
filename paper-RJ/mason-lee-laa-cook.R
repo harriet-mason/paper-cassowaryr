@@ -13,10 +13,33 @@ library(tidyverse)
 library(plotly)
 library(patchwork)
 library(knitr)
+library(ggthemes)
 
 
-## ----building-blocks, out.height = "30%", out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics"----
-knitr::include_graphics("figures/draw1.png")
+## ----building-blocks, out.height = "30%", out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics", eval=FALSE----
+#> knitr::include_graphics("figures/draw1.png")
+
+
+## ----building-blocks2, width = 150, height = 50, out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics"----
+library(alphahull)
+data("features")
+nl <- features %>% filter(feature == "nonlinear2")
+d1 <- draw_convexhull(nl$x, nl$y) +
+  ggtitle("a. Convex hull") +
+  xlab("") + ylab("") +
+  theme_void() +
+  theme(aspect.ratio=1, axis.text = element_blank())
+d2 <- draw_alphahull(nl$x, nl$y) +
+  ggtitle("b. Alpha hull") +
+  xlab("") + ylab("") +
+  theme_void() +
+  theme(aspect.ratio=1, axis.text = element_blank())
+d3 <- draw_mst(nl$x, nl$y) +
+  ggtitle("c. Min. span. tree") +
+  xlab("") + ylab("") +
+  theme_void() +
+  theme(aspect.ratio=1, axis.text = element_blank())
+d1 + d2 + d3
 
 
 ## ----getdata, eval=FALSE------------------------------------------------------
