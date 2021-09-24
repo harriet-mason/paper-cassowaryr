@@ -349,7 +349,6 @@ A paragraph describing the compenginets data
 Analysis notes:
 
 \begin{itemize}
-\tightlist
 \item
   A big collection of time series. How do we understand the range of
   types of time series?
@@ -363,14 +362,6 @@ Analysis notes:
   Plot the pair of tsfeatures, what's unusual about the two?
 \item
   Select unusual series from the tsfeatures, and plot
-\end{itemize}
-
-\begin{Schunk}
-
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/scatmatstatic-1} \end{Schunk}
-
-\begin{itemize}
-\tightlist
 \item
   Maybe curvature and linearity are interesting? Have relatively higher
   splines than monotonic.
@@ -379,23 +370,6 @@ Analysis notes:
   outliers. (Note, now, outlying scagnostic also has high value.) Select
   outlier which is highest on curvature but relatively low on linearity
 \end{itemize}
-
-\begin{Schunk}
-
-\includegraphics[width=0.5\linewidth]{mason-lee-laa-cook_files/figure-latex/interesting-pair-static-1} \end{Schunk}
-
-\begin{Schunk}
-
-\includegraphics{mason-lee-laa-cook_files/figure-latex/interesting-ts-1} 
-\includegraphics{mason-lee-laa-cook_files/figure-latex/interesting-ts-2} \end{Schunk}
-
-\begin{Schunk}
-
-\includegraphics[width=0.5\linewidth]{mason-lee-laa-cook_files/figure-latex/interesting-pair-static2-1} \end{Schunk}
-
-\begin{Schunk}
-
-\includegraphics{mason-lee-laa-cook_files/figure-latex/interesting-ts2-1} \end{Schunk}
 
 \hypertarget{compare-two-sets-of-time-series}{%
 \subsubsection{Compare two sets of time
@@ -417,10 +391,59 @@ between the three groups on each scagnostic.
 \subsection{Black holes and neutron star
 mergers?}\label{black-holes-and-neutron-star-mergers}}
 
-\hypertarget{sports-stats}{%
-\subsection{Sports stats?}\label{sports-stats}}
+\hypertarget{afl-player-statistics}{%
+\subsection{AFL player statistics}\label{afl-player-statistics}}
 
-Maybe AFL stats? Or tennis stats?
+Some explanation of AFL, and about the AFLW competition. Particularly
+explain any stats used in the plots: goals, kicks, posessions, \ldots{}
+
+\begin{Schunk}
+
+
+|Var1                       |Var2                          |   splines|
+|:--------------------------|:-----------------------------|---------:|
+|totalPossessions           |disposals                     | 0.9419197|
+|clearances.totalClearances |clearances.stoppageClearances | 0.8826420|
+|goalAccuracy               |goals                         | 0.8345651|
+|metresGained               |kicks                         | 0.7724382|
+|dreamTeamPoints            |disposals                     | 0.7432447|
+|disposals                  |kicks                         | 0.7241803|
+|dreamTeamPoints            |totalPossessions              | 0.7158814|
+|totalPossessions           |uncontestedPossessions        | 0.6830528|
+|dreamTeamPoints            |kicks                         | 0.6664289|
+|uncontestedPossessions     |disposals                     | 0.6646738|
+
+\end{Schunk}
+
+\begin{Schunk}
+\begin{figure}
+\includegraphics{mason-lee-laa-cook_files/figure-latex/aflw_static-1} \caption[Scatterplots with high values on the splines scagnostic]{Scatterplots with high values on the splines scagnostic.}(\#fig:aflw_static)
+\end{figure}
+\end{Schunk}
+
+Figure @(fig:aflw\_interactive) shows three scatterplots that score
+highly on the splines scagnostic. Each of these shows a relatively
+strong monotonic relationship between the two variables. In the
+interactive version of the plot, mouse over reveals some high-performing
+players, e.g.~Anne Hatchard has a lot of possessions, disposals and
+kicks, and Kaitlyn Ashmore kicked 4 goals in a match with 100\%
+accuracy.
+
+NOTE: Each player is represented multiple times here, I think. The stats
+are per game. Maybe it is better to aggregate for each player and re-do
+the statistics?
+
+\hypertarget{world-development-indicators}{%
+\subsection{World Development
+Indicators}\label{world-development-indicators}}
+
+The World Bank delivers a lot of development indicators, for many
+countries and multiple years. This might be a good example to identify
+pairs of indicators with interesting relationships.
+
+Download data from:
+
+\url{https://databank.worldbank.org/source/world-development-indicators/preview/on\#}
 
 \hypertarget{summary}{%
 \subsection{Summary}\label{summary}}

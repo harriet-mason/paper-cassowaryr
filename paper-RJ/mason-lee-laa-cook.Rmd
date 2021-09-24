@@ -54,6 +54,9 @@ library(cassowaryr)
 library(GGally)
 library(plotly)
 library(tidyverse)
+library(plotly)
+library(patchwork)
+library(knitr)
 ```
 
 # Introduction
@@ -237,14 +240,14 @@ features_bfm <- bind_rows(feat_birdsongs,
                           feat_music)
 ```
 
-```{r tscollections}
+```{r tscollections, eval=FALSE}
 load("data/feat_birdsongs.rda")
 
 # calculate scagnostics
 scag_birdsongs <- calc_scags_wide(feat_birdsongs[,4:16])
 ```
 
-```{r scatmat, fig.height=12, fig.width=12, out.width="100%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
+```{r scatmat, fig.height=12, fig.width=12, out.width="100%", include=knitr::is_html_output(), eval=knitr::is_html_output(), eval=FALSE}
 # interactive scatterplot 
 scag_birdsongs <- scag_birdsongs %>%
   mutate(id = paste(Var1, Var2))
@@ -252,7 +255,7 @@ scag_birdsongs <- scag_birdsongs %>%
 ggplotly(ggpairs(scag_birdsongs, columns = 3:10, aes(label=id)), width = 600, height = 600)
 ```
 
-```{r scatmatstatic, fig.height=10, fig.width=10, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
+```{r scatmatstatic, fig.height=10, fig.width=10, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), eval=FALSE}
 scag_birdsongs %>% 
   ggpairs(columns = 3:10)
 ```
@@ -260,22 +263,24 @@ scag_birdsongs %>%
 - Maybe curvature and linearity are interesting? Have relatively higher splines than monotonic. 
 - Plot the linearity against curvature. It's mostly a sprinkling of outliers. (Note, now, outlying scagnostic also has high value.) Select outlier which is highest on curvature but relatively low on linearity
 
-```{r interesting-pair}
+```{r interesting-pair, eval=FALSE}
 p <- ggplot(feat_birdsongs, aes(x=linearity, y=curvature, label = name)) +
   geom_point()
 ```
 
-```{r interesting-pair-interactive, out.width="50%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
+```{r interesting-pair-interactive, out.width="50%", include=knitr::is_html_output(), eval=knitr::is_html_output(), eval=FALSE}
 ggplotly(p, width=300, height=300)
 ```
 
-```{r interesting-pair-static, out.width="50%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
+```{r interesting-pair-static, out.width="50%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), eval=FALSE}
 p
 ```
 
-```{r interesting-ts}
+```{r interesting-ts, eval=FALSE}
 # plot the time series 
 load("data/cets_birdsongs.rda")
+load("data/feat_birdsongs.rda")
+
 # Find interesting series: high curvature, low linearity
 s <- feat_birdsongs %>% filter(curvature > 0.9) %>% select(name)
 s_ts <- cets_birdsongs[[s$name]] %>%
@@ -289,20 +294,20 @@ ggplot(s_ts, aes(x=t, y=x)) + geom_line()
 ```
 
 
-```{r interesting-pair2}
+```{r interesting-pair2, eval=FALSE}
 p <- ggplot(feat_birdsongs, aes(x=diff1_acf10, y=trend, label = name)) +
   geom_point()
 ```
 
-```{r interesting-pair-interactive2, out.width="50%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
+```{r interesting-pair-interactive2, out.width="50%", include=knitr::is_html_output(), eval=knitr::is_html_output(), eval=FALSE}
 ggplotly(p, width=300, height=300)
 ```
 
-```{r interesting-pair-static2, out.width="50%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
+```{r interesting-pair-static2, out.width="50%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), eval=FALSE}
 p
 ```
 
-```{r interesting-ts2}
+```{r interesting-ts2, eval=FALSE}
 # plot the time series 
 # Find interesting series: high trend, low diff1
 s <- feat_birdsongs %>% filter(trend > 0.15) %>% select(name)
@@ -335,7 +340,7 @@ scag_finance <- calc_scags_wide(feat_finance[,4:16]) %>%
 scag_music <- calc_scags_wide(feat_music[,4:16]) %>% 
   mutate(type = "music")
 scag_all <- bind_rows(scag_birdsongs, 
-                      scag_finance,
+                      scag_finance) #,
                       scag_music)
 
 scag_all <- scag_all %>%
@@ -351,10 +356,30 @@ p <- ggplot(feat_all,
   geom_point()
 ggplotly(p, width=500, height=300)
 
-s <- feat_all %>% filter(curvature > 45) %>% select(name)
+load("data/feat_finance.rda")
+load("data/cets_finance.rda")
+
+s <- feat_finance %>% filter(curvature > 45) %>% select(name)
 s_ts <- cets_finance[[s$name]] %>%
   as_tibble() %>% mutate(t = 1:n())
 ggplot(s_ts, aes(x=t, y=x)) + geom_line()
+
+```
+
+```{r eval=FALSE}
+# Testing for Ursula's code
+library(feasts)
+get_features <- function(ts_in){
+features(as_tsibble(ts_in), value, feature_set("feasts"))
+}
+feats_birdsong <- purrr::map_dfr(cets_birdsongs, get_features)
+cassowaryr::calc_scags_wide(feats_birdsong)
+
+library(cassowaryr)
+load("data/feasts_birdsong.rda")
+sc_skinny(feats_birdsong$zero_run_mean, feats_birdsong$spikiness)
+debug(cassowaryr:::sc_convex.list)
+
 
 ```
 
@@ -362,29 +387,113 @@ ggplot(s_ts, aes(x=t, y=x)) + geom_line()
 
 ## Black holes and neutron star mergers?
 
-## Sports stats?
+## AFL player statistics
 
-Maybe AFL stats? Or tennis stats?
+Some explanation of AFL, and about the AFLW competition. Particularly explain any stats used in the plots: goals, kicks, posessions, ...
 
 ```{r eval=FALSE}
 library(fitzRoy)
 aflw <- fetch_player_stats(2020, comp = "AFLW")
+save(aflw, file = "data/aflw.rda")
+
 aflw_num <- aflw %>%
   select_if(is.numeric)
+save(aflw_num, file = "data/aflw_num.rda")
+
 scag_aflw <- calc_scags_wide(aflw_num[,5:37])
+save(scag_aflw, file = "data/scagnostics_aflw.rda")
 
-# High on outlying
-ggplot(aflw, aes(x=metresGained, y=hitouts)) +
-  geom_point()
-
-# High on splines
-ggplot(aflw, aes(x=totalPossessions, y=disposals)) +
-  geom_point()
 ```
 
-## NHANES
+```{r splines}
+# Saved scagnostics because calc takes about 30 mins
+load("data/scagnostics_aflw.rda")
+load("data/aflw_num.rda")
+load("data/aflw.rda")
+
+# Highest splines table
+scag_aflw %>% 
+  select(Var1, Var2, splines) %>%
+  arrange(desc(splines)) %>%
+  head(10) %>% 
+  kable()
+
+# High on splines
+aflw <- aflw %>%
+  mutate(name = paste(player.givenName, player.surname))
+s1 <- ggplot(aflw, 
+             aes(x=totalPossessions, 
+                 y=disposals, 
+                 label = name)) +
+  geom_abline(intercept = 0, slope = 1) +
+  geom_point() 
+s2 <- ggplot(aflw, 
+             aes(x=goals, 
+                 y=goalAccuracy, 
+                 label = name)) +
+  geom_jitter(width = 0.1, height = 2) 
+s3 <- ggplot(aflw, 
+             aes(x=kicks, 
+                 y=disposals, 
+                 label = name)) +
+  geom_point() 
+```
+
+```{r aflw_interactive, fig.cap="Scatterplots with high values on the splines scagnostic. Mouseover to examine the players relative the the statistics.", include=knitr::is_html_output(), eval=knitr::is_html_output()}
+gs1 <- ggplotly(s1)
+gs2 <- ggplotly(s2)
+gs3 <- ggplotly(s3)
+subplot(gs1, gs2, gs3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.6)
+```
+
+```{r aflw_static, fig.cap="Scatterplots with high values on the splines scagnostic.", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
+s1 + s2 + s3
+```
+
+Figure \@(fig:aflw_interactive) shows three scatterplots that score highly on the splines scagnostic. Each of these shows a relatively strong monotonic relationship between the two variables. In the interactive version of the plot, mouse over reveals some high-performing players, e.g. Anne Hatchard has a lot of possessions, disposals and kicks, and Kaitlyn Ashmore kicked 4 goals in a match with 100% accuracy.
+
+NOTE: Each player is represented multiple times here, I think. The stats are per game. Maybe it is better to aggregate for each player and re-do the statistics?
+
+```{r some_are_kickers, fig.cap = "Some players tend to kick the ball, even when challenged, whereas others more often use handball for disposals. ", include=knitr::is_html_output(), eval=knitr::is_html_output()}
+# High on clumpy, low on striated
+kickers <- ggplot(aflw, aes(x=contestedPossessions, y=handballs, 
+                      label = name)) +
+  geom_abline(intercept = 0, slope = 1) +
+  geom_jitter()
+ggplotly(kickers, width=400, height=400)
+```
 
 ```{r eval=FALSE}
+# Parallel coordinate plot
+library(GGally)
+ggparcoord(scag_aflw, columns = c(3:5, 7:11), scale = "globalminmax")
+
+# Or look at pairs
+ggplot(scag_aflw, aes(x=splines, y=striated, 
+                      label = paste(Var1, Var2))) +
+  geom_point()
+ggplot(scag_aflw, aes(x=clumpy, y=striated, 
+                      label = paste(Var1, Var2))) +
+  geom_point()
+ggplotly()
+
+```
+
+```{r eval=FALSE}
+# Extra AFLW analysis, not to include
+# High on outlying: actually not so interesting
+out <- ggplot(aflw, aes(x=metresGained, y=hitouts)) +
+  geom_point()
+
+# High on clumpy
+ggplot(aflw, aes(x=disposalEfficiency, y=bounces, label = name)) +
+  #geom_abline(intercept = 0, slope = 1) +
+  geom_point() 
+ggplotly()
+```
+
+```{r eval=FALSE}
+# Was thinking this might be a good example, but too many missings
 library(NHANES)
 NHANES_numeric <- NHANES %>%
   select_if(is.numeric)
@@ -401,6 +510,13 @@ keep <- vm %>% filter(pct_miss < 50)
 scag_nhanes <- calc_scags_wide(NHANES_numeric[,keep$variable])
 ```
 
+## World Development Indicators
+
+The World Bank delivers a lot of development indicators, for many countries and multiple years. This might be a good example to identify pairs of indicators with interesting relationships.
+
+Download data from:
+
+https://databank.worldbank.org/source/world-development-indicators/preview/on#
 
 ## Summary
 
