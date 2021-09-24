@@ -409,21 +409,28 @@ mergers?}\label{black-holes-and-neutron-star-mergers}}
 Some explanation of AFL, and about the AFLW competition. Particularly
 explain any stats used in the plots: goals, kicks, posessions, \ldots{}
 
+The 2020 AFLW season has statistics for 1932 players. There are 68
+variables, 38 of which are numeric. The others are categorical, like the
+players names or match ids, which would not be used in scagnostic
+calculations. With 38 variables, there are 703 possible scatterplots to
+make. The scagnostics can suggest which are the interesting ones to
+examine.
+
 \begin{Schunk}
 
 
-|Var1                       |Var2                          |   splines|
-|:--------------------------|:-----------------------------|---------:|
-|totalPossessions           |disposals                     | 0.9419197|
-|clearances.totalClearances |clearances.stoppageClearances | 0.8826420|
-|goalAccuracy               |goals                         | 0.8345651|
-|metresGained               |kicks                         | 0.7724382|
-|dreamTeamPoints            |disposals                     | 0.7432447|
-|disposals                  |kicks                         | 0.7241803|
-|dreamTeamPoints            |totalPossessions              | 0.7158814|
-|totalPossessions           |uncontestedPossessions        | 0.6830528|
-|dreamTeamPoints            |kicks                         | 0.6664289|
-|uncontestedPossessions     |disposals                     | 0.6646738|
+|Var1                       |Var2                          | splines|
+|:--------------------------|:-----------------------------|-------:|
+|totalPossessions           |disposals                     |    0.94|
+|clearances.totalClearances |clearances.stoppageClearances |    0.88|
+|goalAccuracy               |goals                         |    0.83|
+|metresGained               |kicks                         |    0.77|
+|dreamTeamPoints            |disposals                     |    0.74|
+|disposals                  |kicks                         |    0.72|
+|dreamTeamPoints            |totalPossessions              |    0.72|
+|totalPossessions           |uncontestedPossessions        |    0.68|
+|dreamTeamPoints            |kicks                         |    0.67|
+|uncontestedPossessions     |disposals                     |    0.66|
 
 \end{Schunk}
 

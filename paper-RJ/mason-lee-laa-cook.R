@@ -233,7 +233,7 @@ scag_aflw %>%
   select(Var1, Var2, splines) %>%
   arrange(desc(splines)) %>%
   head(10) %>% 
-  kable()
+  kable(digits=2)
 
 # High on splines
 aflw <- aflw %>%

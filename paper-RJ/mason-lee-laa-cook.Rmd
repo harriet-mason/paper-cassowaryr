@@ -423,6 +423,8 @@ debug(cassowaryr:::sc_convex.list)
 
 Some explanation of AFL, and about the AFLW competition. Particularly explain any stats used in the plots: goals, kicks, posessions, ...
 
+The 2020 AFLW season has statistics for 1932 players. There are 68 variables, 38 of which are numeric. The others are categorical, like the players names or match ids, which would not be used in scagnostic calculations. With 38 variables, there are 703 possible scatterplots to make. The scagnostics can suggest which are the interesting ones to examine. 
+
 ```{r eval=FALSE}
 library(fitzRoy)
 aflw <- fetch_player_stats(2020, comp = "AFLW")
@@ -448,7 +450,7 @@ scag_aflw %>%
   select(Var1, Var2, splines) %>%
   arrange(desc(splines)) %>%
   head(10) %>% 
-  kable()
+  kable(digits=2)
 
 # High on splines
 aflw <- aflw %>%
