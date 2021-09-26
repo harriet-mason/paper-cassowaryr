@@ -420,10 +420,9 @@ debug(cassowaryr:::sc_convex.list)
 ## Black holes and neutron star mergers?
 
 ## AFL player statistics
-
 Some explanation of AFL, and about the AFLW competition. Particularly explain any stats used in the plots: goals, kicks, posessions, ...
 
-The 2020 AFLW season has statistics for 1932 players. There are 68 variables, 38 of which are numeric. The others are categorical, like the players names or match ids, which would not be used in scagnostic calculations. With 38 variables, there are 703 possible scatterplots to make. The scagnostics can suggest which are the interesting ones to examine. 
+The Australian Football League Women's (AFLW) is the national semi-profesisonal Australia Rules football league for female players. Here we will analyse data sourced from the official AFL website with information on the 2020 season, in which the league had 14 teams and 1932 players. There are 68 variables, 38 of which are numeric. The others are categorical, like the players names or match ids, which would not be used in scagnostic calculations. With 38 variables, there are 703 possible scatterplots to make. The scagnostics can suggest which are the interesting ones to examine. 
 
 ```{r eval=FALSE}
 library(fitzRoy)
