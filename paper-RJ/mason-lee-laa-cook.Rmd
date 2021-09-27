@@ -472,6 +472,20 @@ s3 <- ggplot(aflw,
   geom_point() 
 ```
 
+```{r}
+#check splines vs dcor values
+scag_aflw %>%
+  mutate(splines_vs_dcor = splines-dcor) %>%
+  select(Var1, Var2, splines_vs_dcor) %>%
+  arrange(desc(splines_vs_dcor)) %>%
+  head(10)
+#nothing interesting, sad.
+
+#check striated values
+AFL_stri_adj <- aflw_num[,5:37] 
+
+```
+
 ```{r aflw_interactive, fig.cap="Scatterplots with high values on the splines scagnostic. Mouseover to examine the players relative the the statistics.", include=knitr::is_html_output(), eval=knitr::is_html_output()}
 gs1 <- ggplotly(s1)
 gs2 <- ggplotly(s2)
