@@ -446,13 +446,13 @@ disposalEfficiency: a measure of how well a player disposes of the ball. E.g. if
 *freesAgainst*:  this player caused a free kick to be awarded to the other team.  
 *dreamTeamPoints*: this is fantasy football scoring points.  
 *rebound50s*: how many times the player exits the ball out of their defence 50m arc.  
-*goalAssists*: number of times the player was involved in a passage of play leading up to a goal.  
+*goalAssists*: number of times the player gave the pass immediately before the player that scored a goal.
 *goalAccuracy*: percentage ratio of the number of goals kicked to the number of goal attempts.  
 *turnovers*: this players disposal caused a turnover (the ball touches the ground and the other team get it).  
 *intercepts*: number of times this player intercepts the disposal of the other team.
 *tacklesInside50*: number of tackles performed by this player within their defence 50m arc.  
 *shotsAtGoal*: number of total shots at goal for this player (sum of goals, behinds and misses)
-*scoreInvolvements*: number of times the player was involved in a passage of play leading up to a goal.  **need to work out difference between this and goalAssists**
+*scoreInvolvements*: number of times the player was involved in a passage of play leading up to a goal.
 *metresGained*:  how far a player has been able to advance the ball without turning it over.  
 *clearances.centreClearances*: this is the clearance from the centre bounce after a goal or at the start of a quarter
 *clearances.stoppageClearances*: all the clearance from stoppages around the ground
@@ -507,22 +507,6 @@ s3 <- ggplot(aflw,
                  y=disposals, 
                  label = name)) +
   geom_point() 
-```
-
-```{r}
-#check splines vs dcor values
-scag_aflw %>%
-  mutate(splines_vs_dcor = splines-dcor) %>%
-  select(Var1, Var2, splines_vs_dcor) %>%
-  arrange(desc(splines_vs_dcor)) %>%
-  head(10)
-#nothing interesting, sad.
-
-#check striated values
-AFL_stri_adj <- calc_scags_wide(aflw_num[,5:37], scags = "striated_adjusted")
-
-ggplot2
-
 ```
 
 ```{r aflw_interactive, fig.cap="Scatterplots with high values on the splines scagnostic. Mouseover to examine the players relative the the statistics.", include=knitr::is_html_output(), eval=knitr::is_html_output()}
@@ -595,6 +579,52 @@ keep <- vm %>% filter(pct_miss < 50)
 # Now compute scagnostics
 scag_nhanes <- calc_scags_wide(NHANES_numeric[,keep$variable])
 ```
+
+The scagnsotics need to be used and interpreted with the type of dataset you are working with in mind. For example, since these are sports stats, almost all of the variables are discrete. This means in the case of the striated varibale, we would be interested in the scatter plots that are very low on striated rather than high. Lets see which striated measure can find some interesting scatter plots.
+
+```{r, eval=FALSE}
+# im just adding in striated_adjusted here to compare without recalculating the whole thing
+new_scag_aflw <- scag_aflw
+new_scag_aflw$striated_adjusted <- AFL_stri_adj$striated_adjusted #calc_scags_wide(aflw_num[,5:37], scags = "striated_adjusted")
+
+scag_aflw %>% 
+  select(Var1, Var2, striated) %>%
+  arrange(desc(striated)) %>%
+  head(10) 
+
+# look at lowest values for adjusted striated value
+lowest_stri <- new_scag_aflw[order(new_scag_aflw$striated),] %>%
+  select(Var1, Var2, striated, striated_adjusted) %>%
+  head(10)
+
+lowest_stri_adjusted <- new_scag_aflw[order(new_scag_aflw$striated_adjusted),] %>%
+  select(Var1, Var2, striated, striated_adjusted) %>%
+  head(10)
+
+ggplot(aflw, aes(x=metresGained, y=goals)) + geom_point()
+
+#look at top 3 for striated
+ggplot(aflw, aes(x=clearances.stoppageClearances, y=shotsAtGoal)) + geom_point()
+ggplot(aflw, aes(x=contestedPossessions, y=	tackles)) + geom_point()
+ggplot(aflw, aes(x=tacklesInside50, y=marksInside50)) + geom_point()
+#not interesting
+
+# look at top 3 for striated_adjusted
+
+# two continuous variables
+ggplot(aflw, aes(x=metresGained, y=dreamTeamPoints)) + geom_point()
+
+# fractional plots, not interesting technically but they are interesting visually
+ggplot(aflw, aes(x=goalAccuracy, y=shotsAtGoal)) + geom_point()
+ggplot(aflw, aes(x=disposalEfficiency, y=disposals)) + geom_point()
+
+# hitouts plot. this is a plot that will have a higher striated value with increasing data
+# it only has a low value because there is not enough data to fill every possible value
+ggplot(aflw, aes(x=dreamTeamPoints, y=hitouts)) + geom_point()
+ggplot(aflw, aes(x=hitouts, y=disposals)) + geom_point()
+
+```
+Why the lowest values on striated? This is a discrete data set, if all the points are not at right angles or in a stright line, to each other, they are not just randonly spread on the. Since the old striated measure is specifically trying to find a continuous variable against a discrete variable, its highest values are also identified by the striated_adjusted. The lowest values on striated simply identify a plot where all the variables are at right angles, once again a measure of disceteness but one that is not identified by striated. Striated_adjusted encapsulates both versions of discreteness in the values that get exactly a 1, this means the scatter plot that gets the lowest value should be the two variables that are continuous. Following that striated_adjusted gives some interesting scatter plots in both goal and dispsoal accuracy vs number. **comment on the scatter plots**.
 
 ## World Development Indicators
 
