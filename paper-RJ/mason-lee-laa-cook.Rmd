@@ -624,10 +624,7 @@ ggplot(aflw, aes(x=	goals, y= goalAccuracy)) + geom_point()
 ggplot(aflw, aes(x=dreamTeamPoints, y=hitouts)) + geom_point() # 1 with more data
 ggplot(aflw, aes(x=disposalEfficiency, y=hitouts)) + geom_point() #fraction and large discrete
 ggplot(aflw, aes(x=totalPossessions, y=hitouts)) + geom_point() #two large discretes
-ggplot(aflw, aes(x=hitouts, y=disposals)) + geom_point() #two large discrete variables
-
-
-
+ggplot(aflw, aes(x=hitouts, y=disposals)) + geom_point() #two large discretes
 ```
 Why the lowest values on striated? This is a discrete data set, if all the points are not at right angles or in a stright line, to each other, they are not just randonly spread on the. Since the old striated measure is specifically trying to find a continuous variable against a discrete variable, its highest values are also identified by the striated_adjusted. The lowest values on striated simply identify a plot where all the variables are at right angles, once again a measure of disceteness but one that is not identified by striated. Striated_adjusted encapsulates both versions of discreteness in the values that get exactly a 1, this means the scatter plot that gets the lowest value should be the two variables that are continuous. Following that striated_adjusted gives some interesting scatter plots in both goal and dispsoal accuracy vs number. **comment on the scatter plots**.
 
