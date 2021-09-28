@@ -434,7 +434,7 @@ timeOnGroundPercentage: percentage of the game the player was on the field.
 *tackles*: Number of tackles performed by the player.  
 *contestedPossessions*: the number of disposals a player has under pressure, i.e if a player is getting tackled and the get a handball or kick out of the scuffle.  
 *uncontestedPossessions*: the number of disposals a player has under no pressure where they have space and time to get rid of the ball.  
-*totalPossessions*: The total number of disposals for a player. Possessions and disposals are the same thing.  
+*totalPossessions*: The total number of time the player has the ball. 
 inside50s: the number of times the player has the ball within the 50m arc around the oponents goals.  
 *marksInside50*: the number of marks a player gets within the 50m arc around the oponents goals.  
 *contestedMarks*: the number of marks a player has under pressure.
