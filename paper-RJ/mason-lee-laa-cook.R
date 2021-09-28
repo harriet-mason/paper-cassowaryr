@@ -194,10 +194,14 @@ d1 + d2 + d3
 ## ----eval=FALSE---------------------------------------------------------------
 #> # Testing for Ursula's code
 #> library(feasts)
-#> get_features <- function(ts_in){
-#> features(as_tsibble(ts_in), value, feature_set("feasts"))
+#> get_features <- function(ts_in) {
+#>   features(as_tsibble(ts_in),
+#>            value, feature_set("feasts"))
 #> }
 #> feats_birdsong <- purrr::map_dfr(cets_birdsongs, get_features)
+#> 
+#> 
+#> 
 #> cassowaryr::calc_scags_wide(feats_birdsong)
 #> 
 #> library(cassowaryr)
@@ -206,6 +210,156 @@ d1 + d2 + d3
 #> debug(cassowaryr:::sc_convex.list)
 #> 
 #> 
+
+
+## ----eval=FALSE---------------------------------------------------------------
+#> library(compenginets)
+#> 
+#> # Playing with other ideas
+#> cets_macro <- get_cets("macroeconomics")
+#> cets_micro <- get_cets("micoeconomics")
+#> save(cets_macro, file="data/cets_macro.rda")
+#> save(cets_micro, file="data/cets_micro.rda")
+#> 
+#> # Comparing two types of time series
+#> library(feasts)
+#> get_features <- function(ts_in) {
+#>   features(as_tsibble(ts_in),
+#>            value, feature_set("feasts"))
+#> }
+#> 
+#> load("data/cets_macro.rda")
+#> feats_macro <- purrr::map_dfr(cets_macro, get_features)
+#> save(feats_macro, file="data/feats_macro.rda")
+#> 
+#> load("data/cets_micro.rda")
+#> feats_micro <- purrr::map_dfr(cets_micro, get_features)
+#> save(feats_micro, file = "data/feats_micro.rda")
+
+
+## -----------------------------------------------------------------------------
+load("data/feats_macro.rda")
+load("data/feats_micro.rda")
+
+# Check scale of each variable
+#feats_macro %>% 
+#  summarise_all(sd, na.rm=TRUE) %>% 
+#  glimpse()
+
+scags_macro <- calc_scags_wide(feats_macro[,1:4], 
+  scags = c("convex", "splines", "skinny",
+            "outlying", "stringy", "striated",
+            "clumpy","sparse", "skewed"))
+
+#feats_micro %>% 
+#  summarise_all(sd, na.rm=TRUE) %>% 
+#  glimpse()
+
+scags_micro <- calc_scags_wide(feats_micro[,1:4], 
+  scags = c("convex", "splines", "skinny",
+            "outlying", "stringy", "striated",
+            "clumpy","sparse", "skewed"))
+
+scags_macro <- scags_macro %>%
+  pivot_longer(outlying:splines, 
+               names_to = "scags",
+               values_to = "macro_value") 
+
+scags_micro <- scags_micro %>%
+  pivot_longer(outlying:splines, 
+               names_to = "scags",
+               values_to = "micro_value") 
+
+scags_mac_mic <- full_join(scags_macro, scags_micro, by = c("Var1", "Var2", "scags"))
+scags_mac_mic <- scags_mac_mic %>%
+  mutate(scag_dif = abs(macro_value-micro_value)) %>%
+           # *(macro_value+micro_value)) %>% # weight lower if both values are small
+  arrange(desc(scag_dif)) %>%
+  head(5)
+
+feats_mac_mic <- bind_rows(
+  mutate(feats_macro, type = "macro"),
+  mutate(feats_micro, type = "micro")
+)
+
+p1 <- ggplot(feats_mac_mic, 
+       aes(x=curvature, y=spikiness, colour = type)) + 
+  geom_point(alpha = 0.5) +
+  scale_colour_brewer("", palette="Dark2") +
+  theme(aspect.ratio=1) + 
+  ggtitle("Boring") # So boring
+
+p2 <- ggplot(feats_mac_mic, 
+       aes(x=curvature, y=trend_strength, colour = type)) + 
+  geom_point(alpha = 0.5) +
+  scale_colour_brewer("", palette="Dark2") +
+  theme(aspect.ratio=1) + 
+  ggtitle("Interesting") # Interesting
+
+p3 <- ggplot(feats_mac_mic, 
+       aes(x=curvature, y=linearity, colour = type)) + 
+  geom_point(alpha = 0.5) +
+  scale_colour_brewer("", palette="Dark2") +
+  theme(aspect.ratio=1) + 
+  ggtitle("Interesting?") # Sort of interesting
+
+p1 + p2 + p3 + plot_layout(guides = "collect") & theme(legend.position = "bottom")
+
+
+## -----------------------------------------------------------------------------
+load("data/cets_macro.rda")
+load("data/cets_micro.rda")
+
+macro_s_ts1 <- cets_macro[[1]] %>%
+  as_tibble() %>% 
+  mutate(x = as.numeric(x), 
+         t = 1:n(), 
+         name = names(cets_macro)[[1]])
+macro_s_ts2 <- cets_macro[[2]] %>%
+  as_tibble() %>% 
+  mutate(x = as.numeric(x), 
+         t = 1:n(), 
+         name = names(cets_macro)[[2]])
+macro_s_ts3 <- cets_macro[[3]] %>%
+  as_tibble() %>% 
+  mutate(x = as.numeric(x), 
+         t = 1:n(), 
+         name = names(cets_macro)[[3]])
+macro_s_ts <- bind_rows(macro_s_ts1,
+                        macro_s_ts2,
+                        macro_s_ts3)
+mac <- ggplot(macro_s_ts, aes(x=t, y=x)) +
+  geom_line() + 
+  facet_wrap(~name, ncol=1, scales = "free") +
+  ggtitle("Macroeconomics") +
+  theme(axis.text = element_blank())
+
+micro_s_ts1 <- cets_micro[[1]] %>%
+  as_tibble() %>% 
+  mutate(x = as.numeric(x), 
+         t = 1:n(), 
+         name = names(cets_micro)[[1]])
+micro_s_ts2 <- cets_micro[[2]] %>%
+  as_tibble() %>% 
+  mutate(x = as.numeric(x), 
+         t = 1:n(), 
+         name = names(cets_micro)[[2]])
+micro_s_ts3 <- cets_micro[[3]] %>%
+  as_tibble() %>% 
+  mutate(x = as.numeric(x), 
+         t = 1:n(), 
+         name = names(cets_micro)[[3]])
+micro_s_ts <- bind_rows(micro_s_ts1,
+                        micro_s_ts2,
+                        micro_s_ts3)
+mic <- ggplot(micro_s_ts, aes(x=t, y=x)) + 
+  geom_line() + 
+  facet_wrap(~name, ncol=1, scales = "free") +
+  ggtitle("Microeconomics") +
+  theme(axis.text = element_blank())
+
+mac + mic
+
 
 
 ## ----eval=FALSE---------------------------------------------------------------
@@ -256,14 +410,14 @@ s3 <- ggplot(aflw,
   geom_point() 
 
 
-## ----aflw_interactive, fig.cap="Scatterplots with high values on the splines scagnostic. Mouseover to examine the players relative the the statistics.", include=knitr::is_html_output(), eval=knitr::is_html_output()----
+## ----aflwinteractive, fig.cap="Scatterplots with high values on the splines scagnostic. Mouseover to examine the players relative the the statistics.", include=knitr::is_html_output(), eval=knitr::is_html_output()----
 #> gs1 <- ggplotly(s1)
 #> gs2 <- ggplotly(s2)
 #> gs3 <- ggplotly(s3)
 #> subplot(gs1, gs2, gs3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.6)
 
 
-## ----aflw_static, fig.cap="Scatterplots with high values on the splines scagnostic.", include=knitr::is_latex_output(), eval=knitr::is_latex_output()----
+## ----aflwstatic, fig.cap="Scatterplots with high values on the splines scagnostic.", include=knitr::is_latex_output(), eval=knitr::is_latex_output()----
 s1 + s2 + s3
 
 
@@ -321,6 +475,51 @@ s1 + s2 + s3
 #> 
 #> # Now compute scagnostics
 #> scag_nhanes <- calc_scags_wide(NHANES_numeric[,keep$variable])
+
+
+## ---- eval=FALSE--------------------------------------------------------------
+#> # im just adding in striated_adjusted here to compare without recalculating the whole thing
+#> new_scag_aflw <- scag_aflw
+#> new_scag_aflw$striated_adjusted <- AFL_stri_adj$striated_adjusted #calc_scags_wide(aflw_num[,5:37], scags = "striated_adjusted")
+#> 
+#> scag_aflw %>%
+#>   select(Var1, Var2, striated) %>%
+#>   arrange(desc(striated)) %>%
+#>   head(10)
+#> 
+#> # look at lowest values for adjusted striated value
+#> lowest_stri <- new_scag_aflw[order(new_scag_aflw$striated),] %>%
+#>   select(Var1, Var2, striated, striated_adjusted) %>%
+#>   head(10)
+#> 
+#> lowest_stri_adjusted <- new_scag_aflw[order(new_scag_aflw$striated_adjusted),] %>%
+#>   select(Var1, Var2, striated, striated_adjusted) %>%
+#>   head(10)
+#> 
+#> ggplot(aflw, aes(x=metresGained, y=goals)) + geom_point()
+#> 
+#> #look at top 3 for striated
+#> ggplot(aflw, aes(x=clearances.stoppageClearances, y=shotsAtGoal)) + geom_point()
+#> ggplot(aflw, aes(x=contestedPossessions, y=	tackles)) + geom_point()
+#> ggplot(aflw, aes(x=tacklesInside50, y=marksInside50)) + geom_point()
+#> #not interesting
+#> 
+#> # look at top 3 for striated_adjusted
+#> # two continuous variables
+#> ggplot(aflw, aes(x=metresGained, y=dreamTeamPoints)) + geom_point()
+#> # fractional plots, not interesting technically but they are interesting visually
+#> ggplot(aflw, aes(x=goalAccuracy, y=shotsAtGoal)) + geom_point()
+#> ggplot(aflw, aes(x=disposalEfficiency, y=disposals)) + geom_point()
+#> 
+#> #THE OTHER 6 PLOTS
+#> ggplot(aflw, aes(x=metresGained, y=disposalEfficiency)) + geom_point() #fraction thing issue again
+#> ggplot(aflw, aes(x=dreamTeamPoints, y=disposalEfficiency)) + geom_point()
+#> # this is a plot that will have a higher striated value with more data
+#> ggplot(aflw, aes(x=	goals, y= goalAccuracy)) + geom_point()
+#> ggplot(aflw, aes(x=dreamTeamPoints, y=hitouts)) + geom_point() # 1 with more data
+#> ggplot(aflw, aes(x=disposalEfficiency, y=hitouts)) + geom_point() #fraction and large discrete
+#> ggplot(aflw, aes(x=totalPossessions, y=hitouts)) + geom_point() #two large discretes
+#> ggplot(aflw, aes(x=hitouts, y=disposals)) + geom_point() #two large discretes
 
 ```{.r .distill-force-highlighting-css}
 ```
