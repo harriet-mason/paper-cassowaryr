@@ -596,8 +596,8 @@ The Australian Football League Women's (AFLW) is the national semi-profesisonal 
 - *tackles*: Number of tackles performed by the player.  
 - *contestedPossessions*: the number of disposals a player has under pressure, i.e if a player is getting tackled and the get a handball or kick out of the scuffle.  
 - *uncontestedPossessions*: the number of disposals a player has under no pressure where they have space and time to get rid of the ball.  
-- *totalPossessions*: The total number of disposals for a player. Possessions and disposals are the same thing.  
-inside50s: the number of times the player has the ball within the 50m arc around the oponents goals.  
+- *totalPossessions*: The total number of time the player has the ball. 
+- *inside50s*: the number of times the player has the ball within the 50m arc around the oponents goals.  
 - *marksInside50*: the number of marks a player gets within the 50m arc around the oponents goals.  
 - *contestedMarks*: the number of marks a player has under pressure.
 - *hitouts*: this is how many times a player or team taps or punching the ball from a stoppage.
@@ -698,7 +698,7 @@ ggplotly(kickers, width=400, height=400)
 ```{r eval=FALSE}
 # Parallel coordinate plot
 library(GGally)
-ggparcoord(scag_aflw, columns = c(3:5, 7:11), scale = "globalminmax")
+ggparcoord(scag_aflw, columns = 3:11, scale = "globalminmax")
 
 # Or look at pairs
 ggplot(scag_aflw, aes(x=splines, y=striated, 
@@ -740,6 +740,36 @@ keep <- vm %>% filter(pct_miss < 50)
 
 # Now compute scagnostics
 scag_nhanes <- calc_scags_wide(NHANES_numeric[,keep$variable])
+```
+
+```{r, eval=FALSE}
+# highest on each
+
+# Outlying (high)
+ggplot(aflw, aes(x=	metresGained, y= bounces)) + geom_point() 
+#metresGained has a large number of very close variables that take up most of the MST, and then a handful of higher up ones (it has outliers on this one variable). Anything with meters gained will be high on outlying
+ggplot(aflw, aes(x=	dreamTeamPoints, y= contestedMarks)) + geom_point()
+
+# Stringy
+ggplot(aflw, aes(x=clearances.centreClearances, y=contestedMarks)) + geom_point() #lowest
+ggplot(aflw, aes(x=metresGained, y=goalAssists)) + geom_point() #highest
+
+# Striated
+ggplot(aflw, aes(x=clearances.stoppageClearances, y=shotsAtGoal)) + geom_point() #lowest
+#highest is same as stringy
+
+#Striated adjusted
+#discussed below
+
+#Clumpy
+ggplot(aflw, aes(x=behinds, y=goals)) + geom_point() #lowest
+ggplot(aflw, aes(x=	metresGained, y= shotsAtGoal)) + geom_point() #highest
+
+#Sparse
+ggplot(aflw, aes(x=	goalAssists, y= clangers)) + geom_point() #highest
+
+#Skewed
+ggplot(aflw, aes(x=	tacklesInside50, y= marksInside50)) + geom_point() #highest
 ```
 
 The scagnsotics need to be used and interpreted with the type of dataset you are working with in mind. For example, since these are sports stats, almost all of the variables are discrete. This means in the case of the striated varibale, we would be interested in the scatter plots that are very low on striated rather than high. Lets see which striated measure can find some interesting scatter plots.

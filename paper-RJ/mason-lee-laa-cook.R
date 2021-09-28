@@ -433,7 +433,7 @@ s1 + s2 + s3
 ## ----eval=FALSE---------------------------------------------------------------
 #> # Parallel coordinate plot
 #> library(GGally)
-#> ggparcoord(scag_aflw, columns = c(3:5, 7:11), scale = "globalminmax")
+#> ggparcoord(scag_aflw, columns = 3:11, scale = "globalminmax")
 #> 
 #> # Or look at pairs
 #> ggplot(scag_aflw, aes(x=splines, y=striated,
@@ -475,6 +475,36 @@ s1 + s2 + s3
 #> 
 #> # Now compute scagnostics
 #> scag_nhanes <- calc_scags_wide(NHANES_numeric[,keep$variable])
+
+
+## ---- eval=FALSE--------------------------------------------------------------
+#> # highest on each
+#> 
+#> # Outlying (high)
+#> ggplot(aflw, aes(x=	metresGained, y= bounces)) + geom_point()
+#> #metresGained has a large number of very close variables that take up most of the MST, and then a handful of higher up ones (it has outliers on this one variable). Anything with meters gained will be high on outlying
+#> ggplot(aflw, aes(x=	dreamTeamPoints, y= contestedMarks)) + geom_point()
+#> 
+#> # Stringy
+#> ggplot(aflw, aes(x=clearances.centreClearances, y=contestedMarks)) + geom_point() #lowest
+#> ggplot(aflw, aes(x=metresGained, y=goalAssists)) + geom_point() #highest
+#> 
+#> # Striated
+#> ggplot(aflw, aes(x=clearances.stoppageClearances, y=shotsAtGoal)) + geom_point() #lowest
+#> #highest is same as stringy
+#> 
+#> #Striated adjusted
+#> #discussed below
+#> 
+#> #Clumpy
+#> ggplot(aflw, aes(x=behinds, y=goals)) + geom_point() #lowest
+#> ggplot(aflw, aes(x=	metresGained, y= shotsAtGoal)) + geom_point() #highest
+#> 
+#> #Sparse
+#> ggplot(aflw, aes(x=	goalAssists, y= clangers)) + geom_point() #highest
+#> 
+#> #Skewed
+#> ggplot(aflw, aes(x=	tacklesInside50, y= marksInside50)) + geom_point() #highest
 
 
 ## ---- eval=FALSE--------------------------------------------------------------
