@@ -579,7 +579,55 @@ mac + mic
 
 ## Parkinsons 
 
-## Black holes and neutron star mergers?
+## Black hole mergers
+
+This is a simulated dataset that contains posterior samples for describing an observed gravitational waves signal from a black hole merger in terms of position in the sky (ra, dec, distance), time of the event (time) and the black hole properties (masses m1 and m2; spin related properties alpha, theta_jn, chi_tot, chi_eff, chi_p) and additional nuisance parameters psi (polarisation angle) and phi_jl (orbital phase). There are thus 13 variables and it is still feasible to look at a complete SPLOM, providing a good cross check of the scagnostics.
+
+The data contains 9998 posterior samples, without binning it is too long to compute the scagnostics on such a large number of observations. For our purpose a much smaller sample is sufficient, and we randomly sample 200 observations before computing the scagnostics.
+
+```{r eval=FALSE}
+set.seed(26)
+bbh <- read_csv("data/bbh_posterior_samples.csv") %>%
+  sample_n(200)
+scag_bbh <- calc_scags_wide(bbh)
+
+bbh1 <- ggplot(scag_bbh, aes(x=convex, y=skinny, 
+                      label = paste(Var1, Var2))) +
+  geom_point()
+bbh2 <- ggplot(scag_bbh, aes(x=dcor, y=splines, 
+                      label = paste(Var1, Var2))) +
+  geom_point()
+bbh3 <- ggplot(scag_bbh, aes(x=clumpy, y=skewed, 
+                      label = paste(Var1, Var2))) +
+  geom_point()
+gs1 <- ggplotly(bbh1)
+gs2 <- ggplotly(bbh2)
+gs3 <- ggplotly(bbh3)
+subplot(gs1, gs2, gs3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.6)
+```
+
+Combinations that stand out: time-ra, dec-ra, dec-time (low convex, high skinny)
+dec-ra and time-ra also have higher splines than dcor (both high, non-linear functional relation), while m1-m2, dec-time and chi_p-chi_tot have higher dcor than splines (still both high, m1-m2 and chi_p-chi_tot are linear relations with noise, dec-time is strong association but not function)
+The final plot is showing clumpy vs skewed, shows that clumpy isn't really doing what we expect since we would expect much more structure in clumpy (in particular plots with time break up into two well separated groups, plots with ra in three separated groups, some other variables introduce less pronounced separation between groups). Included time-alpha as one example, this has clumpy of 0.9 and skewed of 0.7.
+
+```{r eval=FALSE}
+
+bbh1 <- ggplot(bbh, aes(x=time, y=ra)) +
+  geom_point()
+bbh2 <- ggplot(bbh, aes(x=dec, y=ra)) +
+  geom_point()
+bbh3 <- ggplot(bbh, aes(x=dec, y=time)) +
+  geom_point()
+bbh4 <- ggplot(bbh, aes(x=m1, y=m2)) +
+  geom_point()
+bbh5 <- ggplot(bbh, aes(x=chi_p, y=chi_tot)) +
+  geom_point()
+bbh6 <- ggplot(bbh, aes(x=time, y=alpha)) +
+  geom_point()
+
+subplot(bbh1, bbh2, bbh3, bbh4, bbh5, bbh6,
+        nrows=2, widths = c(0.33, 0.33, 0.33), heights = c(0.5, 0.5))
+```
 
 ## AFL player statistics
 Some explanation of AFL, and about the AFLW competition. Particularly explain any stats used in the plots: goals, kicks, posessions, ...
