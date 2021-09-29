@@ -813,11 +813,19 @@ ggplot(aflw, aes(x=clearances.stoppageClearances, y=shotsAtGoal)) + geom_point()
 ggplot(aflw, aes(x=behinds, y=goals)) + geom_point() #lowest
 ggplot(aflw, aes(x=	metresGained, y= shotsAtGoal)) + geom_point() #highest
 
+#clumpy_adjusted
+cl_a <- calc_scags_wide(aflw_num[,5:37], scags="clumpy_adjusted")
+ggplot(aflw, aes(x=metresGained, y=goalAssists)) + geom_point()  #highest
+ggplot(aflw, aes(x=	clearances.centreClearances, y= behinds)) + geom_point() #lowest
+
 #Sparse
 ggplot(aflw, aes(x=	goalAssists, y= clangers)) + geom_point() #highest
 
 #Skewed
 ggplot(aflw, aes(x=	tacklesInside50, y= marksInside50)) + geom_point() #highest
+
+
+
 ```
 
 The scagnsotics need to be used and interpreted with the type of dataset you are working with in mind. For example, since these are sports stats, almost all of the variables are discrete. This means in the case of the striated varibale, we would be interested in the scatter plots that are very low on striated rather than high. Lets see which striated measure can find some interesting scatter plots.
