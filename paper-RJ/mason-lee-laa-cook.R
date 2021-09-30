@@ -363,6 +363,46 @@ mac + mic
 
 
 ## ----eval=FALSE---------------------------------------------------------------
+#> set.seed(26)
+#> bbh <- read_csv("data/bbh_posterior_samples.csv") %>%
+#>   sample_n(200)
+#> scag_bbh <- calc_scags_wide(bbh)
+#> 
+#> bbh1 <- ggplot(scag_bbh, aes(x=convex, y=skinny,
+#>                       label = paste(Var1, Var2))) +
+#>   geom_point()
+#> bbh2 <- ggplot(scag_bbh, aes(x=dcor, y=splines,
+#>                       label = paste(Var1, Var2))) +
+#>   geom_point()
+#> bbh3 <- ggplot(scag_bbh, aes(x=clumpy, y=skewed,
+#>                       label = paste(Var1, Var2))) +
+#>   geom_point()
+#> gs1 <- ggplotly(bbh1)
+#> gs2 <- ggplotly(bbh2)
+#> gs3 <- ggplotly(bbh3)
+#> subplot(gs1, gs2, gs3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.6)
+
+
+## ----eval=FALSE---------------------------------------------------------------
+#> 
+#> bbh1 <- ggplot(bbh, aes(x=time, y=ra)) +
+#>   geom_point()
+#> bbh2 <- ggplot(bbh, aes(x=dec, y=ra)) +
+#>   geom_point()
+#> bbh3 <- ggplot(bbh, aes(x=dec, y=time)) +
+#>   geom_point()
+#> bbh4 <- ggplot(bbh, aes(x=m1, y=m2)) +
+#>   geom_point()
+#> bbh5 <- ggplot(bbh, aes(x=chi_p, y=chi_tot)) +
+#>   geom_point()
+#> bbh6 <- ggplot(bbh, aes(x=time, y=alpha)) +
+#>   geom_point()
+#> 
+#> subplot(bbh1, bbh2, bbh3, bbh4, bbh5, bbh6,
+#>         nrows=2, widths = c(0.33, 0.33, 0.33), heights = c(0.5, 0.5))
+
+
+## ----eval=FALSE---------------------------------------------------------------
 #> library(fitzRoy)
 #> aflw <- fetch_player_stats(2020, comp = "AFLW")
 #> save(aflw, file = "data/aflw.rda")
@@ -410,14 +450,14 @@ s3 <- ggplot(aflw,
   geom_point() 
 
 
-## ----aflwinteractive, fig.cap="Scatterplots with high values on the splines scagnostic. Mouseover to examine the players relative the the statistics.", include=knitr::is_html_output(), eval=knitr::is_html_output()----
+## ----aflwinteractive, fig.cap="Scatterplots with high values on the splines scagnostic. Mouseover to examine the players relative the the statistics.", include=knitr::is_html_output(), eval=knitr::is_html_output(), layout = "l-body"----
 #> gs1 <- ggplotly(s1)
 #> gs2 <- ggplotly(s2)
 #> gs3 <- ggplotly(s3)
 #> subplot(gs1, gs2, gs3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.6)
 
 
-## ----aflwstatic, fig.cap="Scatterplots with high values on the splines scagnostic.", include=knitr::is_latex_output(), eval=knitr::is_latex_output()----
+## ----aflwstatic, fig.cap="Scatterplots with high values on the splines scagnostic.", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.width=10, fig.height=3.5, out.width="100%"----
 s1 + s2 + s3
 
 

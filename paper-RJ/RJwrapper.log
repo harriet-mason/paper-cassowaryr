@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.2.13)  28 SEP 2021 16:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.2.13)  29 SEP 2021 10:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1027,33 +1027,27 @@ Underfull \hbox (badness 10000) in paragraph at lines 406--407
 
 [8 <./mason-lee-laa-cook_files/figure-latex/unnamed-chunk-3-1.pdf>] [9 <./mason
 -lee-laa-cook_files/figure-latex/unnamed-chunk-4-1.pdf>]
-<mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf, id=262, 449.68pt x 305
-.14pt>
+<mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf, id=262, 702.625pt x 23
+2.87pt>
 File: mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf Graphic file (type
  pdf)
 <use mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf
-  used on input line 516.
-(pdftex.def)             Requested size: 449.6789pt x 305.13924pt.
-
-Overfull \hbox (51.34032pt too wide) in paragraph at lines 516--516
-[][] 
- []
-
-[10 <./mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf>] (./RJwrapper.bb
-l (./RJwrapper.brf)
+  used on input line 543.
+(pdftex.def)             Requested size: 398.33858pt x 132.02306pt.
+[10] (./RJwrapper.bbl (./RJwrapper.brf)
 \tf@brf=\write6
 \openout6 = `RJwrapper.brf'.
 
-[11])
+[11 <./mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf>])
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 582.
+(Font)              using `T1/zi4/m/n' instead on input line 609.
 
 LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
-(Font)              scaled to size 9.18004pt on input line 582.
+(Font)              scaled to size 9.18004pt on input line 609.
 
-Underfull \hbox (badness 10000) in paragraph at lines 592--593
+Underfull \hbox (badness 10000) in paragraph at lines 619--620
 
  []
 
@@ -1068,7 +1062,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 27.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 27.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 27.
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
-(rerunfilecheck)             Checksum: 1634B0E39B5455CD7F328D45EDEE0145;1393.
+(rerunfilecheck)             Checksum: 8DFB91DFF4F35EAE398F87B645ADD810;1374.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
 (rerunfilecheck)             Checksum: 2B77C2E7B1C7948E01CA80638927E3DE;807.
 
@@ -1078,8 +1072,8 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 27.
  ) 
 Here is how much of TeX's memory you used:
  22494 strings out of 480608
- 408478 string characters out of 5903630
- 687837 words of memory out of 5000000
+ 408442 string characters out of 5903630
+ 686818 words of memory out of 5000000
  37602 multiletter control sequences out of 15000+600000
  572711 words of font info for 213 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1096,7 +1090,7 @@ ve/2020/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/local/texlive/2
 020/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2020/tex
 mf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2020/texmf-dist
 /fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (12 pages, 939600 bytes).
+Output written on RJwrapper.pdf (12 pages, 941250 bytes).
 PDF statistics:
  379 PDF objects out of 1000 (max. 8388607)
  317 compressed objects within 4 object streams

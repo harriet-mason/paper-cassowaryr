@@ -408,9 +408,36 @@ Interestingly the trend strength seems to pick up the jaggies!
 \hypertarget{parkinsons}{%
 \subsection{Parkinsons}\label{parkinsons}}
 
-\hypertarget{black-holes-and-neutron-star-mergers}{%
-\subsection{Black holes and neutron star
-mergers?}\label{black-holes-and-neutron-star-mergers}}
+\hypertarget{black-hole-mergers}{%
+\subsection{Black hole mergers}\label{black-hole-mergers}}
+
+This is a simulated dataset that contains posterior samples for
+describing an observed gravitational waves signal from a black hole
+merger in terms of position in the sky (ra, dec, distance), time of the
+event (time) and the black hole properties (masses m1 and m2; spin
+related properties alpha, theta\_jn, chi\_tot, chi\_eff, chi\_p) and
+additional nuisance parameters psi (polarisation angle) and phi\_jl
+(orbital phase). There are thus 13 variables and it is still feasible to
+look at a complete SPLOM, providing a good cross check of the
+scagnostics.
+
+The data contains 9998 posterior samples, without binning it is too long
+to compute the scagnostics on such a large number of observations. For
+our purpose a much smaller sample is sufficient, and we randomly sample
+200 observations before computing the scagnostics.
+
+Combinations that stand out: time-ra, dec-ra, dec-time (low convex, high
+skinny) dec-ra and time-ra also have higher splines than dcor (both
+high, non-linear functional relation), while m1-m2, dec-time and
+chi\_p-chi\_tot have higher dcor than splines (still both high, m1-m2
+and chi\_p-chi\_tot are linear relations with noise, dec-time is strong
+association but not function) The final plot is showing clumpy vs
+skewed, shows that clumpy isn't really doing what we expect since we
+would expect much more structure in clumpy (in particular plots with
+time break up into two well separated groups, plots with ra in three
+separated groups, some other variables introduce less pronounced
+separation between groups). Included time-alpha as one example, this has
+clumpy of 0.9 and skewed of 0.7.
 
 \hypertarget{afl-player-statistics}{%
 \subsection{AFL player statistics}\label{afl-player-statistics}}
@@ -513,11 +540,11 @@ scagnostics can suggest which are the interesting ones to examine.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics{mason-lee-laa-cook_files/figure-latex/aflwstatic-1} \caption[Scatterplots with high values on the splines scagnostic]{Scatterplots with high values on the splines scagnostic.}(\#fig:aflwstatic)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/aflwstatic-1} \caption[Scatterplots with high values on the splines scagnostic]{Scatterplots with high values on the splines scagnostic.}(\#fig:aflwstatic)
 \end{figure}
 \end{Schunk}
 
-Figure @(fig:aflwinteractive) shows three scatterplots that score highly
+Figure @ref\{fig:aflwstatic\} shows three scatterplots that score highly
 on the splines scagnostic. Each of these shows a relatively strong
 monotonic relationship between the two variables. In the interactive
 version of the plot, mouse over reveals some high-performing players,
