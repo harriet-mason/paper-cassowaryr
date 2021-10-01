@@ -318,7 +318,23 @@ where \[A_{kl}=a_{kl}-\bar{a}_{k.}-\bar{a}_{.j}-\bar{a}_{..}\]
 \subsection{Checking the scagnostics
 calculations}\label{checking-the-scagnostics-calculations}}
 
-Maybe use Anscombe and datasaurus and the features data here
+Once we have written the scagnsotics by their definition and working
+functions that correctly calculate them, we can assess how well they
+identify the visual features of scatter plots. To assess how well the
+scagnostics differentiate plots, we have creates a dataset called
+``features'' (that is also in the Cassowaryr package) that contains a
+series of interesting and unique scatter plots which we can run our
+scagnsotics on.
+
+\begin{Schunk}
+
+\includegraphics{mason-lee-laa-cook_files/figure-latex/Features plot-1} \end{Schunk}
+
+If we run these
+
+While the scagnsotics can be shown to sort reasonably well within
+themselves, is is entirely different to correctly sort the scatter plots
+by what you would visually conclude.
 
 \hypertarget{software-implementation}{%
 \section{Software implementation}\label{software-implementation}}
@@ -408,9 +424,36 @@ Interestingly the trend strength seems to pick up the jaggies!
 \hypertarget{parkinsons}{%
 \subsection{Parkinsons}\label{parkinsons}}
 
-\hypertarget{black-holes-and-neutron-star-mergers}{%
-\subsection{Black holes and neutron star
-mergers?}\label{black-holes-and-neutron-star-mergers}}
+\hypertarget{black-hole-mergers}{%
+\subsection{Black hole mergers}\label{black-hole-mergers}}
+
+This is a simulated dataset that contains posterior samples for
+describing an observed gravitational waves signal from a black hole
+merger in terms of position in the sky (ra, dec, distance), time of the
+event (time) and the black hole properties (masses m1 and m2; spin
+related properties alpha, theta\_jn, chi\_tot, chi\_eff, chi\_p) and
+additional nuisance parameters psi (polarisation angle) and phi\_jl
+(orbital phase). There are thus 13 variables and it is still feasible to
+look at a complete SPLOM, providing a good cross check of the
+scagnostics.
+
+The data contains 9998 posterior samples, without binning it is too long
+to compute the scagnostics on such a large number of observations. For
+our purpose a much smaller sample is sufficient, and we randomly sample
+200 observations before computing the scagnostics.
+
+Combinations that stand out: time-ra, dec-ra, dec-time (low convex, high
+skinny) dec-ra and time-ra also have higher splines than dcor (both
+high, non-linear functional relation), while m1-m2, dec-time and
+chi\_p-chi\_tot have higher dcor than splines (still both high, m1-m2
+and chi\_p-chi\_tot are linear relations with noise, dec-time is strong
+association but not function) The final plot is showing clumpy vs
+skewed, shows that clumpy isn't really doing what we expect since we
+would expect much more structure in clumpy (in particular plots with
+time break up into two well separated groups, plots with ra in three
+separated groups, some other variables introduce less pronounced
+separation between groups). Included time-alpha as one example, this has
+clumpy of 0.9 and skewed of 0.7.
 
 \hypertarget{afl-player-statistics}{%
 \subsection{AFL player statistics}\label{afl-player-statistics}}
@@ -513,11 +556,11 @@ scagnostics can suggest which are the interesting ones to examine.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics{mason-lee-laa-cook_files/figure-latex/aflwstatic-1} \caption[Scatterplots with high values on the splines scagnostic]{Scatterplots with high values on the splines scagnostic.}(\#fig:aflwstatic)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/aflwstatic-1} \caption[Scatterplots with high values on the splines scagnostic]{Scatterplots with high values on the splines scagnostic.}(\#fig:aflwstatic)
 \end{figure}
 \end{Schunk}
 
-Figure @(fig:aflwinteractive) shows three scatterplots that score highly
+Figure @ref\{fig:aflwstatic\} shows three scatterplots that score highly
 on the splines scagnostic. Each of these shows a relatively strong
 monotonic relationship between the two variables. In the interactive
 version of the plot, mouse over reveals some high-performing players,
@@ -561,6 +604,55 @@ pairs of indicators with interesting relationships.
 Download data from:
 
 \url{https://databank.worldbank.org/source/world-development-indicators/preview/on\#}
+
+\begin{Schunk}
+\begin{Soutput}
+#>  Country Code        SP.ADO.TFRT     NV.AGR.TOTL.ZS   
+#>  Length:31          Min.   : 1.320   Min.   : 0.5689  
+#>  Class :character   1st Qu.: 5.783   1st Qu.: 1.6509  
+#>  Mode  :character   Median :11.326   Median : 2.7612  
+#>                     Mean   :22.601   Mean   : 5.0012  
+#>                     3rd Qu.:33.681   3rd Qu.: 5.8037  
+#>                     Max.   :82.313   Max.   :22.8556  
+#>  EN.ATM.CO2E.PC    NE.EXP.GNFS.ZS    SP.DYN.TFRT.IN 
+#>  Min.   : 0.5128   Min.   :  8.972   Min.   :0.977  
+#>  1st Qu.: 3.2201   1st Qu.: 19.527   1st Qu.:1.565  
+#>  Median : 5.5203   Median : 31.205   Median :1.730  
+#>  Mean   : 6.3624   Mean   : 37.190   Mean   :1.805  
+#>  3rd Qu.: 8.3006   3rd Qu.: 40.876   3rd Qu.:2.042  
+#>  Max.   :15.4755   Max.   :122.298   Max.   :3.510  
+#>  BX.KLT.DINV.CD.WD    AG.LND.FRST.K2    NY.GDP.MKTP.CD     
+#>  Min.   :-3.615e+11   Min.   :    500   Min.   :2.622e+10  
+#>  1st Qu.: 2.097e+09   1st Qu.:  34908   1st Qu.:3.601e+11  
+#>  Median : 1.282e+10   Median : 144913   Median :9.136e+11  
+#>  Mean   : 2.485e+10   Mean   : 800131   Mean   :2.291e+12  
+#>  3rd Qu.: 5.845e+10   3rd Qu.: 627440   3rd Qu.:2.004e+12  
+#>  Max.   : 2.615e+11   Max.   :8153116   Max.   :2.061e+13  
+#>  NY.GDP.MKTP.KD.ZG NY.GNP.PCAP.CD  NY.GNP.PCAP.PP.CD
+#>  Min.   :-2.565    Min.   : 1480   Min.   : 4750    
+#>  1st Qu.: 1.548    1st Qu.: 9390   1st Qu.:17615    
+#>  Median : 2.580    Median :32730   Median :42660    
+#>  Mean   : 3.083    Mean   :31777   Mean   :37232    
+#>  3rd Qu.: 3.960    3rd Qu.:48630   3rd Qu.:52645    
+#>  Max.   : 8.516    Max.   :85030   Max.   :72330    
+#>  NY.GNP.ATLS.CD      NY.GNP.MKTP.PP.CD   NE.GDI.TOTL.ZS 
+#>  Min.   :2.390e+10   Min.   :1.952e+10   Min.   :14.95  
+#>  1st Qu.:3.127e+11   1st Qu.:6.471e+11   1st Qu.:21.00  
+#>  Median :8.831e+11   Median :1.659e+12   Median :24.08  
+#>  Mean   :2.262e+12   Mean   :3.229e+12   Mean   :24.32  
+#>  3rd Qu.:1.981e+12   3rd Qu.:3.076e+12   3rd Qu.:27.30  
+#>  Max.   :2.076e+13   Max.   :2.162e+13   Max.   :43.79  
+#>   SH.IMM.MEAS  
+#>  Min.   :73.0  
+#>  1st Qu.:92.5  
+#>  Median :95.0  
+#>  Mean   :94.1  
+#>  3rd Qu.:97.0  
+#>  Max.   :99.0
+\end{Soutput}
+
+\includegraphics{mason-lee-laa-cook_files/figure-latex/unnamed-chunk-13-1} 
+\includegraphics{mason-lee-laa-cook_files/figure-latex/unnamed-chunk-13-2} \end{Schunk}
 
 \hypertarget{summary}{%
 \subsection{Summary}\label{summary}}

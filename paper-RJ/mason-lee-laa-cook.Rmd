@@ -858,18 +858,18 @@ s3 <- ggplot(aflw,
   geom_point() 
 ```
 
-```{r aflwinteractive, fig.cap="Scatterplots with high values on the splines scagnostic. Mouseover to examine the players relative the the statistics.", include=knitr::is_html_output(), eval=knitr::is_html_output()}
+```{r aflwinteractive, fig.cap="Scatterplots with high values on the splines scagnostic. Mouseover to examine the players relative the the statistics.", include=knitr::is_html_output(), eval=knitr::is_html_output(), layout = "l-body"}
 gs1 <- ggplotly(s1)
 gs2 <- ggplotly(s2)
 gs3 <- ggplotly(s3)
 subplot(gs1, gs2, gs3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.6)
 ```
 
-```{r aflwstatic, fig.cap="Scatterplots with high values on the splines scagnostic.", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
+```{r aflwstatic, fig.cap="Scatterplots with high values on the splines scagnostic.", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.width=10, fig.height=3.5, out.width="100%"}
 s1 + s2 + s3
 ```
 
-Figure \@(fig:aflwinteractive) shows three scatterplots that score highly on the splines scagnostic. Each of these shows a relatively strong monotonic relationship between the two variables. In the interactive version of the plot, mouse over reveals some high-performing players, e.g. Anne Hatchard has a lot of possessions, disposals and kicks, and Kaitlyn Ashmore kicked 4 goals in a match with 100% accuracy.
+Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref{fig:aflwstatic}','\\@ref(fig:aflwinteractive)'))` shows three scatterplots that score highly on the splines scagnostic. Each of these shows a relatively strong monotonic relationship between the two variables. In the interactive version of the plot, mouse over reveals some high-performing players, e.g. Anne Hatchard has a lot of possessions, disposals and kicks, and Kaitlyn Ashmore kicked 4 goals in a match with 100% accuracy.
 
 NOTE: Each player is represented multiple times here, I think. The stats are per game. Maybe it is better to aggregate for each player and re-do the statistics?
 
@@ -1022,6 +1022,48 @@ The World Bank delivers a lot of development indicators, for many countries and 
 Download data from:
 
 https://databank.worldbank.org/source/world-development-indicators/preview/on#
+
+This is a potentially good example to display as a visual table.
+
+```{r eval=FALSE}
+library(readxl)
+wbi <- read_xlsx("data/World_Development_Indicators.xlsx")
+wbi_wide <- wbi %>% 
+  mutate(`2018 [YR2018]` = as.numeric(`2018 [YR2018]`)) %>%
+  select(`Country Code`, `Series Code`, `2018 [YR2018]`) %>%
+  pivot_wider(names_from = `Series Code`, values_from = `2018 [YR2018]`, id_cols = `Country Code`, values_fn = mean) %>%
+  filter(!is.na(`Country Code`))
+
+wbi_wide_sub <- wbi_wide[, c(1, 2, 3, 6, 11, 13:22, 24, 25, 27:30, 32:34, 37:40)]
+summary(wbi_wide_sub)
+
+# Remove any variables that are the same
+scag_cor <- calc_scags_wide(wbi_wide_sub[,-1], 
+    scags = "monotonic")
+wbi_wide_sub <- wbi_wide_sub %>%
+  select(-NY.GDP.MKTP.CD)
+
+scag_wbi <- calc_scags_wide(wbi_wide_sub[,-1],
+    scags = c("outlying", "stringy",
+              "striated", "skewed",
+              "convex", "skinny",
+              "splines"))
+
+scag_wbi_long <- scag_wbi %>% 
+  pivot_longer(!c(Var1, Var2), names_to = "scag", values_to = "value") %>%
+  arrange(desc(value))
+
+ggplot(wbi_wide_sub, 
+       aes_string(x=as.character(scag_wbi_long$Var1[1]),
+                  y=as.character(scag_wbi_long$Var2[1]))) +
+  geom_point()
+
+ggplot(wbi_wide_sub, 
+       aes_string(x=as.character(scag_wbi_long$Var1[1]),
+                  y=as.character(scag_wbi_long$Var2[1]))) +
+  geom_point()
+
+```
 
 ## Summary
 
