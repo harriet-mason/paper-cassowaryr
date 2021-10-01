@@ -57,8 +57,8 @@ library(tidyverse)
 library(plotly)
 library(patchwork)
 library(knitr)
-library(ggthemes)
-library(ggimage) #for the visual table
+library(ggimg) #for the visual table
+
 ```
 
 # Introduction
@@ -303,6 +303,7 @@ whichplots <- function(scag, feature){
   if(all(scag=="skinny", feature %in% c("line", "l-shape", "disk"))){
     pad = TRUE
   }
+  
   # MST measures
   if(all(scag=="outlying", feature %in% c("outliers2","l-shape", "outliers"))){
     pad = TRUE
@@ -319,11 +320,20 @@ whichplots <- function(scag, feature){
   if(all(scag=="sparse", feature %in% c("weak", "line"))){
     pad = TRUE
   }
-  if(all(scag=="clumpy", feature %in% c("vlines", "clusters", "nonlinear"))){
+  if(all(scag=="skewed", feature %in% c("l-shape", "barrier"))){
     pad = TRUE
   }
-  # Association Measures
   
+  # Association Measures
+  if(all(scag=="monotonic", feature %in% c("positive", "weak", "outliers2"))){
+    pad = TRUE
+  }
+  if(all(scag=="splines", feature %in% c("nonlinear2", "clusters", "vlines"))){
+    pad = TRUE
+  }
+  if(all(scag=="dcor", feature %in% c("positive", "barrier", "gaps"))){
+    pad = TRUE
+  }
   pad
 }
 
@@ -340,15 +350,18 @@ s <- length(unique(plot_data$feature))
 
 # plot
 visual_table <- ggplot(plot_data, aes(x=value , y=scagnostic))+
-  geom_image(aes(image = plotad), size=1/s, by="width") +
+  geom_point_img(aes(img = plotad), size = 1.5) + 
+  #geom_image(aes(image = plotad), size=1/s, by="width") +
   theme_classic() +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         legend.position="none") +
   xlim(-0.1,1.1) +
   scale_size_identity()+
   theme(
+    axis.line = element_blank(),
     strip.background = element_blank(),
-    strip.text.x = element_blank()
+    strip.text.x = element_blank(),
+    panel.grid.major.y = element_line()
 )
 ggsave("figures/visual_table.png", visual_table, width=10, height=10)
 
