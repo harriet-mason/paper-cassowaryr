@@ -264,7 +264,7 @@ featplot
 If we run these
 
 
-```{r, Table of Plots}
+```{r, Scatter Plots as images}
 
 #set theme so all scatter plots in table match
 plot_theme <-  theme_classic() + #theme_minimal() + 
@@ -284,17 +284,22 @@ for (i in seq(length(plots))){
   ggsave(paste0("figures/", plots[i], ".png"),holdplot)
 }
 
+```
+
+
+```{r, Table of Plots}
+
 # edit data frame
 plot_data <- features_scagnostics_long %>%
   mutate(plotad = paste0("figures/", feature, ".png"))
 
-# which plots function
+# which plots to include in visual table
 whichplots <- function(scag, feature){
   pad = FALSE
   if(all(scag=="convex", feature %in% c("discrete", "outliers", "line"))){
     pad = TRUE
   }
-  if(all(scag=="skinny", feature %in% c("ring", "positive", "line"))){
+  if(all(scag=="skinny", feature %in% c("line", "l-shape", "disk"))){
     pad = TRUE
   }
   if(all(scag=="outlying", feature %in% c("outlying2", "outliers"))){
@@ -309,9 +314,8 @@ whichplots <- function(scag, feature){
   pad
 }
 
-
-# Convex Hull Plots
-# data
+# Make Visual Table
+# Data
 plot_data <- plot_data %>%
   group_by(scagnostic, feature) %>%
   mutate(doplot = whichplots(scagnostic, feature)) %>%
@@ -324,7 +328,7 @@ s <- length(unique(plot_data$feature))
 # plot
 visual_table <- ggplot(plot_data, aes(x=value , y=scagnostic))+
   geom_image(aes(image = plotad), size=1/s, by="width") +
-  theme_minimal() +
+  theme_classic() +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         legend.position="none") +
   xlim(-0.1,1.1) +
