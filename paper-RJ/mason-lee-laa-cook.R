@@ -13,8 +13,8 @@ library(tidyverse)
 library(plotly)
 library(patchwork)
 library(knitr)
-library(ggthemes)
-library(ggimage) #for the visual table
+library(ggimg) #for the visual table
+
 
 
 ## ----building-blocks, out.height = "30%", out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics", eval=FALSE----
@@ -96,11 +96,12 @@ t_features_scagnostics_wide <- features_scagnostics_long %>%
 featplot <- ggplot(bigfeatures, aes(x,y,colour=feature))+
   geom_point()+
   theme_minimal() + 
-  facet_wrap(~feature, scales="free")
+  facet_wrap(~feature, scales="free") +
+  theme(legend.position = "none")
 featplot
 
 
-## ---- Table of Plots----------------------------------------------------------
+## ---- Scatter Plots as images,  include=FALSE---------------------------------
 
 #set theme so all scatter plots in table match
 plot_theme <-  theme_classic() + #theme_minimal() + 
@@ -120,34 +121,60 @@ for (i in seq(length(plots))){
   ggsave(paste0("figures/", plots[i], ".png"),holdplot)
 }
 
+
+
+## ---- Table of Plots, fig.height=10, fig.width=10-----------------------------
+
 # edit data frame
 plot_data <- features_scagnostics_long %>%
   mutate(plotad = paste0("figures/", feature, ".png"))
 
-# which plots function
+# which plots to include in visual table
 whichplots <- function(scag, feature){
   pad = FALSE
-  if(all(scag=="convex", feature %in% c("discrete", "outliers", "line"))){
+  # Alphahull measures
+  if(all(scag=="convex", feature %in% c("discrete", "ring", "l-shape"))){
     pad = TRUE
   }
-  if(all(scag=="skinny", feature %in% c("ring", "positive", "line"))){
+  if(all(scag=="skinny", feature %in% c("line", "positive", "disk"))){
     pad = TRUE
   }
-  if(all(scag=="outlying", feature %in% c("outlying2", "outliers"))){
+  
+  # MST measures
+  if(all(scag=="outlying", feature %in% c("outliers2","l-shape", "outliers"))){
     pad = TRUE
   }
-  if(all(scag=="stringy", feature %in% c("nonlinear_line", "outliers"))){
+  if(all(scag=="stringy", feature %in% c("nonlinear1", "gaps"))){
     pad = TRUE
   }
-  if(all(scag=="striated", feature %in% c("vlines", "weak"))){
+  if(all(scag=="striated", feature %in% c("vlines", "discrete", "weak"))){
+    pad = TRUE
+  }
+  if(all(scag=="clumpy", feature %in% c("vlines", "clusters", "nonlinear"))){
+    pad = TRUE
+  }
+  if(all(scag=="sparse", feature %in% c("weak", "line"))){
+    pad = TRUE
+  }
+  if(all(scag=="skewed", feature %in% c("l-shape", "barrier"))){
+    pad = TRUE
+  }
+  
+  # Association Measures
+  if(all(scag=="monotonic", feature %in% c("line", "positive", "weak"))){
+    pad = TRUE
+  }
+  if(all(scag=="splines", feature %in% c("nonlinear2", "clusters", "vlines"))){
+    pad = TRUE
+  }
+  if(all(scag=="dcor", feature %in% c("positive", "barrier", "gaps"))){
     pad = TRUE
   }
   pad
 }
 
-
-# Convex Hull Plots
-# data
+# Make Visual Table
+# Data
 plot_data <- plot_data %>%
   group_by(scagnostic, feature) %>%
   mutate(doplot = whichplots(scagnostic, feature)) %>%
@@ -159,17 +186,24 @@ s <- length(unique(plot_data$feature))
 
 # plot
 visual_table <- ggplot(plot_data, aes(x=value , y=scagnostic))+
-  geom_image(aes(image = plotad), size=1/s, by="width") +
-  theme_minimal() +
+  geom_point_img(aes(img = plotad), size = 1.5) + 
+  #geom_image(aes(image = plotad), size=1/s, by="width") +
+  theme_classic() +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         legend.position="none") +
   xlim(-0.1,1.1) +
   scale_size_identity()+
+  xlab("Value") +
+  ylab("Scagnostic") +
+  ggtitle("Visual Table of Scagnostic Values")+
   theme(
+    axis.line = element_blank(),
     strip.background = element_blank(),
-    strip.text.x = element_blank()
+    strip.text.x = element_blank(),
+    panel.grid.major.y = element_line()
 )
-ggsave("figures/visual_table.png", visual_table, width=10, height=10)
+#ggsave("figures/visual_table.png", visual_table, width=10, height=10)
+visual_table
 
 
 
@@ -731,22 +765,44 @@ s1 + s2 + s3
 #> ggplot(aflw, aes(x=hitouts, y=disposals)) + geom_point() #two large discretes
 
 
-## -----------------------------------------------------------------------------
-library(readxl)
-wbi <- read_xlsx("data/World_Development_Indicators.xlsx")
-wbi_wide <- wbi %>% 
-  mutate(`2018 [YR2018]` = as.numeric(`2018 [YR2018]`)) %>%
-  select(`Country Code`, `Series Code`, `2018 [YR2018]`) %>%
-  pivot_wider(names_from = `Series Code`, values_from = `2018 [YR2018]`, id_cols = `Country Code`, values_fn = mean) %>%
-  filter(!is.na(`Country Code`))
-wbi_wide_sub <- wbi_wide[, c(1, 2, 3, 6, 11, 13:22, 24)]
-summary(wbi_wide_sub)
-scag_wbi <- calc_scags_wide(wbi_wide_sub[,-1])
-
-ggplot(wbi_wide_sub, aes(x=NY.GNP.ATLS.CD, y=NY.GDP.MKTP.CD)) + geom_point()
-
-ggplot(wbi_wide_sub, aes(x=	
-NE.GDI.TOTL.ZS, y=NY.GNP.PCAP.CD)) + geom_point()
+## ----eval=FALSE---------------------------------------------------------------
+#> library(readxl)
+#> wbi <- read_xlsx("data/World_Development_Indicators.xlsx")
+#> wbi_wide <- wbi %>%
+#>   mutate(`2018 [YR2018]` = as.numeric(`2018 [YR2018]`)) %>%
+#>   select(`Country Code`, `Series Code`, `2018 [YR2018]`) %>%
+#>   pivot_wider(names_from = `Series Code`, values_from = `2018 [YR2018]`, id_cols = `Country Code`, values_fn = mean) %>%
+#>   filter(!is.na(`Country Code`))
+#> 
+#> wbi_wide_sub <- wbi_wide[, c(1, 2, 3, 6, 11, 13:22, 24, 25, 27:30, 32:34, 37:40)]
+#> summary(wbi_wide_sub)
+#> 
+#> # Remove any variables that are the same
+#> scag_cor <- calc_scags_wide(wbi_wide_sub[,-1],
+#>     scags = "monotonic")
+#> wbi_wide_sub <- wbi_wide_sub %>%
+#>   select(-NY.GDP.MKTP.CD)
+#> 
+#> scag_wbi <- calc_scags_wide(wbi_wide_sub[,-1],
+#>     scags = c("outlying", "stringy",
+#>               "striated", "skewed",
+#>               "convex", "skinny",
+#>               "splines"))
+#> 
+#> scag_wbi_long <- scag_wbi %>%
+#>   pivot_longer(!c(Var1, Var2), names_to = "scag", values_to = "value") %>%
+#>   arrange(desc(value))
+#> 
+#> ggplot(wbi_wide_sub,
+#>        aes_string(x=as.character(scag_wbi_long$Var1[1]),
+#>                   y=as.character(scag_wbi_long$Var2[1]))) +
+#>   geom_point()
+#> 
+#> ggplot(wbi_wide_sub,
+#>        aes_string(x=as.character(scag_wbi_long$Var1[1]),
+#>                   y=as.character(scag_wbi_long$Var2[1]))) +
+#>   geom_point()
+#> 
 
 ```{.r .distill-force-highlighting-css}
 ```

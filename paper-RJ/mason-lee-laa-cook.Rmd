@@ -258,13 +258,14 @@ t_features_scagnostics_wide <- features_scagnostics_long %>%
 featplot <- ggplot(bigfeatures, aes(x,y,colour=feature))+
   geom_point()+
   theme_minimal() + 
-  facet_wrap(~feature, scales="free")
+  facet_wrap(~feature, scales="free") +
+  theme(legend.position = "none")
 featplot
 ```
-If we run these
 
+These scatter plots typify certain visual features we want to look for in scatter plots, be it deterministic relationships (such as that shown in the nonlinear feature), discreteness in variables (vlines), or clustering (clumpy), we should be able to use scagnostics to identify each of these scatter plots. Below is a visual table of an example of a high, a moderate, and a low value, on each scagnostic. The scagnostics are supposed to range from 0 to 1 however in some cases the values are so compressed that a moderate value would not fit, indicating that the scagnostics do not work quite as intended. We suspect the reason for these warped distributions is the removal of binning as a preliminary step in calculating the scagnostics. We wanted the package to have binning as an optional method, considering choices in binning can lead to bias as noted in "Scagnostic Distributions" or unreproducible results as noted in "Robustness of Scagnostics". Therefore the current scagnostics will be assessed without binning.
 
-```{r, Scatter Plots as images}
+```{r, Scatter Plots as images,  include=FALSE}
 
 #set theme so all scatter plots in table match
 plot_theme <-  theme_classic() + #theme_minimal() + 
@@ -287,7 +288,7 @@ for (i in seq(length(plots))){
 ```
 
 
-```{r, Table of Plots}
+```{r, Table of Plots, fig.height=10, fig.width=10}
 
 # edit data frame
 plot_data <- features_scagnostics_long %>%
@@ -297,10 +298,10 @@ plot_data <- features_scagnostics_long %>%
 whichplots <- function(scag, feature){
   pad = FALSE
   # Alphahull measures
-  if(all(scag=="convex", feature %in% c("discrete", "outliers", "line"))){
+  if(all(scag=="convex", feature %in% c("discrete", "ring", "l-shape"))){
     pad = TRUE
   }
-  if(all(scag=="skinny", feature %in% c("line", "l-shape", "disk"))){
+  if(all(scag=="skinny", feature %in% c("line", "positive", "disk"))){
     pad = TRUE
   }
   
@@ -308,7 +309,7 @@ whichplots <- function(scag, feature){
   if(all(scag=="outlying", feature %in% c("outliers2","l-shape", "outliers"))){
     pad = TRUE
   }
-  if(all(scag=="stringy", feature %in% c("nonlinear_line", "outliers"))){
+  if(all(scag=="stringy", feature %in% c("nonlinear1", "gaps"))){
     pad = TRUE
   }
   if(all(scag=="striated", feature %in% c("vlines", "discrete", "weak"))){
@@ -325,7 +326,7 @@ whichplots <- function(scag, feature){
   }
   
   # Association Measures
-  if(all(scag=="monotonic", feature %in% c("positive", "weak", "outliers2"))){
+  if(all(scag=="monotonic", feature %in% c("line", "positive", "weak"))){
     pad = TRUE
   }
   if(all(scag=="splines", feature %in% c("nonlinear2", "clusters", "vlines"))){
@@ -357,15 +358,27 @@ visual_table <- ggplot(plot_data, aes(x=value , y=scagnostic))+
         legend.position="none") +
   xlim(-0.1,1.1) +
   scale_size_identity()+
+  xlab("Value") +
+  ylab("Scagnostic") +
+  ggtitle("Visual Table of Scagnostic Values")+
   theme(
     axis.line = element_blank(),
     strip.background = element_blank(),
     strip.text.x = element_blank(),
     panel.grid.major.y = element_line()
 )
-ggsave("figures/visual_table.png", visual_table, width=10, height=10)
+#ggsave("figures/visual_table.png", visual_table, width=10, height=10)
+visual_table
 
 ```
+
+This plot gives a slight idea of the issues some of the scagnsotics face in their current state. The scagnostics based upon the convex hull (i.e. skinny and convex) work fine. As do the association measures such as montonic, dcor and splines. The main issue comes from the measures based on the MST, and their issues larely come from binning. The MST measures and their issues are:
+- **Striated**: striated can identify the specific case of one discrete variable and one continuous variable (which alone is not particularly interesting) but struggles to identify . Since by definition it is a subset of the stringy measure, they have massive correlation, and it also
+- **Sparse**:
+- **Skewed**:
+- **Outlying**:
+- **Clumpy**:
+- **Stringy**: This measure rarely drops below 0.5 even on data generated from a random normal distribution (which no one would identify as stringy and should intuitively return a 0). Unlike the other scagnostics on this list, stringy does not depend upon the edge lengths of the MST, so it is hard to say if this issue stems from binning.   
 
 While the scagnsotics can be shown to sort reasonably well within themselves, is is entirely different to correctly sort the scatter plots by what you would visually conclude.
 
