@@ -1019,7 +1019,9 @@ Download data from:
 
 https://databank.worldbank.org/source/world-development-indicators/preview/on#
 
-```{r}
+This is a potentially good example to display as a visual table.
+
+```{r eval=FALSE}
 library(readxl)
 wbi <- read_xlsx("data/World_Development_Indicators.xlsx")
 wbi_wide <- wbi %>% 
@@ -1027,14 +1029,36 @@ wbi_wide <- wbi %>%
   select(`Country Code`, `Series Code`, `2018 [YR2018]`) %>%
   pivot_wider(names_from = `Series Code`, values_from = `2018 [YR2018]`, id_cols = `Country Code`, values_fn = mean) %>%
   filter(!is.na(`Country Code`))
-wbi_wide_sub <- wbi_wide[, c(1, 2, 3, 6, 11, 13:22, 24)]
+
+wbi_wide_sub <- wbi_wide[, c(1, 2, 3, 6, 11, 13:22, 24, 25, 27:30, 32:34, 37:40)]
 summary(wbi_wide_sub)
-scag_wbi <- calc_scags_wide(wbi_wide_sub[,-1])
 
-ggplot(wbi_wide_sub, aes(x=NY.GNP.ATLS.CD, y=NY.GDP.MKTP.CD)) + geom_point()
+# Remove any variables that are the same
+scag_cor <- calc_scags_wide(wbi_wide_sub[,-1], 
+    scags = "monotonic")
+wbi_wide_sub <- wbi_wide_sub %>%
+  select(-NY.GDP.MKTP.CD)
 
-ggplot(wbi_wide_sub, aes(x=	
-NE.GDI.TOTL.ZS, y=NY.GNP.PCAP.CD)) + geom_point()
+scag_wbi <- calc_scags_wide(wbi_wide_sub[,-1],
+    scags = c("outlying", "stringy",
+              "striated", "skewed",
+              "convex", "skinny",
+              "splines"))
+
+scag_wbi_long <- scag_wbi %>% 
+  pivot_longer(!c(Var1, Var2), names_to = "scag", values_to = "value") %>%
+  arrange(desc(value))
+
+ggplot(wbi_wide_sub, 
+       aes_string(x=as.character(scag_wbi_long$Var1[1]),
+                  y=as.character(scag_wbi_long$Var2[1]))) +
+  geom_point()
+
+ggplot(wbi_wide_sub, 
+       aes_string(x=as.character(scag_wbi_long$Var1[1]),
+                  y=as.character(scag_wbi_long$Var2[1]))) +
+  geom_point()
+
 ```
 
 ## Summary
