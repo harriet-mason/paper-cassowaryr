@@ -14,6 +14,7 @@ library(plotly)
 library(patchwork)
 library(knitr)
 library(ggthemes)
+library(ggimage) #for the visual table
 
 
 ## ----building-blocks, out.height = "30%", out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics", eval=FALSE----
@@ -40,6 +41,136 @@ d3 <- draw_mst(nl$x, nl$y) +
   theme_void() +
   theme(aspect.ratio=1, axis.text = element_blank())
 d1 + d2 + d3
+
+
+## ---- Data Cleaning and Scag Calculation, include=FALSE-----------------------
+# edit data
+set.seed(29171741)
+# variables to use in making the plots
+
+# generate circle data
+theta <- runif(150, 0, 2*pi)
+r1 <- rbeta(150, 3, 2)
+r2 <- rbeta(150, 10, 1)
+
+# generate striated x
+vlx <- sample(c(1,2,3), 150, replace=TRUE)
+
+# generate outlying data
+outx <- c(rnorm(147, 0,1), 0, 10, 10)
+outy <- c(rnorm(147, 0,1), 10, 10, 0)
+
+# formula data
+liney <- 2*theta + 2
+nonline <- 2*theta^3 - 10*theta^2 - 5*theta +  8
+
+
+extrafeatures <- tibble(feature = c(rep("disk", 150), rep("ring", 150), rep("vlines", 150), 
+                                    rep("outliers2", 150), rep("line", 150), rep("nonlinear1", 150)),
+                        x = c(r1*cos(theta), r2*cos(theta), vlx, outx, theta, theta),
+                        y = c(r1*sin(theta), r2*sin(theta), theta, outy, liney, nonline)
+                        )
+
+#combine with current features
+bigfeatures <- bind_rows(features, extrafeatures)
+
+# run scagnostics
+features_scagnostics_wide <- bigfeatures %>%
+  group_by(feature) %>%
+  summarise(calc_scags(x,y)) %>%
+  select(-clumpy_adjusted)
+
+#long version of
+features_scagnostics_long <- features_scagnostics_wide %>%
+  pivot_longer(cols=outlying:dcor, names_to = "scagnostic")
+
+#transpose of wide feature scagnostics table
+t_features_scagnostics_wide <- features_scagnostics_long %>%
+  pivot_wider(names_from = "feature")
+
+
+
+
+## ---- Features plot-----------------------------------------------------------
+#plot them
+featplot <- ggplot(bigfeatures, aes(x,y,colour=feature))+
+  geom_point()+
+  theme_minimal() + 
+  facet_wrap(~feature, scales="free")
+featplot
+
+
+## ---- Table of Plots----------------------------------------------------------
+
+#set theme so all scatter plots in table match
+plot_theme <-  theme_classic() + #theme_minimal() + 
+  theme(aspect.ratio=1, axis.title=element_blank(), axis.text = element_blank(), 
+        panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_rect(colour = "black", fill=NA, size=4),
+        legend.position = "none"
+        )
+
+#save scatter plots as images
+plots <- unique(bigfeatures$feature)
+
+for (i in seq(length(plots))){
+  holdplot <- bigfeatures %>% 
+    filter(feature==plots[i]) %>% 
+    ggplot(aes(x,y, size=2))+ geom_point() + plot_theme
+  ggsave(paste0("figures/", plots[i], ".png"),holdplot)
+}
+
+# edit data frame
+plot_data <- features_scagnostics_long %>%
+  mutate(plotad = paste0("figures/", feature, ".png"))
+
+# which plots function
+whichplots <- function(scag, feature){
+  pad = FALSE
+  if(all(scag=="convex", feature %in% c("discrete", "outliers", "line"))){
+    pad = TRUE
+  }
+  if(all(scag=="skinny", feature %in% c("ring", "positive", "line"))){
+    pad = TRUE
+  }
+  if(all(scag=="outlying", feature %in% c("outlying2", "outliers"))){
+    pad = TRUE
+  }
+  if(all(scag=="stringy", feature %in% c("nonlinear_line", "outliers"))){
+    pad = TRUE
+  }
+  if(all(scag=="striated", feature %in% c("vlines", "weak"))){
+    pad = TRUE
+  }
+  pad
+}
+
+
+# Convex Hull Plots
+# data
+plot_data <- plot_data %>%
+  group_by(scagnostic, feature) %>%
+  mutate(doplot = whichplots(scagnostic, feature)) %>%
+  ungroup() %>%
+  filter(doplot==TRUE)
+
+# so i dont have to keep adjusting the image size
+s <- length(unique(plot_data$feature))
+
+# plot
+visual_table <- ggplot(plot_data, aes(x=value , y=scagnostic))+
+  geom_image(aes(image = plotad), size=1/s, by="width") +
+  theme_minimal() +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        legend.position="none") +
+  xlim(-0.1,1.1) +
+  scale_size_identity()+
+  theme(
+    strip.background = element_blank(),
+    strip.text.x = element_blank()
+)
+ggsave("figures/visual_table.png", visual_table, width=10, height=10)
+
 
 
 ## ----getdata, eval=FALSE------------------------------------------------------
@@ -540,11 +671,19 @@ s1 + s2 + s3
 #> ggplot(aflw, aes(x=behinds, y=goals)) + geom_point() #lowest
 #> ggplot(aflw, aes(x=	metresGained, y= shotsAtGoal)) + geom_point() #highest
 #> 
+#> #clumpy_adjusted
+#> cl_a <- calc_scags_wide(aflw_num[,5:37], scags="clumpy_adjusted")
+#> ggplot(aflw, aes(x=metresGained, y=goalAssists)) + geom_point()  #highest
+#> ggplot(aflw, aes(x=	clearances.centreClearances, y= behinds)) + geom_point() #lowest
+#> 
 #> #Sparse
 #> ggplot(aflw, aes(x=	goalAssists, y= clangers)) + geom_point() #highest
 #> 
 #> #Skewed
 #> ggplot(aflw, aes(x=	tacklesInside50, y= marksInside50)) + geom_point() #highest
+#> 
+#> 
+#> 
 
 
 ## ---- eval=FALSE--------------------------------------------------------------
@@ -590,6 +729,24 @@ s1 + s2 + s3
 #> ggplot(aflw, aes(x=disposalEfficiency, y=hitouts)) + geom_point() #fraction and large discrete
 #> ggplot(aflw, aes(x=totalPossessions, y=hitouts)) + geom_point() #two large discretes
 #> ggplot(aflw, aes(x=hitouts, y=disposals)) + geom_point() #two large discretes
+
+
+## -----------------------------------------------------------------------------
+library(readxl)
+wbi <- read_xlsx("data/World_Development_Indicators.xlsx")
+wbi_wide <- wbi %>% 
+  mutate(`2018 [YR2018]` = as.numeric(`2018 [YR2018]`)) %>%
+  select(`Country Code`, `Series Code`, `2018 [YR2018]`) %>%
+  pivot_wider(names_from = `Series Code`, values_from = `2018 [YR2018]`, id_cols = `Country Code`, values_fn = mean) %>%
+  filter(!is.na(`Country Code`))
+wbi_wide_sub <- wbi_wide[, c(1, 2, 3, 6, 11, 13:22, 24)]
+summary(wbi_wide_sub)
+scag_wbi <- calc_scags_wide(wbi_wide_sub[,-1])
+
+ggplot(wbi_wide_sub, aes(x=NY.GNP.ATLS.CD, y=NY.GDP.MKTP.CD)) + geom_point()
+
+ggplot(wbi_wide_sub, aes(x=	
+NE.GDI.TOTL.ZS, y=NY.GNP.PCAP.CD)) + geom_point()
 
 ```{.r .distill-force-highlighting-css}
 ```
