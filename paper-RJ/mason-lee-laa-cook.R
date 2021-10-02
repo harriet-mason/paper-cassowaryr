@@ -94,10 +94,13 @@ t_features_scagnostics_wide <- features_scagnostics_long %>%
 ## ---- Features plot-----------------------------------------------------------
 #plot them
 featplot <- ggplot(bigfeatures, aes(x,y,colour=feature))+
-  geom_point()+
+  geom_point() +
   theme_minimal() + 
-  facet_wrap(~feature, scales="free") +
-  theme(legend.position = "none")
+  facet_wrap(~feature, ncol=5, scales="free") +
+  xlab("") + ylab("") +
+  theme(legend.position = "none", 
+        aspect.ratio= 1, 
+        axis.text = element_blank())
 featplot
 
 
