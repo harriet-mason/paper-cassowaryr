@@ -268,7 +268,7 @@ featplot
 
 These scatter plots typify certain visual features we want to look for in scatter plots, be it deterministic relationships (such as that shown in the nonlinear feature), discreteness in variables (vlines), or clustering (clumpy), we should be able to use scagnostics to identify each of these scatter plots. Below is a visual table of an example of a high, a moderate, and a low value, on each scagnostic. The scagnostics are supposed to range from 0 to 1 however in some cases the values are so compressed that a moderate value would not fit, indicating that the scagnostics do not work quite as intended. We suspect the reason for these warped distributions is the removal of binning as a preliminary step in calculating the scagnostics. We wanted the package to have binning as an optional method, considering choices in binning can lead to bias as noted in "Scagnostic Distributions" or unreproducible results as noted in "Robustness of Scagnostics". Therefore the current scagnostics will be assessed without binning.
 
-```{r, Scatter Plots as images,  include=FALSE}
+```{r, Scatter Plots as images,  include=FALSE, eval=FALSE}
 
 #set theme so all scatter plots in table match
 plot_theme <-  theme_classic() + #theme_minimal() + 
@@ -294,7 +294,7 @@ for (i in seq(length(plots))){
 ```{r, Table of Plots, fig.height=10, fig.width=10}
 
 # edit data frame
-plot_data <- features_scagnostics_long %>%
+plot_path_data <- features_scagnostics_long %>%
   mutate(plotad = paste0("figures/", feature, ".png"))
 
 # which plots to include in visual table
@@ -343,7 +343,7 @@ whichplots <- function(scag, feature){
 
 # Make Visual Table
 # Data
-plot_data <- plot_data %>%
+plot_data <- plot_path_data %>%
   group_by(scagnostic, feature) %>%
   mutate(doplot = whichplots(scagnostic, feature)) %>%
   ungroup() %>%
@@ -405,7 +405,49 @@ The issues surrounding the striated scagnsotics are:
 To account for these two issues the striated adjusted measure considers all vertices (not just those with two adjacent edges), and makes the measure strict around the 180 and 90 degree angles. With this we can see the improvements on the measure.
 
 ```{r}
+#which scatter plots
+which_striated_plots <- function(scag, feature){
+  pad = FALSE
+  # Original Measure
+  if(all(scag %in% c("striated","striated_adjusted"), feature %in% c("vlines", "discrete", "weak"))){
+    pad = TRUE
+  }
+  #if(all(scag=="striated_adjusted", feature %in% c("vlines", "discrete", "weak"))){
+  #  pad = TRUE
+  #}
+}
 
+# Make Visual Table
+# Data
+plot_data_striated <- plot_path_data %>%
+  group_by(scagnostic, feature) %>%
+  mutate(doplot = ifelse(all(scagnostic %in% c("striated","striated_adjusted"), 
+                             feature %in% c("vlines", "discrete", "weak")),
+                         TRUE,
+                         FALSE)) %>% #which_striated_plots(scagnostic, feature)) %>%
+  ungroup() %>%
+  filter(doplot==TRUE)
+
+
+# plot
+striated_visual_table <- ggplot(plot_data_striated, aes(x=value , y=scagnostic))+
+  geom_point_img(aes(img = plotad), size = 2, position_jitter(width = 0, height = 2)) + 
+  xlim(-0.05,1.05) +
+  scale_size_identity()+
+  xlab("Value") +
+  ylab("Scagnostic") +
+  ggtitle("Striated Comparison") +
+  theme_classic() +
+  theme(
+    panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+    legend.position="none",
+    axis.line = element_blank(),
+    strip.background = element_blank(),
+    strip.text.x = element_blank(),
+    panel.grid.major.y = element_line()
+)
+ggsave("figures/striated_visual_table.png", striated_visual_table, width=20, height=6)
+#visual_table
 
 ```
 
@@ -419,7 +461,7 @@ There is a robust version of clumpy that is defined in the paper *Improving the 
 
 3. It should not consider vertices thats adjacent angles for a straight line (to avoid identifying the angles striated identifies)
 
-To easily identify the edges that sit between clusters, we sort the edges and calculate the difference and take the maximum. The largest gap will indicate the jump between the edges separating clusters and the edges within clusters. The clumpy_adjusted measure is the ratio between the mean of the large edges and the maximum of the small edges.
+To easily identify the edges that sit between clusters, we sort the edges and calculate the difference and take the maximum. The largest gap will indicate the jump between the edges separating clusters and the edges within clusters. The clumpy_adjusted measure is the ratio between the mean of the large edges and the maximum of the small edges. By taking the largest of the small edges, if the gap is not large
 
 *To add in after in package:* One we have identifies the large edges, we remove them from the MST and identify which cluster all the inter cluster edges belong to. From each cluster we identify the largest edge (to avoid the measure being arbitrarily from small edges in the MST) and calculate the ratio between the largest inter cluster edge, and the large edge that connects the clusters. These ratios are added together as a weighted mean, where each weight is determined by the number of points that do not satisfy the 180 degree striated requirement. This weighted mean is the final clumpy_adjusted value.
 
