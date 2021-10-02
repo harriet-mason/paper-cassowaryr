@@ -239,8 +239,8 @@ bigfeatures <- bind_rows(features, extrafeatures)
 # run scagnostics
 features_scagnostics_wide <- bigfeatures %>%
   group_by(feature) %>%
-  summarise(calc_scags(x,y)) %>%
-  select(-clumpy_adjusted)
+  summarise(calc_scags(x,y)) #%>%
+  #select(-clumpy_adjusted)
 
 #long version of
 features_scagnostics_long <- features_scagnostics_wide %>%
@@ -376,14 +376,56 @@ visual_table
 ```
 
 This plot gives a slight idea of the issues some of the scagnsotics face in their current state. The scagnostics based upon the convex hull (i.e. skinny and convex) work fine. As do the association measures such as montonic, dcor and splines. The main issue comes from the measures based on the MST, and their issues larely come from binning. The MST measures and their issues are:
-- **Striated**: striated can identify the specific case of one discrete variable and one continuous variable (which alone is not particularly interesting) but struggles to identify . Since by definition it is a subset of the stringy measure, they have massive correlation, and it also
-- **Sparse**:
-- **Skewed**:
-- **Outlying**:
-- **Clumpy**:
-- **Stringy**: This measure rarely drops below 0.5 even on data generated from a random normal distribution (which no one would identify as stringy and should intuitively return a 0). Unlike the other scagnostics on this list, stringy does not depend upon the edge lengths of the MST, so it is hard to say if this issue stems from binning.   
+  
+- **Striated**: striated can identify the specific case of one discrete variable and one continuous variable (which alone is not particularly interesting) but will not identify two discrete variables. Since by definition it is a subset of the stringy measure, they are highly correlated, which means most variables that score highly on striated already score highly on stringy, making the measure less useful.
+  
+- **Sparse**: While sparse does seem to identify spread out distributions, it rarely returns a value higher than 0.1. As this measure is the 90th percentile of MST edge lengths, and the removal of binning allows for a large number of arbitrarily small edges. In addiiton to this, a larger number of observations will arbitrarily make this value smaller. The addition of new points will increase the number of small edges and decrease the number of large edges, and it is rare that a significantly large edge will be at or below the 90th percentile.   
+- **Skewed**: this measure can identify skewed edge lengths (such as the L shape in the visual table) however the values on real data rarely drop below 0.5 or rise above 0.8. Skewed seems to suffers from the same issue as sparse reguarding the binning issue and is also heavily influenced by the number of observations in the scatter plot.
 
-While the scagnsotics can be shown to sort reasonably well within themselves, is is entirely different to correctly sort the scatter plots by what you would visually conclude.
+- **Outlying**: the disctinction of outlying points described in the scagnostic literature is certainly strange. By definition an outlier must have *all* its adjacent edges in the MST above this threshold, and the visual table displays three interesting cases of this. The first plot (outliers2) returns a 0 even though the handful of points in the top corner would likely be considered to be outliers by a human. This is because within that group the points are close enough that all of them have at least one edge that is below the outlying threshold. Even if we changed the measure such that only one edge needed to be above the outlying threshold, it would only remove a single point. The l-shape shows an increasing spread of the points as they move away from the bottom left corner, as such, the larger edge lengths make sense within the distribution. Outlying does not take this into account, and identifies a large number of the spread out points to be outliers and removes them before computing the other scagnsotics. The value that scores the highest on the outlying measure is, without question, a highly outlying distribution, however the outlying measure only returns a 0.5, this is again due to the removal of binning as a preprocessing step.
+  
+- **Clumpy**: the clumpy scagnostic is probably the one that suffers the most with the removal of the binning step. Due to it being a ratio between an edge and its longest adjacent edge, it does not identify the largest edge, but rather an edge that is connected to an arbitrarily small edge. Because of this, this scagnsotic reliably returns an arbitrarily high value and scatter plots that actually contains clusters (such as clusters) scores low on this measure, while a continuous variable plotted against a discrete variable score arbitrarily high. 
+  
+- **Stringy**: This measure rarely drops below 0.5 even on data generated from a random normal distribution (which should intuitively return a 0). Unlike the other scagnostics on this list, stringy does not depend upon the edge lengths of the MST, so it is hard to say if this issue stems from binning.   
+  
+While the scagnsotics can be shown to correctly sort scatter plots that are all visually interesting and unique, is is entirely different for the measures to correctly identify interesting visual features from non-simulated data. Assessing the scagnsotics on this test motivates the examples below.
+  
+With these issues in mind, we have defines and written several new scagnsotics to try that should still work even with the removal of binning as a pre-processing step. 
+  
+### The Adjusted Scagnostics Measures
+The measures that need an adjusted version are striated, sparse, skewed, and clumpy. The outlying and stringy measure could possibly be left as they are, as they are not as badly damaged by the removal of binning. 
+
+#### Striated Adjusted
+The issues surrounding the striated scagnsotics are:
+  
+1. By only counting vertices with 2 edges, the set of vertices counted in this measure are a subset of those counted in stringy, thus the two meaures are highly correlated.
+  
+2. In order for the vertex to be counted, the angle between the edges needs to be approximately 135 to 220 degrees. The original idea seems to have been to identify the predominantly 180 degree angles that come with a discrete variable plotted against a continuous one, however the large margin of error just makes the measure almost identical to stringy. It is also unecessary as edge angles that come from  the desired "vlines" distribution are exactly 180 degrees.
+  
+To account for these two issues the striated adjusted measure considers all vertices (not just those with two adjacent edges), and makes the measure strict around the 180 and 90 degree angles. With this we can see the improvements on the measure.
+
+```{r}
+
+
+```
+
+
+#### Clumpy Adjusted
+There is a robust version of clumpy that is defined in the paper *Improving the robustness of scagnsotics*, and has been included in the package. This measure is stronger than the original clumpy measure as it builds a cluster hierarchy and considers a large number of edges. Ultimately it seems to suffer from similar issues to the original version of the scagnsotic, and takes a significantly longer time to compute than the original scagnostic. It is not useful in large scale scagnostic calculations (such as those done on every pairwise combination of variables as is intended by the package) so is not discussed here. The issues that need to adressed with the new clumpy measure are:
+
+1. It needs to consider more than 1 edge in its final measure to prevent large changes from outliers and make the measure more robust
+
+2. The clusters need to be weighted by the size of their clusters so the measure does not simply identify outliers
+
+3. It should not consider vertices thats adjacent angles for a straight line (to avoid identifying the angles striated identifies)
+
+To easily identify the edges that sit between clusters, we sort the edges and calculate the difference and take the maximum. The largest gap will indicate the jump between the edges separating clusters and the edges within clusters. The clumpy_adjusted measure is the ratio between the mean of the large edges and the maximum of the small edges.
+
+*To add in after in package:* One we have identifies the large edges, we remove them from the MST and identify which cluster all the inter cluster edges belong to. From each cluster we identify the largest edge (to avoid the measure being arbitrarily from small edges in the MST) and calculate the ratio between the largest inter cluster edge, and the large edge that connects the clusters. These ratios are added together as a weighted mean, where each weight is determined by the number of points that do not satisfy the 180 degree striated requirement. This weighted mean is the final clumpy_adjusted value.
+
+```{r}
+
+```
 
 # Software implementation
 
