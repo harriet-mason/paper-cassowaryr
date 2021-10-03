@@ -71,13 +71,13 @@ As the number of dimensions in a dataset increases, the process of visualising i
 
 The term scagnostics was introduced by John Tukey in 1982 [@tukey]. Tukey discusses the value of a cognostic (a diagnostic that should be interpreted by a computer rather than a human) to filter out uninteresting visualisations. He denotes a cognostic that is specific to scatter plots a scagnostic. Up to a moderate number of variables, a scatter plot matrix (SPLOM) can be used to create pairwise visualisations, however, this solution quickly becomes infeasible. Thus, instead of trying to view every possible variable combination, the workload is reduced by calculating a series of visual features, and only presenting the outlier scatter plots on these feature combinations. 
 
-There is a large amount of research into visualising high dimensional data, most of which focuses on some form of dimension reduction. This can be done by creating a hierarchy of potential variables, performing a transformation of the variables, or some combination of the two. Unfortunately none of these methods are without pitfalls. Linear transformations are subject to crowding, where low level projections concentrate data in the centre of the distribution, making it difficult to differentiate data points [@crowding]. Non-linear transformations often have complex parameterisations, and can break the underlying global structure of the data, creating misleading visualisations. While there are solutions within these methods to fix these issues such as a burning sage tour for crowding [@burningsage] or liminal package for maintaining global structure [@liminal] all these methods still involve some transformation of the data. Scagnostics gives the benefit of allowing the user to view relationships between the variables in their raw form. This means they are not subject to the linear transformation issue of crowding, or the non-linear transformation issue of misleading global structures. That being said, only viewing pairwise plots can leave our variable interpretations without context.  Methods such as those shown in *ScagExplorer* [@scagexplorer] try to address this by visualising the pairwise plots in relation to the scagnostic measures distribution, but ultimately the lack of context remains one of the limitations of using scagnostics alone as a dimension reduction technique.
+There is a large amount of research into visualising high dimensional data, most of which focuses on some form of dimension reduction. This can be done by creating a hierarchy of potential variables, performing a transformation of the variables, or some combination of the two. Unfortunately none of these methods are without pitfalls. Linear transformations are subject to crowding, where low level projections concentrate data in the centre of the distribution, making it difficult to differentiate data points [@crowding]. Non-linear transformations often have complex parameterisations, and can break the underlying global structure of the data, creating misleading visualisations. While there are solutions within these methods to fix these issues such as a burning sage tour which zooms in further on points closer to the middle of a tour to prevent crowding [@burningsage], or the liminal package which facilitates linked brushing between a non-linear and linear data transformations to maintaining global structure [@liminal], all these methods still involve some transformation of the data. Scagnostics gives the benefit of allowing the user to view relationships between the variables in their raw form. This means they are not subject to the linear transformation issue of crowding, or the non-linear transformation issue of misleading global structures. That being said, only viewing pairwise plots can leave our variable interpretations without context.  Methods such as those shown in *ScagExplorer* [@scagexplorer] try to address this by visualising the pairwise plots in relation to the scagnostic measures distribution, but ultimately the lack of context remains one of the limitations of using scagnostics alone as a dimension reduction technique.
 
 Scagnostics are not only useful in isolation, they can be applied in conjunction with other techniques to find interesting feature combinations of the transformed variables. The tourr projection pursuit currently uses a selection of scagnostics to identify interesting low level projections and move the visualisation towards them [@tourrpp]. Since scagnostics are not dependent on the type of data, they can also be used to compare and contrast scatter plots regardless of the discipline. In this way, they are a useful metric for something like the comparisons described in *A self-organizing, living library of time-series data*, which tries to organise time series by their features instead of on their metadata [@sots]. 
 
 Several scagnostics have been previously defined in *Graph-Theoretic Scagnostics* [@scag], which are typically considered the basis of the visual features. They were all constructed to range [0,1], and later scagnostics have maintained this scale. The formula for these measures were revised in *Scagnostic Distributions* and are still calculated according to this paper [@scagdist]. In addition to the main nine, the benefit of using two additional association scagnostics were discussed in Katrin Grimm's PhD thesis [@Grimm]. These two association measures are also used in the tourr projection pursuit [@tourrpp]. 
 
-There are two existing scagnostics packages, *scagnostics* [@scagdist] and the archived package *binostics* [@binostics]. Both are based on the original C++ code from *Scagnostic Distributions* [@something], which is difficult to read and difficult to debug. Thus there is a need for a new implementation that enables better diagnosis of the scagnostics, and better graphical tools for examining the results. 
+There are two existing scagnostics packages, *scagnostics* [@scagdist] and the archived package *binostics* [@binostics]. Both are based on the original C++ code from *Scagnostic Distributions* [@scagdist], which is difficult to read and difficult to debug. Thus there is a need for a new implementation that enables better diagnosis of the scagnostics, and better graphical tools for examining the results. 
 
 This paper describes the R package, `cassowaryr` that computes the currently existing scagnostics, and adds several new measures.  The paper is organised as follows. The next section explains the scagnostics. This is followed by a description of the implementation. Several examples using collections of time series and XXX illustrate the usage. 
 
@@ -204,8 +204,7 @@ $$B_{kl}=b_{kl}-\bar{b}_{k.}-\bar{b}_{.j}-\bar{b}_{..}$$
 ![](figures/drawdcor.png)
 
 ## Checking the scagnostics calculations 
-
-Once we have written the scagnsotics by their definition and working functions that correctly calculate them, we can assess how well they identify the visual features of scatter plots. To assess how well the scagnostics differentiate plots, we have creates a dataset called "features" (that is also in the Cassowaryr package) that contains a series of interesting and unique scatter plots which we can run our scagnsotics on.
+Once we have working functions that correctly calculate the scagnostics according to their definition, we can assess how well they identify the visual features of scatter plots. To test the packages ability to differentiate plots, we have creates a dataset called "features" (that is also in the Cassowaryr package) that contains a series of interesting and unique scatter plots which we can run our scagnsotics on.
 
 ```{r, Data Cleaning and Scag Calculation, include=FALSE}
 # edit data
@@ -268,7 +267,7 @@ featplot <- ggplot(bigfeatures, aes(x,y,colour=feature))+
 featplot
 ```
 
-These scatter plots typify certain visual features we want to look for in scatter plots, be it deterministic relationships (such as that shown in the nonlinear feature), discreteness in variables (vlines), or clustering (clumpy), we should be able to use scagnostics to identify each of these scatter plots. Below is a visual table of an example of a high, a moderate, and a low value, on each scagnostic. The scagnostics are supposed to range from 0 to 1 however in some cases the values are so compressed that a moderate value would not fit, indicating that the scagnostics do not work quite as intended. We suspect the reason for these warped distributions is the removal of binning as a preliminary step in calculating the scagnostics. We wanted the package to have binning as an optional method, considering choices in binning can lead to bias as noted in "Scagnostic Distributions" or unreproducible results as noted in "Robustness of Scagnostics". Therefore the current scagnostics will be assessed without binning.
+These scatter plots typify certain visual features we want to look for in scatter plots, be it deterministic relationships (such as that shown in the nonlinear feature), discreteness in variables (vlines), or clustering (clumpy), we should be able to use scagnostics to identify each of these scatter plots. Below is a visual table of an example of a high, a moderate, and a low value, on each scagnostic. The scagnostics are supposed to range from 0 to 1 however in some cases the values are so compressed that a moderate value would not fit, indicating that the scagnostics do not work quite as intended. We suspect the reason for these warped distributions is the removal of binning as a preliminary step in calculating the scagnostics. We wanted the package to have binning as an optional method, considering choices in binning can lead to bias as noted in "Scagnostic Distributions" [@scagdist] or unreproducible results as noted in "Robustness of Scagnostics" . Therefore the current scagnostics will be assessed without binning [@robust].
 
 ```{r, Scatter Plots as images,  include=FALSE, eval=FALSE}
 
@@ -376,11 +375,12 @@ visual_table
 
 ```
 
-This plot gives a slight idea of the issues some of the scagnsotics face in their current state. The scagnostics based upon the convex hull (i.e. skinny and convex) work fine. As do the association measures such as montonic, dcor and splines. The main issue comes from the measures based on the MST, and their issues larely come from binning. The MST measures and their issues are:
+This plot gives a slight idea of the issues some of the scagnsotics face in their current state. The scagnostics based upon the convex hull (i.e. skinny and convex) work fine, as do the association measures such as montonic, dcor and splines. The main issue comes from the measures based on the MST, and their issues largely come from binning. The MST measures and their issues are:
   
 - **Striated**: striated can identify the specific case of one discrete variable and one continuous variable (which alone is not particularly interesting) but will not identify two discrete variables. Since by definition it is a subset of the stringy measure, they are highly correlated, which means most variables that score highly on striated already score highly on stringy, making the measure less useful.
   
 - **Sparse**: While sparse does seem to identify spread out distributions, it rarely returns a value higher than 0.1. As this measure is the 90th percentile of MST edge lengths, and the removal of binning allows for a large number of arbitrarily small edges. In addiiton to this, a larger number of observations will arbitrarily make this value smaller. The addition of new points will increase the number of small edges and decrease the number of large edges, and it is rare that a significantly large edge will be at or below the 90th percentile.   
+  
 - **Skewed**: this measure can identify skewed edge lengths (such as the L shape in the visual table) however the values on real data rarely drop below 0.5 or rise above 0.8. Skewed seems to suffers from the same issue as sparse reguarding the binning issue and is also heavily influenced by the number of observations in the scatter plot.
 
 - **Outlying**: the disctinction of outlying points described in the scagnostic literature is certainly strange. By definition an outlier must have *all* its adjacent edges in the MST above this threshold, and the visual table displays three interesting cases of this. The first plot (outliers2) returns a 0 even though the handful of points in the top corner would likely be considered to be outliers by a human. This is because within that group the points are close enough that all of them have at least one edge that is below the outlying threshold. Even if we changed the measure such that only one edge needed to be above the outlying threshold, it would only remove a single point. The l-shape shows an increasing spread of the points as they move away from the bottom left corner, as such, the larger edge lengths make sense within the distribution. Outlying does not take this into account, and identifies a large number of the spread out points to be outliers and removes them before computing the other scagnsotics. The value that scores the highest on the outlying measure is, without question, a highly outlying distribution, however the outlying measure only returns a 0.5, this is again due to the removal of binning as a preprocessing step.
@@ -389,23 +389,22 @@ This plot gives a slight idea of the issues some of the scagnsotics face in thei
   
 - **Stringy**: This measure rarely drops below 0.5 even on data generated from a random normal distribution (which should intuitively return a 0). Unlike the other scagnostics on this list, stringy does not depend upon the edge lengths of the MST, so it is hard to say if this issue stems from binning.   
   
-While the scagnsotics can be shown to correctly sort scatter plots that are all visually interesting and unique, is is entirely different for the measures to correctly identify interesting visual features from non-simulated data. Assessing the scagnsotics on this test motivates the examples below.
-  
-With these issues in mind, we have defines and written several new scagnsotics to try that should still work even with the removal of binning as a pre-processing step. 
+
+With these issues in mind, we have defines and written several new scagnostics that work even without the pre-processing seto of binning.
   
 ### The Adjusted Scagnostics Measures
 The measures that need an adjusted version are striated, sparse, skewed, and clumpy. The outlying and stringy measure could possibly be left as they are, as they are not as badly damaged by the removal of binning. 
 
 #### Striated Adjusted
-The issues surrounding the striated scagnsotics are:
+The issues surrounding the striated scagnostic are:
   
 1. By only counting vertices with 2 edges, the set of vertices counted in this measure are a subset of those counted in stringy, thus the two meaures are highly correlated.
   
-2. In order for the vertex to be counted, the angle between the edges needs to be approximately 135 to 220 degrees. The original idea seems to have been to identify the predominantly 180 degree angles that come with a discrete variable plotted against a continuous one, however the large margin of error just makes the measure almost identical to stringy. It is also unecessary as edge angles that come from  the desired "vlines" distribution are exactly 180 degrees.
+2. In order for the vertex to be counted, the angle between the edges needs to be approximately 135 to 220 degrees. The original idea seems to have been to identify the predominantly 180 degree angles that come with a discrete variable plotted against a continuous one, however the large margin of error just makes the measure almost identical to stringy.
   
 To account for these two issues the striated adjusted measure considers all vertices (not just those with two adjacent edges), and makes the measure strict around the 180 and 90 degree angles. With this we can see the improvements on the measure.
 
-```{r,  Striated Comparison, fig.height=5, fig.width=10}
+```{r,  Striated Comparison, fig.height=8, fig.width=10}
 # Make Visual Table
 # Data
 plot_data_striated <- plot_path_data %>%
@@ -446,17 +445,17 @@ While these two measures may seem similar at a glace, there are a few minor thin
 
 
 #### Clumpy Adjusted
-There is a robust version of clumpy that is defined in the paper *Improving the robustness of scagnsotics*, and has been included in the package. This measure is stronger than the original clumpy measure as it builds a cluster hierarchy and considers a large number of edges. Ultimately it seems to suffer from similar issues to the original version of the scagnsotic, and takes a significantly longer time to compute than the original scagnostic. It is not useful in large scale scagnostic calculations (such as those done on every pairwise combination of variables as is intended by the package) so is not discussed here. The issues that need to adressed with the new clumpy measure are:
+There is a robust version of clumpy that is defined in the paper *Improving the robustness of scagnsotics* [@robust], and has been included in the package. This measure is stronger than the original clumpy measure as it builds a cluster hierarchy and considers a large number of edges. Ultimately it seems to suffer from similar issues to the original version of the scagnostic, and takes a significantly longer time to compute than the original clumpy measure. It is not useful in large scale scagnostic calculations (such as those done on every pairwise combination of variables as is intended by the package) so is not discussed here. The issues that need to be addressed with the new clumpy measure are:
 
-1. It needs to consider more than 1 edge in its final measure to prevent large changes from outliers and make the measure more robust
+1. It needs to consider more than 1 edge in its final measure to make the measure more robust
 
-2. The clusters need to be weighted by the size of their clusters so the measure does not simply identify outliers
+2. The impact of the ratio between the long and short edges need to be weighted by the size of their clusters so the measure does not simply identify outliers
 
-3. It should not consider vertices thats adjacent angles for a straight line (to avoid identifying the angles striated identifies)
+3. It should not consider vertices that's adjacent angles form a straight line (to avoid identifying the angles striated identifies)
 
-To easily identify the edges that sit between clusters, we sort the edges and calculate the difference and take the maximum. The largest gap will indicate the jump between the edges separating clusters and the edges within clusters. The clumpy_adjusted measure is the ratio between the mean of the large edges and the maximum of the small edges. By taking the largest of the small edges, if the gap is not large
-
-*To add in after in package:* One we have identifies the large edges, we remove them from the MST and identify which cluster all the inter cluster edges belong to. From each cluster we identify the largest edge (to avoid the measure being arbitrarily from small edges in the MST) and calculate the ratio between the largest inter cluster edge, and the large edge that connects the clusters. These ratios are added together as a weighted mean, where each weight is determined by the number of points that do not satisfy the 180 degree striated requirement. This weighted mean is the final clumpy_adjusted value.
+To easily identify the edges that sit between clusters, we sort the edges and calculate the difference and take the maximum. The largest gap will indicate the jump between the edges separating clusters and the edges within clusters. The clumpy_adjusted measure is the ratio between the mean of the large edges and the maximum of the small edges.
+  
+*To add in after it is in the package version of clumpy_adjusted:* One we have identifies the large edges, we remove them from the MST and identify which cluster all the inter cluster edges belong to. From each cluster we identify the largest edge (to avoid the measure being arbitrarily from small edges in the MST) and calculate the ratio between the largest inter cluster edge, and the large edge that connects the clusters. These ratios are added together as a weighted mean, where each weight is determined by the number of points that do not satisfy the 180 degree striated requirement. This weighted mean is the final clumpy_adjusted value.
 
 ```{r,  Clumpy Comparison, fig.height=5, fig.width=10}
 plot_data_clumpy <- plot_path_data %>%
@@ -509,8 +508,8 @@ Even with a partially completed clumpy_adjusted measure we can see the improveme
 
 ### Summary functions
 
-
 ## Tests
+
 
 # Examples
 
@@ -921,48 +920,11 @@ subplot(bbh1, bbh2, bbh3, bbh4, bbh5, bbh6,
 ```
 
 ## AFL player statistics
-Some explanation of AFL, and about the AFLW competition. Particularly explain any stats used in the plots: goals, kicks, posessions, ...
-
-The Australian Football League Women's (AFLW) is the national semi-profesisonal Australia Rules football league for female players. Here we will analyse data sourced from the official AFL website with information on the 2020 season, in which the league had 14 teams and 1932 players. There are 68 variables, 38 of which are numeric. The others are categorical, like the players names or match ids, which would not be used in scagnostic calculations. These numeric variables are recorded per player per game:
-- *timeOnGroundPercentage*: percentage of the game the player was on the field.  
-- *goals*: the 6 points a team gets when the kick the ball between the two big posts.  
-- *behinds*: the 1 point a team gets when they kick the ball between the big post and small post.  
-- *kicks*: number of kicks done by the player in this game.  
-- *handballs*: number of handballs does by the player in the game.  
-- *disposals*: the number kicks and handballs a player has.  
-- *marks*: total number of marks in the game (the ball travels more than 15m and the player catches it without another player touching it or it hitting the ground).  
-- *bounces*: the number of times a player bounced the ball in a game. A player must bounce the ball if they travel more than 15m and they can only bounce the ball once.  
-- *tackles*: Number of tackles performed by the player.  
-- *contestedPossessions*: the number of disposals a player has under pressure, i.e if a player is getting tackled and the get a handball or kick out of the scuffle.  
-- *uncontestedPossessions*: the number of disposals a player has under no pressure where they have space and time to get rid of the ball.  
-- *totalPossessions*: The total number of time the player has the ball. 
-- *inside50s*: the number of times the player has the ball within the 50m arc around the oponents goals.  
-- *marksInside50*: the number of marks a player gets within the 50m arc around the oponents goals.  
-- *contestedMarks*: the number of marks a player has under pressure.
-- *hitouts*: this is how many times a player or team taps or punching the ball from a stoppage.
-- *onePercenters*: all the things a player can do without registering a disposal. Eg. Spoils (punching the ball to stop someone from marking it), Shepparding (blocking for a teammate), smothering.  
-*disposalEfficiency*: a measure of how well a player disposes of the ball. E.g. if a player kicks or handballs to the opposition a lot, they will have a low disposal efficiency percentage.   
-- *clangers*: this is how many times a player or team dispose of the ball and it results in a turnover to the other team.  
-- *freesFor*: this player was awarded a free kick.  
-- *freesAgainst*:  this player caused a free kick to be awarded to the other team.  
-- *dreamTeamPoints*: this is fantasy football scoring points.  
-- *rebound50s*: how many times the player exits the ball out of their defence 50m arc.  
-- *goalAssists*: number of times the player gave the pass immediately before the player that scored a goal.
-- *goalAccuracy*: percentage ratio of the number of goals kicked to the number of goal attempts.  
-- *turnovers*: this players disposal caused a turnover (the ball touches the ground and the other team get it).  
-- *intercepts*: number of times this player intercepts the disposal of the other team.
-- *tacklesInside50*: number of tackles performed by this player within their defence 50m arc.  
-- *shotsAtGoal*: number of total shots at goal for this player (sum of goals, behinds and misses)
-- *scoreInvolvements*: number of times the player was involved in a passage of play leading up to a goal.
-- *metresGained*:  how far a player has been able to advance the ball without turning it over.  
-- *clearances.centreClearances*: this is the clearance from the centre bounce after a goal or at the start of a quarter
-- *clearances.stoppageClearances*: all the clearance from stoppages around the ground
-- *clearances.totalClearances*: how many time a player or team clears the ball from a stoppage or from the centre
-
-With 38 variables, there are 703 possible scatterplots to make. The scagnostics can suggest which are the interesting ones to examine. 
+The Australian Football League Women's (AFLW) is the national semi-profesisonal Australia Rules football league for female players. Here we will analyse data sourced from the official AFL website with information on the 2020 season, in which the league had 14 teams and 1932 players. There are 68 variables, 38 of which are numeric. The others are categorical, like the players names or match ids, which would not be used in scagnostic calculations. These numeric variables are recorded per player per game, and a description of each variable in this data set can be found in the appendix. With 38 variables, there are 703 possible scatterplots to make. The scagnostics can suggest which are the interesting ones to examine. 
 
 ### Team Comparison
-
+One use of scagnostics is to compare between group differences in the shape of scatter plots. Here, we will apply the scagnsotics to the best and worst team in the 2020 AFLW season, North Melbourne and Richmond respectively. Looking at the *shape* differences on scatter plots between the two teams can give us a new method to understand what differentiates a good team from a bad one. 
+  
 ```{r eval=FALSE}
 library(fitzRoy)
 aflw <- fetch_player_stats(2020, comp = "AFLW")
@@ -1042,19 +1004,71 @@ aflw_rich_northm <- bind_rows(
   mutate(northmelbourne_aflw_num, team = "North Melbourne"),
   mutate(richmond_aflw_num, team = "Richmond")) 
 
+```
+
+```{r, eval= FALSE}
+# Display table
+wide_for_table <- scags_rich_northm %>%
+  select(-c(richmond_value, northmelbourne_value)) %>%
+  pivot_wider(id_cols=c(Var1, Var2), names_from = scags, values_from = scag_dif)
+
+scag_order_table <- tibble(Var1 = wide_for_table$Var1,
+                           Var2 = wide_for_table$Var2,
+                           convex = order(wide_for_table$convex),
+                           skinny = order(wide_for_table$skinny),
+                           outlying = order(wide_for_table$outlying),
+                           stringy = order(wide_for_table$stringy),
+                           striated_adjusted = order(wide_for_table$striated_adjusted),
+                           clumpy_adjusted = order(wide_for_table$clumpy_adjusted),
+                           sparse = order(wide_for_table$sparse),
+                           skewed = order(wide_for_table$skewed),
+                           monotonic = order(wide_for_table$monotonic),
+                           splines = order(wide_for_table$splines),
+                           dcor = order(wide_for_table$dcor)
+                           ) #%>%
+  #filter(any(all(Var1=="turnovers", Var2=="disposalEfficiency"), 
+  #           all(Var1=="onePercenters", Var2=="inside50s"),
+  #           all(Var1=="clangers", Var2=="handballs")))
+
+```
+
+After averaging each players statistics across all the games in the season, there are 3 scatter plots that stand out as having a difference in the shapes between the two teams. They are:
+  
+1. Turnovers vs Disposal Efficiency
+  
+2. One Percenters vs Inside 50s
+  
+3. Clangers vs Handballs
+  
+We will analyse the shape difference in these scatter plots here.
+
+#### Turnovers vs Disposal Efficiency
+
+```{r}
 # interesting scatter plots
 # large difference on clumpy adjusted
 ggplot(aflw_rich_northm, aes(x=turnovers, y=disposalEfficiency, colour=team)) + 
   geom_point() +
   facet_wrap(~team) +
   theme_minimal()
+```
 
+This scatter plot was identified as interesting as the two teams has a large difference on the clumpy_adjusted and convex measures. A good player will have a high disposalEfficiency (they rarely kick it to the other team) and a low number of turnovers (they rarely kick it somewhere no player can get it) and we would expect a linear relationship between the two, as causing a both is likely caused by bad play. A comparison of these plots shows the best team in the league, North Melbourne, adheres pretty well to this linear relation, while Richmond does not. That indicates that Richmond players either overwhemingly kick the ball into space to avoid kicking to the other team, or they overwhelmingly give a risky pass that is likely to go to the other team. They do not evenly choose between the two.
+
+#### One Percenters vs Inside 50s
+
+```{r}
 # high on clumpy adjusted, convex
 ggplot(aflw_rich_northm, aes(x=onePercenters, y=inside50s, colour=team)) + 
   geom_point() +
   facet_wrap(~team) +
   theme_minimal()
+```
 
+This scatter plot was also identified as interesting by the two teams having a large difference on the clumpy_adjusted and convex measures. If the player gets the ball inside the 50m arc around the oppositions goal they are likely a forward, if they get perform a lot of onePercenters they are likely a defensive player, if they do a bit of both they are likely a midfielder. A well structured team will have  a lower triangular shape on this scatter plot, as players are sticking to their position and excelling in that position, which is the structure North Melbourne has. Richmond has several players that score highly on both onePercenters and are frequently inside50s. This implies Richmond has a hanful of players that play every position well and are a bit all over the field, and have less specialisation in positions.
+
+#### Clangers vs Handballs
+```{r}
 #high difference on monotonic and splines and dcor
 ggplot(aflw_rich_northm, aes(x=clangers, y=	handballs, colour=team)) + 
   geom_point() +
@@ -1062,15 +1076,10 @@ ggplot(aflw_rich_northm, aes(x=clangers, y=	handballs, colour=team)) +
   theme_minimal()
 
 ```
-
-When we try and compare the best and the worst AFLW teams  
-
-- **turnovers vs disposalEfficiency**: This scatter plot was identified as interesting as the two teams has a large difference on the clumpy_adjusted and convex measures. A good player will have a high disposalEfficiency (they rarely kick it to the other team) and a low number of turnovers (they rarely kick it somewhere no player can get it) and we would expect a linear relationship between the two, as causing a both is likely caused by bad play. A comparison of these plots shows the best team in the league, North Melbourne, adheres pretty well to this linear relation, while Richmond does not. That indicates that Richmond players either overwhemingly kick the ball into space to avoid kicking to the other team, or they overwhelmingly give a risky pass that is likely to go to the other team. They do not evenly choose between the two.
   
-- **inside50s  vs onePercenters**: This scatter plot was also identified as interesting by the two teams having a large difference on the clumpy_adjusted and convex measures. If the player gets the ball inside the 50m arc around the oppositions goal they are likely a forward, if they get perform a lot of onePercenters they are likely a defensive player, if they do a bit of both they are likely a midfielder. A well structured team will have  a lower triangular shape on this scatter plot, as players are sticking to their position and excelling in that position, which is the structure North Melbourne has. Richmond has several players that score highly on both onePercenters and are frequently inside50s. This implies Richmond has a hanful of players that play every position well and are a bit all over the field, and have less specialisation in positions.
+This scatter plot was identified as interesting by all the association measures. Handballs are a measure of one of the legal methods of getting rid of the ball, clangers are a measure of the illegal methods of getting rid of the ball. If the number of clangers for each player in the team linearly related to the number of handballs, it means the team as a whole is efficient at getting rid of the ball, if this scatter plot is spread out, it means there are large gaps in the efficiency of each player. This scatter plot shows us that the Richmond team has a greater difference in ability than the North Melbourne Team.
 
-- **handballs vs clangers**: This scatter plot was identified as interesting by all the association measures. Handballs are a measure of one of the legal methods of getting rid of the ball, clangers are a measure of the illegal methods of getting rid of the ball. If the number of clangers for each player in the team linearly related to the number of handballs, it means the team as a whole is efficient at getting rid of the ball, if this scatter plot is spread out, it means there are large gaps in the efficiency of each player. This scatter plot shows us that the Richmond team has a greater difference in ability than the North Melbourne Team.
-
+### A Look at Splines
 ```{r splines}
 # Saved scagnostics because calc takes about 30 mins
 load("data/scagnostics_aflw.rda")
@@ -1175,8 +1184,13 @@ scag_nhanes <- calc_scags_wide(NHANES_numeric[,keep$variable])
 ```
 
 ### Stirated Adjusted Comments
-
+  
 The scagnsotics need to be used and interpreted with the type of dataset you are working with in mind. For example, since these are sports stats, almost all of the variables are discrete. This means in the case of the striated varibale, we would be interested in the scatter plots that are very low on striated rather than high. Lets see which striated measure can find some interesting scatter plots.
+  
+```{r}
+ggplot(aflw, aes(x=goalAccuracy, y=shotsAtGoal)) + geom_point()
+ggplot(aflw, aes(x=disposalEfficiency, y=disposals)) + geom_point()
+```
 
 ```{r, eval=FALSE}
 # im just adding in striated_adjusted here to compare without recalculating the whole thing
@@ -1223,7 +1237,7 @@ ggplot(aflw, aes(x=totalPossessions, y=hitouts)) + geom_point() #two large discr
 ggplot(aflw, aes(x=hitouts, y=disposals)) + geom_point() #two large discretes
 ```
 
-Why the lowest values on striated? This is a discrete data set, if all the points are not at right angles or in a stright line, to each other, they are not just randonly spread on the. Since the old striated measure is specifically trying to find a continuous variable against a discrete variable, its highest values are also identified by the striated_adjusted. The lowest values on striated simply identify a plot where all the variables are at right angles, once again a measure of disceteness but one that is not identified by striated. Striated_adjusted encapsulates both versions of discreteness in the values that get exactly a 1, this means the scatter plot that gets the lowest value should be the two variables that are continuous. Following that striated_adjusted gives some interesting scatter plots in both goal and dispsoal accuracy vs number. **comment on the scatter plots**.
+Why the lowest values on striated? This is a discrete data set, if all the points are not at right angles or in a stright line, to each other, they are not just randonly spread on the. Since the old striated measure is specifically trying to find a continuous variable against a discrete variable, its highest values are also identified by the striated_adjusted. The lowest values on striated simply identify a plot where all the variables are at right angles, once again a measure of disceteness but one that is not identified by striated. Striated_adjusted encapsulates both versions of discreteness in the values that get exactly a 1, this means the scatter plot that gets the lowest value should be the two variables that are continuous. Following that striated_adjusted gives some interesting scatter plots in both goal and dispsoal accuracy vs number.
 
 ## World Development Indicators
 
@@ -1277,3 +1291,40 @@ ggplot(wbi_wide_sub,
 
 ## Summary
 
+# Appendix
+
+## AFLW Data Variable Descriptions 
+- *timeOnGroundPercentage*: percentage of the game the player was on the field.  
+- *goals*: the 6 points a team gets when the kick the ball between the two big posts.  
+- *behinds*: the 1 point a team gets when they kick the ball between the big post and small post.  
+- *kicks*: number of kicks done by the player in this game.  
+- *handballs*: number of handballs does by the player in the game.  
+- *disposals*: the number kicks and handballs a player has.  
+- *marks*: total number of marks in the game (the ball travels more than 15m and the player catches it without another player touching it or it hitting the ground).  
+- *bounces*: the number of times a player bounced the ball in a game. A player must bounce the ball if they travel more than 15m and they can only bounce the ball once.  
+- *tackles*: Number of tackles performed by the player.  
+- *contestedPossessions*: the number of disposals a player has under pressure, i.e if a player is getting tackled and the get a handball or kick out of the scuffle.  
+- *uncontestedPossessions*: the number of disposals a player has under no pressure where they have space and time to get rid of the ball.  
+- *totalPossessions*: The total number of time the player has the ball. 
+- *inside50s*: the number of times the player has the ball within the 50m arc around the oponents goals.  
+- *marksInside50*: the number of marks a player gets within the 50m arc around the oponents goals.  
+- *contestedMarks*: the number of marks a player has under pressure.
+- *hitouts*: this is how many times a player or team taps or punching the ball from a stoppage.
+- *onePercenters*: all the things a player can do without registering a disposal. Eg. Spoils (punching the ball to stop someone from marking it), Shepparding (blocking for a teammate), smothering.  
+*disposalEfficiency*: a measure of how well a player disposes of the ball. E.g. if a player kicks or handballs to the opposition a lot, they will have a low disposal efficiency percentage.   
+- *clangers*: this is how many times a player or team dispose of the ball and it results in a turnover to the other team.  
+- *freesFor*: this player was awarded a free kick.  
+- *freesAgainst*:  this player caused a free kick to be awarded to the other team.  
+- *dreamTeamPoints*: this is fantasy football scoring points.  
+- *rebound50s*: how many times the player exits the ball out of their defence 50m arc.  
+- *goalAssists*: number of times the player gave the pass immediately before the player that scored a goal.
+- *goalAccuracy*: percentage ratio of the number of goals kicked to the number of goal attempts.  
+- *turnovers*: this players disposal caused a turnover (the ball touches the ground and the other team get it).  
+- *intercepts*: number of times this player intercepts the disposal of the other team.
+- *tacklesInside50*: number of tackles performed by this player within their defence 50m arc.  
+- *shotsAtGoal*: number of total shots at goal for this player (sum of goals, behinds and misses)
+- *scoreInvolvements*: number of times the player was involved in a passage of play leading up to a goal.
+- *metresGained*:  how far a player has been able to advance the ball without turning it over.  
+- *clearances.centreClearances*: this is the clearance from the centre bounce after a goal or at the start of a quarter
+- *clearances.stoppageClearances*: all the clearance from stoppages around the ground
+- *clearances.totalClearances*: how many time a player or team clears the ball from a stoppage or from the centre

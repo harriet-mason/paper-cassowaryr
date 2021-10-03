@@ -210,7 +210,7 @@ visual_table
 
 
 
-## ----  Striated Comparison, fig.height=5, fig.width=10------------------------
+## ----  Striated Comparison, fig.height=8, fig.width=10------------------------
 # Make Visual Table
 # Data
 plot_data_striated <- plot_path_data %>%
@@ -721,6 +721,35 @@ aflw_rich_northm <- bind_rows(
   mutate(northmelbourne_aflw_num, team = "North Melbourne"),
   mutate(richmond_aflw_num, team = "Richmond")) 
 
+
+
+## ---- eval= FALSE-------------------------------------------------------------
+#> # Display table
+#> wide_for_table <- scags_rich_northm %>%
+#>   select(-c(richmond_value, northmelbourne_value)) %>%
+#>   pivot_wider(id_cols=c(Var1, Var2), names_from = scags, values_from = scag_dif)
+#> 
+#> scag_order_table <- tibble(Var1 = wide_for_table$Var1,
+#>                            Var2 = wide_for_table$Var2,
+#>                            convex = order(wide_for_table$convex),
+#>                            skinny = order(wide_for_table$skinny),
+#>                            outlying = order(wide_for_table$outlying),
+#>                            stringy = order(wide_for_table$stringy),
+#>                            striated_adjusted = order(wide_for_table$striated_adjusted),
+#>                            clumpy_adjusted = order(wide_for_table$clumpy_adjusted),
+#>                            sparse = order(wide_for_table$sparse),
+#>                            skewed = order(wide_for_table$skewed),
+#>                            monotonic = order(wide_for_table$monotonic),
+#>                            splines = order(wide_for_table$splines),
+#>                            dcor = order(wide_for_table$dcor)
+#>                            ) #%>%
+#>   #filter(any(all(Var1=="turnovers", Var2=="disposalEfficiency"),
+#>   #           all(Var1=="onePercenters", Var2=="inside50s"),
+#>   #           all(Var1=="clangers", Var2=="handballs")))
+#> 
+
+
+## -----------------------------------------------------------------------------
 # interesting scatter plots
 # large difference on clumpy adjusted
 ggplot(aflw_rich_northm, aes(x=turnovers, y=disposalEfficiency, colour=team)) + 
@@ -728,12 +757,16 @@ ggplot(aflw_rich_northm, aes(x=turnovers, y=disposalEfficiency, colour=team)) +
   facet_wrap(~team) +
   theme_minimal()
 
+
+## -----------------------------------------------------------------------------
 # high on clumpy adjusted, convex
 ggplot(aflw_rich_northm, aes(x=onePercenters, y=inside50s, colour=team)) + 
   geom_point() +
   facet_wrap(~team) +
   theme_minimal()
 
+
+## -----------------------------------------------------------------------------
 #high difference on monotonic and splines and dcor
 ggplot(aflw_rich_northm, aes(x=clangers, y=	handballs, colour=team)) + 
   geom_point() +
@@ -839,6 +872,11 @@ s1 + s2 + s3
 #> 
 #> # Now compute scagnostics
 #> scag_nhanes <- calc_scags_wide(NHANES_numeric[,keep$variable])
+
+
+## -----------------------------------------------------------------------------
+ggplot(aflw, aes(x=goalAccuracy, y=shotsAtGoal)) + geom_point()
+ggplot(aflw, aes(x=disposalEfficiency, y=disposals)) + geom_point()
 
 
 ## ---- eval=FALSE--------------------------------------------------------------
