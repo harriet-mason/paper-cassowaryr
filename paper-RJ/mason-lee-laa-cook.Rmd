@@ -1,7 +1,7 @@
 ---
 title: "Teaching Computers to See Patterns in Scatterplots with Scagnostics"
 abstract: >
-  An abstract of less than 150 words.
+  Data sets that have a large number of numeric vairbales, also have an arbitrarily large number of possible pairwise scatter plots. Looking at them all is infeasible for any individual, and so in order give priority to the most interesting plots, we have designed the "cassowaryr" package that allows users to sort scatter plots based on a list of Scagnsotics. Scagnsotics are scatter plot diagnostics that give numerical summaries to the shapes of scatter plots. These scagnsotics are shown to correctly order simulated data that represent scatter plot shapes a user would find interesting. They are also applied to examples in macro and micro time series, physics and sports data where the package succeeds in picking out interesting scatter plots from a large collection.
 draft: true
 author:  
   # see ?rjournal_article for more information
@@ -39,7 +39,8 @@ creative_commons: CC BY
 output: 
   rjtools::rjournal_web_article
 bibliography: mason-lee-laa-cook.bib
-
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -940,7 +941,7 @@ The Australian Football League Women's (AFLW) is the national semi-profesisonal 
 - *contestedMarks*: the number of marks a player has under pressure.
 - *hitouts*: this is how many times a player or team taps or punching the ball from a stoppage.
 - *onePercenters*: all the things a player can do without registering a disposal. Eg. Spoils (punching the ball to stop someone from marking it), Shepparding (blocking for a teammate), smothering.  
-disposalEfficiency: a measure of how well a player disposes of the ball. E.g. if a player kicks or handballs to the opposition a lot, they will have a low disposal efficiency percentage.   
+*disposalEfficiency*: a measure of how well a player disposes of the ball. E.g. if a player kicks or handballs to the opposition a lot, they will have a low disposal efficiency percentage.   
 - *clangers*: this is how many times a player or team dispose of the ball and it results in a turnover to the other team.  
 - *freesFor*: this player was awarded a free kick.  
 - *freesAgainst*:  this player caused a free kick to be awarded to the other team.  
@@ -958,8 +959,9 @@ disposalEfficiency: a measure of how well a player disposes of the ball. E.g. if
 - *clearances.stoppageClearances*: all the clearance from stoppages around the ground
 - *clearances.totalClearances*: how many time a player or team clears the ball from a stoppage or from the centre
 
-
 With 38 variables, there are 703 possible scatterplots to make. The scagnostics can suggest which are the interesting ones to examine. 
+
+### Team Comparison
 
 ```{r eval=FALSE}
 library(fitzRoy)
@@ -968,18 +970,110 @@ save(aflw, file = "data/aflw.rda")
 
 aflw_num <- aflw %>%
   select_if(is.numeric)
+aflw_num <- aggregate(aflw_num[,5:37], 
+                               list(aflw$player.player.player.surname), 
+                               mean)
 save(aflw_num, file = "data/aflw_num.rda")
 
-scag_aflw <- calc_scags_wide(aflw_num[,5:37])
+scag_aflw <- calc_scags_wide(aflw_num[,2:34])
 save(scag_aflw, file = "data/scagnostics_aflw.rda")
 
 ```
 
+```{r, Team Comparison}
+load("data/aflw_num.rda")
+load("data/aflw.rda")
+
+# Richmond Team Stats (bottom of the ladder)
+
+#get just richmond team
+richmond_aflw <- aflw %>%
+  filter(teamId== "CD_T8788")
+
+#richmond numeric
+richmond_aflw_num <- richmond_aflw %>%
+  select_if(is.numeric)
+
+# average across games
+richmond_aflw_num <- aggregate(richmond_aflw_num[,5:37], 
+                               list(richmond_aflw$player.player.player.surname), 
+                               mean)
+
+#calculate scagnostics on richmond team
+richmond_scags <- calc_scags_wide(richmond_aflw_num[,2:27])
+
+# North Melbourne
+
+#get just North Melbourne team
+northmelbourne_aflw <- aflw %>%
+  filter(teamId== "CD_T8466")
+
+# North melbourne numeric
+northmelbourne_aflw_num <- northmelbourne_aflw %>%
+  select_if(is.numeric)
+
+# Average across games
+northmelbourne_aflw_num <- aggregate(northmelbourne_aflw_num[,5:37], 
+                               list(northmelbourne_aflw$player.player.player.surname), 
+                               mean)
+
+#calculate scagnostics on north melbourne team
+northmelbourne_scags <- calc_scags_wide(northmelbourne_aflw_num[,2:27])
+
+#compare scagnsotics on teams
+
+# make combined table
+richmond_scags <- richmond_scags %>%
+  pivot_longer(outlying:dcor, 
+               names_to = "scags",
+               values_to = "richmond_value") 
+
+northmelbourne_scags <- northmelbourne_scags %>%
+  pivot_longer(outlying:dcor, 
+               names_to = "scags",
+               values_to = "northmelbourne_value") 
+
+scags_rich_northm <- full_join(richmond_scags, northmelbourne_scags, by = c("Var1", "Var2", "scags")) %>%
+  filter(all(richmond_value>0.0001, northmelbourne_value>0.0001)) %>%
+  filter(!any(Var1 == "dreamTeamPoints", Var2 == "dreamTeamPoints")) %>%
+  mutate(scag_dif = abs(northmelbourne_value-richmond_value))
+
+aflw_rich_northm <- bind_rows(
+  mutate(northmelbourne_aflw_num, team = "North Melbourne"),
+  mutate(richmond_aflw_num, team = "Richmond")) 
+
+# interesting scatter plots
+# large difference on clumpy adjusted
+ggplot(aflw_rich_northm, aes(x=turnovers, y=disposalEfficiency, colour=team)) + 
+  geom_point() +
+  facet_wrap(~team) +
+  theme_minimal()
+
+# high on clumpy adjusted, convex
+ggplot(aflw_rich_northm, aes(x=onePercenters, y=inside50s, colour=team)) + 
+  geom_point() +
+  facet_wrap(~team) +
+  theme_minimal()
+
+#high difference on monotonic and splines and dcor
+ggplot(aflw_rich_northm, aes(x=clangers, y=	handballs, colour=team)) + 
+  geom_point() +
+  facet_wrap(~team) +
+  theme_minimal()
+
+```
+
+When we try and compare the best and the worst AFLW teams  
+
+- **turnovers vs disposalEfficiency**: This scatter plot was identified as interesting as the two teams has a large difference on the clumpy_adjusted and convex measures. A good player will have a high disposalEfficiency (they rarely kick it to the other team) and a low number of turnovers (they rarely kick it somewhere no player can get it) and we would expect a linear relationship between the two, as causing a both is likely caused by bad play. A comparison of these plots shows the best team in the league, North Melbourne, adheres pretty well to this linear relation, while Richmond does not. That indicates that Richmond players either overwhemingly kick the ball into space to avoid kicking to the other team, or they overwhelmingly give a risky pass that is likely to go to the other team. They do not evenly choose between the two.
+  
+- **inside50s  vs onePercenters**: This scatter plot was also identified as interesting by the two teams having a large difference on the clumpy_adjusted and convex measures. If the player gets the ball inside the 50m arc around the oppositions goal they are likely a forward, if they get perform a lot of onePercenters they are likely a defensive player, if they do a bit of both they are likely a midfielder. A well structured team will have  a lower triangular shape on this scatter plot, as players are sticking to their position and excelling in that position, which is the structure North Melbourne has. Richmond has several players that score highly on both onePercenters and are frequently inside50s. This implies Richmond has a hanful of players that play every position well and are a bit all over the field, and have less specialisation in positions.
+
+- **handballs vs clangers**: This scatter plot was identified as interesting by all the association measures. Handballs are a measure of one of the legal methods of getting rid of the ball, clangers are a measure of the illegal methods of getting rid of the ball. If the number of clangers for each player in the team linearly related to the number of handballs, it means the team as a whole is efficient at getting rid of the ball, if this scatter plot is spread out, it means there are large gaps in the efficiency of each player. This scatter plot shows us that the Richmond team has a greater difference in ability than the North Melbourne Team.
+
 ```{r splines}
 # Saved scagnostics because calc takes about 30 mins
 load("data/scagnostics_aflw.rda")
-load("data/aflw_num.rda")
-load("data/aflw.rda")
 
 # Highest splines table
 scag_aflw %>% 
@@ -1080,43 +1174,7 @@ keep <- vm %>% filter(pct_miss < 50)
 scag_nhanes <- calc_scags_wide(NHANES_numeric[,keep$variable])
 ```
 
-```{r, eval=FALSE}
-# highest on each
-
-# Outlying (high)
-ggplot(aflw, aes(x=	metresGained, y= bounces)) + geom_point() 
-#metresGained has a large number of very close variables that take up most of the MST, and then a handful of higher up ones (it has outliers on this one variable). Anything with meters gained will be high on outlying
-ggplot(aflw, aes(x=	dreamTeamPoints, y= contestedMarks)) + geom_point()
-
-# Stringy
-ggplot(aflw, aes(x=clearances.centreClearances, y=contestedMarks)) + geom_point() #lowest
-ggplot(aflw, aes(x=metresGained, y=goalAssists)) + geom_point() #highest
-
-# Striated
-ggplot(aflw, aes(x=clearances.stoppageClearances, y=shotsAtGoal)) + geom_point() #lowest
-#highest is same as stringy
-
-#Striated adjusted
-#discussed below
-
-#Clumpy
-ggplot(aflw, aes(x=behinds, y=goals)) + geom_point() #lowest
-ggplot(aflw, aes(x=	metresGained, y= shotsAtGoal)) + geom_point() #highest
-
-#clumpy_adjusted
-cl_a <- calc_scags_wide(aflw_num[,5:37], scags="clumpy_adjusted")
-ggplot(aflw, aes(x=metresGained, y=goalAssists)) + geom_point()  #highest
-ggplot(aflw, aes(x=	clearances.centreClearances, y= behinds)) + geom_point() #lowest
-
-#Sparse
-ggplot(aflw, aes(x=	goalAssists, y= clangers)) + geom_point() #highest
-
-#Skewed
-ggplot(aflw, aes(x=	tacklesInside50, y= marksInside50)) + geom_point() #highest
-
-
-
-```
+### Stirated Adjusted Comments
 
 The scagnsotics need to be used and interpreted with the type of dataset you are working with in mind. For example, since these are sports stats, almost all of the variables are discrete. This means in the case of the striated varibale, we would be interested in the scatter plots that are very low on striated rather than high. Lets see which striated measure can find some interesting scatter plots.
 
@@ -1164,6 +1222,7 @@ ggplot(aflw, aes(x=disposalEfficiency, y=hitouts)) + geom_point() #fraction and 
 ggplot(aflw, aes(x=totalPossessions, y=hitouts)) + geom_point() #two large discretes
 ggplot(aflw, aes(x=hitouts, y=disposals)) + geom_point() #two large discretes
 ```
+
 Why the lowest values on striated? This is a discrete data set, if all the points are not at right angles or in a stright line, to each other, they are not just randonly spread on the. Since the old striated measure is specifically trying to find a continuous variable against a discrete variable, its highest values are also identified by the striated_adjusted. The lowest values on striated simply identify a plot where all the variables are at right angles, once again a measure of disceteness but one that is not identified by striated. Striated_adjusted encapsulates both versions of discreteness in the values that get exactly a 1, this means the scatter plot that gets the lowest value should be the two variables that are continuous. Following that striated_adjusted gives some interesting scatter plots in both goal and dispsoal accuracy vs number. **comment on the scatter plots**.
 
 ## World Development Indicators

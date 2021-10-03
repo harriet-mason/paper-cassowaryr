@@ -6,7 +6,9 @@ Scagnostics}
 \maketitle
 
 \abstract{%
-An abstract of less than 150 words.
+In order to efficiently organise the importance of a large number of
+scatter plots, we have designed the ``cassowaryr'' package that allows
+users to effectively
 }
 
 \hypertarget{introduction}{%
@@ -720,9 +722,9 @@ or punching the ball from a stoppage. - \emph{onePercenters}: all the
 things a player can do without registering a disposal. Eg. Spoils
 (punching the ball to stop someone from marking it), Shepparding
 (blocking for a teammate), smothering.\\
-disposalEfficiency: a measure of how well a player disposes of the ball.
-E.g. if a player kicks or handballs to the opposition a lot, they will
-have a low disposal efficiency percentage.\\
+\emph{disposalEfficiency}: a measure of how well a player disposes of
+the ball. E.g. if a player kicks or handballs to the opposition a lot,
+they will have a low disposal efficiency percentage.\\
 - \emph{clangers}: this is how many times a player or team dispose of
 the ball and it results in a turnover to the other team.\\
 - \emph{freesFor}: this player was awarded a free kick.\\
@@ -753,6 +755,59 @@ player or team clears the ball from a stoppage or from the centre
 
 With 38 variables, there are 703 possible scatterplots to make. The
 scagnostics can suggest which are the interesting ones to examine.
+
+\hypertarget{team-comparison}{%
+\subsubsection{Team Comparison}\label{team-comparison}}
+
+\begin{Schunk}
+
+\includegraphics{mason-lee-laa-cook_files/figure-latex/Team Comparison-1} 
+\includegraphics{mason-lee-laa-cook_files/figure-latex/Team Comparison-2} 
+\includegraphics{mason-lee-laa-cook_files/figure-latex/Team Comparison-3} \end{Schunk}
+
+When we try and compare the best and the worst AFLW teams
+
+\begin{itemize}
+\item
+  \textbf{turnovers vs disposalEfficiency}: This scatter plot was
+  identified as interesting as the two teams has a large difference on
+  the clumpy\_adjusted and convex measures. A good player will have a
+  high disposalEfficiency (they rarely kick it to the other team) and a
+  low number of turnovers (they rarely kick it somewhere no player can
+  get it) and we would expect a linear relationship between the two, as
+  causing a both is likely caused by bad play. A comparison of these
+  plots shows the best team in the league, North Melbourne, adheres
+  pretty well to this linear relation, while Richmond does not. That
+  indicates that Richmond players either overwhemingly kick the ball
+  into space to avoid kicking to the other team, or they overwhelmingly
+  give a risky pass that is likely to go to the other team. They do not
+  evenly choose between the two.
+\item
+  \textbf{inside50s vs onePercenters}: This scatter plot was also
+  identified as interesting by the two teams having a large difference
+  on the clumpy\_adjusted and convex measures. If the player gets the
+  ball inside the 50m arc around the oppositions goal they are likely a
+  forward, if they get perform a lot of onePercenters they are likely a
+  defensive player, if they do a bit of both they are likely a
+  midfielder. A well structured team will have a lower triangular shape
+  on this scatter plot, as players are sticking to their position and
+  excelling in that position, which is the structure North Melbourne
+  has. Richmond has several players that score highly on both
+  onePercenters and are frequently inside50s. This implies Richmond has
+  a hanful of players that play every position well and are a bit all
+  over the field, and have less specialisation in positions.
+\item
+  \textbf{handballs vs clangers}: This scatter plot was identified as
+  interesting by all the association measures. Handballs are a measure
+  of one of the legal methods of getting rid of the ball, clangers are a
+  measure of the illegal methods of getting rid of the ball. If the
+  number of clangers for each player in the team linearly related to the
+  number of handballs, it means the team as a whole is efficient at
+  getting rid of the ball, if this scatter plot is spread out, it means
+  there are large gaps in the efficiency of each player. This scatter
+  plot shows us that the Richmond team has a greater difference in
+  ability than the North Melbourne Team.
+\end{itemize}
 
 \begin{Schunk}
 
@@ -788,6 +843,10 @@ Kaitlyn Ashmore kicked 4 goals in a match with 100\% accuracy.
 NOTE: Each player is represented multiple times here, I think. The stats
 are per game. Maybe it is better to aggregate for each player and re-do
 the statistics?
+
+\hypertarget{stirated-adjusted-comments}{%
+\subsubsection{Stirated Adjusted
+Comments}\label{stirated-adjusted-comments}}
 
 The scagnsotics need to be used and interpreted with the type of dataset
 you are working with in mind. For example, since these are sports stats,

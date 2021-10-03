@@ -649,18 +649,102 @@ mac + mic
 #> 
 #> aflw_num <- aflw %>%
 #>   select_if(is.numeric)
+#> aflw_num <- aggregate(aflw_num[,5:37],
+#>                                list(aflw$player.player.player.surname),
+#>                                mean)
 #> save(aflw_num, file = "data/aflw_num.rda")
 #> 
-#> scag_aflw <- calc_scags_wide(aflw_num[,5:37])
+#> scag_aflw <- calc_scags_wide(aflw_num[,2:34])
 #> save(scag_aflw, file = "data/scagnostics_aflw.rda")
 #> 
+
+
+## ---- Team Comparison---------------------------------------------------------
+load("data/aflw_num.rda")
+load("data/aflw.rda")
+
+# Richmond Team Stats (bottom of the ladder)
+
+#get just richmond team
+richmond_aflw <- aflw %>%
+  filter(teamId== "CD_T8788")
+
+#richmond numeric
+richmond_aflw_num <- richmond_aflw %>%
+  select_if(is.numeric)
+
+# average across games
+richmond_aflw_num <- aggregate(richmond_aflw_num[,5:37], 
+                               list(richmond_aflw$player.player.player.surname), 
+                               mean)
+
+#calculate scagnostics on richmond team
+richmond_scags <- calc_scags_wide(richmond_aflw_num[,2:27])
+
+# North Melbourne
+
+#get just North Melbourne team
+northmelbourne_aflw <- aflw %>%
+  filter(teamId== "CD_T8466")
+
+# North melbourne numeric
+northmelbourne_aflw_num <- northmelbourne_aflw %>%
+  select_if(is.numeric)
+
+# Average across games
+northmelbourne_aflw_num <- aggregate(northmelbourne_aflw_num[,5:37], 
+                               list(northmelbourne_aflw$player.player.player.surname), 
+                               mean)
+
+#calculate scagnostics on north melbourne team
+northmelbourne_scags <- calc_scags_wide(northmelbourne_aflw_num[,2:27])
+
+#compare scagnsotics on teams
+
+# make combined table
+richmond_scags <- richmond_scags %>%
+  pivot_longer(outlying:dcor, 
+               names_to = "scags",
+               values_to = "richmond_value") 
+
+northmelbourne_scags <- northmelbourne_scags %>%
+  pivot_longer(outlying:dcor, 
+               names_to = "scags",
+               values_to = "northmelbourne_value") 
+
+scags_rich_northm <- full_join(richmond_scags, northmelbourne_scags, by = c("Var1", "Var2", "scags")) %>%
+  filter(all(richmond_value>0.0001, northmelbourne_value>0.0001)) %>%
+  filter(!any(Var1 == "dreamTeamPoints", Var2 == "dreamTeamPoints")) %>%
+  mutate(scag_dif = abs(northmelbourne_value-richmond_value))
+
+aflw_rich_northm <- bind_rows(
+  mutate(northmelbourne_aflw_num, team = "North Melbourne"),
+  mutate(richmond_aflw_num, team = "Richmond")) 
+
+# interesting scatter plots
+# large difference on clumpy adjusted
+ggplot(aflw_rich_northm, aes(x=turnovers, y=disposalEfficiency, colour=team)) + 
+  geom_point() +
+  facet_wrap(~team) +
+  theme_minimal()
+
+# high on clumpy adjusted, convex
+ggplot(aflw_rich_northm, aes(x=onePercenters, y=inside50s, colour=team)) + 
+  geom_point() +
+  facet_wrap(~team) +
+  theme_minimal()
+
+#high difference on monotonic and splines and dcor
+ggplot(aflw_rich_northm, aes(x=clangers, y=	handballs, colour=team)) + 
+  geom_point() +
+  facet_wrap(~team) +
+  theme_minimal()
+
 
 
 ## ----splines------------------------------------------------------------------
 # Saved scagnostics because calc takes about 30 mins
 load("data/scagnostics_aflw.rda")
-load("data/aflw_num.rda")
-load("data/aflw.rda")
 
 # Highest splines table
 scag_aflw %>% 
@@ -755,44 +839,6 @@ s1 + s2 + s3
 #> 
 #> # Now compute scagnostics
 #> scag_nhanes <- calc_scags_wide(NHANES_numeric[,keep$variable])
-
-
-## ---- eval=FALSE--------------------------------------------------------------
-#> # highest on each
-#> 
-#> # Outlying (high)
-#> ggplot(aflw, aes(x=	metresGained, y= bounces)) + geom_point()
-#> #metresGained has a large number of very close variables that take up most of the MST, and then a handful of higher up ones (it has outliers on this one variable). Anything with meters gained will be high on outlying
-#> ggplot(aflw, aes(x=	dreamTeamPoints, y= contestedMarks)) + geom_point()
-#> 
-#> # Stringy
-#> ggplot(aflw, aes(x=clearances.centreClearances, y=contestedMarks)) + geom_point() #lowest
-#> ggplot(aflw, aes(x=metresGained, y=goalAssists)) + geom_point() #highest
-#> 
-#> # Striated
-#> ggplot(aflw, aes(x=clearances.stoppageClearances, y=shotsAtGoal)) + geom_point() #lowest
-#> #highest is same as stringy
-#> 
-#> #Striated adjusted
-#> #discussed below
-#> 
-#> #Clumpy
-#> ggplot(aflw, aes(x=behinds, y=goals)) + geom_point() #lowest
-#> ggplot(aflw, aes(x=	metresGained, y= shotsAtGoal)) + geom_point() #highest
-#> 
-#> #clumpy_adjusted
-#> cl_a <- calc_scags_wide(aflw_num[,5:37], scags="clumpy_adjusted")
-#> ggplot(aflw, aes(x=metresGained, y=goalAssists)) + geom_point()  #highest
-#> ggplot(aflw, aes(x=	clearances.centreClearances, y= behinds)) + geom_point() #lowest
-#> 
-#> #Sparse
-#> ggplot(aflw, aes(x=	goalAssists, y= clangers)) + geom_point() #highest
-#> 
-#> #Skewed
-#> ggplot(aflw, aes(x=	tacklesInside50, y= marksInside50)) + geom_point() #highest
-#> 
-#> 
-#> 
 
 
 ## ---- eval=FALSE--------------------------------------------------------------
