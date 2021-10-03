@@ -404,7 +404,7 @@ The issues surrounding the striated scagnsotics are:
   
 To account for these two issues the striated adjusted measure considers all vertices (not just those with two adjacent edges), and makes the measure strict around the 180 and 90 degree angles. With this we can see the improvements on the measure.
 
-```{r}
+```{r,  Striated Comparison, fig.height=5, fig.width=10}
 # Make Visual Table
 # Data
 plot_data_striated <- plot_path_data %>%
@@ -419,8 +419,7 @@ plot_data_striated <- plot_path_data %>%
 
 # plot
 striated_visual_table <- ggplot(plot_data_striated, aes(x=value , y=scagnostic))+
-  geom_point_img(aes(img = plotad), size = 2, 
-                 #position = position_jitter(width = 0.1, height = 1)) + 
+  geom_point_img(aes(img = plotad), size = 2,
                  position=ggstance::position_dodgev(height=0.9)) +
   xlim(-0.05,1.05) +
   scale_size_identity()+
@@ -436,9 +435,9 @@ striated_visual_table <- ggplot(plot_data_striated, aes(x=value , y=scagnostic))
     strip.text.x = element_blank(),
     panel.grid.major.y = element_line()
 )
-ggsave("figures/striated_visual_table.png", striated_visual_table, width=10, height=10)
+#ggsave("figures/striated_visual_table.png", striated_visual_table, width=10, height=10)
 
-#striated_visual_table
+striated_visual_table
 
 ```
 
@@ -458,9 +457,42 @@ To easily identify the edges that sit between clusters, we sort the edges and ca
 
 *To add in after in package:* One we have identifies the large edges, we remove them from the MST and identify which cluster all the inter cluster edges belong to. From each cluster we identify the largest edge (to avoid the measure being arbitrarily from small edges in the MST) and calculate the ratio between the largest inter cluster edge, and the large edge that connects the clusters. These ratios are added together as a weighted mean, where each weight is determined by the number of points that do not satisfy the 180 degree striated requirement. This weighted mean is the final clumpy_adjusted value.
 
-```{r}
+```{r,  Clumpy Comparison, fig.height=5, fig.width=10}
+plot_data_clumpy <- plot_path_data %>%
+  group_by(scagnostic, feature) %>%
+  mutate(doplot = ifelse(all(scagnostic %in% c("clumpy","clumpy_adjusted"), 
+                             feature %in% c("vlines", "clusters","barrier", "outliers", "nonlinear1", 	
+"nonlinear2")),
+                         TRUE,
+                         FALSE)) %>% 
+  ungroup() %>%
+  filter(doplot==TRUE)
 
+
+# plot
+clumpy_visual_table <- ggplot(plot_data_clumpy, aes(x=value , y=scagnostic))+
+  geom_point_img(aes(img = plotad), size = 2, 
+                 position=ggstance::position_dodgev(height=0.9)) +
+  xlim(-0.05,1.05) +
+  scale_size_identity()+
+  xlab("Value") +
+  ylab("Scagnostic") +
+  ggtitle("Clumpy Comparison") +
+  theme_classic() +
+  theme(
+    panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+    legend.position="none",
+    axis.line = element_blank(),
+    strip.background = element_blank(),
+    strip.text.x = element_blank(),
+    panel.grid.major.y = element_line()
+)
+#ggsave("figures/clumpy_visual_table.png", clumpy_visual_table, width=10, height=10)
+
+clumpy_visual_table
 ```
+
+Even with a partially completed clumpy_adjusted measure we can see the improvement on the clumpy measure. The first obvious outcome is that the measure is more spread out, and so values range more accurately from 0 to 1. More importantly the measures do a better job of ordering the scatter plots. On the original clumpy measure the "clusters" scatter plot was next to last, so in terms of using it to identify clusters, the measure is about as good as one that is randomly generated. On the clumpy_adjsuted measure "clusters" is the third highest scatter plot, so it does a much better job of identifying it when considering the order of the scagnostics. The clumpy_adjusted measure only has the "vlines" and the "outliers" scatter plots ahead "clusters" due to the measure not yet penalizing plots with adjacent straight lines or small lone clusters that appear in those two plots. With these adjustments the clumpy_adjusted measure should work correctly without the binning pre-processing step.
 
 # Software implementation
 

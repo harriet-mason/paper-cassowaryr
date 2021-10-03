@@ -14,6 +14,7 @@ library(plotly)
 library(patchwork)
 library(knitr)
 library(ggimg) #for the visual table
+library(ggstance) #for vertical dodge on plot
 
 
 
@@ -77,8 +78,8 @@ bigfeatures <- bind_rows(features, extrafeatures)
 # run scagnostics
 features_scagnostics_wide <- bigfeatures %>%
   group_by(feature) %>%
-  summarise(calc_scags(x,y)) %>%
-  select(-clumpy_adjusted)
+  summarise(calc_scags(x,y)) #%>%
+  #select(-clumpy_adjusted)
 
 #long version of
 features_scagnostics_long <- features_scagnostics_wide %>%
@@ -104,32 +105,32 @@ featplot <- ggplot(bigfeatures, aes(x,y,colour=feature))+
 featplot
 
 
-## ---- Scatter Plots as images,  include=FALSE---------------------------------
-
-#set theme so all scatter plots in table match
-plot_theme <-  theme_classic() + #theme_minimal() + 
-  theme(aspect.ratio=1, axis.title=element_blank(), axis.text = element_blank(), 
-        panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_rect(colour = "black", fill=NA, size=4),
-        legend.position = "none"
-        )
-
-#save scatter plots as images
-plots <- unique(bigfeatures$feature)
-
-for (i in seq(length(plots))){
-  holdplot <- bigfeatures %>% 
-    filter(feature==plots[i]) %>% 
-    ggplot(aes(x,y, size=2))+ geom_point() + plot_theme
-  ggsave(paste0("figures/", plots[i], ".png"),holdplot)
-}
-
+## ---- Scatter Plots as images,  include=FALSE, eval=FALSE---------------------
+#> 
+#> #set theme so all scatter plots in table match
+#> plot_theme <-  theme_classic() + #theme_minimal() +
+#>   theme(aspect.ratio=1, axis.title=element_blank(), axis.text = element_blank(),
+#>         panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+#>         panel.border = element_rect(colour = "black", fill=NA, size=4),
+#>         legend.position = "none"
+#>         )
+#> 
+#> #save scatter plots as images
+#> plots <- unique(bigfeatures$feature)
+#> 
+#> for (i in seq(length(plots))){
+#>   holdplot <- bigfeatures %>%
+#>     filter(feature==plots[i]) %>%
+#>     ggplot(aes(x,y, size=2))+ geom_point() + plot_theme
+#>   # ggsave(paste0("figures/", plots[i], ".png"),holdplot) files already in /figure/
+#> }
+#> 
 
 
 ## ---- Table of Plots, fig.height=10, fig.width=10-----------------------------
 
 # edit data frame
-plot_data <- features_scagnostics_long %>%
+plot_path_data <- features_scagnostics_long %>%
   mutate(plotad = paste0("figures/", feature, ".png"))
 
 # which plots to include in visual table
@@ -178,7 +179,7 @@ whichplots <- function(scag, feature){
 
 # Make Visual Table
 # Data
-plot_data <- plot_data %>%
+plot_data <- plot_path_data %>%
   group_by(scagnostic, feature) %>%
   mutate(doplot = whichplots(scagnostic, feature)) %>%
   ungroup() %>%
@@ -190,7 +191,6 @@ s <- length(unique(plot_data$feature))
 # plot
 visual_table <- ggplot(plot_data, aes(x=value , y=scagnostic))+
   geom_point_img(aes(img = plotad), size = 1.5) + 
-  #geom_image(aes(image = plotad), size=1/s, by="width") +
   theme_classic() +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         legend.position="none") +
@@ -208,6 +208,78 @@ visual_table <- ggplot(plot_data, aes(x=value , y=scagnostic))+
 #ggsave("figures/visual_table.png", visual_table, width=10, height=10)
 visual_table
 
+
+
+## ----  Striated Comparison, fig.height=5, fig.width=10------------------------
+# Make Visual Table
+# Data
+plot_data_striated <- plot_path_data %>%
+  group_by(scagnostic, feature) %>%
+  mutate(doplot = ifelse(all(scagnostic %in% c("striated","striated_adjusted"), 
+                             feature %in% c("vlines", "discrete","line", "disk", "outliers2")),
+                         TRUE,
+                         FALSE)) %>% 
+  ungroup() %>%
+  filter(doplot==TRUE)
+
+
+# plot
+striated_visual_table <- ggplot(plot_data_striated, aes(x=value , y=scagnostic))+
+  geom_point_img(aes(img = plotad), size = 2,
+                 position=ggstance::position_dodgev(height=0.9)) +
+  xlim(-0.05,1.05) +
+  scale_size_identity()+
+  xlab("Value") +
+  ylab("Scagnostic") +
+  ggtitle("Striated Comparison") +
+  theme_classic() +
+  theme(
+    panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+    legend.position="none",
+    axis.line = element_blank(),
+    strip.background = element_blank(),
+    strip.text.x = element_blank(),
+    panel.grid.major.y = element_line()
+)
+#ggsave("figures/striated_visual_table.png", striated_visual_table, width=10, height=10)
+
+striated_visual_table
+
+
+
+## ----  Clumpy Comparison, fig.height=5, fig.width=10--------------------------
+plot_data_clumpy <- plot_path_data %>%
+  group_by(scagnostic, feature) %>%
+  mutate(doplot = ifelse(all(scagnostic %in% c("clumpy","clumpy_adjusted"), 
+                             feature %in% c("vlines", "clusters","barrier", "outliers", "nonlinear1", 	
+"nonlinear2")),
+                         TRUE,
+                         FALSE)) %>% 
+  ungroup() %>%
+  filter(doplot==TRUE)
+
+
+# plot
+clumpy_visual_table <- ggplot(plot_data_clumpy, aes(x=value , y=scagnostic))+
+  geom_point_img(aes(img = plotad), size = 2, 
+                 position=ggstance::position_dodgev(height=0.9)) +
+  xlim(-0.05,1.05) +
+  scale_size_identity()+
+  xlab("Value") +
+  ylab("Scagnostic") +
+  ggtitle("Clumpy Comparison") +
+  theme_classic() +
+  theme(
+    panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+    legend.position="none",
+    axis.line = element_blank(),
+    strip.background = element_blank(),
+    strip.text.x = element_blank(),
+    panel.grid.major.y = element_line()
+)
+#ggsave("figures/clumpy_visual_table.png", clumpy_visual_table, width=10, height=10)
+
+clumpy_visual_table
 
 
 ## ----getdata, eval=FALSE------------------------------------------------------
