@@ -58,6 +58,7 @@ library(plotly)
 library(patchwork)
 library(knitr)
 library(ggimg) #for the visual table
+library(ggstance) #for vertical dodge on plot
 
 ```
 
@@ -285,7 +286,7 @@ for (i in seq(length(plots))){
   holdplot <- bigfeatures %>% 
     filter(feature==plots[i]) %>% 
     ggplot(aes(x,y, size=2))+ geom_point() + plot_theme
-  ggsave(paste0("figures/", plots[i], ".png"),holdplot)
+  # ggsave(paste0("figures/", plots[i], ".png"),holdplot) files already in /figure/
 }
 
 ```
@@ -355,7 +356,6 @@ s <- length(unique(plot_data$feature))
 # plot
 visual_table <- ggplot(plot_data, aes(x=value , y=scagnostic))+
   geom_point_img(aes(img = plotad), size = 1.5) + 
-  #geom_image(aes(image = plotad), size=1/s, by="width") +
   theme_classic() +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         legend.position="none") +
@@ -405,33 +405,23 @@ The issues surrounding the striated scagnsotics are:
 To account for these two issues the striated adjusted measure considers all vertices (not just those with two adjacent edges), and makes the measure strict around the 180 and 90 degree angles. With this we can see the improvements on the measure.
 
 ```{r}
-#which scatter plots
-which_striated_plots <- function(scag, feature){
-  pad = FALSE
-  # Original Measure
-  if(all(scag %in% c("striated","striated_adjusted"), feature %in% c("vlines", "discrete", "weak"))){
-    pad = TRUE
-  }
-  #if(all(scag=="striated_adjusted", feature %in% c("vlines", "discrete", "weak"))){
-  #  pad = TRUE
-  #}
-}
-
 # Make Visual Table
 # Data
 plot_data_striated <- plot_path_data %>%
   group_by(scagnostic, feature) %>%
   mutate(doplot = ifelse(all(scagnostic %in% c("striated","striated_adjusted"), 
-                             feature %in% c("vlines", "discrete", "weak")),
+                             feature %in% c("vlines", "discrete","line", "disk", "outliers2")),
                          TRUE,
-                         FALSE)) %>% #which_striated_plots(scagnostic, feature)) %>%
+                         FALSE)) %>% 
   ungroup() %>%
   filter(doplot==TRUE)
 
 
 # plot
 striated_visual_table <- ggplot(plot_data_striated, aes(x=value , y=scagnostic))+
-  geom_point_img(aes(img = plotad), size = 2, position_jitter(width = 0, height = 2)) + 
+  geom_point_img(aes(img = plotad), size = 2, 
+                 #position = position_jitter(width = 0.1, height = 1)) + 
+                 position=ggstance::position_dodgev(height=0.9)) +
   xlim(-0.05,1.05) +
   scale_size_identity()+
   xlab("Value") +
@@ -446,10 +436,13 @@ striated_visual_table <- ggplot(plot_data_striated, aes(x=value , y=scagnostic))
     strip.text.x = element_blank(),
     panel.grid.major.y = element_line()
 )
-ggsave("figures/striated_visual_table.png", striated_visual_table, width=20, height=6)
-#visual_table
+ggsave("figures/striated_visual_table.png", striated_visual_table, width=10, height=10)
+
+#striated_visual_table
 
 ```
+
+While these two measures may seem similar at a glace, there are a few minor things that make the striated_adjusted scagnsotic an improvement on the stirated scagnsotic. First of all, the perfect 1 value on striated goes to the "line" scatter plot. While this does fulfil the definition, it is not what the measure is supposed to be looking for, rather supposed to be identifying the "vlines" scatter plot. Since striated does not count the right angles that go between the vertical lines, a truely striated plot will never get a full 1 on this measure, striated adjusted fixes this. After that there is a large gap in both measures because none of the other scatter plots have a strictly discrete measure on the x or y axis. The lower plots show that striated_adjusted is also better at identifying discrete relationships with a rotation and noise added as shown in the "discrete" plot. In striated "discrete" is lower in the order than "outlying" which would indicate that striated has finished looking at discreteness. In striated_adjusted, after the plots with strict discreteness in "vlines" or strict rotated disceteness in "line", is the noisey and rotated "discrete" plot. Therefore in terms of ordering the plots in how well they represent the feature of discreteness, striated_adjusted outperforms striated.
 
 
 #### Clumpy Adjusted
