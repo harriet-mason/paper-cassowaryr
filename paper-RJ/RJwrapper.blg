@@ -1,50 +1,49 @@
-This is BibTeX, Version 0.99d (TeX Live 2020)
+This is BibTeX, Version 0.99d (TeX Live 2021/W32TeX)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: RJwrapper.aux
 The style file: abbrvnat.bst
 Database file #1: mason-lee-laa-cook.bib
-Warning--I didn't find a database entry for "something"
 Warning--empty journal in binostics
 Warning--can't use both author and editor fields in tukey
-You've used 15 entries,
+You've used 16 entries,
             2773 wiz_defined-function locations,
-            695 strings with 7053 characters,
-and the built_in function-call counts, 6793 in all, are:
-= -- 618
-> -- 354
+            700 strings with 7277 characters,
+and the built_in function-call counts, 7499 in all, are:
+= -- 676
+> -- 420
 < -- 12
-+ -- 121
-- -- 105
-* -- 533
-:= -- 1037
-add.period$ -- 53
-call.type$ -- 15
-change.case$ -- 77
-chr.to.int$ -- 14
-cite$ -- 32
-duplicate$ -- 321
-empty$ -- 561
-format.name$ -- 132
-if$ -- 1437
++ -- 143
+- -- 126
+* -- 605
+:= -- 1150
+add.period$ -- 56
+call.type$ -- 16
+change.case$ -- 87
+chr.to.int$ -- 15
+cite$ -- 34
+duplicate$ -- 342
+empty$ -- 602
+format.name$ -- 154
+if$ -- 1577
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 12
-newline$ -- 91
-num.names$ -- 60
-pop$ -- 154
+missing$ -- 13
+newline$ -- 96
+num.names$ -- 64
+pop$ -- 172
 preamble$ -- 1
-purify$ -- 65
+purify$ -- 74
 quote$ -- 0
-skip$ -- 254
+skip$ -- 273
 stack$ -- 0
-substring$ -- 247
-swap$ -- 47
+substring$ -- 274
+swap$ -- 48
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 160
+type$ -- 171
 warning$ -- 2
-while$ -- 60
+while$ -- 65
 width$ -- 0
-write$ -- 212
-(There were 3 warnings)
+write$ -- 225
+(There were 2 warnings)

@@ -1,7 +1,7 @@
 ---
 title: "Teaching Computers to See Patterns in Scatterplots with Scagnostics"
 abstract: >
-  Data sets that have a large number of numeric vairbales, also have an arbitrarily large number of possible pairwise scatter plots. Looking at them all is infeasible for any individual, and so in order give priority to the most interesting plots, we have designed the "cassowaryr" package that allows users to sort scatter plots based on a list of Scagnsotics. Scagnsotics are scatter plot diagnostics that give numerical summaries to the shapes of scatter plots. These scagnsotics are shown to correctly order simulated data that represent scatter plot shapes a user would find interesting. They are also applied to examples in macro and micro time series, physics and sports data where the package succeeds in picking out interesting scatter plots from a large collection.
+  Data sets that have a large number of numeric variables, have an even larger number of possible pairwise scatter plots. Looking at them all is infeasible for any individual, and so in order give priority to the most interesting plots, we have designed the "cassowaryr" package that allows users to sort scatter plots based on a list of Scagnsotics. Scagnsotics are scatter plot diagnostics that give numerical summaries to the shapes of scatter plots. These scagnsotics are shown to correctly order simulated data that represent scatter plot shapes a user would find interesting. They are also applied to examples in macro and micro time series, physics and sports data where the package succeeds in picking out interesting scatter plots from a large collection.
 draft: true
 author:  
   # see ?rjournal_article for more information
@@ -922,7 +922,7 @@ subplot(bbh1, bbh2, bbh3, bbh4, bbh5, bbh6,
 ## AFL player statistics
 The Australian Football League Women's (AFLW) is the national semi-profesisonal Australia Rules football league for female players. Here we will analyse data sourced from the official AFL website with information on the 2020 season, in which the league had 14 teams and 1932 players. There are 68 variables, 38 of which are numeric. The others are categorical, like the players names or match ids, which would not be used in scagnostic calculations. These numeric variables are recorded per player per game, and a description of each variable in this data set can be found in the appendix. With 38 variables, there are 703 possible scatterplots to make. The scagnostics can suggest which are the interesting ones to examine. 
 
-```{r, include=FALSE, eval=FALSE}
+```{r, AFL DATA, include=FALSE, eval=FALSE}
 
 aflw <- fetch_player_stats(2020, comp = "AFLW")
 
@@ -987,7 +987,7 @@ p6 <- ggplot(aflw_num, aes(x=kicks, y=handballs)) +
 grid.arrange(p1, p2, p3, p4, p5, p6,  nrow=2)
 ```
 
-```{r, Red Scatter, include= FALSE, echo=FALSE, fig.height=3, fig.width=9, out.width = "100%", fig.align='center'}
+```{r, AFL relevent SPLOMS, include= FALSE, eval=FALSE, echo=FALSE, fig.height=3, fig.width=9, out.width = "100%", fig.align='center'}
 test <- AFLW_scags %>%
   mutate(lab = paste0(Var1, ", ", Var2)) %>%
   mutate(plot1=ifelse(lab=="disposalEfficiency, hitouts", TRUE,FALSE),
