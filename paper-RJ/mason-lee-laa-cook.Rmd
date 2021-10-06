@@ -922,6 +922,120 @@ subplot(bbh1, bbh2, bbh3, bbh4, bbh5, bbh6,
 ## AFL player statistics
 The Australian Football League Women's (AFLW) is the national semi-profesisonal Australia Rules football league for female players. Here we will analyse data sourced from the official AFL website with information on the 2020 season, in which the league had 14 teams and 1932 players. There are 68 variables, 38 of which are numeric. The others are categorical, like the players names or match ids, which would not be used in scagnostic calculations. These numeric variables are recorded per player per game, and a description of each variable in this data set can be found in the appendix. With 38 variables, there are 703 possible scatterplots to make. The scagnostics can suggest which are the interesting ones to examine. 
 
+```{r, include=FALSE, eval=FALSE}
+
+aflw <- fetch_player_stats(2020, comp = "AFLW")
+
+load("data/aflw.rda")
+
+aflw_num <- aflw %>%
+  select_if(is.numeric)
+
+aflw_num <- aggregate(aflw_num[,5:37], 
+  list(aflw$player.player.player.surname),
+  mean)
+save(aflw_num, file="data/aflw_num.rda")
+
+AFLW_scags <- calc_scags_wide(aflw_num[,2:34])
+save(AFLW_scags, file="data/AFLW_scags.rda")
+```
+
+```{r, AFLW Scatter Plots, include=FALSE, eval=FALSE, echo=FALSE, fig.height=5, fig.width=9, out.width = "95%", fig.align='center'}
+load("data/aflw.rda")
+load("data/aflw_num.rda")
+load("data/AFLW_scags.rda")
+
+mypal <- c("#FF4E50", "#fdae61","#fee08b", "#66c2a5", "#3288bd", "#abd9e9")
+
+#standounts from splom
+#outlying and Skewed + highest skinny not 1
+p1 <- ggplot(aflw_num, aes(x=disposalEfficiency, y=hitouts, label=Group.1)) + 
+  theme_classic()+
+  ggtitle("Plot 1") + 
+  geom_point(colour=mypal[1]) 
+
+#high on the 3 associations measures
+p2 <- ggplot(aflw_num, aes(x=totalPossessions, y=disposals, label=Group.1)) + 
+  theme_classic()+
+  ggtitle("Plot 2") + 
+  geom_point(colour=mypal[2]) 
+
+#low on sparse and high on convex
+p3 <- ggplot(aflw_num, aes(x=marksInside50, y=goals)) + 
+  theme_classic()+
+  ggtitle("Plot 3") + 
+  geom_point(colour=mypal[3]) 
+
+#high on clumpy adjusted, low on monotonic
+p4 <- ggplot(aflw_num, aes(x=onePercenters, y=handballs)) +
+  theme_classic()+
+  ggtitle("Plot 4") + 
+  geom_point(colour=mypal[4]) 
+
+#interesting HIGH on striated, moderate on outlying
+p5 <- ggplot(aflw_num, aes(x=bounces, y=hitouts, label=Group.1)) + 
+  theme_classic()+
+  ggtitle("Plot 5") + 
+  geom_point(colour=mypal[5]) 
+
+# me randomly picking two variables
+p6 <- ggplot(aflw_num, aes(x=kicks, y=handballs)) + 
+  theme_classic()+
+  ggtitle("Plot 6") + 
+  geom_point(colour=mypal[6])
+
+grid.arrange(p1, p2, p3, p4, p5, p6,  nrow=2)
+```
+
+```{r, Red Scatter, include= FALSE, echo=FALSE, fig.height=3, fig.width=9, out.width = "100%", fig.align='center'}
+test <- AFLW_scags %>%
+  mutate(lab = paste0(Var1, ", ", Var2)) %>%
+  mutate(plot1=ifelse(lab=="disposalEfficiency, hitouts", TRUE,FALSE),
+         plot2=ifelse(lab=="totalPossessions, disposals", TRUE,FALSE),
+         plot3=ifelse(lab=="marksInside50, goals", TRUE,FALSE),
+         plot4=ifelse(lab=="onePercenters, handballs", TRUE,FALSE),
+         plot5=ifelse(lab=="hitouts, bounces", TRUE, FALSE)
+         ) %>%
+  mutate(plotted = any(plot1,plot2,plot3,plot4, plot5))
+
+s1 <- ggplot(test, aes(x=outlying, skewed, colour=plot1, label=lab)) + 
+  geom_point() +
+  theme_classic() +
+  theme(legend.position ="none")+
+  scale_colour_manual(values=c("grey", mypal[1]))+
+  ggtitle("Relevant Scagnostics Plot")
+
+s2 <- ggplot(test, aes(x=splines, dcor, colour=plot2, label=lab)) + 
+  geom_point() +
+  theme_classic() +
+  theme(legend.position ="none")+
+  scale_colour_manual(values=c("grey", mypal[1]))+
+  ggtitle("Relevant Scagnostics Plot")
+
+s3 <- ggplot(test, aes(x=sparse, convex, colour=plot3)) + 
+  geom_point() +
+  theme_classic() +
+  theme(legend.position ="none") +
+  scale_colour_manual(values=c("grey", mypal[3])) +
+  ggtitle("Relevant Scagnostics Plot")
+
+s4 <- ggplot(test, aes(x=clumpy_adjusted, monotonic, colour=plot4)) +
+  geom_point() +
+  theme_classic() +
+  theme(legend.position ="none") +
+  scale_colour_manual(values=c("grey", mypal[4])) +
+  ggtitle("Relevant Scagnostics Plot")
+
+s5 <- ggplot(test, aes(x=outlying, y = striated_adjusted, colour=plot5, label=lab)) +
+  geom_point() +
+  theme_classic() +
+  theme(legend.position ="none") +
+  scale_colour_manual(values=c("grey", mypal[5])) +
+  ggtitle("Relevant Scagnostics Plot")
+
+#grid.arrange(p1, s1, nrow=1)
+```
+
 ### Team Comparison
 One use of scagnostics is to compare between group differences in the shape of scatter plots. Here, we will apply the scagnsotics to the best and worst team in the 2020 AFLW season, North Melbourne and Richmond respectively. Looking at the *shape* differences on scatter plots between the two teams can give us a new method to understand what differentiates a good team from a bad one. 
   
