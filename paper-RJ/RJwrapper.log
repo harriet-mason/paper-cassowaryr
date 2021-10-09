@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.10.5)  6 OCT 2021 19:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.10.5)  9 OCT 2021 18:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1032,450 +1032,305 @@ LaTeX Font Info:    Font shape `U/msb/m/n' will be
 <figures/drawconvex.png, id=149, 642.14906pt x 137.7647pt>
 File: figures/drawconvex.png Graphic file (type png)
 <use figures/drawconvex.png>
-Package pdftex.def Info: figures/drawconvex.png  used on input line 187.
-(pdftex.def)             Requested size: 642.14749pt x 137.76434pt.
-
-Overfull \hbox (258.80891pt too wide) in paragraph at lines 187--188
-[][] 
- []
-
-[2]
-<figures/drawskinny.png, id=168, 556.32843pt x 119.69719pt>
+Package pdftex.def Info: figures/drawconvex.png  used on input line 189.
+(pdftex.def)             Requested size: 398.34387pt x 141.7037pt.
+[2] [3 <./mason-lee-laa-cook_files/figure-latex/building-blocks2-1.pdf> <./figu
+res/drawconvex.png>]
+<figures/drawskinny.png, id=185, 556.32843pt x 119.69719pt>
 File: figures/drawskinny.png Graphic file (type png)
 <use figures/drawskinny.png>
-Package pdftex.def Info: figures/drawskinny.png  used on input line 200.
-(pdftex.def)             Requested size: 556.32707pt x 119.69688pt.
-
-Overfull \hbox (172.9885pt too wide) in paragraph at lines 200--201
-[][] 
- []
-
-[3 <./mason-lee-laa-cook_files/figure-latex/building-blocks2-1.pdf> <./figures/
-drawconvex.png> <./figures/drawskinny.png>]
-<figures/drawoutlying.png, id=189, 673.76718pt x 144.54pt>
+Package pdftex.def Info: figures/drawskinny.png  used on input line 206.
+(pdftex.def)             Requested size: 398.34056pt x 141.69987pt.
+<figures/drawoutlying.png, id=186, 673.76718pt x 144.54pt>
 File: figures/drawoutlying.png Graphic file (type png)
 <use figures/drawoutlying.png>
-Package pdftex.def Info: figures/drawoutlying.png  used on input line 212.
-(pdftex.def)             Requested size: 673.76553pt x 144.53963pt.
-
-Overfull \hbox (290.42696pt too wide) in paragraph at lines 212--213
-[][] 
- []
-
-<figures/drawstringy.png, id=190, 453.19313pt x 119.69719pt>
+Package pdftex.def Info: figures/drawoutlying.png  used on input line 222.
+(pdftex.def)             Requested size: 398.34166pt x 141.69673pt.
+<figures/drawstringy.png, id=187, 453.19313pt x 119.69719pt>
 File: figures/drawstringy.png Graphic file (type png)
 <use figures/drawstringy.png>
-Package pdftex.def Info: figures/drawstringy.png  used on input line 226.
-(pdftex.def)             Requested size: 453.19202pt x 119.69688pt.
-
-Overfull \hbox (69.85344pt too wide) in paragraph at lines 226--227
-[][] 
- []
-
-<figures/drawskewed.png, id=191, 651.93562pt x 138.5175pt>
+Package pdftex.def Info: figures/drawstringy.png  used on input line 240.
+(pdftex.def)             Requested size: 398.34094pt x 141.69987pt.
+<figures/drawskewed.png, id=188, 651.93562pt x 138.5175pt>
 File: figures/drawskewed.png Graphic file (type png)
 <use figures/drawskewed.png>
-Package pdftex.def Info: figures/drawskewed.png  used on input line 239.
-(pdftex.def)             Requested size: 651.93402pt x 138.51715pt.
-
-Overfull \hbox (268.59544pt too wide) in paragraph at lines 239--240
-[][] 
- []
-
-<figures/drawsparse.png, id=192, 699.36281pt x 146.04562pt>
+Package pdftex.def Info: figures/drawskewed.png  used on input line 257.
+(pdftex.def)             Requested size: 398.34663pt x 141.69177pt.
+<figures/drawsparse.png, id=189, 699.36281pt x 146.04562pt>
 File: figures/drawsparse.png Graphic file (type png)
 <use figures/drawsparse.png>
-Package pdftex.def Info: figures/drawsparse.png  used on input line 250.
-(pdftex.def)             Requested size: 699.3611pt x 146.04524pt.
-
-Overfull \hbox (316.02252pt too wide) in paragraph at lines 250--251
-[][] 
- []
-
-[4 <./figures/drawoutlying.png> <./figures/drawstringy.png> <./figures/drawskew
-ed.png>]
-<figures/drawclumpy.png, id=200, 657.2053pt x 142.28156pt>
+Package pdftex.def Info: figures/drawsparse.png  used on input line 272.
+(pdftex.def)             Requested size: 398.34215pt x 141.70193pt.
+[4 <./figures/drawskinny.png> <./figures/drawoutlying.png>] [5 <./figures/draws
+tringy.png> <./figures/drawskewed.png>]
+<figures/drawclumpy.png, id=209, 657.2053pt x 142.28156pt>
 File: figures/drawclumpy.png Graphic file (type png)
 <use figures/drawclumpy.png>
-Package pdftex.def Info: figures/drawclumpy.png  used on input line 266.
-(pdftex.def)             Requested size: 657.20369pt x 142.2812pt.
-
-Overfull \hbox (258.86511pt too wide) in paragraph at lines 265--267
-[] 
- []
-
-<figures/drawstriated.png, id=201, 649.67719pt x 139.27031pt>
+Package pdftex.def Info: figures/drawclumpy.png  used on input line 293.
+(pdftex.def)             Requested size: 398.3475pt x 141.7037pt.
+<figures/drawstriated.png, id=210, 649.67719pt x 139.27031pt>
 File: figures/drawstriated.png Graphic file (type png)
 <use figures/drawstriated.png>
-Package pdftex.def Info: figures/drawstriated.png  used on input line 278.
-(pdftex.def)             Requested size: 649.6756pt x 139.26996pt.
-
-Overfull \hbox (251.33702pt too wide) in paragraph at lines 277--279
-[] 
- []
-
-<figures/drawmonotonic.png, id=202, 1044.15094pt x 277.035pt>
+Package pdftex.def Info: figures/drawstriated.png  used on input line 310.
+(pdftex.def)             Requested size: 398.34464pt x 141.69255pt.
+<figures/drawmonotonic.png, id=211, 1044.15094pt x 277.035pt>
 File: figures/drawmonotonic.png Graphic file (type png)
 <use figures/drawmonotonic.png>
-Package pdftex.def Info: figures/drawmonotonic.png  used on input line 289.
-(pdftex.def)             Requested size: 1044.1484pt x 277.03432pt.
-
-Overfull \hbox (645.80983pt too wide) in paragraph at lines 288--290
-[] 
- []
-
-[5 <./figures/drawsparse.png> <./figures/drawclumpy.png> <./figures/drawstriate
-d.png>]
-<figures/drawsplines.png, id=212, 876.27374pt x 211.54031pt>
+Package pdftex.def Info: figures/drawmonotonic.png  used on input line 330.
+(pdftex.def)             Requested size: 398.34286pt x 141.69179pt.
+[6 <./figures/drawsparse.png> <./figures/drawclumpy.png>] [7 <./figures/drawstr
+iated.png> <./figures/drawmonotonic.png>]
+<figures/drawsplines.png, id=232, 876.27374pt x 211.54031pt>
 File: figures/drawsplines.png Graphic file (type png)
 <use figures/drawsplines.png>
-Package pdftex.def Info: figures/drawsplines.png  used on input line 311.
-(pdftex.def)             Requested size: 876.27159pt x 211.53978pt.
-
-Overfull \hbox (492.93301pt too wide) in paragraph at lines 311--312
-[][] 
- []
-
-[6 <./figures/drawmonotonic.png> <./figures/drawsplines.png>]
-<figures/drawdcor.png, id=220, 844.65562pt x 243.91125pt>
+Package pdftex.def Info: figures/drawsplines.png  used on input line 352.
+(pdftex.def)             Requested size: 398.34416pt x 141.69576pt.
+<figures/drawdcor.png, id=233, 844.65562pt x 243.91125pt>
 File: figures/drawdcor.png Graphic file (type png)
 <use figures/drawdcor.png>
-Package pdftex.def Info: figures/drawdcor.png  used on input line 327.
-(pdftex.def)             Requested size: 844.65356pt x 243.91064pt.
-
-Overfull \hbox (461.31499pt too wide) in paragraph at lines 327--328
-[][] 
- []
-
-<mason-lee-laa-cook_files/figure-latex/Features plot-1.pdf, id=221, 469.755pt x
+Package pdftex.def Info: figures/drawdcor.png  used on input line 372.
+(pdftex.def)             Requested size: 398.34148pt x 141.69193pt.
+[8 <./figures/drawsplines.png> <./figures/drawdcor.png>]
+<mason-lee-laa-cook_files/figure-latex/Features plot-1.pdf, id=243, 469.755pt x
  325.215pt>
 File: mason-lee-laa-cook_files/figure-latex/Features plot-1.pdf Graphic file (t
 ype pdf)
 <use mason-lee-laa-cook_files/figure-latex/Features plot-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/Features plot-1.
-pdf  used on input line 342.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 342--343
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 342--343
-
- []
-
-[7 <./figures/drawdcor.png>]
-<mason-lee-laa-cook_files/figure-latex/Table of Plots-1.pdf, id=233, 722.7pt x 
-722.7pt>
-File: mason-lee-laa-cook_files/figure-latex/Table of Plots-1.pdf Graphic file (
-type pdf)
-<use mason-lee-laa-cook_files/figure-latex/Table of Plots-1.pdf>
-Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/Table of Plots-1
-.pdf  used on input line 363.
-(pdftex.def)             Requested size: 722.69823pt x 722.69823pt.
-
-Overfull \hbox (339.35965pt too wide) in paragraph at lines 363--364
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 363--364
-
- []
-
-[8 <./mason-lee-laa-cook_files/figure-latex/Features plot-1.pdf>]
-Overfull \vbox (14.236pt too high) has occurred while \output is active []
-
-[9 <./mason-lee-laa-cook_files/figure-latex/Table of Plots-1.pdf>] [10]
-<mason-lee-laa-cook_files/figure-latex/Striated Comparison-1.pdf, id=291, 722.7
-pt x 578.16pt>
-File: mason-lee-laa-cook_files/figure-latex/Striated Comparison-1.pdf Graphic f
-ile (type pdf)
-<use mason-lee-laa-cook_files/figure-latex/Striated Comparison-1.pdf>
-Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/Striated Compari
-son-1.pdf  used on input line 473.
-(pdftex.def)             Requested size: 722.69823pt x 578.15858pt.
-
-Overfull \hbox (339.35965pt too wide) in paragraph at lines 473--474
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 473--474
-
- []
-
-[11 <./mason-lee-laa-cook_files/figure-latex/Striated Comparison-1.pdf>]
-<mason-lee-laa-cook_files/figure-latex/Clumpy Comparison-1.pdf, id=313, 722.7pt
- x 361.35pt>
-File: mason-lee-laa-cook_files/figure-latex/Clumpy Comparison-1.pdf Graphic fil
-e (type pdf)
-<use mason-lee-laa-cook_files/figure-latex/Clumpy Comparison-1.pdf>
-Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/Clumpy Compariso
-n-1.pdf  used on input line 544.
-(pdftex.def)             Requested size: 722.69823pt x 361.34912pt.
-
-Overfull \hbox (339.35965pt too wide) in paragraph at lines 544--545
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 544--545
-
- []
-
-[12] [13 <./mason-lee-laa-cook_files/figure-latex/Clumpy Comparison-1.pdf>]
-<mason-lee-laa-cook_files/figure-latex/unnamed-chunk-3-1.pdf, id=345, 469.755pt
+pdf  used on input line 389.
+(pdftex.def)             Requested size: 398.33858pt x 275.77405pt.
+<mason-lee-laa-cook_files/figure-latex/Visual Table-1.pdf, id=248, 469.755pt x 
+325.215pt>
+File: mason-lee-laa-cook_files/figure-latex/Visual Table-1.pdf Graphic file (ty
+pe pdf)
+<use mason-lee-laa-cook_files/figure-latex/Visual Table-1.pdf>
+Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/Visual Table-1.p
+df  used on input line 412.
+(pdftex.def)             Requested size: 398.33858pt x 275.77405pt.
+[9 <./mason-lee-laa-cook_files/figure-latex/Features plot-1.pdf>] [10 <./mason-
+lee-laa-cook_files/figure-latex/Visual Table-1.pdf>]
+<mason-lee-laa-cook_files/figure-latex/Striated Vtable-1.pdf, id=301, 469.755pt
+ x 325.215pt>
+File: mason-lee-laa-cook_files/figure-latex/Striated Vtable-1.pdf Graphic file 
+(type pdf)
+<use mason-lee-laa-cook_files/figure-latex/Striated Vtable-1.pdf>
+Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/Striated Vtable-
+1.pdf  used on input line 524.
+(pdftex.def)             Requested size: 398.33858pt x 275.77405pt.
+[11 <./mason-lee-laa-cook_files/figure-latex/Striated Vtable-1.pdf>]
+<mason-lee-laa-cook_files/figure-latex/Clumpy Vtable-1.pdf, id=327, 469.755pt x
+ 325.215pt>
+File: mason-lee-laa-cook_files/figure-latex/Clumpy Vtable-1.pdf Graphic file (t
+ype pdf)
+<use mason-lee-laa-cook_files/figure-latex/Clumpy Vtable-1.pdf>
+Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/Clumpy Vtable-1.
+pdf  used on input line 609.
+(pdftex.def)             Requested size: 398.33858pt x 275.77405pt.
+[12 <./mason-lee-laa-cook_files/figure-latex/Clumpy Vtable-1.pdf>]
+<mason-lee-laa-cook_files/figure-latex/unnamed-chunk-3-1.pdf, id=354, 469.755pt
  x 325.215pt>
 File: mason-lee-laa-cook_files/figure-latex/unnamed-chunk-3-1.pdf Graphic file 
 (type pdf)
 <use mason-lee-laa-cook_files/figure-latex/unnamed-chunk-3-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/unnamed-chunk-3-
-1.pdf  used on input line 641.
+1.pdf  used on input line 708.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 641--642
+Overfull \hbox (86.41528pt too wide) in paragraph at lines 708--709
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 641--642
+Underfull \hbox (badness 10000) in paragraph at lines 708--709
 
  []
 
-[14]
-<mason-lee-laa-cook_files/figure-latex/unnamed-chunk-4-1.pdf, id=360, 469.755pt
+[13]
+<mason-lee-laa-cook_files/figure-latex/unnamed-chunk-4-1.pdf, id=372, 469.755pt
  x 325.215pt>
 File: mason-lee-laa-cook_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file 
 (type pdf)
 <use mason-lee-laa-cook_files/figure-latex/unnamed-chunk-4-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/unnamed-chunk-4-
-1.pdf  used on input line 645.
+1.pdf  used on input line 712.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 645--646
+Overfull \hbox (86.41528pt too wide) in paragraph at lines 712--713
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 645--646
+Underfull \hbox (badness 10000) in paragraph at lines 712--713
 
  []
 
-[15 <./mason-lee-laa-cook_files/figure-latex/unnamed-chunk-3-1.pdf> <./mason-le
+[14 <./mason-lee-laa-cook_files/figure-latex/unnamed-chunk-3-1.pdf> <./mason-le
 e-laa-cook_files/figure-latex/unnamed-chunk-4-1.pdf>]
-<mason-lee-laa-cook_files/figure-latex/unnamed-chunk-9-1.pdf, id=381, 469.755pt
- x 325.215pt>
-File: mason-lee-laa-cook_files/figure-latex/unnamed-chunk-9-1.pdf Graphic file 
-(type pdf)
-<use mason-lee-laa-cook_files/figure-latex/unnamed-chunk-9-1.pdf>
-Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/unnamed-chunk-9-
-1.pdf  used on input line 728.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (211.13869pt too wide) in paragraph at lines 728--729
-[] []\T1/ppl/b/n/9 (-20) Turnovers vs Dis-posal Ef-fi-ciency[] []
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 728--729
-
- []
-
-[16]
-<mason-lee-laa-cook_files/figure-latex/unnamed-chunk-10-1.pdf, id=393, 469.755p
-t x 325.215pt>
-File: mason-lee-laa-cook_files/figure-latex/unnamed-chunk-10-1.pdf Graphic file
- (type pdf)
-<use mason-lee-laa-cook_files/figure-latex/unnamed-chunk-10-1.pdf>
-Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/unnamed-chunk-10
--1.pdf  used on input line 749.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (194.06801pt too wide) in paragraph at lines 749--750
-[] []\T1/ppl/b/n/9 (-20) One Per-centers vs In-side 50s[] []
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 749--750
-
- []
-
-[17 <./mason-lee-laa-cook_files/figure-latex/unnamed-chunk-9-1.pdf>]
-<mason-lee-laa-cook_files/figure-latex/unnamed-chunk-11-1.pdf, id=404, 469.755p
-t x 325.215pt>
-File: mason-lee-laa-cook_files/figure-latex/unnamed-chunk-11-1.pdf Graphic file
- (type pdf)
-<use mason-lee-laa-cook_files/figure-latex/unnamed-chunk-11-1.pdf>
-Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/unnamed-chunk-11
--1.pdf  used on input line 769.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (171.54407pt too wide) in paragraph at lines 769--770
-[] []\T1/ppl/b/n/9 (-20) Clangers vs Hand-balls[] []
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 769--770
-
- []
-
-[18 <./mason-lee-laa-cook_files/figure-latex/unnamed-chunk-10-1.pdf>]
-<mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf, id=415, 722.7pt x 252.
+<mason-lee-laa-cook_files/figure-latex/AFLW-scatters-static-1.pdf, id=392, 469.
+755pt x 325.215pt>
+File: mason-lee-laa-cook_files/figure-latex/AFLW-scatters-static-1.pdf Graphic 
+file (type pdf)
+<use mason-lee-laa-cook_files/figure-latex/AFLW-scatters-static-1.pdf>
+Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/AFLW-scatters-st
+atic-1.pdf  used on input line 773.
+(pdftex.def)             Requested size: 318.67207pt x 220.61726pt.
+[15 <./mason-lee-laa-cook_files/figure-latex/AFLW-scatters-static-1.pdf>]
+<mason-lee-laa-cook_files/figure-latex/3 Random Plots-1.pdf, id=404, 469.755pt 
+x 325.215pt>
+File: mason-lee-laa-cook_files/figure-latex/3 Random Plots-1.pdf Graphic file (
+type pdf)
+<use mason-lee-laa-cook_files/figure-latex/3 Random Plots-1.pdf>
+Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/3 Random Plots-1
+.pdf  used on input line 788.
+(pdftex.def)             Requested size: 398.33858pt x 275.77405pt.
+<mason-lee-laa-cook_files/figure-latex/plot1-static-1.pdf, id=405, 469.755pt x 
+325.215pt>
+File: mason-lee-laa-cook_files/figure-latex/plot1-static-1.pdf Graphic file (ty
+pe pdf)
+<use mason-lee-laa-cook_files/figure-latex/plot1-static-1.pdf>
+Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/plot1-static-1.p
+df  used on input line 814.
+(pdftex.def)             Requested size: 278.83578pt x 193.04134pt.
+[16 <./mason-lee-laa-cook_files/figure-latex/3 Random Plots-1.pdf> <./mason-lee
+-laa-cook_files/figure-latex/plot1-static-1.pdf>]
+<mason-lee-laa-cook_files/figure-latex/plot2-static-1.pdf, id=422, 469.755pt x 
+325.215pt>
+File: mason-lee-laa-cook_files/figure-latex/plot2-static-1.pdf Graphic file (ty
+pe pdf)
+<use mason-lee-laa-cook_files/figure-latex/plot2-static-1.pdf>
+Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/plot2-static-1.p
+df  used on input line 839.
+(pdftex.def)             Requested size: 278.83578pt x 193.04134pt.
+<mason-lee-laa-cook_files/figure-latex/plot5-static-1.pdf, id=423, 469.755pt x 
+325.215pt>
+File: mason-lee-laa-cook_files/figure-latex/plot5-static-1.pdf Graphic file (ty
+pe pdf)
+<use mason-lee-laa-cook_files/figure-latex/plot5-static-1.pdf>
+Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/plot5-static-1.p
+df  used on input line 869.
+(pdftex.def)             Requested size: 278.83578pt x 193.04134pt.
+[17 <./mason-lee-laa-cook_files/figure-latex/plot2-static-1.pdf> <./mason-lee-l
+aa-cook_files/figure-latex/plot5-static-1.pdf>]
+<mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf, id=440, 722.7pt x 252.
 945pt>
 File: mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf Graphic file (type
  pdf)
 <use mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf
-  used on input line 804.
+  used on input line 896.
 (pdftex.def)             Requested size: 398.33858pt x 139.41736pt.
-[19 <./mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf> <./mason-lee-laa
--cook_files/figure-latex/unnamed-chunk-11-1.pdf>]
-<mason-lee-laa-cook_files/figure-latex/unnamed-chunk-15-1.pdf, id=433, 469.755p
-t x 325.215pt>
-File: mason-lee-laa-cook_files/figure-latex/unnamed-chunk-15-1.pdf Graphic file
- (type pdf)
-<use mason-lee-laa-cook_files/figure-latex/unnamed-chunk-15-1.pdf>
-Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/unnamed-chunk-15
--1.pdf  used on input line 832.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-<mason-lee-laa-cook_files/figure-latex/unnamed-chunk-15-2.pdf, id=434, 469.755p
-t x 325.215pt>
-File: mason-lee-laa-cook_files/figure-latex/unnamed-chunk-15-2.pdf Graphic file
- (type pdf)
-<use mason-lee-laa-cook_files/figure-latex/unnamed-chunk-15-2.pdf>
-Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/unnamed-chunk-15
--2.pdf  used on input line 833.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 832--834
-[][]
- []
-
-
-Overfull \hbox (71.41528pt too wide) in paragraph at lines 832--834
-[]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 832--834
-
- []
-
-[20] [21 <./mason-lee-laa-cook_files/figure-latex/unnamed-chunk-15-1.pdf> <./ma
-son-lee-laa-cook_files/figure-latex/unnamed-chunk-15-2.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 876--879
+Underfull \hbox (badness 10000) in paragraph at lines 938--941
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 879--882
+Underfull \hbox (badness 10000) in paragraph at lines 941--944
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 882--885
+Underfull \hbox (badness 10000) in paragraph at lines 944--947
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 885--887
+Underfull \hbox (badness 10000) in paragraph at lines 947--949
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 887--890
+Underfull \hbox (badness 10000) in paragraph at lines 949--952
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 890--892
+Underfull \hbox (badness 10000) in paragraph at lines 952--954
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 892--896
+Underfull \hbox (badness 10000) in paragraph at lines 954--958
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 896--900
+Underfull \hbox (badness 10000) in paragraph at lines 958--962
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 900--902
+Underfull \hbox (badness 10000) in paragraph at lines 962--964
+
+ []
+
+[18 <./mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 964--968
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 902--906
+Underfull \hbox (badness 10000) in paragraph at lines 968--972
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 906--910
+Underfull \hbox (badness 10000) in paragraph at lines 975--978
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 913--916
+Underfull \hbox (badness 10000) in paragraph at lines 978--981
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 916--919
+Underfull \hbox (badness 10000) in paragraph at lines 987--994
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 925--932
+Underfull \hbox (badness 10000) in paragraph at lines 994--997
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 932--935
-
- []
-
-[22]
-Underfull \hbox (badness 10000) in paragraph at lines 935--937
+Underfull \hbox (badness 10000) in paragraph at lines 997--999
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 937--940
+Underfull \hbox (badness 10000) in paragraph at lines 999--1002
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 940--942
+Underfull \hbox (badness 10000) in paragraph at lines 1002--1004
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 942--945
+Underfull \hbox (badness 10000) in paragraph at lines 1004--1007
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 948--951
+Underfull \hbox (badness 10000) in paragraph at lines 1010--1013
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 951--954
+Underfull \hbox (badness 10000) in paragraph at lines 1013--1016
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 957--960
+Underfull \hbox (badness 10000) in paragraph at lines 1019--1022
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 966--969
+Underfull \hbox (badness 10000) in paragraph at lines 1028--1031
 
  []
 
@@ -1483,35 +1338,35 @@ Underfull \hbox (badness 10000) in paragraph at lines 966--969
 \tf@brf=\write6
 \openout6 = `RJwrapper.brf'.
 
-[23])
+[19])
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 993.
+(Font)              using `T1/zi4/m/n' instead on input line 1055.
 
 LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
-(Font)              scaled to size 9.18004pt on input line 993.
+(Font)              scaled to size 9.18004pt on input line 1055.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1003--1004
+Underfull \hbox (badness 10000) in paragraph at lines 1065--1066
 
  []
 
-) [24] (./RJwrapper.aux)
+) [20] [21] (./RJwrapper.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
 (rerunfilecheck)             Checksum: 54F979701189DF36EDE66BCBC6876788;3527.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
-(rerunfilecheck)             Checksum: FD65CDFF1C8EC62F1FF993E8995BDB1D;991.
+(rerunfilecheck)             Checksum: F373102F105DEA0151737B2611579CA0;1004.
  ) 
 Here is how much of TeX's memory you used:
- 25557 strings out of 480559
- 465984 string characters out of 5901528
- 770529 words of memory out of 5000000
- 42271 multiletter control sequences out of 15000+600000
- 446177 words of font info for 264 fonts, out of 8000000 for 9000
+ 25603 strings out of 480559
+ 466943 string characters out of 5901528
+ 770402 words of memory out of 5000000
+ 42313 multiletter control sequences out of 15000+600000
+ 446022 words of font info for 262 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 117i,12n,131p,448b,723s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 117i,12n,131p,448b,695s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/Users/harri/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/inconsolat
 a/i4-t1-0.enc}{c:/Users/harri/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvip
 s/base/8r.enc}<c:/Users/harri/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/pu
@@ -1526,10 +1381,10 @@ s/type1/public/mathpazo/fplmri.pfb><c:/Users/harri/AppData/Roaming/TinyTeX/texm
 f-dist/fonts/type1/urw/palatino/uplb8a.pfb><c:/Users/harri/AppData/Roaming/Tiny
 TeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb><c:/Users/harri/AppData/Roam
 ing/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (24 pages, 3411021 bytes).
+Output written on RJwrapper.pdf (21 pages, 3573692 bytes).
 PDF statistics:
  581 PDF objects out of 1000 (max. 8388607)
- 431 compressed objects within 5 object streams
- 107 named destinations out of 1000 (max. 500000)
+ 434 compressed objects within 5 object streams
+ 114 named destinations out of 1000 (max. 500000)
  57645 words of extra memory for PDF output out of 61914 (max. 10000000)
 

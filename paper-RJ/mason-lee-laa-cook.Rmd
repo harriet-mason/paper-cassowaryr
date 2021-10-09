@@ -127,7 +127,7 @@ The nine scagnostics defined in *Scagnostic Distributions* are detailed below wi
 - **Convex:** Measure of how convex the shape of the data is. Computed as the ratio between the area of the alpha hull (A) and convex hull (C).  
 
 $$s_{convex}=w\frac{area(A)}{area(C)}$$  
-```{r convexscag, out.height = "30%", out.width = "100%", fig.cap = "Convex Scagnostic Visual Explanation"}
+```{r convexscag, out.height = "20%", out.width = "100%", fig.cap = "Convex Scagnostic Visual Explanation"}
 knitr::include_graphics("figures/drawconvex.png")
 ```
 
@@ -137,7 +137,7 @@ knitr::include_graphics("figures/drawconvex.png")
 
 $$s_{skinny}= 1-\frac{\sqrt{4\pi area(A)}}{perimeter(A)}$$  
 
-```{r skinnyscag, out.height = "30%", out.width = "100%", fig.cap = "Skinny Scagnostic Visual Explanation"}
+```{r skinnyscag, out.height = "20%", out.width = "100%", fig.cap = "Skinny Scagnostic Visual Explanation"}
 knitr::include_graphics("figures/drawskinny.png")
 ```
 
@@ -145,7 +145,7 @@ knitr::include_graphics("figures/drawskinny.png")
 
 $$s_{outlying}=\frac{length(M_{outliers})}{length(M)}$$  
 
-```{r outlyingscag, out.height = "30%", out.width = "100%", fig.cap = "Outlying Scagnostic Visual Explanation"}
+```{r outlyingscag, out.height = "20%", out.width = "100%", fig.cap = "Outlying Scagnostic Visual Explanation"}
 knitr::include_graphics("figures/drawoutlying.png")
 ```
 
@@ -153,7 +153,7 @@ knitr::include_graphics("figures/drawoutlying.png")
 
 $$s_{stringy} = \frac{|V^{(2)}|}{|V|-|V^{(1)}|}$$  
 
-```{r stringyscag, out.height = "30%", out.width = "100%", fig.cap = "Stringy Scagnostic Visual Explanation"}
+```{r stringyscag, out.height = "20%", out.width = "100%", fig.cap = "Stringy Scagnostic Visual Explanation"}
 knitr::include_graphics("figures/drawstringy.png")
 ```
 
@@ -161,7 +161,7 @@ knitr::include_graphics("figures/drawstringy.png")
 
 $$s_{skewed} = 1-w(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}})$$  
 
-```{r skewedscag, out.height = "30%", out.width = "100%", fig.cap = "Skewed Scagnostic Visual Explanation"}
+```{r skewedscag, out.height = "20%", out.width = "100%", fig.cap = "Skewed Scagnostic Visual Explanation"}
 knitr::include_graphics("figures/drawskewed.png")
 ```
 
@@ -169,7 +169,7 @@ knitr::include_graphics("figures/drawskewed.png")
 
 $$s_{sparse}= wq_{90}$$
 
-```{r sparsescag, out.height = "30%", out.width = "100%", fig.cap = "Sparse Scagnostic Visual Explanation"}
+```{r sparsescag, out.height = "20%", out.width = "100%", fig.cap = "Sparse Scagnostic Visual Explanation"}
 knitr::include_graphics("figures/drawsparse.png")
 ```
 
@@ -178,7 +178,7 @@ knitr::include_graphics("figures/drawsparse.png")
 
 $$\max_{j}[1-\frac{\max_{k}[length(e_k)]}{length(e_j)}]$$  
 
-```{r clumpyscag, out.height = "30%", out.width = "100%", fig.cap = "Clumpy Scagnostic Visual Explanation"}
+```{r clumpyscag, out.height = "20%", out.width = "100%", fig.cap = "Clumpy Scagnostic Visual Explanation"}
 knitr::include_graphics("figures/drawclumpy.png")
 ```
 
@@ -187,7 +187,7 @@ knitr::include_graphics("figures/drawclumpy.png")
 
 $$\frac1{|V|}\sum_{v \in V^{2}}I(cos\theta_{e(v,a)e(v,b)}<-0.75)$$  
 
-```{r striatedscag, out.height = "30%", out.width = "100%", fig.cap = "Striated Scagnostic Visual Explanation"}
+```{r striatedscag, out.height = "20%", out.width = "100%", fig.cap = "Striated Scagnostic Visual Explanation"}
 knitr::include_graphics("figures/drawstriated.png")
 ```
 
@@ -199,7 +199,7 @@ knitr::include_graphics("figures/drawstriated.png")
 
 $$s_{monotonic} = r^2_{spearman}$$
 
-```{r monotonicscag, out.height = "30%", out.width = "100%", fig.cap = "Monotonic Scagnostic Visual Explanation"}
+```{r monotonicscag, out.height = "20%", out.width = "100%", fig.cap = "Monotonic Scagnostic Visual Explanation"}
 knitr::include_graphics("figures/drawmonotonic.png")
 ```
   
@@ -209,7 +209,7 @@ The two additional scagnostics discussed by Katrin Grimm are described below.
 - **Splines:** Measures the functional non-linear dependence by fitting a penalised splines model on X using Y, and on Y using X. The variance of the residuals are scaled down by the axis so they are comparable, and finally the maximum is taken. Therefore the value will be closer to 1 if either relationship can be decently explained by a splines model.
 
 $$s_{splines}=\max_{i\in x,y}[1-\frac{Var(Residuals_{model~i=.})}{Var(i)}]$$
-```{r splinescag, out.height = "30%", out.width = "100%", fig.cap = "Splines Scagnostic Visual Explanation"}
+```{r splinescag, out.height = "20%", out.width = "100%", fig.cap = "Splines Scagnostic Visual Explanation"}
 knitr::include_graphics("figures/drawsplines.png")
 ```
 
@@ -224,7 +224,7 @@ where
 $$A_{kl}=a_{kl}-\bar{a}_{k.}-\bar{a}_{.j}-\bar{a}_{..}$$
 $$B_{kl}=b_{kl}-\bar{b}_{k.}-\bar{b}_{.j}-\bar{b}_{..}$$
 
-```{r dcorscag, out.height = "30%", out.width = "100%", fig.cap = "Dcor Scagnostic Visual Explanation"}
+```{r dcorscag, out.height = "20%", out.width = "100%", fig.cap = "Dcor Scagnostic Visual Explanation"}
 knitr::include_graphics("figures/drawdcor.png")
 ```
 
@@ -232,71 +232,27 @@ knitr::include_graphics("figures/drawdcor.png")
 ## Checking the scagnostics calculations 
 Once we have working functions that correctly calculate the scagnostics according to their definition, we can assess how well they identify the visual features of scatter plots. To test the packages ability to differentiate plots, we have creates a dataset called "features" (that is also in the Cassowaryr package) that contains a series of interesting and unique scatter plots which we can run our scagnsotics on.
 
-```{r, Data Cleaning and Scag Calculation, include=FALSE}
-# edit data
-set.seed(29171741)
-# variables to use in making the plots
+```{r, Features plot, width = 150, height = 150, out.width = "100%", fig.cap = "The Scatter Plots of the Features Dataset"}
+mypal <- c("#b2182b", "#d53e4f","#FF4E50", "#FC913A", "#fdae61",
+           "#F9D423", "#fee08b" , "#abdda4" , "#a6d96a" , "#66c2a5" ,
+           "#66bd63","#3B8183", "#3288bd", "#74add1",  "#abd9e9")
 
-# generate circle data
-theta <- runif(150, 0, 2*pi)
-r1 <- rbeta(150, 3, 2)
-r2 <- rbeta(150, 10, 1)
-
-# generate striated x
-vlx <- sample(c(1,2,3), 150, replace=TRUE)
-
-# generate outlying data
-outx <- c(rnorm(147, 0,1), 0, 10, 10)
-outy <- c(rnorm(147, 0,1), 10, 10, 0)
-
-# formula data
-liney <- 2*theta + 2
-nonline <- 2*theta^3 - 10*theta^2 - 5*theta +  8
-
-
-extrafeatures <- tibble(feature = c(rep("disk", 150), rep("ring", 150), rep("vlines", 150), 
-                                    rep("outliers2", 150), rep("line", 150), rep("nonlinear1", 150)),
-                        x = c(r1*cos(theta), r2*cos(theta), vlx, outx, theta, theta),
-                        y = c(r1*sin(theta), r2*sin(theta), theta, outy, liney, nonline)
-                        )
-
-#combine with current features
-bigfeatures <- bind_rows(features, extrafeatures)
-
-# run scagnostics
-features_scagnostics_wide <- bigfeatures %>%
-  group_by(feature) %>%
-  summarise(calc_scags(x,y)) #%>%
-  #select(-clumpy_adjusted)
-
-#long version of
-features_scagnostics_long <- features_scagnostics_wide %>%
-  pivot_longer(cols=outlying:dcor, names_to = "scagnostic")
-
-#transpose of wide feature scagnostics table
-t_features_scagnostics_wide <- features_scagnostics_long %>%
-  pivot_wider(names_from = "feature")
-
-
-```
-
-```{r, Features plot}
 #plot them
-featplot <- ggplot(bigfeatures, aes(x,y,colour=feature))+
+ggplot(features, aes(x,y,colour=feature))+
   geom_point() +
   theme_minimal() + 
   facet_wrap(~feature, ncol=5, scales="free") +
   xlab("") + ylab("") +
   theme(legend.position = "none", 
         aspect.ratio= 1, 
-        axis.text = element_blank())
-featplot
+        axis.text = element_blank()) +
+  scale_colour_manual(values = mypal)
+
 ```
 
 These scatter plots typify certain visual features we want to look for in scatter plots, be it deterministic relationships (such as that shown in the nonlinear feature), discreteness in variables (vlines), or clustering (clumpy), we should be able to use scagnostics to identify each of these scatter plots. Below is a visual table of an example of a high, a moderate, and a low value, on each scagnostic. The scagnostics are supposed to range from 0 to 1 however in some cases the values are so compressed that a moderate value would not fit, indicating that the scagnostics do not work quite as intended. We suspect the reason for these warped distributions is the removal of binning as a preliminary step in calculating the scagnostics. We wanted the package to have binning as an optional method, considering choices in binning can lead to bias as noted in "Scagnostic Distributions" [@scagdist] or unreproducible results as noted in "Robustness of Scagnostics" . Therefore the current scagnostics will be assessed without binning [@robust].
 
 ```{r, Scatter Plots as images,  include=FALSE, eval=FALSE}
-
 #set theme so all scatter plots in table match
 plot_theme <-  theme_classic() + #theme_minimal() + 
   theme(aspect.ratio=1, axis.title=element_blank(), axis.text = element_blank(), 
@@ -311,14 +267,19 @@ plots <- unique(bigfeatures$feature)
 for (i in seq(length(plots))){
   holdplot <- bigfeatures %>% 
     filter(feature==plots[i]) %>% 
-    ggplot(aes(x,y, size=2))+ geom_point() + plot_theme
+    ggplot(aes(x,y, size=2))+ geom_point((colour=mypal[i]) + plot_theme
   # ggsave(paste0("figures/", plots[i], ".png"),holdplot) files already in /figure/
 }
 
 ```
 
+```{r, Visual Table, width = 150, height = 150, out.width = "100%", fig.cap = "The Features Scatterplots in a Visual Table"}
 
-```{r, Table of Plots, fig.height=10, fig.width=10}
+# Calculate Scagnostics
+features_scagnostics_long <- features %>%
+  group_by(feature) %>%
+  summarise(calc_scags(x,y)) %>%
+  pivot_longer(cols=outlying:dcor, names_to = "scagnostic")
 
 # edit data frame
 plot_path_data <- features_scagnostics_long %>%
@@ -430,7 +391,8 @@ The issues surrounding the striated scagnostic are:
   
 To account for these two issues the striated adjusted measure considers all vertices (not just those with two adjacent edges), and makes the measure strict around the 180 and 90 degree angles. With this we can see the improvements on the measure.
 
-```{r,  Striated Comparison, fig.height=8, fig.width=10}
+```{r, Striated Vtable, width = 150, height = 50, out.width = "100%", fig.cap = "A Visual Table Comparison of Striated and Striated 2"}
+
 # Make Visual Table
 # Data
 plot_data_striated <- plot_path_data %>%
@@ -484,7 +446,8 @@ To easily identify the edges that sit between clusters, we sort the edges and ca
   
 *To add in after it is in the package version of clumpy_adjusted:* One we have identifies the large edges, we remove them from the MST and identify which cluster all the inter cluster edges belong to. From each cluster we identify the largest edge (to avoid the measure being arbitrarily from small edges in the MST) and calculate the ratio between the largest inter cluster edge, and the large edge that connects the clusters. These ratios are added together as a weighted mean, where each weight is determined by the number of points that do not satisfy the 180 degree striated requirement. This weighted mean is the final clumpy_adjusted value.
 
-```{r,  Clumpy Comparison, fig.height=5, fig.width=10}
+```{r, Clumpy Vtable, width = 150, height = 50, out.width = "100%", fig.cap = "A Visual Table Comparison of Clumpy and Clumpy 2"}
+
 plot_data_clumpy <- plot_path_data %>%
   group_by(scagnostic, feature) %>%
   mutate(doplot = ifelse(all(scagnostic %in% c("clumpy","clumpy_adjusted"), 
@@ -968,10 +931,11 @@ save(aflw_num, file="paper-RJ/data/aflw_num.rda")
 save(AFLW_scags, file="paper-RJ/data/AFLW_scags.rda")
 ```
 
-```{r, AFLW Scatter Plots , echo=FALSE, out.width = "80%"}
-load("paper-RJ/data/aflw.rda")
-load("paper-RJ/data/aflw_num.rda")
-load("paper-RJ/data/AFLW_scags.rda")
+```{r, AFLW Scatter Plots , echo=FALSE}
+
+load("data/aflw.rda")
+load("data/aflw_num.rda")
+load("data/AFLW_scags.rda")
 
 mypal <- c("#FF4E50", "#fdae61","#fee08b", "#66c2a5", "#3288bd", "#abd9e9")
 
@@ -1019,13 +983,13 @@ subplot(ggplotly(p1), ggplotly(p2), ggplotly(p3), ggplotly(p4), ggplotly(p5), gg
         nrows=2, widths = c(0.33, 0.33, 0.33), heights = c(0.5,0.5))
 ```
 
-```{r AFLW-scatters-static, out.width="80%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
+```{r AFLW-scatters-static, out.width="80%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center'}
 grid.arrange(p1, p2, p3, p4, p5, p6,  nrow=2)
 ```
 
 Plots 1 to 5 are examples of unusual combinations of scagnostics, Plot 6 is an example of a scatter plot that was had moderate values across all the scagnostics and was mostly picked at random. We can present Plot 6 alongside two other scatter plots that were selected arbitrarily (the same way we would if we were going to try and do EDA ourselves) to give an idea of what we would get if we arbitrarily selected variables to plot.
 
-```{r, 3 Random Plots, echo=FALSE, out.width = "80%"}
+```{r, 3 Random Plots, echo=FALSE, out.width = "100%", , fig.align='center'}
 p7 <- ggplot(aflw_num, aes(x=goals, y=clangers)) + 
   geom_point(colour=mypal[6]) +
   theme_classic()+ 
@@ -1042,7 +1006,7 @@ grid.arrange(p6, p7, p8, nrow=1)
 
 We could plot scatter plots like this all day, but most of the scatter plots in this data set look something like this, and when compared to Plots 1 to 5 we can see that the extreme values on the scagnostic measurements identify atypical scatter plots. While it is interesting to know that scagnostics can pick out interesting scatter plots, we still need to know how to use them. Typically the plots with strange scagnostic combinations are identified using an interactive SPLOM, but for the sake of space, we are only going to show the specific scatter plots of the SPLOM that led to the selection of Plots 1, 2, and 5. Lets start with Plot 1.
 
-```{r, AFL relevent SPLOMS, include= FALSE, eval=FALSE, echo=FALSE, fig.height=3, fig.width=9, out.width = "100%", fig.align='center'}
+```{r, AFL relevent SPLOMS, include= FALSE, echo=FALSE}
 test <- AFLW_scags %>%
   mutate(lab = paste0(Var1, ", ", Var2)) %>%
   mutate(plot1=ifelse(lab=="disposalEfficiency, hitouts", TRUE,FALSE),
@@ -1088,20 +1052,19 @@ s5 <- ggplot(test, aes(x=outlying, y = striated_adjusted, colour=plot5, label=la
   scale_colour_manual(values=c("grey", mypal[5])) +
   ggtitle("Relevant Scagnostics Plot")
 
-#grid.arrange(s1, s2, s3, s4, s5, s6,  nrow=2)
 ```
 
 #### Plot 1
 We identified Plot 1 as interesting as it returned high values on both Outlying and Skewed. This indicates that even after removing outliers, the data was still disproportionately spread out, a trend we can see very clearly in the identified scatter plot.
 
-```{r, plot1-interactive, out.width="50%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
+```{r, plot1-interactive, out.width="70%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
 
 subplot(ggplotly(p1), ggplotly(s1),
         nrows=1, widths = c(0.5, 0.5), heights = 0.5)%>%
   config(displayModeBar = FALSE)
 ```
 
-```{r plot1-static, out.width="50%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
+```{r plot1-static, out.width="70%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), , fig.align='center'}
 grid.arrange(p1, s1, nrow=1)
 ```
 
@@ -1109,28 +1072,28 @@ grid.arrange(p1, s1, nrow=1)
   
 Plot 2 scored very highly on all the association measures, which indicates a strong relationship between the two variables. The three association measures typically have strong correlation, and scatter plots that stay within the large mass in the center have a linear relation, scatter plots that deviate from this large correlation typically have some strong non-linear relationship. Unfortunately that does not appear here, and so none of these variable pairs have strong non-linear relationships, rather our highest scagnostic on the association measures indicates the linear relationship between total posessions and disposals. Total possessions is the number of times the player has the ball and disposals is the number of times the player gets rid of the ball legally, so the high correlation makes sense, this is a professional league so most of the players succeed in getting rid of the ball legally.
 
-```{r, plot2-interactive, out.width="50%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
+```{r, plot2-interactive, out.width="70%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
 
 subplot(ggplotly(p2), ggplotly(s2),
         nrows=1, widths = c(0.5, 0.5), heights = 0.5)%>%
   config(displayModeBar = FALSE)
 ```
 
-```{r plot2-static, out.width="50%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
+```{r plot2-static, out.width="70%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), , fig.align='center'}
 grid.arrange(p2, s2, nrow=1)
 ```
 
 #### Plot 5
 This plot is an excellent example in what new information we can learn from a unique pairwise relationship. This scatter plot is separate from the mass of pairwise relationships because it was high on striated_2 and low on outlying, which tells us most of the points are at right angles and a little spread out (but not enough for a high outlying value). This plot tells us something interesting about the physicality of the players. If a specific sports statistic is related to position, we would see a relationship have a lower triangular structure similar to that of Plot 4, however this plot does not have a lower triangular structure, is has an L-shape. This means these statistics are not about position, but rather the physical abilities of the players. Hitouts measure the number of times the player punches the ball after the referee throws it back into play, bounces have to be done while running, and are typically done by fast players. The l-shape tells us that players who do one very rarely perform the other. The moderate spread along both of the statistics tells us these are both somewhat specialised skills, and the players who specialise in one do not specialise in the other, i.e. in AFL the tallest player in the team is rarely the fastest.
 
-```{r, plot5-interactive, out.width="50%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
+```{r, plot5-interactive, out.width="70%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
 
 subplot(ggplotly(p5), ggplotly(s5),
         nrows=1, widths = c(0.5, 0.5), heights = 0.5)%>%
   config(displayModeBar = FALSE)
 ```
 
-```{r plot5-static, out.width="50%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
+```{r plot5-static, out.width="70%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center'}
 grid.arrange(p5, s5, nrow=1)
 ```
 

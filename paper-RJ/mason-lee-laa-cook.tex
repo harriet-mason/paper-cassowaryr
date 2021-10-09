@@ -184,7 +184,11 @@ constant that adjusts for that.
 
 \[s_{convex}=w\frac{area(A)}{area(C)}\]
 
-\includegraphics{figures/drawconvex.png}
+\begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawconvex} \caption[Convex Scagnostic Visual Explanation]{Convex Scagnostic Visual Explanation}(\#fig:convexscag)
+\end{figure}
+\end{Schunk}
 
 \begin{itemize}
 \tightlist
@@ -197,7 +201,11 @@ constant that adjusts for that.
 
 \[s_{skinny}= 1-\frac{\sqrt{4\pi area(A)}}{perimeter(A)}\]
 
-\includegraphics{figures/drawskinny.png}
+\begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawskinny} \caption[Skinny Scagnostic Visual Explanation]{Skinny Scagnostic Visual Explanation}(\#fig:skinnyscag)
+\end{figure}
+\end{Schunk}
 
 \begin{itemize}
 \tightlist
@@ -209,7 +217,11 @@ constant that adjusts for that.
 
 \[s_{outlying}=\frac{length(M_{outliers})}{length(M)}\]
 
-\includegraphics{figures/drawoutlying.png}
+\begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawoutlying} \caption[Outlying Scagnostic Visual Explanation]{Outlying Scagnostic Visual Explanation}(\#fig:outlyingscag)
+\end{figure}
+\end{Schunk}
 
 \begin{itemize}
 \tightlist
@@ -223,7 +235,11 @@ constant that adjusts for that.
 
 \[s_{stringy} = \frac{|V^{(2)}|}{|V|-|V^{(1)}|}\]
 
-\includegraphics{figures/drawstringy.png}
+\begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawstringy} \caption[Stringy Scagnostic Visual Explanation]{Stringy Scagnostic Visual Explanation}(\#fig:stringyscag)
+\end{figure}
+\end{Schunk}
 
 \begin{itemize}
 \tightlist
@@ -236,7 +252,11 @@ constant that adjusts for that.
 
 \[s_{skewed} = 1-w(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}})\]
 
-\includegraphics{figures/drawskewed.png}
+\begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawskewed} \caption[Skewed Scagnostic Visual Explanation]{Skewed Scagnostic Visual Explanation}(\#fig:skewedscag)
+\end{figure}
+\end{Schunk}
 
 \begin{itemize}
 \tightlist
@@ -247,7 +267,11 @@ constant that adjusts for that.
 
 \[s_{sparse}= wq_{90}\]
 
-\includegraphics{figures/drawsparse.png}
+\begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawsparse} \caption[Sparse Scagnostic Visual Explanation]{Sparse Scagnostic Visual Explanation}(\#fig:sparsescag)
+\end{figure}
+\end{Schunk}
 
 \begin{itemize}
 \tightlist
@@ -262,8 +286,13 @@ constant that adjusts for that.
   value over all edges.
 \end{itemize}
 
-\[\max_{j}[1-\frac{\max_{k}[length(e_k)]}{length(e_j)}]\]\\
-\includegraphics{figures/drawclumpy.png}
+\[\max_{j}[1-\frac{\max_{k}[length(e_k)]}{length(e_j)}]\]
+
+\begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawclumpy} \caption[Clumpy Scagnostic Visual Explanation]{Clumpy Scagnostic Visual Explanation}(\#fig:clumpyscag)
+\end{figure}
+\end{Schunk}
 
 \begin{itemize}
 \tightlist
@@ -274,8 +303,17 @@ constant that adjusts for that.
   between the adjacent edges of vertices with only two edges.
 \end{itemize}
 
-\[\frac1{|V|}\sum_{v \in V^{2}}I(cos\theta_{e(v,a)e(v,b)}<-0.75)\]\\
-\includegraphics{figures/drawstriated.png}
+\[\frac1{|V|}\sum_{v \in V^{2}}I(cos\theta_{e(v,a)e(v,b)}<-0.75)\]
+
+\begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawstriated} \caption[Striated Scagnostic Visual Explanation]{Striated Scagnostic Visual Explanation}(\#fig:striatedscag)
+\end{figure}
+\end{Schunk}
+
+\hypertarget{association-based-scagnostics}{%
+\subsection{Association-based
+scagnostics}\label{association-based-scagnostics}}
 
 \begin{itemize}
 \tightlist
@@ -286,11 +324,12 @@ constant that adjusts for that.
 \end{itemize}
 
 \[s_{monotonic} = r^2_{spearman}\]
-\includegraphics{figures/drawmonotonic.png}
 
-\hypertarget{association-based-scagnostics}{%
-\subsection{Association-based
-scagnostics}\label{association-based-scagnostics}}
+\begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawmonotonic} \caption[Monotonic Scagnostic Visual Explanation]{Monotonic Scagnostic Visual Explanation}(\#fig:monotonicscag)
+\end{figure}
+\end{Schunk}
 
 The two additional scagnostics discussed by Katrin Grimm are described
 below.
@@ -308,7 +347,11 @@ below.
 
 \[s_{splines}=\max_{i\in x,y}[1-\frac{Var(Residuals_{model~i=.})}{Var(i)}]\]
 
-\includegraphics{figures/drawsplines.png}
+\begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawsplines} \caption[Splines Scagnostic Visual Explanation]{Splines Scagnostic Visual Explanation}(\#fig:splinescag)
+\end{figure}
+\end{Schunk}
 
 \begin{itemize}
 \tightlist
@@ -324,7 +367,11 @@ where \[\mathcal{V}
 where \[A_{kl}=a_{kl}-\bar{a}_{k.}-\bar{a}_{.j}-\bar{a}_{..}\]
 \[B_{kl}=b_{kl}-\bar{b}_{k.}-\bar{b}_{.j}-\bar{b}_{..}\]
 
-\includegraphics{figures/drawdcor.png}
+\begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawdcor} \caption[Dcor Scagnostic Visual Explanation]{Dcor Scagnostic Visual Explanation}(\#fig:dcorscag)
+\end{figure}
+\end{Schunk}
 
 \hypertarget{checking-the-scagnostics-calculations}{%
 \subsection{Checking the scagnostics
@@ -338,8 +385,10 @@ is also in the Cassowaryr package) that contains a series of interesting
 and unique scatter plots which we can run our scagnsotics on.
 
 \begin{Schunk}
-
-\includegraphics{mason-lee-laa-cook_files/figure-latex/Features plot-1} \end{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Features plot-1} \caption[The Scatter Plots of the Features Dataset]{The Scatter Plots of the Features Dataset}(\#fig:Features plot)
+\end{figure}
+\end{Schunk}
 
 These scatter plots typify certain visual features we want to look for
 in scatter plots, be it deterministic relationships (such as that shown
@@ -359,8 +408,10 @@ Therefore the current scagnostics will be assessed without binning
 \citep{robust}.
 
 \begin{Schunk}
-
-\includegraphics{mason-lee-laa-cook_files/figure-latex/Table of Plots-1} \end{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Visual Table-1} \caption[The Features Scatterplots in a Visual Table]{The Features Scatterplots in a Visual Table}(\#fig:Visual Table)
+\end{figure}
+\end{Schunk}
 
 This plot gives a slight idea of the issues some of the scagnsotics face
 in their current state. The scagnostics based upon the convex hull
@@ -469,8 +520,10 @@ measure strict around the 180 and 90 degree angles. With this we can see
 the improvements on the measure.
 
 \begin{Schunk}
-
-\includegraphics{mason-lee-laa-cook_files/figure-latex/Striated Comparison-1} \end{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Striated Vtable-1} \caption[A Visual Table Comparison of Striated and Striated 2]{A Visual Table Comparison of Striated and Striated 2}(\#fig:Striated Vtable)
+\end{figure}
+\end{Schunk}
 
 While these two measures may seem similar at a glace, there are a few
 minor things that make the striated\_adjusted scagnsotic an improvement
@@ -492,6 +545,18 @@ striated\_adjusted, after the plots with strict discreteness in
 rotated ``discrete'' plot. Therefore in terms of ordering the plots in
 how well they represent the feature of discreteness, striated\_adjusted
 outperforms striated.
+
+The scagnsotics need to be used and interpreted with the type of dataset
+you are working with in mind. For if we are looking at a dataset that is
+discrete, a very low value on striated\_adjusted would indicate some
+strange relationship in the scatter plot. Since the old striated measure
+is specifically trying to find a continuous variable against a discrete
+variable, its highest values are also identified by the
+striated\_adjusted. The lowest values on striated simply identify a plot
+where all the variables are at right angles, once again a measure of
+disceteness but one that is not identified by striated.
+Striated\_adjusted encapsulates both versions of discreteness in the
+values that get exactly a 1.
 
 \hypertarget{clumpy-adjusted}{%
 \paragraph{Clumpy Adjusted}\label{clumpy-adjusted}}
@@ -540,8 +605,10 @@ degree striated requirement. This weighted mean is the final
 clumpy\_adjusted value.
 
 \begin{Schunk}
-
-\includegraphics{mason-lee-laa-cook_files/figure-latex/Clumpy Comparison-1} \end{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Clumpy Vtable-1} \caption[A Visual Table Comparison of Clumpy and Clumpy 2]{A Visual Table Comparison of Clumpy and Clumpy 2}(\#fig:Clumpy Vtable)
+\end{figure}
+\end{Schunk}
 
 Even with a partially completed clumpy\_adjusted measure we can see the
 improvement on the clumpy measure. The first obvious outcome is that the
@@ -689,97 +756,122 @@ information on the 2020 season, in which the league had 14 teams and
 others are categorical, like the players names or match ids, which would
 not be used in scagnostic calculations. These numeric variables are
 recorded per player per game, and a description of each variable in this
-data set can be found in the appendix. With 38 variables, there are 703
-possible scatterplots to make. The scagnostics can suggest which are the
-interesting ones to examine.
-
-\hypertarget{team-comparison}{%
-\subsubsection{Team Comparison}\label{team-comparison}}
-
-One use of scagnostics is to compare between group differences in the
-shape of scatter plots. Here, we will apply the scagnsotics to the best
-and worst team in the 2020 AFLW season, North Melbourne and Richmond
-respectively. Looking at the \emph{shape} differences on scatter plots
-between the two teams can give us a new method to understand what
-differentiates a good team from a bad one.
-
-After averaging each players statistics across all the games in the
-season, there are 3 scatter plots that stand out as having a difference
-in the shapes between the two teams. They are:
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  Turnovers vs Disposal Efficiency
-\item
-  One Percenters vs Inside 50s
-\item
-  Clangers vs Handballs
-\end{enumerate}
-
-We will analyse the shape difference in these scatter plots here.
-
-\hypertarget{turnovers-vs-disposal-efficiency}{%
-\paragraph{Turnovers vs Disposal
-Efficiency}\label{turnovers-vs-disposal-efficiency}}
+data set can be found in the appendix. With 33 numeric variables, there
+are 528 possible scatterplots to make. This is much more than we could
+possibly plot ourselves, and so we can use the scagnostics to identify
+which might be interesting to examine ourselves. The figure below
+displays 5 scatter plots that were identified as having a particularly
+high or low value on a scagnostic, or an unusual combination of two or
+more scagnostics. In addition to these 5, there is a 6th plot that is
+included to display what a middling value on almost all of the
+scagnostics looks like. You may like to test your scagnostics knowledge
+by guessing which plot is the middling value on all the scagnsotics.
 
 \begin{Schunk}
 
-\includegraphics{mason-lee-laa-cook_files/figure-latex/unnamed-chunk-9-1} \end{Schunk}
 
-This scatter plot was identified as interesting as the two teams has a
-large difference on the clumpy\_adjusted and convex measures. A good
-player will have a high disposalEfficiency (they rarely kick it to the
-other team) and a low number of turnovers (they rarely kick it somewhere
-no player can get it) and we would expect a linear relationship between
-the two, as causing a both is likely caused by bad play. A comparison of
-these plots shows the best team in the league, North Melbourne, adheres
-pretty well to this linear relation, while Richmond does not. That
-indicates that Richmond players either overwhemingly kick the ball into
-space to avoid kicking to the other team, or they overwhelmingly give a
-risky pass that is likely to go to the other team. They do not evenly
-choose between the two.
+\begin{center}\includegraphics[width=0.8\linewidth]{mason-lee-laa-cook_files/figure-latex/AFLW-scatters-static-1} \end{center}
 
-\hypertarget{one-percenters-vs-inside-50s}{%
-\paragraph{One Percenters vs Inside
-50s}\label{one-percenters-vs-inside-50s}}
+\end{Schunk}
+
+Plots 1 to 5 are examples of unusual combinations of scagnostics, Plot 6
+is an example of a scatter plot that was had moderate values across all
+the scagnostics and was mostly picked at random. We can present Plot 6
+alongside two other scatter plots that were selected arbitrarily (the
+same way we would if we were going to try and do EDA ourselves) to give
+an idea of what we would get if we arbitrarily selected variables to
+plot.
 
 \begin{Schunk}
 
-\includegraphics{mason-lee-laa-cook_files/figure-latex/unnamed-chunk-10-1} \end{Schunk}
 
-This scatter plot was also identified as interesting by the two teams
-having a large difference on the clumpy\_adjusted and convex measures.
-If the player gets the ball inside the 50m arc around the oppositions
-goal they are likely a forward, if they get perform a lot of
-onePercenters they are likely a defensive player, if they do a bit of
-both they are likely a midfielder. A well structured team will have a
-lower triangular shape on this scatter plot, as players are sticking to
-their position and excelling in that position, which is the structure
-North Melbourne has. Richmond has several players that score highly on
-both onePercenters and are frequently inside50s. This implies Richmond
-has a hanful of players that play every position well and are a bit all
-over the field, and have less specialisation in positions.
+\begin{center}\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/3 Random Plots-1} \end{center}
 
-\hypertarget{clangers-vs-handballs}{%
-\paragraph{Clangers vs Handballs}\label{clangers-vs-handballs}}
+\end{Schunk}
+
+We could plot scatter plots like this all day, but most of the scatter
+plots in this data set look something like this, and when compared to
+Plots 1 to 5 we can see that the extreme values on the scagnostic
+measurements identify atypical scatter plots. While it is interesting to
+know that scagnostics can pick out interesting scatter plots, we still
+need to know how to use them. Typically the plots with strange
+scagnostic combinations are identified using an interactive SPLOM, but
+for the sake of space, we are only going to show the specific scatter
+plots of the SPLOM that led to the selection of Plots 1, 2, and 5. Lets
+start with Plot 1.
+
+\hypertarget{plot-1}{%
+\paragraph{Plot 1}\label{plot-1}}
+
+We identified Plot 1 as interesting as it returned high values on both
+Outlying and Skewed. This indicates that even after removing outliers,
+the data was still disproportionately spread out, a trend we can see
+very clearly in the identified scatter plot.
 
 \begin{Schunk}
 
-\includegraphics{mason-lee-laa-cook_files/figure-latex/unnamed-chunk-11-1} \end{Schunk}
 
-This scatter plot was identified as interesting by all the association
-measures. Handballs are a measure of one of the legal methods of getting
-rid of the ball, clangers are a measure of the illegal methods of
-getting rid of the ball. If the number of clangers for each player in
-the team linearly related to the number of handballs, it means the team
-as a whole is efficient at getting rid of the ball, if this scatter plot
-is spread out, it means there are large gaps in the efficiency of each
-player. This scatter plot shows us that the Richmond team has a greater
-difference in ability than the North Melbourne Team.
+\begin{center}\includegraphics[width=0.7\linewidth]{mason-lee-laa-cook_files/figure-latex/plot1-static-1} \end{center}
 
-\hypertarget{a-look-at-splines}{%
-\subsubsection{A Look at Splines}\label{a-look-at-splines}}
+\end{Schunk}
+
+\hypertarget{plot-2}{%
+\paragraph{Plot 2}\label{plot-2}}
+
+Plot 2 scored very highly on all the association measures, which
+indicates a strong relationship between the two variables. The three
+association measures typically have strong correlation, and scatter
+plots that stay within the large mass in the center have a linear
+relation, scatter plots that deviate from this large correlation
+typically have some strong non-linear relationship. Unfortunately that
+does not appear here, and so none of these variable pairs have strong
+non-linear relationships, rather our highest scagnostic on the
+association measures indicates the linear relationship between total
+posessions and disposals. Total possessions is the number of times the
+player has the ball and disposals is the number of times the player gets
+rid of the ball legally, so the high correlation makes sense, this is a
+professional league so most of the players succeed in getting rid of the
+ball legally.
+
+\begin{Schunk}
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{mason-lee-laa-cook_files/figure-latex/plot2-static-1} \end{center}
+
+\end{Schunk}
+
+\hypertarget{plot-5}{%
+\paragraph{Plot 5}\label{plot-5}}
+
+This plot is an excellent example in what new information we can learn
+from a unique pairwise relationship. This scatter plot is separate from
+the mass of pairwise relationships because it was high on striated\_2
+and low on outlying, which tells us most of the points are at right
+angles and a little spread out (but not enough for a high outlying
+value). This plot tells us something interesting about the physicality
+of the players. If a specific sports statistic is related to position,
+we would see a relationship have a lower triangular structure similar to
+that of Plot 4, however this plot does not have a lower triangular
+structure, is has an L-shape. This means these statistics are not about
+position, but rather the physical abilities of the players. Hitouts
+measure the number of times the player punches the ball after the
+referee throws it back into play, bounces have to be done while running,
+and are typically done by fast players. The l-shape tells us that
+players who do one very rarely perform the other. The moderate spread
+along both of the statistics tells us these are both somewhat
+specialised skills, and the players who specialise in one do not
+specialise in the other, i.e.~in AFL the tallest player in the team is
+rarely the fastest.
+
+\begin{Schunk}
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{mason-lee-laa-cook_files/figure-latex/plot5-static-1} \end{center}
+
+\end{Schunk}
+
+\hypertarget{spines-work}{%
+\subsubsection{Spines Work}\label{spines-work}}
 
 \begin{Schunk}
 
@@ -815,36 +907,6 @@ Kaitlyn Ashmore kicked 4 goals in a match with 100\% accuracy.
 NOTE: Each player is represented multiple times here, I think. The stats
 are per game. Maybe it is better to aggregate for each player and re-do
 the statistics?
-
-\hypertarget{stirated-adjusted-comments}{%
-\subsubsection{Stirated Adjusted
-Comments}\label{stirated-adjusted-comments}}
-
-The scagnsotics need to be used and interpreted with the type of dataset
-you are working with in mind. For example, since these are sports stats,
-almost all of the variables are discrete. This means in the case of the
-striated varibale, we would be interested in the scatter plots that are
-very low on striated rather than high. Lets see which striated measure
-can find some interesting scatter plots.
-
-\begin{Schunk}
-
-\includegraphics{mason-lee-laa-cook_files/figure-latex/unnamed-chunk-15-1} 
-\includegraphics{mason-lee-laa-cook_files/figure-latex/unnamed-chunk-15-2} \end{Schunk}
-
-Why the lowest values on striated? This is a discrete data set, if all
-the points are not at right angles or in a stright line, to each other,
-they are not just randonly spread on the. Since the old striated measure
-is specifically trying to find a continuous variable against a discrete
-variable, its highest values are also identified by the
-striated\_adjusted. The lowest values on striated simply identify a plot
-where all the variables are at right angles, once again a measure of
-disceteness but one that is not identified by striated.
-Striated\_adjusted encapsulates both versions of discreteness in the
-values that get exactly a 1, this means the scatter plot that gets the
-lowest value should be the two variables that are continuous. Following
-that striated\_adjusted gives some interesting scatter plots in both
-goal and dispsoal accuracy vs number.
 
 \hypertarget{world-development-indicators}{%
 \subsection{World Development
