@@ -27,7 +27,7 @@ library(gridExtra) #groups of static scatter plots
 library(alphahull)
 data("features")
 nl <- features %>% filter(feature == "nonlinear2")
-d1 <- draw_convexhull(nl$x, nl$y) +
+d1 <- draw_convexhull(nl$x, nl$y, fill=TRUE) +
   ggtitle("a. Convex hull") +
   xlab("") + ylab("") +
   theme_void() +
