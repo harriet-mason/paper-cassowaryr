@@ -15,14 +15,15 @@ library(patchwork)
 library(knitr)
 library(ggimg) #for the visual table
 library(ggstance) #for vertical dodge on plot
-
+library(fitzRoy) #for AFLW data
+library(gridExtra) #groups of static scatter plots
 
 
 ## ----building-blocks, out.height = "30%", out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics", eval=FALSE----
 #> knitr::include_graphics("figures/draw1.png")
 
 
-## ----building-blocks2, width = 150, height = 50, out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics"----
+## ----building-blocks2, width = 150, height = 50, out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics", layout = "l-body"----
 library(alphahull)
 data("features")
 nl <- features %>% filter(feature == "nonlinear2")
@@ -44,69 +45,69 @@ d3 <- draw_mst(nl$x, nl$y) +
 d1 + d2 + d3
 
 
-## ---- Data Cleaning and Scag Calculation, include=FALSE-----------------------
-# edit data
-set.seed(29171741)
-# variables to use in making the plots
-
-# generate circle data
-theta <- runif(150, 0, 2*pi)
-r1 <- rbeta(150, 3, 2)
-r2 <- rbeta(150, 10, 1)
-
-# generate striated x
-vlx <- sample(c(1,2,3), 150, replace=TRUE)
-
-# generate outlying data
-outx <- c(rnorm(147, 0,1), 0, 10, 10)
-outy <- c(rnorm(147, 0,1), 10, 10, 0)
-
-# formula data
-liney <- 2*theta + 2
-nonline <- 2*theta^3 - 10*theta^2 - 5*theta +  8
+## ----convexscag, out.height = "20%", out.width = "100%", fig.cap = "Convex Scagnostic Visual Explanation"----
+knitr::include_graphics("figures/drawconvex.png")
 
 
-extrafeatures <- tibble(feature = c(rep("disk", 150), rep("ring", 150), rep("vlines", 150), 
-                                    rep("outliers2", 150), rep("line", 150), rep("nonlinear1", 150)),
-                        x = c(r1*cos(theta), r2*cos(theta), vlx, outx, theta, theta),
-                        y = c(r1*sin(theta), r2*sin(theta), theta, outy, liney, nonline)
-                        )
-
-#combine with current features
-bigfeatures <- bind_rows(features, extrafeatures)
-
-# run scagnostics
-features_scagnostics_wide <- bigfeatures %>%
-  group_by(feature) %>%
-  summarise(calc_scags(x,y)) #%>%
-  #select(-clumpy_adjusted)
-
-#long version of
-features_scagnostics_long <- features_scagnostics_wide %>%
-  pivot_longer(cols=outlying:dcor, names_to = "scagnostic")
-
-#transpose of wide feature scagnostics table
-t_features_scagnostics_wide <- features_scagnostics_long %>%
-  pivot_wider(names_from = "feature")
+## ----skinnyscag, out.height = "20%", out.width = "100%", fig.cap = "Skinny Scagnostic Visual Explanation"----
+knitr::include_graphics("figures/drawskinny.png")
 
 
+## ----outlyingscag, out.height = "20%", out.width = "100%", fig.cap = "Outlying Scagnostic Visual Explanation"----
+knitr::include_graphics("figures/drawoutlying.png")
 
 
-## ---- Features plot-----------------------------------------------------------
+## ----stringyscag, out.height = "20%", out.width = "100%", fig.cap = "Stringy Scagnostic Visual Explanation"----
+knitr::include_graphics("figures/drawstringy.png")
+
+
+## ----skewedscag, out.height = "20%", out.width = "100%", fig.cap = "Skewed Scagnostic Visual Explanation"----
+knitr::include_graphics("figures/drawskewed.png")
+
+
+## ----sparsescag, out.height = "20%", out.width = "100%", fig.cap = "Sparse Scagnostic Visual Explanation"----
+knitr::include_graphics("figures/drawsparse.png")
+
+
+## ----clumpyscag, out.height = "20%", out.width = "100%", fig.cap = "Clumpy Scagnostic Visual Explanation"----
+knitr::include_graphics("figures/drawclumpy.png")
+
+
+## ----striatedscag, out.height = "20%", out.width = "100%", fig.cap = "Striated Scagnostic Visual Explanation"----
+knitr::include_graphics("figures/drawstriated.png")
+
+
+## ----monotonicscag, out.height = "20%", out.width = "100%", fig.cap = "Monotonic Scagnostic Visual Explanation"----
+knitr::include_graphics("figures/drawmonotonic.png")
+
+
+## ----splinescag, out.height = "20%", out.width = "100%", fig.cap = "Splines Scagnostic Visual Explanation"----
+knitr::include_graphics("figures/drawsplines.png")
+
+
+## ----dcorscag, out.height = "20%", out.width = "100%", fig.cap = "Dcor Scagnostic Visual Explanation"----
+knitr::include_graphics("figures/drawdcor.png")
+
+
+## ---- Features plot, width = 150, height = 150, out.width = "100%", fig.cap = "The Scatter Plots of the Features Dataset"----
+mypal <- c("#b2182b", "#d53e4f","#FF4E50", "#FC913A", "#fdae61",
+           "#F9D423", "#fee08b" , "#abdda4" , "#a6d96a" , "#66c2a5" ,
+           "#66bd63","#3B8183", "#3288bd", "#74add1",  "#abd9e9")
+
 #plot them
-featplot <- ggplot(bigfeatures, aes(x,y,colour=feature))+
+ggplot(features, aes(x,y,colour=feature))+
   geom_point() +
   theme_minimal() + 
   facet_wrap(~feature, ncol=5, scales="free") +
   xlab("") + ylab("") +
   theme(legend.position = "none", 
         aspect.ratio= 1, 
-        axis.text = element_blank())
-featplot
+        axis.text = element_blank()) +
+  scale_colour_manual(values = mypal)
+
 
 
 ## ---- Scatter Plots as images,  include=FALSE, eval=FALSE---------------------
-#> 
 #> #set theme so all scatter plots in table match
 #> plot_theme <-  theme_classic() + #theme_minimal() +
 #>   theme(aspect.ratio=1, axis.title=element_blank(), axis.text = element_blank(),
@@ -121,13 +122,19 @@ featplot
 #> for (i in seq(length(plots))){
 #>   holdplot <- bigfeatures %>%
 #>     filter(feature==plots[i]) %>%
-#>     ggplot(aes(x,y, size=2))+ geom_point() + plot_theme
+#>     ggplot(aes(x,y, size=2))+ geom_point((colour=mypal[i]) + plot_theme
 #>   # ggsave(paste0("figures/", plots[i], ".png"),holdplot) files already in /figure/
 #> }
 #> 
 
 
-## ---- Table of Plots, fig.height=10, fig.width=10-----------------------------
+## ---- Visual Table, width = 150, height = 150, out.width = "100%", fig.cap = "The Features Scatterplots in a Visual Table"----
+
+# Calculate Scagnostics
+features_scagnostics_long <- features %>%
+  group_by(feature) %>%
+  summarise(calc_scags(x,y)) %>%
+  pivot_longer(cols=outlying:dcor, names_to = "scagnostic")
 
 # edit data frame
 plot_path_data <- features_scagnostics_long %>%
@@ -210,7 +217,8 @@ visual_table
 
 
 
-## ----  Striated Comparison, fig.height=8, fig.width=10------------------------
+## ---- Striated Vtable, width = 150, height = 50, out.width = "100%", fig.cap = "A Visual Table Comparison of Striated and Striated 2"----
+
 # Make Visual Table
 # Data
 plot_data_striated <- plot_path_data %>%
@@ -247,7 +255,8 @@ striated_visual_table
 
 
 
-## ----  Clumpy Comparison, fig.height=5, fig.width=10--------------------------
+## ---- Clumpy Vtable, width = 150, height = 50, out.width = "100%", fig.cap = "A Visual Table Comparison of Clumpy and Clumpy 2"----
+
 plot_data_clumpy <- plot_path_data %>%
   group_by(scagnostic, feature) %>%
   mutate(doplot = ifelse(all(scagnostic %in% c("clumpy","clumpy_adjusted"), 
@@ -489,7 +498,7 @@ load("data/feats_micro.rda")
 scags_macro <- calc_scags_wide(feats_macro[,1:4], 
   scags = c("convex", "splines", "skinny",
             "outlying", "stringy", "striated",
-            "clumpy","sparse", "skewed"))
+            "clumpy", "sparse", "skewed"))
 
 #feats_micro %>% 
 #  summarise_all(sd, na.rm=TRUE) %>% 
@@ -642,137 +651,175 @@ mac + mic
 #>         nrows=2, widths = c(0.33, 0.33, 0.33), heights = c(0.5, 0.5))
 
 
-## ----eval=FALSE---------------------------------------------------------------
-#> library(fitzRoy)
+## ---- AFL DATA, include=FALSE, eval=FALSE-------------------------------------
+#> 
 #> aflw <- fetch_player_stats(2020, comp = "AFLW")
-#> save(aflw, file = "data/aflw.rda")
 #> 
 #> aflw_num <- aflw %>%
 #>   select_if(is.numeric)
+#> 
 #> aflw_num <- aggregate(aflw_num[,5:37],
-#>                                list(aflw$player.player.player.surname),
-#>                                mean)
-#> save(aflw_num, file = "data/aflw_num.rda")
+#>   list(aflw$player.player.player.surname),
+#>   mean)
 #> 
-#> scag_aflw <- calc_scags_wide(aflw_num[,2:34])
-#> save(scag_aflw, file = "data/scagnostics_aflw.rda")
+#> AFLW_scags <- calc_scags_wide(aflw_num[,2:34])
 #> 
+#> #AFLW DATA SAVE
+#> save(aflw, file="paper-RJ/data/aflw.rda")
+#> save(aflw_num, file="paper-RJ/data/aflw_num.rda")
+#> save(AFLW_scags, file="paper-RJ/data/AFLW_scags.rda")
 
 
-## ---- Team Comparison---------------------------------------------------------
-load("data/aflw_num.rda")
+## ---- AFLW Scatter Plots , echo=FALSE-----------------------------------------
+
 load("data/aflw.rda")
+load("data/aflw_num.rda")
+load("data/AFLW_scags.rda")
 
-# Richmond Team Stats (bottom of the ladder)
+mypal <- c("#FF4E50", "#fdae61","#fee08b", "#66c2a5", "#3288bd", "#abd9e9")
 
-#get just richmond team
-richmond_aflw <- aflw %>%
-  filter(teamId== "CD_T8788")
+#standounts from splom
+#outlying and Skewed + highest skinny not 1
+p1 <- ggplot(aflw_num, aes(x=disposalEfficiency, y=hitouts, label=Group.1)) + 
+  theme_classic()+
+  ggtitle("Plot 1") + 
+  geom_point(colour=mypal[1]) 
 
-#richmond numeric
-richmond_aflw_num <- richmond_aflw %>%
-  select_if(is.numeric)
+#high on the 3 associations measures
+p2 <- ggplot(aflw_num, aes(x=totalPossessions, y=disposals, label=Group.1)) + 
+  theme_classic()+
+  ggtitle("Plot 2") + 
+  geom_point(colour=mypal[2]) 
 
-# average across games
-richmond_aflw_num <- aggregate(richmond_aflw_num[,5:37], 
-                               list(richmond_aflw$player.player.player.surname), 
-                               mean)
+#low on sparse and high on convex
+p3 <- ggplot(aflw_num, aes(x=marksInside50, y=goals)) + 
+  theme_classic()+
+  ggtitle("Plot 3") + 
+  geom_point(colour=mypal[3]) 
 
-#calculate scagnostics on richmond team
-richmond_scags <- calc_scags_wide(richmond_aflw_num[,2:27])
+#high on clumpy adjusted, low on monotonic
+p4 <- ggplot(aflw_num, aes(x=onePercenters, y=handballs)) +
+  theme_classic()+
+  ggtitle("Plot 4") + 
+  geom_point(colour=mypal[4]) 
 
-# North Melbourne
+#interesting HIGH on striated, moderate on outlying
+p5 <- ggplot(aflw_num, aes(x=bounces, y=hitouts, label=Group.1)) + 
+  theme_classic()+
+  ggtitle("Plot 5") + 
+  geom_point(colour=mypal[5]) 
 
-#get just North Melbourne team
-northmelbourne_aflw <- aflw %>%
-  filter(teamId== "CD_T8466")
-
-# North melbourne numeric
-northmelbourne_aflw_num <- northmelbourne_aflw %>%
-  select_if(is.numeric)
-
-# Average across games
-northmelbourne_aflw_num <- aggregate(northmelbourne_aflw_num[,5:37], 
-                               list(northmelbourne_aflw$player.player.player.surname), 
-                               mean)
-
-#calculate scagnostics on north melbourne team
-northmelbourne_scags <- calc_scags_wide(northmelbourne_aflw_num[,2:27])
-
-#compare scagnsotics on teams
-
-# make combined table
-richmond_scags <- richmond_scags %>%
-  pivot_longer(outlying:dcor, 
-               names_to = "scags",
-               values_to = "richmond_value") 
-
-northmelbourne_scags <- northmelbourne_scags %>%
-  pivot_longer(outlying:dcor, 
-               names_to = "scags",
-               values_to = "northmelbourne_value") 
-
-scags_rich_northm <- full_join(richmond_scags, northmelbourne_scags, by = c("Var1", "Var2", "scags")) %>%
-  filter(all(richmond_value>0.0001, northmelbourne_value>0.0001)) %>%
-  filter(!any(Var1 == "dreamTeamPoints", Var2 == "dreamTeamPoints")) %>%
-  mutate(scag_dif = abs(northmelbourne_value-richmond_value))
-
-aflw_rich_northm <- bind_rows(
-  mutate(northmelbourne_aflw_num, team = "North Melbourne"),
-  mutate(richmond_aflw_num, team = "Richmond")) 
+# me randomly picking two variables
+p6 <- ggplot(aflw_num, aes(x=kicks, y=handballs)) + 
+  theme_classic()+
+  ggtitle("Plot 6") + 
+  geom_point(colour=mypal[6])
 
 
-
-## ---- eval= FALSE-------------------------------------------------------------
-#> # Display table
-#> wide_for_table <- scags_rich_northm %>%
-#>   select(-c(richmond_value, northmelbourne_value)) %>%
-#>   pivot_wider(id_cols=c(Var1, Var2), names_from = scags, values_from = scag_dif)
+## ---- AFLW-scatters-interactive, out.width="80%", include=knitr::is_html_output(), eval=knitr::is_html_output()----
 #> 
-#> scag_order_table <- tibble(Var1 = wide_for_table$Var1,
-#>                            Var2 = wide_for_table$Var2,
-#>                            convex = order(wide_for_table$convex),
-#>                            skinny = order(wide_for_table$skinny),
-#>                            outlying = order(wide_for_table$outlying),
-#>                            stringy = order(wide_for_table$stringy),
-#>                            striated_adjusted = order(wide_for_table$striated_adjusted),
-#>                            clumpy_adjusted = order(wide_for_table$clumpy_adjusted),
-#>                            sparse = order(wide_for_table$sparse),
-#>                            skewed = order(wide_for_table$skewed),
-#>                            monotonic = order(wide_for_table$monotonic),
-#>                            splines = order(wide_for_table$splines),
-#>                            dcor = order(wide_for_table$dcor)
-#>                            ) #%>%
-#>   #filter(any(all(Var1=="turnovers", Var2=="disposalEfficiency"),
-#>   #           all(Var1=="onePercenters", Var2=="inside50s"),
-#>   #           all(Var1=="clangers", Var2=="handballs")))
+#> subplot(ggplotly(p1), ggplotly(p2), ggplotly(p3), ggplotly(p4), ggplotly(p5), ggplotly(p6),
+#>         nrows=2, widths = c(0.33, 0.33, 0.33), heights = c(0.5,0.5))
+
+
+## ----AFLW-scatters-static, out.width="80%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center'----
+grid.arrange(p1, p2, p3, p4, p5, p6,  nrow=2)
+
+
+## ---- 3 Random Plots, echo=FALSE, out.width = "100%", , fig.align='center'----
+p7 <- ggplot(aflw_num, aes(x=goals, y=clangers)) + 
+  geom_point(colour=mypal[6]) +
+  theme_classic()+ 
+  ggtitle("Another Plot") 
+
+p8 <- ggplot(aflw_num, aes(x=totalPossessions, y=metresGained)) + 
+  geom_point(colour=mypal[6]) +
+  theme_classic()+
+  ggtitle("and Another Plot") 
+
+grid.arrange(p6, p7, p8, nrow=1)
+
+
+
+## ---- AFL relevent SPLOMS, include= FALSE, echo=FALSE-------------------------
+test <- AFLW_scags %>%
+  mutate(lab = paste0(Var1, ", ", Var2)) %>%
+  mutate(plot1=ifelse(lab=="disposalEfficiency, hitouts", TRUE,FALSE),
+         plot2=ifelse(lab=="totalPossessions, disposals", TRUE,FALSE),
+         plot3=ifelse(lab=="marksInside50, goals", TRUE,FALSE),
+         plot4=ifelse(lab=="onePercenters, handballs", TRUE,FALSE),
+         plot5=ifelse(lab=="hitouts, bounces", TRUE, FALSE)
+         ) %>%
+  mutate(plotted = any(plot1,plot2,plot3,plot4, plot5))
+
+s1 <- ggplot(test, aes(x=outlying, skewed, colour=plot1, label=lab)) + 
+  geom_point() +
+  theme_classic() +
+  theme(legend.position ="none")+
+  scale_colour_manual(values=c("grey", mypal[1]))+
+  ggtitle("Relevant Scagnostics Plot")
+
+s2 <- ggplot(test, aes(x=splines, dcor, colour=plot2, label=lab)) + 
+  geom_point() +
+  theme_classic() +
+  theme(legend.position ="none")+
+  scale_colour_manual(values=c("grey", mypal[1]))+
+  ggtitle("Relevant Scagnostics Plot")
+
+s3 <- ggplot(test, aes(x=sparse, convex, colour=plot3)) + 
+  geom_point() +
+  theme_classic() +
+  theme(legend.position ="none") +
+  scale_colour_manual(values=c("grey", mypal[3])) +
+  ggtitle("Relevant Scagnostics Plot")
+
+s4 <- ggplot(test, aes(x=clumpy_adjusted, monotonic, colour=plot4)) +
+  geom_point() +
+  theme_classic() +
+  theme(legend.position ="none") +
+  scale_colour_manual(values=c("grey", mypal[4])) +
+  ggtitle("Relevant Scagnostics Plot")
+
+s5 <- ggplot(test, aes(x=outlying, y = striated_adjusted, colour=plot5, label=lab)) +
+  geom_point() +
+  theme_classic() +
+  theme(legend.position ="none") +
+  scale_colour_manual(values=c("grey", mypal[5])) +
+  ggtitle("Relevant Scagnostics Plot")
+
+
+
+## ---- plot1-interactive, out.width="70%", include=knitr::is_html_output(), eval=knitr::is_html_output()----
 #> 
+#> subplot(ggplotly(p1), ggplotly(s1),
+#>         nrows=1, widths = c(0.5, 0.5), heights = 0.5)%>%
+#>   config(displayModeBar = FALSE)
 
 
-## -----------------------------------------------------------------------------
-# interesting scatter plots
-# large difference on clumpy adjusted
-ggplot(aflw_rich_northm, aes(x=turnovers, y=disposalEfficiency, colour=team)) + 
-  geom_point() +
-  facet_wrap(~team) +
-  theme_minimal()
+## ----plot1-static, out.width="70%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), , fig.align='center'----
+grid.arrange(p1, s1, nrow=1)
 
 
-## -----------------------------------------------------------------------------
-# high on clumpy adjusted, convex
-ggplot(aflw_rich_northm, aes(x=onePercenters, y=inside50s, colour=team)) + 
-  geom_point() +
-  facet_wrap(~team) +
-  theme_minimal()
+## ---- plot2-interactive, out.width="70%", include=knitr::is_html_output(), eval=knitr::is_html_output()----
+#> 
+#> subplot(ggplotly(p2), ggplotly(s2),
+#>         nrows=1, widths = c(0.5, 0.5), heights = 0.5)%>%
+#>   config(displayModeBar = FALSE)
 
 
-## -----------------------------------------------------------------------------
-#high difference on monotonic and splines and dcor
-ggplot(aflw_rich_northm, aes(x=clangers, y=	handballs, colour=team)) + 
-  geom_point() +
-  facet_wrap(~team) +
-  theme_minimal()
+## ----plot2-static, out.width="70%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), , fig.align='center'----
+grid.arrange(p2, s2, nrow=1)
 
+
+## ---- plot5-interactive, out.width="70%", include=knitr::is_html_output(), eval=knitr::is_html_output()----
+#> 
+#> subplot(ggplotly(p5), ggplotly(s5),
+#>         nrows=1, widths = c(0.5, 0.5), heights = 0.5)%>%
+#>   config(displayModeBar = FALSE)
+
+
+## ----plot5-static, out.width="70%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center'----
+grid.arrange(p5, s5, nrow=1)
 
 
 ## ----splines------------------------------------------------------------------
@@ -872,56 +919,6 @@ s1 + s2 + s3
 #> 
 #> # Now compute scagnostics
 #> scag_nhanes <- calc_scags_wide(NHANES_numeric[,keep$variable])
-
-
-## -----------------------------------------------------------------------------
-ggplot(aflw, aes(x=goalAccuracy, y=shotsAtGoal)) + geom_point()
-ggplot(aflw, aes(x=disposalEfficiency, y=disposals)) + geom_point()
-
-
-## ---- eval=FALSE--------------------------------------------------------------
-#> # im just adding in striated_adjusted here to compare without recalculating the whole thing
-#> new_scag_aflw <- scag_aflw
-#> new_scag_aflw$striated_adjusted <- AFL_stri_adj$striated_adjusted #calc_scags_wide(aflw_num[,5:37], scags = "striated_adjusted")
-#> 
-#> scag_aflw %>%
-#>   select(Var1, Var2, striated) %>%
-#>   arrange(desc(striated)) %>%
-#>   head(10)
-#> 
-#> # look at lowest values for adjusted striated value
-#> lowest_stri <- new_scag_aflw[order(new_scag_aflw$striated),] %>%
-#>   select(Var1, Var2, striated, striated_adjusted) %>%
-#>   head(10)
-#> 
-#> lowest_stri_adjusted <- new_scag_aflw[order(new_scag_aflw$striated_adjusted),] %>%
-#>   select(Var1, Var2, striated, striated_adjusted) %>%
-#>   head(10)
-#> 
-#> ggplot(aflw, aes(x=metresGained, y=goals)) + geom_point()
-#> 
-#> #look at top 3 for striated
-#> ggplot(aflw, aes(x=clearances.stoppageClearances, y=shotsAtGoal)) + geom_point()
-#> ggplot(aflw, aes(x=contestedPossessions, y=	tackles)) + geom_point()
-#> ggplot(aflw, aes(x=tacklesInside50, y=marksInside50)) + geom_point()
-#> #not interesting
-#> 
-#> # look at top 3 for striated_adjusted
-#> # two continuous variables
-#> ggplot(aflw, aes(x=metresGained, y=dreamTeamPoints)) + geom_point()
-#> # fractional plots, not interesting technically but they are interesting visually
-#> ggplot(aflw, aes(x=goalAccuracy, y=shotsAtGoal)) + geom_point()
-#> ggplot(aflw, aes(x=disposalEfficiency, y=disposals)) + geom_point()
-#> 
-#> #THE OTHER 6 PLOTS
-#> ggplot(aflw, aes(x=metresGained, y=disposalEfficiency)) + geom_point() #fraction thing issue again
-#> ggplot(aflw, aes(x=dreamTeamPoints, y=disposalEfficiency)) + geom_point()
-#> # this is a plot that will have a higher striated value with more data
-#> ggplot(aflw, aes(x=	goals, y= goalAccuracy)) + geom_point()
-#> ggplot(aflw, aes(x=dreamTeamPoints, y=hitouts)) + geom_point() # 1 with more data
-#> ggplot(aflw, aes(x=disposalEfficiency, y=hitouts)) + geom_point() #fraction and large discrete
-#> ggplot(aflw, aes(x=totalPossessions, y=hitouts)) + geom_point() #two large discretes
-#> ggplot(aflw, aes(x=hitouts, y=disposals)) + geom_point() #two large discretes
 
 
 ## ----eval=FALSE---------------------------------------------------------------

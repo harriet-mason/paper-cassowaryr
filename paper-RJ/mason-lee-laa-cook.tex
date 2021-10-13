@@ -133,14 +133,14 @@ metrics}\label{building-blocks-for-the-graph-based-metrics}}
 In order to capture the visual structure of the data, graph theory is
 used to calculate most of the scagnostics. The pairwise scatter plot is
 re-constructed as a graph with the data points as vertices and the edges
-are calculated using Delaunay triangulation. In the package this
+are calculated using Delaunay triangulation. In the package, this
 calculation is done using the alphahull package \citep{alphahull} to
-construct an object called a scree. This is the basis for all the other
-objects that are used to calculate the scagnostics (except for
+construct an object called a \texttt{scree}. This is the basis for all
+the other objects that are used to calculate the scagnostics (except for
 monotonic, dcor and splines which use the raw data). The graph (screen
 object) is then used to construct the three key structures on which the
 scagnostics are based; the convex hull, alpha hull and minimum-spanning
-tree (MST).
+tree (MST) (Figure @ref(fig:building-blocks2)).
 
 \begin{itemize}
 \item

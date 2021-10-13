@@ -86,7 +86,7 @@ This paper describes the R package, `cassowaryr` that computes the currently exi
 
 ## Building blocks for the graph-based metrics
 
-In order to capture the visual structure of the data, graph theory is used to calculate most of the scagnostics. The pairwise scatter plot is re-constructed as a graph with the data points as vertices and the edges are calculated using Delaunay triangulation. In the package this calculation is done using the alphahull package [@alphahull] to construct an object called a scree. This is the basis for all the other objects that are used to calculate the scagnostics (except for monotonic, dcor and splines which use the raw data). The graph (screen object) is then used to construct the three key structures on which the scagnostics are based; the convex hull, alpha hull and minimum-spanning tree (MST).
+In order to capture the visual structure of the data, graph theory is used to calculate most of the scagnostics. The pairwise scatter plot is re-constructed as a graph with the data points as vertices and the edges are calculated using Delaunay triangulation. In the package, this calculation is done using the alphahull package [@alphahull] to construct an object called a `scree`. This is the basis for all the other objects that are used to calculate the scagnostics (except for monotonic, dcor and splines which use the raw data). The graph (screen object) is then used to construct the three key structures on which the scagnostics are based; the convex hull, alpha hull and minimum-spanning tree (MST) (Figure \@ref(fig:building-blocks2)).
 
 - **Convex hull:** The outside vertices of the graph, connected to make a convex polygon that contains all points. It is constructed usnig the tripack package.
 
@@ -98,7 +98,7 @@ In order to capture the visual structure of the data, graph theory is used to ca
 knitr::include_graphics("figures/draw1.png")
 ```
 
-```{r building-blocks2, width = 150, height = 50, out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics"}
+```{r building-blocks2, width = 150, height = 50, out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics", layout = "l-body"}
 library(alphahull)
 data("features")
 nl <- features %>% filter(feature == "nonlinear2")
@@ -744,7 +744,7 @@ load("data/feats_micro.rda")
 scags_macro <- calc_scags_wide(feats_macro[,1:4], 
   scags = c("convex", "splines", "skinny",
             "outlying", "stringy", "striated",
-            "clumpy","sparse", "skewed"))
+            "clumpy", "sparse", "skewed"))
 
 #feats_micro %>% 
 #  summarise_all(sd, na.rm=TRUE) %>% 
