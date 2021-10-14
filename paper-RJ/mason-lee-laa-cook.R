@@ -667,19 +667,19 @@ subplot(bbh1, bbh2, bbh3, bbh4, bbh5, bbh6,
 #>   list(aflw$player.player.player.surname),
 #>   mean)
 #> 
-#> AFLW_scags <- calc_scags_wide(aflw_num[,2:34])
+#> aflw_scags <- calc_scags_wide(aflw_num[,2:34])
 #> 
 #> #AFLW DATA SAVE
 #> save(aflw, file="paper-RJ/data/aflw.rda")
 #> save(aflw_num, file="paper-RJ/data/aflw_num.rda")
-#> save(AFLW_scags, file="paper-RJ/data/AFLW_scags.rda")
+#> save(aflw_scags, file="paper-RJ/data/aflw_scags.rda")
 
 
 ## ---- AFLW Scatter Plots , echo=FALSE-----------------------------------------
 
 load("data/aflw.rda")
 load("data/aflw_num.rda")
-load("data/AFLW_scags.rda")
+load("data/aflw_scags.rda")
 
 mypal <- c("#FF4E50", "#fdae61","#fee08b", "#66c2a5", "#3288bd", "#abd9e9")
 
@@ -747,7 +747,8 @@ grid.arrange(p6, p7, p8, nrow=1)
 
 
 ## ---- AFL relevent SPLOMS, include= FALSE, echo=FALSE-------------------------
-test <- AFLW_scags %>%
+load("data/aflw_scags.rda")
+test <- aflw_scags %>%
   mutate(lab = paste0(Var1, ", ", Var2)) %>%
   mutate(plot1=ifelse(lab=="disposalEfficiency, hitouts", TRUE,FALSE),
          plot2=ifelse(lab=="totalPossessions, disposals", TRUE,FALSE),
@@ -829,6 +830,7 @@ grid.arrange(p5, s5, nrow=1)
 
 ## ----splines------------------------------------------------------------------
 # Saved scagnostics because calc takes about 30 mins
+load("data/aflw.rda")
 load("data/scagnostics_aflw.rda")
 
 # Highest splines table
@@ -928,42 +930,130 @@ s1 + s2 + s3
 
 ## ----eval=FALSE---------------------------------------------------------------
 #> library(readxl)
-#> wbi <- read_xlsx("data/World_Development_Indicators.xlsx")
+#> wbi <- read_xlsx("data/World_Development_Indicators.xlsx", n_max = 2436) # Cut off extra stuff
+#> 
 #> wbi_wide <- wbi %>%
+#>   mutate(`2018 [YR2018]` = str_replace(`2018 [YR2018]`, "..","")) %>%
 #>   mutate(`2018 [YR2018]` = as.numeric(`2018 [YR2018]`)) %>%
 #>   select(`Country Code`, `Series Code`, `2018 [YR2018]`) %>%
 #>   pivot_wider(names_from = `Series Code`, values_from = `2018 [YR2018]`, id_cols = `Country Code`, values_fn = mean) %>%
 #>   filter(!is.na(`Country Code`))
 #> 
-#> wbi_wide_sub <- wbi_wide[, c(1, 2, 3, 6, 11, 13:22, 24, 25, 27:30, 32:34, 37:40)]
-#> summary(wbi_wide_sub)
+#> # Drop variables with missings, or too similar
+#> library(naniar)
+#> s_miss <- miss_summary(wbi_wide)
+#> gg_miss_var(wbi_wide)
+#> 
+#> # Remove vars with XX missing
+#> drop <- s_miss$miss_var_summary[[1]] %>%
+#>   filter(pct_miss > 15)
+#> wbi_wide <- wbi_wide %>%
+#>   select(-drop$variable)
+#> 
+#> # Now check cases
+#> drop_cnt <- s_miss$miss_case_summary[[1]] %>%
+#>   filter(pct_miss > 10)
+#> wbi_wide <- wbi_wide[-drop_cnt$case,]
+#> 
+#> # Check again - still a few sporadic missings
+#> s_miss <- miss_summary(wbi_wide)
+#> 
+#> vis_miss(wbi_wide)
 #> 
 #> # Remove any variables that are the same
-#> scag_cor <- calc_scags_wide(wbi_wide_sub[,-1],
-#>     scags = "monotonic")
-#> wbi_wide_sub <- wbi_wide_sub %>%
-#>   select(-NY.GDP.MKTP.CD)
+#> #scag_cor <- calc_scags_wide(wbi_wide_sub[,-1],
+#> #    scags = "monotonic")
+#> #wbi_wide_sub <- wbi_wide_sub %>%
+#> #  select(-NY.GDP.MKTP.CD)
+#> wbi_wide <- wbi_wide[,-8] # TX.VAL.TECH.MF.ZS too few values
+#> save(wbi_wide, file="data/wbi_wide.rda")
 #> 
-#> scag_wbi <- calc_scags_wide(wbi_wide_sub[,-1],
+#> # Check individual scag calculations, for testing
+#> calc_scags(wbi_wide$EN.ATM.CO2E.PC, wbi_wide$NV.AGR.TOTL.ZS, scags = "striped")
+#> 
+#> wbi_scags <- calc_scags_wide(wbi_wide[,-1],
 #>     scags = c("outlying", "stringy",
-#>               "striated", "skewed",
+#>               "striated2", "clumpy2", "skewed",
 #>               "convex", "skinny",
-#>               "splines"))
-#> 
-#> scag_wbi_long <- scag_wbi %>%
-#>   pivot_longer(!c(Var1, Var2), names_to = "scag", values_to = "value") %>%
-#>   arrange(desc(value))
-#> 
-#> ggplot(wbi_wide_sub,
-#>        aes_string(x=as.character(scag_wbi_long$Var1[1]),
-#>                   y=as.character(scag_wbi_long$Var2[1]))) +
-#>   geom_point()
-#> 
-#> ggplot(wbi_wide_sub,
-#>        aes_string(x=as.character(scag_wbi_long$Var1[1]),
-#>                   y=as.character(scag_wbi_long$Var2[1]))) +
-#>   geom_point()
-#> 
+#>               "splines", "striped"))
+#> save(wbi_scags, file="data/wbi_scags.rda")
+
+
+## ----wbi----------------------------------------------------------------------
+load("data/wbi_wide.rda")
+load("data/wbi_scags.rda")
+wbi_scags_long <- wbi_scags %>% 
+  pivot_longer(!c(Var1, Var2), names_to = "scag", values_to = "value") %>%
+  arrange(desc(value))
+
+w1 <- ggplot(wbi_wide, 
+       aes_string(x=as.character(wbi_scags_long$Var1[1]),
+                  y=as.character(wbi_scags_long$Var2[1]))) +
+  geom_point()
+
+w2 <- ggplot(wbi_wide, 
+       aes_string(x=as.character(wbi_scags_long$Var1[2]),
+                  y=as.character(wbi_scags_long$Var2[2]))) +
+  geom_point()
+
+# Summarise highest on each index
+wbi_scags_top <- wbi_scags_long %>% 
+  group_by(scag) %>%
+  slice_head(n=1)
+
+w3a <- ggplot(wbi_wide, 
+       aes_string(x=as.character(wbi_scags_top$Var1[1]),
+                  y=as.character(wbi_scags_top$Var2[1]))) +
+  geom_point(aes(label = `Country Code`)) +
+  ggtitle(wbi_scags_top$scag[1])
+
+w3b <- ggplot(wbi_wide, 
+       aes_string(x=as.character(wbi_scags_top$Var1[2]),
+                  y=as.character(wbi_scags_top$Var2[2]))) +
+  geom_point(aes(label = `Country Code`)) +
+  ggtitle(wbi_scags_top$scag[2])
+# Most tend to be vars with too many 0's
+
+# Summarise highest on each variable pair
+wbi_scags_topvars <- wbi_scags_long %>% 
+  group_by(Var1, Var2) %>%
+  slice_head(n=1) %>%
+  arrange(scag)
+
+pair1 <- wbi_scags_topvars %>% filter(scag == "clumpy2")
+
+w4 <- ggplot(wbi_wide, 
+         aes_string(x=as.character(pair1$Var1),
+                    y=as.character(pair1$Var2))) +
+  geom_point(aes(label = `Country Code`)) +
+  theme(aspect.ratio=1) +
+  ggtitle(pair1$scag)
+
+pair2 <- wbi_scags_topvars %>% filter(scag == "striated2")
+
+w5 <- wbi_wide  %>%
+  ggplot(aes_string(x=as.character(pair2$Var1),
+                    y=as.character(pair2$Var2))) +
+  geom_point(aes(label = `Country Code`)) +
+  theme(aspect.ratio=1) +
+  ggtitle(pair2$scag)
+
+w6 <- ggplot(wbi_scags_topvars, 
+             aes(x=fct_reorder(scag, value, median),
+                 y=value)) +
+  xlab("") + ylab("Scagnostic value") +
+  geom_point() + coord_flip()
+
+
+## ----wbiinteractive, fig.cap="Most of the pairs of indicators exhibit outliersor are stringy. There is one pair that has clumpy as the highest value. There are numerous pairs that have a highest value on convex.",  include=knitr::is_html_output(), eval=knitr::is_html_output(), layout = "l-body"----
+#> ws1 <- ggplotly(w6)
+#> ws2 <- ggplotly(w3a)
+#> ws3 <- ggplotly(w3b)
+#> subplot(ws1, ws2, ws3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.6)
+
+
+## ----wbistatic, fig.cap="Most of the pairs of indicators exhibit outliersor are stringy. There is one pair that has clumpy as the highest value. There are numerous pairs that have a highest value on convex.", fig.height=12, fig.width=12, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()----
+w6 + w3a + w3b
 
 ```{.r .distill-force-highlighting-css}
 ```

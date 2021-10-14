@@ -711,9 +711,6 @@ Interestingly the trend strength seems to pick up the jaggies!
 
 \includegraphics{mason-lee-laa-cook_files/figure-latex/unnamed-chunk-4-1} \end{Schunk}
 
-\hypertarget{parkinsons}{%
-\subsection{Parkinsons}\label{parkinsons}}
-
 \hypertarget{black-hole-mergers}{%
 \subsection{Black hole mergers}\label{black-hole-mergers}}
 
@@ -878,8 +875,8 @@ rarely the fastest.
 
 \end{Schunk}
 
-\hypertarget{spines-work}{%
-\subsubsection{Spines Work}\label{spines-work}}
+\hypertarget{splines-work}{%
+\subsubsection{Splines Work}\label{splines-work}}
 
 \begin{Schunk}
 
@@ -920,15 +917,27 @@ the statistics?
 \subsection{World Development
 Indicators}\label{world-development-indicators}}
 
-The World Bank delivers a lot of development indicators, for many
-countries and multiple years. This might be a good example to identify
-pairs of indicators with interesting relationships.
+The World Bank delivers a lot of
+\href{https://databank.worldbank.org/source/world-development-indicators/preview/on\#}{development
+indicators}, for many countries and multiple years. The sheer volume of
+indicators, in addition to substantial missing values, makes a barrier
+to analysis. This is a good example to where scagnostics can be used to
+identify pairs of indicators with interesting relationships.
 
-Download data from:
+\#TODO: would need to add a citation, not just the link
 
-\url{https://databank.worldbank.org/source/world-development-indicators/preview/on\#}
+Here we have downloaded indicators from 2018 for a number of countries.
+First, the data needs some pre-processing, to remove variables which
+have mostly missing values, and countries which have mostly missing
+values. The scagnostics will be calculated on the pairwise complete
+data, so it is ok to leave a few sporadic missings. At the end of the
+pre-processing, there are 20 indicators for 79 countries.
 
-This is a potentially good example to display as a visual table.
+\begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/wbistatic-1} \caption[Most of the pairs of indicators exhibit outliersor are stringy]{Most of the pairs of indicators exhibit outliersor are stringy. There is one pair that has clumpy as the highest value. There are numerous pairs that have a highest value on convex.}(\#fig:wbistatic)
+\end{figure}
+\end{Schunk}
 
 \hypertarget{summary}{%
 \subsection{Summary}\label{summary}}
