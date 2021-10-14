@@ -857,8 +857,6 @@ mac + mic
 
 ```
 
-## Parkinsons 
-
 ## Black hole mergers
 
 This is a simulated dataset that contains posterior samples for describing an observed gravitational waves signal from a black hole merger in terms of position in the sky (ra, dec, distance), time of the event (time) and the black hole properties (masses m1 and m2; spin related properties alpha, theta_jn, chi_tot, chi_eff, chi_p) and additional nuisance parameters psi (polarisation angle) and phi_jl (orbital phase). There are thus 13 variables and it is still feasible to look at a complete SPLOM, providing a good cross check of the scagnostics.
@@ -929,19 +927,19 @@ aflw_num <- aggregate(aflw_num[,5:37],
   list(aflw$player.player.player.surname),
   mean)
 
-AFLW_scags <- calc_scags_wide(aflw_num[,2:34])
+aflw_scags <- calc_scags_wide(aflw_num[,2:34])
 
 #AFLW DATA SAVE
 save(aflw, file="paper-RJ/data/aflw.rda")
 save(aflw_num, file="paper-RJ/data/aflw_num.rda")
-save(AFLW_scags, file="paper-RJ/data/AFLW_scags.rda")
+save(aflw_scags, file="paper-RJ/data/aflw_scags.rda")
 ```
 
 ```{r, AFLW Scatter Plots , echo=FALSE}
 
 load("data/aflw.rda")
 load("data/aflw_num.rda")
-load("data/AFLW_scags.rda")
+load("data/aflw_scags.rda")
 
 mypal <- c("#FF4E50", "#fdae61","#fee08b", "#66c2a5", "#3288bd", "#abd9e9")
 
@@ -1013,7 +1011,7 @@ grid.arrange(p6, p7, p8, nrow=1)
 We could plot scatter plots like this all day, but most of the scatter plots in this data set look something like this, and when compared to Plots 1 to 5 we can see that the extreme values on the scagnostic measurements identify atypical scatter plots. While it is interesting to know that scagnostics can pick out interesting scatter plots, we still need to know how to use them. Typically the plots with strange scagnostic combinations are identified using an interactive SPLOM, but for the sake of space, we are only going to show the specific scatter plots of the SPLOM that led to the selection of Plots 1, 2, and 5. Lets start with Plot 1.
 
 ```{r, AFL relevent SPLOMS, include= FALSE, echo=FALSE}
-test <- AFLW_scags %>%
+test <- aflw_scags %>%
   mutate(lab = paste0(Var1, ", ", Var2)) %>%
   mutate(plot1=ifelse(lab=="disposalEfficiency, hitouts", TRUE,FALSE),
          plot2=ifelse(lab=="totalPossessions, disposals", TRUE,FALSE),
@@ -1103,7 +1101,7 @@ subplot(ggplotly(p5), ggplotly(s5),
 grid.arrange(p5, s5, nrow=1)
 ```
 
-### Spines Work
+### Splines Work
 ```{r splines}
 # Saved scagnostics because calc takes about 30 mins
 load("data/scagnostics_aflw.rda")

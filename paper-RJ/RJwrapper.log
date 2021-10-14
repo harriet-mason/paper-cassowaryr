@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.2.13)  13 OCT 2021 18:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.2.13)  14 OCT 2021 09:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1000,173 +1000,211 @@ Underfull \hbox (badness 10000) in paragraph at lines 712--713
 
  []
 
-[12 <./mason-lee-laa-cook_files/figure-latex/unnamed-chunk-3-1.pdf>] [13 <./mas
-on-lee-laa-cook_files/figure-latex/unnamed-chunk-4-1.pdf>]
-<mason-lee-laa-cook_files/figure-latex/AFLW-scatters-static-1.pdf, id=393, 459.
+[12 <./mason-lee-laa-cook_files/figure-latex/unnamed-chunk-3-1.pdf>]
+<mason-lee-laa-cook_files/figure-latex/unnamed-chunk-6-1.pdf, id=378, 591.20876
+pt x 239.89626pt>
+File: mason-lee-laa-cook_files/figure-latex/unnamed-chunk-6-1.pdf Graphic file 
+(type pdf)
+<use mason-lee-laa-cook_files/figure-latex/unnamed-chunk-6-1.pdf>
+Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/unnamed-chunk-6-
+1.pdf  used on input line 737.
+(pdftex.def)             Requested size: 591.2073pt x 239.89566pt.
+
+Overfull \hbox (207.86873pt too wide) in paragraph at lines 737--738
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 737--738
+
+ []
+
+[13 <./mason-lee-laa-cook_files/figure-latex/unnamed-chunk-4-1.pdf>]
+<mason-lee-laa-cook_files/figure-latex/unnamed-chunk-7-1.pdf, id=393, 579.16376
+pt x 384.43625pt>
+File: mason-lee-laa-cook_files/figure-latex/unnamed-chunk-7-1.pdf Graphic file 
+(type pdf)
+<use mason-lee-laa-cook_files/figure-latex/unnamed-chunk-7-1.pdf>
+Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/unnamed-chunk-7-
+1.pdf  used on input line 754.
+(pdftex.def)             Requested size: 579.16234pt x 384.4353pt.
+
+Overfull \hbox (195.82376pt too wide) in paragraph at lines 754--755
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 754--755
+
+ []
+
+[14 <./mason-lee-laa-cook_files/figure-latex/unnamed-chunk-6-1.pdf>]
+<mason-lee-laa-cook_files/figure-latex/AFLW-scatters-static-1.pdf, id=410, 459.
 7175pt x 313.17pt>
 File: mason-lee-laa-cook_files/figure-latex/AFLW-scatters-static-1.pdf Graphic 
 file (type pdf)
 <use mason-lee-laa-cook_files/figure-latex/AFLW-scatters-static-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/AFLW-scatters-st
-atic-1.pdf  used on input line 773.
+atic-1.pdf  used on input line 781.
 (pdftex.def)             Requested size: 318.67207pt x 217.0958pt.
-<mason-lee-laa-cook_files/figure-latex/3 Random Plots-1.pdf, id=394, 459.7175pt
+[15 <./mason-lee-laa-cook_files/figure-latex/unnamed-chunk-7-1.pdf>]
+<mason-lee-laa-cook_files/figure-latex/3 Random Plots-1.pdf, id=428, 459.7175pt
  x 315.1775pt>
 File: mason-lee-laa-cook_files/figure-latex/3 Random Plots-1.pdf Graphic file (
 type pdf)
 <use mason-lee-laa-cook_files/figure-latex/3 Random Plots-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/3 Random Plots-1
-.pdf  used on input line 788.
+.pdf  used on input line 796.
 (pdftex.def)             Requested size: 398.33858pt x 273.11052pt.
-[14 <./mason-lee-laa-cook_files/figure-latex/AFLW-scatters-static-1.pdf> <./mas
-on-lee-laa-cook_files/figure-latex/3 Random Plots-1.pdf>]
-<mason-lee-laa-cook_files/figure-latex/plot1-static-1.pdf, id=414, 459.7175pt x
+<mason-lee-laa-cook_files/figure-latex/plot1-static-1.pdf, id=429, 459.7175pt x
  315.1775pt>
 File: mason-lee-laa-cook_files/figure-latex/plot1-static-1.pdf Graphic file (ty
 pe pdf)
 <use mason-lee-laa-cook_files/figure-latex/plot1-static-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/plot1-static-1.p
-df  used on input line 814.
+df  used on input line 822.
 (pdftex.def)             Requested size: 278.83578pt x 191.17592pt.
-<mason-lee-laa-cook_files/figure-latex/plot2-static-1.pdf, id=415, 464.73625pt 
+[16 <./mason-lee-laa-cook_files/figure-latex/AFLW-scatters-static-1.pdf> <./mas
+on-lee-laa-cook_files/figure-latex/3 Random Plots-1.pdf>]
+<mason-lee-laa-cook_files/figure-latex/plot2-static-1.pdf, id=449, 464.73625pt 
 x 315.1775pt>
 File: mason-lee-laa-cook_files/figure-latex/plot2-static-1.pdf Graphic file (ty
 pe pdf)
 <use mason-lee-laa-cook_files/figure-latex/plot2-static-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/plot2-static-1.p
-df  used on input line 839.
+df  used on input line 847.
 (pdftex.def)             Requested size: 278.83578pt x 189.10796pt.
-[15 <./mason-lee-laa-cook_files/figure-latex/plot1-static-1.pdf> <./mason-lee-l
-aa-cook_files/figure-latex/plot2-static-1.pdf>]
-<mason-lee-laa-cook_files/figure-latex/plot5-static-1.pdf, id=436, 459.7175pt x
+<mason-lee-laa-cook_files/figure-latex/plot5-static-1.pdf, id=450, 459.7175pt x
  315.1775pt>
 File: mason-lee-laa-cook_files/figure-latex/plot5-static-1.pdf Graphic file (ty
 pe pdf)
 <use mason-lee-laa-cook_files/figure-latex/plot5-static-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/plot5-static-1.p
-df  used on input line 869.
+df  used on input line 877.
 (pdftex.def)             Requested size: 278.83578pt x 191.17592pt.
-<mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf, id=437, 702.625pt x 23
+[17 <./mason-lee-laa-cook_files/figure-latex/plot1-static-1.pdf> <./mason-lee-l
+aa-cook_files/figure-latex/plot2-static-1.pdf>]
+<mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf, id=471, 702.625pt x 23
 2.87pt>
 File: mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf Graphic file (type
  pdf)
 <use mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf
-  used on input line 896.
+  used on input line 904.
 (pdftex.def)             Requested size: 398.33858pt x 132.02306pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 938--941
+Underfull \hbox (badness 10000) in paragraph at lines 946--949
 
  []
 
-[16 <./mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf> <./mason-lee-laa
+[18 <./mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf> <./mason-lee-laa
 -cook_files/figure-latex/plot5-static-1.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 941--944
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 944--947
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 947--949
-
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 949--952
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 952--954
+Underfull \hbox (badness 10000) in paragraph at lines 952--955
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 954--958
+Underfull \hbox (badness 10000) in paragraph at lines 955--957
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 958--962
+Underfull \hbox (badness 10000) in paragraph at lines 957--960
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 962--964
+Underfull \hbox (badness 10000) in paragraph at lines 960--962
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 964--968
+Underfull \hbox (badness 10000) in paragraph at lines 962--966
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 968--972
+Underfull \hbox (badness 10000) in paragraph at lines 966--970
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 975--978
+Underfull \hbox (badness 10000) in paragraph at lines 970--972
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 978--981
+Underfull \hbox (badness 10000) in paragraph at lines 972--976
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 987--994
+Underfull \hbox (badness 10000) in paragraph at lines 976--980
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 994--997
+Underfull \hbox (badness 10000) in paragraph at lines 983--986
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 997--999
+Underfull \hbox (badness 10000) in paragraph at lines 986--989
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 999--1002
+Underfull \hbox (badness 10000) in paragraph at lines 995--1002
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1002--1004
+Underfull \hbox (badness 10000) in paragraph at lines 1002--1005
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1004--1007
+Underfull \hbox (badness 10000) in paragraph at lines 1005--1007
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1010--1013
+Underfull \hbox (badness 10000) in paragraph at lines 1007--1010
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1013--1016
-
- []
-
-[17]
-Underfull \hbox (badness 10000) in paragraph at lines 1019--1022
+Underfull \hbox (badness 10000) in paragraph at lines 1010--1012
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1028--1031
+Underfull \hbox (badness 10000) in paragraph at lines 1012--1015
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1018--1021
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1021--1024
+
+ []
+
+[19]
+Underfull \hbox (badness 10000) in paragraph at lines 1027--1030
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1036--1039
 
  []
 
@@ -1177,16 +1215,16 @@ Underfull \hbox (badness 10000) in paragraph at lines 1028--1031
 )
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 1055.
+(Font)              using `T1/zi4/m/n' instead on input line 1063.
 
 LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
-(Font)              scaled to size 9.18004pt on input line 1055.
-[18]
-Underfull \hbox (badness 10000) in paragraph at lines 1065--1066
+(Font)              scaled to size 9.18004pt on input line 1063.
+[20]
+Underfull \hbox (badness 10000) in paragraph at lines 1073--1074
 
  []
 
-) [19]
+) [21]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 27.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 27.
 (./RJwrapper.aux)
@@ -1202,10 +1240,10 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 27.
  ) 
 Here is how much of TeX's memory you used:
- 22639 strings out of 480608
- 413335 string characters out of 5903630
- 690359 words of memory out of 5000000
- 37696 multiletter control sequences out of 15000+600000
+ 22655 strings out of 480608
+ 414177 string characters out of 5903630
+ 689359 words of memory out of 5000000
+ 37708 multiletter control sequences out of 15000+600000
  572878 words of font info for 215 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  68i,12n,100p,425b,617s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1221,10 +1259,10 @@ ve/2020/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/local/texlive/2
 020/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2020/tex
 mf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2020/texmf-dist
 /fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (19 pages, 3094254 bytes).
+Output written on RJwrapper.pdf (21 pages, 3244464 bytes).
 PDF statistics:
- 578 PDF objects out of 1000 (max. 8388607)
- 441 compressed objects within 5 object streams
- 112 named destinations out of 1000 (max. 500000)
- 31021 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 612 PDF objects out of 1000 (max. 8388607)
+ 465 compressed objects within 5 object streams
+ 114 named destinations out of 1000 (max. 500000)
+ 31031 words of extra memory for PDF output out of 35830 (max. 10000000)
 
