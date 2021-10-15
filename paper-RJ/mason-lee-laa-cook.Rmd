@@ -1207,11 +1207,9 @@ keep <- vm %>% filter(pct_miss < 50)
 scag_nhanes <- calc_scags_wide(NHANES_numeric[,keep$variable])
 ```
 
-## World Development Indicators
+## World Bank Development Indicators
 
-The World Bank delivers a lot of [development indicators](https://databank.worldbank.org/source/world-development-indicators/preview/on#), for many countries and multiple years. The sheer volume of indicators, in addition to substantial missing values, makes a barrier to analysis. This is a good example to where scagnostics can be used to identify pairs of indicators with interesting relationships. 
-
-#TODO: would need to add a citation, not just the link
+The World Bank delivers a lot of development indicators [@WBI], for many countries and multiple years. The sheer volume of indicators, in addition to substantial missing values, makes a barrier to analysis. This is a good example to where scagnostics can be used to identify pairs of indicators with interesting relationships. 
 
 Here we have downloaded indicators from 2018 for a number of countries. First, the data needs some pre-processing, to remove variables which have mostly missing values, and countries which have mostly missing values. The scagnostics will be calculated on the pairwise complete data, so it is ok to leave a few sporadic missings.  At the end of the pre-processing, there are 20 indicators for 79 countries.
 

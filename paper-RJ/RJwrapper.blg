@@ -5,45 +5,45 @@ The style file: abbrvnat.bst
 Database file #1: mason-lee-laa-cook.bib
 Warning--empty journal in binostics
 Warning--can't use both author and editor fields in tukey
-You've used 16 entries,
+You've used 17 entries,
             2773 wiz_defined-function locations,
-            700 strings with 7277 characters,
-and the built_in function-call counts, 7499 in all, are:
-= -- 676
-> -- 420
-< -- 12
-+ -- 143
-- -- 126
-* -- 605
-:= -- 1150
-add.period$ -- 56
-call.type$ -- 16
-change.case$ -- 87
-chr.to.int$ -- 15
-cite$ -- 34
-duplicate$ -- 342
-empty$ -- 602
-format.name$ -- 154
-if$ -- 1577
+            707 strings with 7445 characters,
+and the built_in function-call counts, 7802 in all, are:
+= -- 704
+> -- 430
+< -- 13
++ -- 147
+- -- 129
+* -- 618
+:= -- 1197
+add.period$ -- 60
+call.type$ -- 17
+change.case$ -- 91
+chr.to.int$ -- 16
+cite$ -- 36
+duplicate$ -- 357
+empty$ -- 634
+format.name$ -- 158
+if$ -- 1643
 int.to.chr$ -- 2
 int.to.str$ -- 1
 missing$ -- 13
-newline$ -- 96
-num.names$ -- 64
-pop$ -- 172
+newline$ -- 102
+num.names$ -- 68
+pop$ -- 184
 preamble$ -- 1
-purify$ -- 74
+purify$ -- 77
 quote$ -- 0
-skip$ -- 273
+skip$ -- 285
 stack$ -- 0
-substring$ -- 274
-swap$ -- 48
+substring$ -- 276
+swap$ -- 49
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 171
+type$ -- 182
 warning$ -- 2
-while$ -- 65
+while$ -- 68
 width$ -- 0
-write$ -- 225
+write$ -- 239
 (There were 2 warnings)

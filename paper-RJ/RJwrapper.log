@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.2.13)  14 OCT 2021 15:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.2.13)  15 OCT 2021 16:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1092,68 +1092,73 @@ File: mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf Graphic file (type
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf
   used on input line 901.
 (pdftex.def)             Requested size: 398.33858pt x 132.02306pt.
-<mason-lee-laa-cook_files/figure-latex/wbistatic-1.pdf, id=464, 833.1125pt x 84
+<mason-lee-laa-cook_files/figure-latex/wbistatic-1.pdf, id=465, 833.1125pt x 84
 7.165pt>
 File: mason-lee-laa-cook_files/figure-latex/wbistatic-1.pdf Graphic file (type 
 pdf)
 <use mason-lee-laa-cook_files/figure-latex/wbistatic-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/wbistatic-1.pdf 
- used on input line 938.
+ used on input line 935.
 (pdftex.def)             Requested size: 398.33858pt x 405.05753pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 955--958
+Underfull \hbox (badness 10000) in paragraph at lines 952--955
 
  []
 
 [17 <./mason-lee-laa-cook_files/figure-latex/aflwstatic-1.pdf> <./mason-lee-laa
 -cook_files/figure-latex/plot5-static-1.pdf>] [18 <./mason-lee-laa-cook_files/f
 igure-latex/wbistatic-1.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 955--958
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 958--961
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 961--964
+Underfull \hbox (badness 10000) in paragraph at lines 961--963
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 964--966
+Underfull \hbox (badness 10000) in paragraph at lines 963--966
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 966--969
+Underfull \hbox (badness 10000) in paragraph at lines 966--968
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 969--971
+Underfull \hbox (badness 10000) in paragraph at lines 968--972
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 971--975
+Underfull \hbox (badness 10000) in paragraph at lines 972--976
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 975--979
+Underfull \hbox (badness 10000) in paragraph at lines 976--978
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 979--981
+Underfull \hbox (badness 10000) in paragraph at lines 978--982
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 981--985
+Underfull \hbox (badness 10000) in paragraph at lines 982--986
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 985--989
+Underfull \hbox (badness 10000) in paragraph at lines 989--992
 
  []
 
@@ -1163,37 +1168,37 @@ Underfull \hbox (badness 10000) in paragraph at lines 992--995
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 995--998
+Underfull \hbox (badness 10000) in paragraph at lines 1001--1008
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1004--1011
+Underfull \hbox (badness 10000) in paragraph at lines 1008--1011
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1011--1014
+Underfull \hbox (badness 10000) in paragraph at lines 1011--1013
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1014--1016
+Underfull \hbox (badness 10000) in paragraph at lines 1013--1016
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1016--1019
+Underfull \hbox (badness 10000) in paragraph at lines 1016--1018
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1019--1021
+Underfull \hbox (badness 10000) in paragraph at lines 1018--1021
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1021--1024
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1027
 
  []
 
@@ -1202,18 +1207,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 1027--1030
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 1030--1033
-
- []
-
 [19]
-Underfull \hbox (badness 10000) in paragraph at lines 1036--1039
+Underfull \hbox (badness 10000) in paragraph at lines 1033--1036
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1045--1048
+Underfull \hbox (badness 10000) in paragraph at lines 1042--1045
 
  []
 
@@ -1224,12 +1224,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 1045--1048
 )
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 1072.
+(Font)              using `T1/zi4/m/n' instead on input line 1069.
 
 LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
-(Font)              scaled to size 9.18004pt on input line 1072.
+(Font)              scaled to size 9.18004pt on input line 1069.
 [20]
-Underfull \hbox (badness 10000) in paragraph at lines 1082--1083
+Underfull \hbox (badness 10000) in paragraph at lines 1079--1080
 
  []
 
@@ -1240,19 +1240,19 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 27.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 27.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 27.
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
-(rerunfilecheck)             Checksum: 01628A5B0E717A411A3845549D5C6BC5;1451.
+(rerunfilecheck)             Checksum: 7B75F8EBA8A3526349210D6F052F0434;1456.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
-(rerunfilecheck)             Checksum: 4CD337B369218A29213B2C923053900F;1004.
+(rerunfilecheck)             Checksum: 76910271A8D77F5AD531CE6642974634;1051.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 27.
  ) 
 Here is how much of TeX's memory you used:
- 22659 strings out of 480608
- 414512 string characters out of 5903630
- 689315 words of memory out of 5000000
- 37712 multiletter control sequences out of 15000+600000
+ 22666 strings out of 480608
+ 414584 string characters out of 5903630
+ 690350 words of memory out of 5000000
+ 37718 multiletter control sequences out of 15000+600000
  572878 words of font info for 215 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  68i,12n,100p,473b,617s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1268,10 +1268,10 @@ ve/2020/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/local/texlive/2
 020/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2020/tex
 mf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2020/texmf-dist
 /fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (21 pages, 3265490 bytes).
+Output written on RJwrapper.pdf (21 pages, 3265720 bytes).
 PDF statistics:
- 616 PDF objects out of 1000 (max. 8388607)
- 466 compressed objects within 5 object streams
- 113 named destinations out of 1000 (max. 500000)
+ 621 PDF objects out of 1000 (max. 8388607)
+ 471 compressed objects within 5 object streams
+ 114 named destinations out of 1000 (max. 500000)
  31028 words of extra memory for PDF output out of 35830 (max. 10000000)
 
