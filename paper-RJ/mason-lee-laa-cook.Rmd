@@ -1,7 +1,7 @@
 ---
 title: "Teaching Computers to See Patterns in Scatterplots with Scagnostics"
 abstract: >
-  Data sets that have a large number of numeric variables, have an even larger number of possible pairwise scatter plots. Looking at them all is infeasible for any individual, and so in order give priority to the most interesting plots, we have designed the "cassowaryr" package that allows users to sort scatter plots based on a list of Scagnsotics. Scagnsotics are scatter plot diagnostics that give numerical summaries to the shapes of scatter plots. These scagnsotics are shown to correctly order simulated data that represent scatter plot shapes a user would find interesting. They are also applied to examples in macro and micro time series, physics and sports data where the package succeeds in picking out interesting scatter plots from a large collection.
+  As the number of dimensions in a dataset increases, the process of visualising its structure and variable dependencies becomes more tedious. Scagnostics (scatterplot diagnostics) are a set of visual features that can be used to identify interesting and abnormal scatterplots, and thus give a sense of priority to the variables we choose to visualise. Here, we will discuss the creation of the *cassowaryr* R package that will provide a user-friendly method to calculate these scagnostics, as well as the development of adjusted measures not previously defined in the literature. The package is be tested on datasets with known interesting visual features to ensure the scagnostics are working as expected,before being applied to time series, physics and AFLW data to show their value as a preliminary step in exploratory data analysis.
 draft: true
 author:  
   # see ?rjournal_article for more information
@@ -66,9 +66,7 @@ library(gridExtra) #groups of static scatter plots
 
 # Introduction
 
-Visualising high dimensional data is often difficult and requires a trade-off between the usefulness of the plots and maintaining the structures of the original data. Scagnostics (scatterplot diagnostics) are a set of visual features that can be used to identify interesting and abnormal scatterplots, and thus give a sense of priority to the variables we choose to visualise. This proposal will discuss the creation of an R package that will provide a user-friendly method to calculate these scagnostics. The package will be tested on datasets with known interesting visual features to ensure the scagnostics are working as expected, before finally being used to explore and describe a time series dataset.
-
-As the number of dimensions in a dataset increases, the process of visualising its structure and variable dependencies becomes more tedious. This is because the number of possible pairwise plots rises exponentially with the number of dimensions. Datasets like Anscombe's quartet [@anscombe] or the datasaurus dozen [@datasaurpkg] have been constructed such that each pairwise plot has the same summary statistics but strikingly different visual features. This design is to illustrate the pitfalls of numerical summaries and the importance of visualisation. This means that despite the issues that come with increasing dimensionality, visualisation of the data cannot be ignored. Scagnostics offer one possible solution to this issue.
+Visualising high dimensional data is often difficult and requires a trade-off between the usefulness of the plots and maintaining the structures of the original data. This is because the number of possible pairwise plots rises exponentially with the number of dimensions. Datasets like Anscombe's quartet [@anscombe] or the datasaurus dozen [@datasaurpkg] have been constructed such that each pairwise plot has the same summary statistics but strikingly different visual features. This design is to illustrate the pitfalls of numerical summaries and the importance of visualisation. This means that despite the issues that come with increasing dimensionality, visualisation of the data cannot be ignored. Scagnostics offer one possible solution to this issue.
 
 The term scagnostics was introduced by John Tukey in 1982 [@tukey]. Tukey discusses the value of a cognostic (a diagnostic that should be interpreted by a computer rather than a human) to filter out uninteresting visualisations. He denotes a cognostic that is specific to scatter plots a scagnostic. Up to a moderate number of variables, a scatter plot matrix (SPLOM) can be used to create pairwise visualisations, however, this solution quickly becomes infeasible. Thus, instead of trying to view every possible variable combination, the workload is reduced by calculating a series of visual features, and only presenting the outlier scatter plots on these feature combinations. 
 
@@ -262,13 +260,13 @@ plot_theme <-  theme_classic() + #theme_minimal() +
         )
 
 #save scatter plots as images
-plots <- unique(bigfeatures$feature)
+plots <- sort(unique(features$feature))
 
 for (i in seq(length(plots))){
-  holdplot <- bigfeatures %>% 
+  holdplot <- features %>% 
     filter(feature==plots[i]) %>% 
-    ggplot(aes(x,y, size=2))+ geom_point((colour=mypal[i]) + plot_theme
-  # ggsave(paste0("figures/", plots[i], ".png"),holdplot) files already in /figure/
+    ggplot(aes(x,y, size=2))+ geom_point(colour=mypal[i]) + plot_theme
+  ggsave(paste0("paper-RJ/figures/", plots[i], ".png"),holdplot) #files already in /figure/
 }
 
 ```
@@ -357,7 +355,7 @@ visual_table <- ggplot(plot_data, aes(x=value , y=scagnostic))+
     strip.text.x = element_blank(),
     panel.grid.major.y = element_line()
 )
-#ggsave("figures/visual_table.png", visual_table, width=10, height=10)
+#ggsave("paper-RJ/figures/visual_table.png", visual_table, width=10, height=10)
 visual_table
 
 ```
@@ -397,7 +395,7 @@ To account for these two issues the striated adjusted measure considers all vert
 # Data
 plot_data_striated <- plot_path_data %>%
   group_by(scagnostic, feature) %>%
-  mutate(doplot = ifelse(all(scagnostic %in% c("striated","striated_adjusted"), 
+  mutate(doplot = ifelse(all(scagnostic %in% c("striated","striated2"), 
                              feature %in% c("vlines", "discrete","line", "disk", "outliers2")),
                          TRUE,
                          FALSE)) %>% 
@@ -423,18 +421,18 @@ striated_visual_table <- ggplot(plot_data_striated, aes(x=value , y=scagnostic))
     strip.text.x = element_blank(),
     panel.grid.major.y = element_line()
 )
-#ggsave("figures/striated_visual_table.png", striated_visual_table, width=10, height=10)
+#ggsave("paper-RJ/figures/striated_visual_table.png", striated_visual_table, width=10, height=10)
 
 striated_visual_table
 
 ```
 
-While these two measures may seem similar at a glace, there are a few minor things that make the striated_adjusted scagnsotic an improvement on the stirated scagnsotic. First of all, the perfect 1 value on striated goes to the "line" scatter plot. While this does fulfil the definition, it is not what the measure is supposed to be looking for, rather supposed to be identifying the "vlines" scatter plot. Since striated does not count the right angles that go between the vertical lines, a truely striated plot will never get a full 1 on this measure, striated adjusted fixes this. After that there is a large gap in both measures because none of the other scatter plots have a strictly discrete measure on the x or y axis. The lower plots show that striated_adjusted is also better at identifying discrete relationships with a rotation and noise added as shown in the "discrete" plot. In striated "discrete" is lower in the order than "outlying" which would indicate that striated has finished looking at discreteness. In striated_adjusted, after the plots with strict discreteness in "vlines" or strict rotated disceteness in "line", is the noisey and rotated "discrete" plot. Therefore in terms of ordering the plots in how well they represent the feature of discreteness, striated_adjusted outperforms striated.
+While these two measures may seem similar at a glace, there are a few minor things that make the striated2 scagnsotic an improvement on the stirated scagnsotic. First of all, the perfect 1 value on striated goes to the "line" scatter plot. While this does fulfil the definition, it is not what the measure is supposed to be looking for, rather supposed to be identifying the "vlines" scatter plot. Since striated does not count the right angles that go between the vertical lines, a truely striated plot will never get a full 1 on this measure, striated adjusted fixes this. After that there is a large gap in both measures because none of the other scatter plots have a strictly discrete measure on the x or y axis. The lower plots show that striated2 is also better at identifying discrete relationships with a rotation and noise added as shown in the "discrete" plot. In striated "discrete" is lower in the order than "outlying" which would indicate that striated has finished looking at discreteness. In striated2, after the plots with strict discreteness in "vlines" or strict rotated disceteness in "line", is the noisey and rotated "discrete" plot. Therefore in terms of ordering the plots in how well they represent the feature of discreteness, striated2 outperforms striated.
 
-The scagnsotics need to be used and interpreted with the type of dataset you are working with in mind. For  if we are looking at a dataset that is discrete, a very low value on striated_adjusted would indicate some strange relationship in the scatter plot. Since the old striated measure is specifically trying to find a continuous variable against a discrete variable, its highest values are also identified by the striated_adjusted. The lowest values on striated simply identify a plot where all the variables are at right angles, once again a measure of disceteness but one that is not identified by striated. Striated_adjusted encapsulates both versions of discreteness in the values that get exactly a 1.
+The scagnsotics need to be used and interpreted with the type of dataset you are working with in mind. For  if we are looking at a dataset that is discrete, a very low value on striated2 would indicate some strange relationship in the scatter plot. Since the old striated measure is specifically trying to find a continuous variable against a discrete variable, its highest values are also identified by the striated2. The lowest values on striated simply identify a plot where all the variables are at right angles, once again a measure of disceteness but one that is not identified by striated. Striated2 encapsulates both versions of discreteness in the values that get exactly a 1.
 
 #### Clumpy Adjusted
-There is a robust version of clumpy that is defined in the paper *Improving the robustness of scagnsotics* [@robust], and has been included in the package. This measure is stronger than the original clumpy measure as it builds a cluster hierarchy and considers a large number of edges. Ultimately it seems to suffer from similar issues to the original version of the scagnostic, and takes a significantly longer time to compute than the original clumpy measure. It is not useful in large scale scagnostic calculations (such as those done on every pairwise combination of variables as is intended by the package) so is not discussed here. The issues that need to be addressed with the new clumpy measure are:
+The issues that need to be addressed with the new clumpy measure are:
 
 1. It needs to consider more than 1 edge in its final measure to make the measure more robust
 
@@ -442,17 +440,25 @@ There is a robust version of clumpy that is defined in the paper *Improving the 
 
 3. It should not consider vertices that's adjacent angles form a straight line (to avoid identifying the angles striated identifies)
 
-To easily identify the edges that sit between clusters, we sort the edges and calculate the difference and take the maximum. The largest gap will indicate the jump between the edges separating clusters and the edges within clusters. The clumpy_adjusted measure is the ratio between the mean of the large edges and the maximum of the small edges.
+Before we calculated a new clumpy measure, we looked into applying a different adjustment defined in the *Improving the robustness of scagnsotics* that is a robust version of the original clumpy measure [@robust]. This version of clumpy has been included in the package as "clumpy_r" however it is not included as an option in the higher level functions such as calc_scags() because its computation time is too long. This measure tries to build multiple clusters, each having their own clumpy value, and then returns the weighted sum, where each value is weighted by the number of observations in that cluster. This version of clumpy spreads the scatter plots more evenly between 0 and 1 and is more robust to outliers, however it does a poor job of ordering plots generally considered to be clumpy without the assistance of binning. Since this scagnostic cannot be used in large scale scagnostic calculations (such as those done on every pairwise combination of variables as is intended by the package) and it maintains the ordering issue from the original measure, it is not discussed here.
+
+Therefore in order to fix the issues in the clumpy measure described above, we designed an adjusted clumpy measure, called clumpy2 in the package, and it is calculated as follows:
   
-*To add in after it is in the package version of clumpy_adjusted:* One we have identifies the large edges, we remove them from the MST and identify which cluster all the inter cluster edges belong to. From each cluster we identify the largest edge (to avoid the measure being arbitrarily from small edges in the MST) and calculate the ratio between the largest inter cluster edge, and the large edge that connects the clusters. These ratios are added together as a weighted mean, where each weight is determined by the number of points that do not satisfy the 180 degree striated requirement. This weighted mean is the final clumpy_adjusted value.
+1. Sort the edges in the MST 
+2. Calculate the difference of adjacent vectors in this ordering, and find the index of the maximum. This maximum difference should indicate the jump from between cluster edges and inter-cluster edges.
+3. Remove the between cluster edges from the MST and build clusters using the remaining edges
+4. For each between cluster edge, take the smaller cluster (in number of observations) and take its median edge length. The clumpy value for that edge is the ratio between the large and small edge lengths $\frac{edge_{small}}{edge_{large}}$, with a two multiplicative penaltys, one for uneven clusters $\frac{2\times n_{small}}{n_{small}+n_{big}}$, and one for "stringy" scatter plots that is only applied if the stringy value is higher than 0.95, to reduce the arbitrarily large clumpy scores that come from striated plots $1-s_{stringy}$.
+6. Take the mean clumpy value for each between cluster edge, if it is below 1 it is beneath the threshold that is consdiered clumpy, and the value is adjusted to 1.
+7. Clumpy 2 returns $1-\frac{1}{mean(clumpy_i)}$
+
+With this calculation, we generate the clumpy2 measure which is compared to the original clumpy measure in the figure below.
 
 ```{r, Clumpy Vtable, width = 150, height = 50, out.width = "100%", fig.cap = "A Visual Table Comparison of Clumpy and Clumpy 2"}
 
 plot_data_clumpy <- plot_path_data %>%
   group_by(scagnostic, feature) %>%
-  mutate(doplot = ifelse(all(scagnostic %in% c("clumpy","clumpy_adjusted"), 
-                             feature %in% c("vlines", "clusters","barrier", "outliers", "nonlinear1", 	
-"nonlinear2")),
+  mutate(doplot = ifelse(all(scagnostic %in% c("clumpy","clumpy2"), 
+                             feature %in% c("vlines", "clusters","gaps", "outliers", "barrier")),
                          TRUE,
                          FALSE)) %>% 
   ungroup() %>%
@@ -477,12 +483,12 @@ clumpy_visual_table <- ggplot(plot_data_clumpy, aes(x=value , y=scagnostic))+
     strip.text.x = element_blank(),
     panel.grid.major.y = element_line()
 )
-#ggsave("figures/clumpy_visual_table.png", clumpy_visual_table, width=10, height=10)
+#ggsave("paper-RJ/figures/clumpy_visual_table.png", clumpy_visual_table, width=10, height=10)
 
 clumpy_visual_table
 ```
 
-Even with a partially completed clumpy_adjusted measure we can see the improvement on the clumpy measure. The first obvious outcome is that the measure is more spread out, and so values range more accurately from 0 to 1. More importantly the measures do a better job of ordering the scatter plots. On the original clumpy measure the "clusters" scatter plot was next to last, so in terms of using it to identify clusters, the measure is about as good as one that is randomly generated. On the clumpy_adjsuted measure "clusters" is the third highest scatter plot, so it does a much better job of identifying it when considering the order of the scagnostics. The clumpy_adjusted measure only has the "vlines" and the "outliers" scatter plots ahead "clusters" due to the measure not yet penalizing plots with adjacent straight lines or small lone clusters that appear in those two plots. With these adjustments the clumpy_adjusted measure should work correctly without the binning pre-processing step.
+Here we can see the improvements made on the clumpy measure in both distribution from 0 to 1 and ordering. The measure is more spread out, and so values range more accurately from 0 to 1. More importantly the measures do a better job of ordering the scatter plots. On the original clumpy measure the "clusters" scatter plot was next to last, on the clumpy2 measure "clusters" is is identified as the most clumpy scatter plot. Clumpy 2 also has a penalty for uneven clusters (to avoid being large due to a small colelction of outliers) and clusters created arbitrarily due to discreteness (such as vlines) in order to better aling with the human interpretation of clumpy. With these changes, the stronger performance of clumpy2 is apparent in this visual table.
 
 # Software implementation
 
@@ -1043,14 +1049,14 @@ s3 <- ggplot(test, aes(x=sparse, convex, colour=plot3)) +
   scale_colour_manual(values=c("grey", mypal[3])) +
   ggtitle("Relevant Scagnostics Plot")
 
-s4 <- ggplot(test, aes(x=clumpy_adjusted, monotonic, colour=plot4)) +
+s4 <- ggplot(test, aes(x=clumpy2, monotonic, colour=plot4)) +
   geom_point() +
   theme_classic() +
   theme(legend.position ="none") +
   scale_colour_manual(values=c("grey", mypal[4])) +
   ggtitle("Relevant Scagnostics Plot")
 
-s5 <- ggplot(test, aes(x=outlying, y = striated_adjusted, colour=plot5, label=lab)) +
+s5 <- ggplot(test, aes(x=outlying, y = striated2, colour=plot5, label=lab)) +
   geom_point() +
   theme_classic() +
   theme(legend.position ="none") +
