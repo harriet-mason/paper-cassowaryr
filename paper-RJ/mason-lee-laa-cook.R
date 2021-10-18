@@ -461,6 +461,7 @@ clumpy_visual_table
 
 
 ## ----eval=FALSE---------------------------------------------------------------
+#> # Getting the data
 #> library(compenginets)
 #> 
 #> # Playing with other ideas
