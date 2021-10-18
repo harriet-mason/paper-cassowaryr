@@ -733,13 +733,13 @@ bbh2 <- ggplot(bbh_scags, aes(x=dcor, y=splines,
                       label = combination)) +
   geom_point() + 
   theme(aspect.ratio=1, axis.text = element_blank())
-bbh3 <- ggplot(bbh_scags, aes(x=clumpy, y=skewed, 
+bbh3 <- ggplot(bbh_scags, aes(x=clumpy, y=clumpy2, 
                       label = combination)) +
   geom_point() + 
   theme(aspect.ratio=1, axis.text = element_blank())
 ```
 
-```{r bbh-scags-interactive, fig.cap="Selected pairs of scagnostics computed for the black hole mergers data. Groups of parameter combinations can be seen to stand out in the left plot (high on skinny and low on convex) and in the middle plot (high on both dcor and splines). The plot on the right shows clumpy vs skewed, where we would have expected more structure, since there are several combinations that lead to a clustering of the points.", layout = "l-body", eval=knitr::is_html_output()}
+```{r bbh-scags-interactive, fig.cap="Selected pairs of scagnostics computed for the black hole mergers data. Groups of parameter combinations can be seen to stand out in the left plot (high on skinny and low on convex) and in the middle plot (high on both dcor and splines). The plot on the right shows clumpy vs clumpy2, where we can see the big impact of the correction for this dataset.", layout = "l-body", eval=knitr::is_html_output()}
 gs1 <- ggplotly(bbh1, width=700, height=600)
 gs2 <- ggplotly(bbh2, width=700, height=600)
 gs3 <- ggplotly(bbh3, width=700, height=600)
@@ -754,9 +754,9 @@ Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:bbh-sc
 
 These variables also stand out in the middle plot of Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:bbh-scags-static)','\\@ref(fig:bbh-scags-interactive)'))`, where it is interesting to note that the cominations with non-linear but functional relation (time vs ra and dec vs ra) have somewhat higher values in the splines measure compared to dcor. On the other hand dec vs time does not exhibit a functional relation, and consequently gets a higher dcor score compared to splines (with both measures still taking large values). This also happens for two other combinations: m1 vs m2 and chi_p vs chi_tot, which are shown in the bottom row (left and middle) of Figure \@ref(fig:blackholes). We see that both these combinations show noisy linear relations.
 
-The final plot is showing clumpy vs skewed, illustrates current limitations with the clumpy measure. For example, the selected plot time vs alpha (final plot of Figure \@ref(fig:blackholes)) takes a similar value of about 0.9 for the clumpy measure as seen for chi_p vs chi_tot, while combinations like ra vs dec score higher, around 0.95. Indeed this data contains many combinations that will break the points into groups, as can already be seen from the examples shown here, but these cannot be readily identified using the clumpy measure.
+Another interesting aspect with this dataset is that there are several combinations that lead to visible separations between groups of points. It is thus an ideal testcase for our new implementation of clumpy2. The right plot in Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:bbh-scags-static)','\\@ref(fig:bbh-scags-interactive)'))` shows clumpy vs clumpy2, and reveals large differences between the two measures. In particular there are many combinations without visible clustering, that still score high on clumpy, but where clumpy2 is zero. On the other hand we can see that there are several combinations that do lead to visible separation between groups that stand out in terms of clumpy2, but not the original clumpy. One example is time vs alpha, shown in the bottom right plot of Figure \@ref(fig:blackholes).
 
-```{r blackholes, fig.cap="Features in the BBH data that stand out on several of the scagnostics measures (convey, skinny, splines and dcor), showing strong relations between variables including non-linear and non-functional dependencies. The final example (time vs alpha) is expected to take high values in clumpy, but does not stand out compared to other combinations.", fig.width = 12, fig.height = 8, out.width="100%"}
+```{r blackholes, fig.cap="Features in the BBH data that stand out on several of the scagnostics measures (convey, skinny, splines and dcor), showing strong relations between variables including non-linear and non-functional dependencies. The final example (time vs alpha) is expected to take high values in clumpy, but only stands out on the corrected clumpy2.", fig.width = 12, fig.height = 8, out.width="100%"}
 load("data/bbh_samples.rda")
 bbh4 <- ggplot(bbh, aes(x=time, y=ra)) +
   geom_point() + 

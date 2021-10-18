@@ -738,9 +738,6 @@ is too long to compute the scagnostics on such a large number of
 observations. For our purpose a much smaller sample is sufficient, and
 we randomly sample 200 observations before computing the scagnostics.
 
-XXXXX need to check about clumpy - probably better to use the adjusted
-version here, or did I already compute that when saving the results?
-
 \begin{Schunk}
 \begin{figure}
 \includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/bbh-scags-static-1} \caption[Pairs of scagnostics computed for the black hole mergers data]{Pairs of scagnostics computed for the black hole mergers data. XXX}\label{fig:bbh-scags-static}
@@ -768,16 +765,21 @@ two other combinations: m1 vs m2 and chi\_p vs chi\_tot, which are shown
 in the bottom row (left and middle) of Figure \ref{fig:blackholes}. We
 see that both these combinations show noisy linear relations.
 
-The final plot is showing clumpy vs skewed, shows that clumpy isn't
-really doing what we expect since we would expect much more structure in
-clumpy (in particular plots with time break up into two well separated
-groups, plots with ra in three separated groups, some other variables
-introduce less pronounced separation between groups). Included
-time-alpha as one example, this has clumpy of 0.9 and skewed of 0.7.
+Another interesting aspect with this dataset is that there are several
+combinations that lead to visible separations between groups of points.
+It is thus an ideal testcase for our new implementation of clumpy2. The
+right plot in Figure \ref{fig:bbh-scags-static} shows clumpy vs clumpy2,
+and reveals large differences between the two measures. In particular
+there are many combinations without visible clustering, that still score
+high on clumpy, but where clumpy2 is zero. On the other hand we can see
+that there are several combinations that do lead to visible separation
+between groups that stand out in terms of clumpy2, but not the original
+clumpy. One example is time vs alpha, shown in the bottom right plot of
+Figure \ref{fig:blackholes}.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/blackholes-1} \caption[Features in the BBH data that stand out on several of the scagnostics measures (convey, skinny, splines and dcor), showing strong relations between variables including non-linear and non-functional dependencies]{Features in the BBH data that stand out on several of the scagnostics measures (convey, skinny, splines and dcor), showing strong relations between variables including non-linear and non-functional dependencies. The final example (time vs alpha) is expected to take high values in clumpy, but does not stand out compared to other combinations.}\label{fig:blackholes}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/blackholes-1} \caption[Features in the BBH data that stand out on several of the scagnostics measures (convey, skinny, splines and dcor), showing strong relations between variables including non-linear and non-functional dependencies]{Features in the BBH data that stand out on several of the scagnostics measures (convey, skinny, splines and dcor), showing strong relations between variables including non-linear and non-functional dependencies. The final example (time vs alpha) is expected to take high values in clumpy, but only stands out on the corrected clumpy2.}\label{fig:blackholes}
 \end{figure}
 \end{Schunk}
 
