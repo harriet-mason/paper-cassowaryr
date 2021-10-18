@@ -665,36 +665,6 @@ stronger performance of clumpy2 is apparent in this visual table.
 \hypertarget{examples}{%
 \section{Examples}\label{examples}}
 
-\hypertarget{collections-of-time-series}{%
-\subsection{Collections of time
-series}\label{collections-of-time-series}}
-
-GOAL: Use scagnostics to find difference in shapes between groups. Here
-we want to first use features to describe a time series, and then
-secondly choosing pairs of features where there is the biggest
-difference between groups according to a scagnostic.
-
-A paragraph describing the compenginets data
-
-Analysis notes:
-
-\begin{itemize}
-\tightlist
-\item
-  A big collection of time series. How do we understand the range of
-  types of time series?
-\item
-  Calculate time series features. Using tsfeatures this will give 13
-  values for each time series.
-\item
-  Use scagnostics to find pairs of tsfeatures that are interesting, eg
-  high on splines but low on monotonic
-\item
-  Plot the pair of tsfeatures, what's unusual about the two?
-\item
-  Select unusual series from the tsfeatures, and plot
-\end{itemize}
-
 \hypertarget{compare-two-sets-of-time-series}{%
 \subsubsection{Compare two sets of time
 series}\label{compare-two-sets-of-time-series}}
@@ -718,7 +688,9 @@ shapes, not necessarily centres of groups as might be done in LDA or
 other machine learning methods. The two groups chosen for comparison are
 macroeconomic and microeconomic series. The data is pulled from the
 self-organizing database of time-series data \citep{sots}, using the
-compenginets R package \citep{compenginets}.
+compenginets R package \citep{compenginets}. Because the time series are
+different lengths, each is described by a set of time series features
+\citep[chapter 4 of][]{fpp} using the feasts R package \citep{feasts}.
 
 For illustration, just a small set of features is examined but what
 emerges as interesting is the difference between curvature and trend
