@@ -747,25 +747,31 @@ our purpose a much smaller sample is sufficient, and we randomly sample
 200 observations before computing the scagnostics.
 
 \begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/bbh-scags-static-1} \caption[Pairs of scagnostics computed for the black hole mergers data]{Pairs of scagnostics computed for the black hole mergers data. XXX}\label{fig:bbh-scags-static}
+\end{figure}
+\end{Schunk}
 
-\includegraphics{mason-lee-laa-cook_files/figure-latex/unnamed-chunk-4-1} \end{Schunk}
-
-Combinations that stand out: time-ra, dec-ra, dec-time (low convex, high
-skinny) dec-ra and time-ra also have higher splines than dcor (both
-high, non-linear functional relation), while m1-m2, dec-time and
-chi\_p-chi\_tot have higher dcor than splines (still both high, m1-m2
-and chi\_p-chi\_tot are linear relations with noise, dec-time is strong
-association but not function) The final plot is showing clumpy vs
-skewed, shows that clumpy isn't really doing what we expect since we
-would expect much more structure in clumpy (in particular plots with
-time break up into two well separated groups, plots with ra in three
-separated groups, some other variables introduce less pronounced
-separation between groups). Included time-alpha as one example, this has
-clumpy of 0.9 and skewed of 0.7.
+Figure @ref(fig:bbh-scags-static) shows combinations that stand out:
+time-ra, dec-ra, dec-time (low convex, high skinny) dec-ra and time-ra
+also have higher splines than dcor (both high, non-linear functional
+relation), while m1-m2, dec-time and chi\_p-chi\_tot have higher dcor
+than splines (still both high, m1-m2 and chi\_p-chi\_tot are linear
+relations with noise, dec-time is strong association but not function).
+(Figure @ref(fig:blackholes) shows the pairs of variables with the
+detected features.) The final plot is showing clumpy vs skewed, shows
+that clumpy isn't really doing what we expect since we would expect much
+more structure in clumpy (in particular plots with time break up into
+two well separated groups, plots with ra in three separated groups, some
+other variables introduce less pronounced separation between groups).
+Included time-alpha as one example, this has clumpy of 0.9 and skewed of
+0.7.
 
 \begin{Schunk}
-
-\includegraphics{mason-lee-laa-cook_files/figure-latex/unnamed-chunk-5-1} \end{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/blackholes-1} \caption[Features in XXX showing XXX]{Features in XXX showing XXX}\label{fig:blackholes}
+\end{figure}
+\end{Schunk}
 
 \hypertarget{afl-player-statistics}{%
 \subsection{AFL player statistics}\label{afl-player-statistics}}
@@ -919,7 +925,7 @@ rarely the fastest.
 \end{figure}
 \end{Schunk}
 
-Figure @ref\{fig:aflwstatic\} shows three scatterplots that score highly
+Figure @ref(fig:aflwstatic) shows three scatterplots that score highly
 on the splines scagnostic. Each of these shows a relatively strong
 monotonic relationship between the two variables. In the interactive
 version of the plot, mouse over reveals some high-performing players,

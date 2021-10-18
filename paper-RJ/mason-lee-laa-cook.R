@@ -23,7 +23,7 @@ library(gridExtra) #groups of static scatter plots
 #> knitr::include_graphics("figures/draw1.png")
 
 
-## ----building-blocks2, width = 150, height = 50, out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics", layout = "l-body"----
+## ----building-blocks2, width = 15, height = 5, out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics"----
 library(alphahull)
 data("features")
 nl <- features %>% filter(feature == "nonlinear2")
@@ -619,40 +619,57 @@ mac + mic
 #> save(bbh, file="paper-RJ/data/bbh_samples.rda")
 
 
-## -----------------------------------------------------------------------------
+## ----bbh-scags-plots----------------------------------------------------------
 load("data/bbh_scags.rda")
 bbh1 <- ggplot(bbh_scags, aes(x=convex, y=skinny, 
                       label = paste(Var1, Var2))) +
-  geom_point()
+  geom_point() + 
+  theme(aspect.ratio=1, axis.text = element_blank())
 bbh2 <- ggplot(bbh_scags, aes(x=dcor, y=splines, 
                       label = paste(Var1, Var2))) +
-  geom_point()
+  geom_point() + 
+  theme(aspect.ratio=1, axis.text = element_blank())
 bbh3 <- ggplot(bbh_scags, aes(x=clumpy, y=skewed, 
                       label = paste(Var1, Var2))) +
-  geom_point()
-gs1 <- ggplotly(bbh1)
-gs2 <- ggplotly(bbh2)
-gs3 <- ggplotly(bbh3)
-subplot(gs1, gs2, gs3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.6)
+  geom_point() + 
+  theme(aspect.ratio=1, axis.text = element_blank())
 
 
-## -----------------------------------------------------------------------------
+## ----bbh-scags-interactive, fig.cap="Pairs of scagnostics computed for the black hole mergers data. XXX", layout = "l-body", eval=knitr::is_html_output()----
+#> gs1 <- ggplotly(bbh1, width=700, height=600)
+#> gs2 <- ggplotly(bbh2, width=700, height=600)
+#> gs3 <- ggplotly(bbh3, width=700, height=600)
+#> subplot(gs1, gs2, gs3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.45)
+
+
+## ----bbh-scags-static, fig.cap="Pairs of scagnostics computed for the black hole mergers data. XXX", fig.width = 12, fig.height = 4, out.width="100%", eval=knitr::is_latex_output()----
+bbh1 + bbh2 + bbh3
+
+
+## ----blackholes, fig.cap="Features in XXX showing XXX", fig.width = 12, fig.height = 8, out.width="100%"----
 load("data/bbh_samples.rda")
-bbh1 <- ggplot(bbh, aes(x=time, y=ra)) +
-  geom_point()
-bbh2 <- ggplot(bbh, aes(x=dec, y=ra)) +
-  geom_point()
-bbh3 <- ggplot(bbh, aes(x=dec, y=time)) +
-  geom_point()
-bbh4 <- ggplot(bbh, aes(x=m1, y=m2)) +
-  geom_point()
-bbh5 <- ggplot(bbh, aes(x=chi_p, y=chi_tot)) +
-  geom_point()
-bbh6 <- ggplot(bbh, aes(x=time, y=alpha)) +
-  geom_point()
+bbh4 <- ggplot(bbh, aes(x=time, y=ra)) +
+  geom_point() + 
+  theme(aspect.ratio=1, axis.text = element_blank())
+bbh5 <- ggplot(bbh, aes(x=dec, y=ra)) +
+  geom_point() + 
+  theme(aspect.ratio=1, axis.text = element_blank())
+bbh6 <- ggplot(bbh, aes(x=dec, y=time)) +
+  geom_point() + 
+  theme(aspect.ratio=1, axis.text = element_blank())
+bbh7 <- ggplot(bbh, aes(x=m1, y=m2)) +
+  geom_point() + 
+  theme(aspect.ratio=1, axis.text = element_blank())
+bbh8 <- ggplot(bbh, aes(x=chi_p, y=chi_tot)) +
+  geom_point() + 
+  theme(aspect.ratio=1, axis.text = element_blank())
+bbh9 <- ggplot(bbh, aes(x=time, y=alpha)) +
+  geom_point() + 
+  theme(aspect.ratio=1, axis.text = element_blank())
 
-subplot(bbh1, bbh2, bbh3, bbh4, bbh5, bbh6,
-        nrows=2, widths = c(0.33, 0.33, 0.33), heights = c(0.5, 0.5))
+#subplot(bbh1, bbh2, bbh3, bbh4, bbh5, bbh6,
+#        nrows=2, widths = c(0.33, 0.33, 0.33), heights = c(0.5, 0.5))
+bbh4 + bbh5 + bbh6 + bbh7 + bbh8 + bbh9 + plot_layout(nrow=2)
 
 
 ## ---- AFL DATA, include=FALSE, eval=FALSE-------------------------------------
@@ -727,7 +744,7 @@ p6 <- ggplot(aflw_num, aes(x=kicks, y=handballs)) +
 
 
 ## ----AFLW-scatters-static, out.width="80%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center'----
-grid.arrange(p1, p2, p3, p4, p5, p6,  nrow=2)
+p1 + p2 + p3 + p4 + p5 + p6 + plot_layout(nrow=2)
 
 
 ## ---- 3 Random Plots, echo=FALSE, out.width = "100%", , fig.align='center'----
@@ -741,7 +758,7 @@ p8 <- ggplot(aflw_num, aes(x=totalPossessions, y=metresGained)) +
   theme_classic()+
   ggtitle("and Another Plot") 
 
-grid.arrange(p6, p7, p8, nrow=1)
+p6 + p7 + p8
 
 
 
@@ -797,12 +814,12 @@ s5 <- ggplot(test, aes(x=outlying, y = striated2, colour=plot5, label=lab)) +
 ## ---- plot1-interactive, out.width="70%", include=knitr::is_html_output(), eval=knitr::is_html_output()----
 #> 
 #> subplot(ggplotly(p1), ggplotly(s1),
-#>         nrows=1, widths = c(0.5, 0.5), heights = 0.5)%>%
+#>         nrows=1, widths = c(0.5, 0.5), heights = 0.5) %>%
 #>   config(displayModeBar = FALSE)
 
 
-## ----plot1-static, out.width="70%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), , fig.align='center'----
-grid.arrange(p1, s1, nrow=1)
+## ----plot1-static, out.width="70%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center'----
+p1 + s1
 
 
 ## ---- plot2-interactive, out.width="70%", include=knitr::is_html_output(), eval=knitr::is_html_output()----
