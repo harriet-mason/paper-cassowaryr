@@ -6,17 +6,19 @@ Scagnostics}
 \maketitle
 
 \abstract{%
-Data sets that have a large number of numeric variables, have an even
-larger number of possible pairwise scatter plots. Looking at them all is
-infeasible for any individual, and so in order give priority to the most
-interesting plots, we have designed the ``cassowaryr'' package that
-allows users to sort scatter plots based on a list of Scagnsotics.
-Scagnsotics are scatter plot diagnostics that give numerical summaries
-to the shapes of scatter plots. These scagnsotics are shown to correctly
-order simulated data that represent scatter plot shapes a user would
-find interesting. They are also applied to examples in macro and micro
-time series, physics and sports data where the package succeeds in
-picking out interesting scatter plots from a large collection.
+As the number of dimensions in a dataset increases, the process of
+visualising its structure and variable dependencies becomes more
+tedious. Scagnostics (scatterplot diagnostics) are a set of visual
+features that can be used to identify interesting and abnormal
+scatterplots, and thus give a sense of priority to the variables we
+choose to visualise. Here, we will discuss the creation of the
+\emph{cassowaryr} R package that will provide a user-friendly method to
+calculate these scagnostics, as well as the development of adjusted
+measures not previously defined in the literature. The package is be
+tested on datasets with known interesting visual features to ensure the
+scagnostics are working as expected,before being applied to time series,
+physics and AFLW data to show their value as a preliminary step in
+exploratory data analysis.
 }
 
 \hypertarget{introduction}{%
@@ -24,27 +26,16 @@ picking out interesting scatter plots from a large collection.
 
 Visualising high dimensional data is often difficult and requires a
 trade-off between the usefulness of the plots and maintaining the
-structures of the original data. Scagnostics (scatterplot diagnostics)
-are a set of visual features that can be used to identify interesting
-and abnormal scatterplots, and thus give a sense of priority to the
-variables we choose to visualise. This proposal will discuss the
-creation of an R package that will provide a user-friendly method to
-calculate these scagnostics. The package will be tested on datasets with
-known interesting visual features to ensure the scagnostics are working
-as expected, before finally being used to explore and describe a time
-series dataset.
-
-As the number of dimensions in a dataset increases, the process of
-visualising its structure and variable dependencies becomes more
-tedious. This is because the number of possible pairwise plots rises
-exponentially with the number of dimensions. Datasets like Anscombe's
-quartet \citep{anscombe} or the datasaurus dozen \citep{datasaurpkg}
-have been constructed such that each pairwise plot has the same summary
-statistics but strikingly different visual features. This design is to
-illustrate the pitfalls of numerical summaries and the importance of
-visualisation. This means that despite the issues that come with
-increasing dimensionality, visualisation of the data cannot be ignored.
-Scagnostics offer one possible solution to this issue.
+structures of the original data. This is because the number of possible
+pairwise plots rises exponentially with the number of dimensions.
+Datasets like Anscombe's quartet \citep{anscombe} or the datasaurus
+dozen \citep{datasaurpkg} have been constructed such that each pairwise
+plot has the same summary statistics but strikingly different visual
+features. This design is to illustrate the pitfalls of numerical
+summaries and the importance of visualisation. This means that despite
+the issues that come with increasing dimensionality, visualisation of
+the data cannot be ignored. Scagnostics offer one possible solution to
+this issue.
 
 The term scagnostics was introduced by John Tukey in 1982 \citep{tukey}.
 Tukey discusses the value of a cognostic (a diagnostic that should be
@@ -160,7 +151,7 @@ tree (MST) (Figure @ref(fig:building-blocks2)).
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/building-blocks2-1} \caption[The building blocks for graph-based scagnostics]{The building blocks for graph-based scagnostics}(\#fig:building-blocks2)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/building-blocks2-1} \caption[The building blocks for graph-based scagnostics]{The building blocks for graph-based scagnostics}\label{fig:building-blocks2}
 \end{figure}
 \end{Schunk}
 
@@ -186,7 +177,7 @@ constant that adjusts for that.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawconvex} \caption[Convex Scagnostic Visual Explanation]{Convex Scagnostic Visual Explanation}(\#fig:convexscag)
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawconvex} \caption[Convex Scagnostic Visual Explanation]{Convex Scagnostic Visual Explanation}\label{fig:convexscag}
 \end{figure}
 \end{Schunk}
 
@@ -203,7 +194,7 @@ constant that adjusts for that.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawskinny} \caption[Skinny Scagnostic Visual Explanation]{Skinny Scagnostic Visual Explanation}(\#fig:skinnyscag)
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawskinny} \caption[Skinny Scagnostic Visual Explanation]{Skinny Scagnostic Visual Explanation}\label{fig:skinnyscag}
 \end{figure}
 \end{Schunk}
 
@@ -219,7 +210,7 @@ constant that adjusts for that.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawoutlying} \caption[Outlying Scagnostic Visual Explanation]{Outlying Scagnostic Visual Explanation}(\#fig:outlyingscag)
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawoutlying} \caption[Outlying Scagnostic Visual Explanation]{Outlying Scagnostic Visual Explanation}\label{fig:outlyingscag}
 \end{figure}
 \end{Schunk}
 
@@ -237,7 +228,7 @@ constant that adjusts for that.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawstringy} \caption[Stringy Scagnostic Visual Explanation]{Stringy Scagnostic Visual Explanation}(\#fig:stringyscag)
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawstringy} \caption[Stringy Scagnostic Visual Explanation]{Stringy Scagnostic Visual Explanation}\label{fig:stringyscag}
 \end{figure}
 \end{Schunk}
 
@@ -254,7 +245,7 @@ constant that adjusts for that.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawskewed} \caption[Skewed Scagnostic Visual Explanation]{Skewed Scagnostic Visual Explanation}(\#fig:skewedscag)
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawskewed} \caption[Skewed Scagnostic Visual Explanation]{Skewed Scagnostic Visual Explanation}\label{fig:skewedscag}
 \end{figure}
 \end{Schunk}
 
@@ -269,7 +260,7 @@ constant that adjusts for that.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawsparse} \caption[Sparse Scagnostic Visual Explanation]{Sparse Scagnostic Visual Explanation}(\#fig:sparsescag)
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawsparse} \caption[Sparse Scagnostic Visual Explanation]{Sparse Scagnostic Visual Explanation}\label{fig:sparsescag}
 \end{figure}
 \end{Schunk}
 
@@ -290,7 +281,7 @@ constant that adjusts for that.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawclumpy} \caption[Clumpy Scagnostic Visual Explanation]{Clumpy Scagnostic Visual Explanation}(\#fig:clumpyscag)
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawclumpy} \caption[Clumpy Scagnostic Visual Explanation]{Clumpy Scagnostic Visual Explanation}\label{fig:clumpyscag}
 \end{figure}
 \end{Schunk}
 
@@ -307,7 +298,7 @@ constant that adjusts for that.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawstriated} \caption[Striated Scagnostic Visual Explanation]{Striated Scagnostic Visual Explanation}(\#fig:striatedscag)
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawstriated} \caption[Striated Scagnostic Visual Explanation]{Striated Scagnostic Visual Explanation}\label{fig:striatedscag}
 \end{figure}
 \end{Schunk}
 
@@ -327,7 +318,7 @@ scagnostics}\label{association-based-scagnostics}}
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawmonotonic} \caption[Monotonic Scagnostic Visual Explanation]{Monotonic Scagnostic Visual Explanation}(\#fig:monotonicscag)
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawmonotonic} \caption[Monotonic Scagnostic Visual Explanation]{Monotonic Scagnostic Visual Explanation}\label{fig:monotonicscag}
 \end{figure}
 \end{Schunk}
 
@@ -349,7 +340,7 @@ below.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawsplines} \caption[Splines Scagnostic Visual Explanation]{Splines Scagnostic Visual Explanation}(\#fig:splinescag)
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawsplines} \caption[Splines Scagnostic Visual Explanation]{Splines Scagnostic Visual Explanation}\label{fig:splinescag}
 \end{figure}
 \end{Schunk}
 
@@ -369,7 +360,7 @@ where \[A_{kl}=a_{kl}-\bar{a}_{k.}-\bar{a}_{.j}-\bar{a}_{..}\]
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawdcor} \caption[Dcor Scagnostic Visual Explanation]{Dcor Scagnostic Visual Explanation}(\#fig:dcorscag)
+\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawdcor} \caption[Dcor Scagnostic Visual Explanation]{Dcor Scagnostic Visual Explanation}\label{fig:dcorscag}
 \end{figure}
 \end{Schunk}
 
@@ -386,7 +377,7 @@ and unique scatter plots which we can run our scagnsotics on.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Features plot-1} \caption[The Scatter Plots of the Features Dataset]{The Scatter Plots of the Features Dataset}(\#fig:Features plot)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Features plot-1} \caption[The Scatter Plots of the Features Dataset]{The Scatter Plots of the Features Dataset}\label{fig:Features plot}
 \end{figure}
 \end{Schunk}
 
@@ -409,7 +400,7 @@ Therefore the current scagnostics will be assessed without binning
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Visual Table-1} \caption[The Features Scatterplots in a Visual Table]{The Features Scatterplots in a Visual Table}(\#fig:Visual Table)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Visual Table-1} \caption[The Features Scatterplots in a Visual Table]{The Features Scatterplots in a Visual Table}\label{fig:Visual Table}
 \end{figure}
 \end{Schunk}
 
@@ -521,57 +512,45 @@ the improvements on the measure.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Striated Vtable-1} \caption[A Visual Table Comparison of Striated and Striated 2]{A Visual Table Comparison of Striated and Striated 2}(\#fig:Striated Vtable)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Striated Vtable-1} \caption[A Visual Table Comparison of Striated and Striated 2]{A Visual Table Comparison of Striated and Striated 2}\label{fig:Striated Vtable}
 \end{figure}
 \end{Schunk}
 
 While these two measures may seem similar at a glace, there are a few
-minor things that make the striated\_adjusted scagnsotic an improvement
-on the stirated scagnsotic. First of all, the perfect 1 value on
-striated goes to the ``line'' scatter plot. While this does fulfil the
-definition, it is not what the measure is supposed to be looking for,
-rather supposed to be identifying the ``vlines'' scatter plot. Since
-striated does not count the right angles that go between the vertical
-lines, a truely striated plot will never get a full 1 on this measure,
-striated adjusted fixes this. After that there is a large gap in both
-measures because none of the other scatter plots have a strictly
-discrete measure on the x or y axis. The lower plots show that
-striated\_adjusted is also better at identifying discrete relationships
-with a rotation and noise added as shown in the ``discrete'' plot. In
-striated ``discrete'' is lower in the order than ``outlying'' which
-would indicate that striated has finished looking at discreteness. In
-striated\_adjusted, after the plots with strict discreteness in
-``vlines'' or strict rotated disceteness in ``line'', is the noisey and
-rotated ``discrete'' plot. Therefore in terms of ordering the plots in
-how well they represent the feature of discreteness, striated\_adjusted
-outperforms striated.
+minor things that make the striated2 scagnsotic an improvement on the
+stirated scagnsotic. First of all, the perfect 1 value on striated goes
+to the ``line'' scatter plot. While this does fulfil the definition, it
+is not what the measure is supposed to be looking for, rather supposed
+to be identifying the ``vlines'' scatter plot. Since striated does not
+count the right angles that go between the vertical lines, a truely
+striated plot will never get a full 1 on this measure, striated adjusted
+fixes this. After that there is a large gap in both measures because
+none of the other scatter plots have a strictly discrete measure on the
+x or y axis. The lower plots show that striated2 is also better at
+identifying discrete relationships with a rotation and noise added as
+shown in the ``discrete'' plot. In striated ``discrete'' is lower in the
+order than ``outlying'' which would indicate that striated has finished
+looking at discreteness. In striated2, after the plots with strict
+discreteness in ``vlines'' or strict rotated disceteness in ``line'', is
+the noisey and rotated ``discrete'' plot. Therefore in terms of ordering
+the plots in how well they represent the feature of discreteness,
+striated2 outperforms striated.
 
 The scagnsotics need to be used and interpreted with the type of dataset
 you are working with in mind. For if we are looking at a dataset that is
-discrete, a very low value on striated\_adjusted would indicate some
-strange relationship in the scatter plot. Since the old striated measure
-is specifically trying to find a continuous variable against a discrete
-variable, its highest values are also identified by the
-striated\_adjusted. The lowest values on striated simply identify a plot
-where all the variables are at right angles, once again a measure of
-disceteness but one that is not identified by striated.
-Striated\_adjusted encapsulates both versions of discreteness in the
-values that get exactly a 1.
+discrete, a very low value on striated2 would indicate some strange
+relationship in the scatter plot. Since the old striated measure is
+specifically trying to find a continuous variable against a discrete
+variable, its highest values are also identified by the striated2. The
+lowest values on striated simply identify a plot where all the variables
+are at right angles, once again a measure of disceteness but one that is
+not identified by striated. Striated2 encapsulates both versions of
+discreteness in the values that get exactly a 1.
 
 \hypertarget{clumpy-adjusted}{%
 \paragraph{Clumpy Adjusted}\label{clumpy-adjusted}}
 
-There is a robust version of clumpy that is defined in the paper
-\emph{Improving the robustness of scagnsotics} \citep{robust}, and has
-been included in the package. This measure is stronger than the original
-clumpy measure as it builds a cluster hierarchy and considers a large
-number of edges. Ultimately it seems to suffer from similar issues to
-the original version of the scagnostic, and takes a significantly longer
-time to compute than the original clumpy measure. It is not useful in
-large scale scagnostic calculations (such as those done on every
-pairwise combination of variables as is intended by the package) so is
-not discussed here. The issues that need to be addressed with the new
-clumpy measure are:
+The issues that need to be addressed with the new clumpy measure are:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -587,44 +566,77 @@ clumpy measure are:
   line (to avoid identifying the angles striated identifies)
 \end{enumerate}
 
-To easily identify the edges that sit between clusters, we sort the
-edges and calculate the difference and take the maximum. The largest gap
-will indicate the jump between the edges separating clusters and the
-edges within clusters. The clumpy\_adjusted measure is the ratio between
-the mean of the large edges and the maximum of the small edges.
+Before we calculated a new clumpy measure, we looked into applying a
+different adjustment defined in the \emph{Improving the robustness of
+scagnsotics} that is a robust version of the original clumpy measure
+\citep{robust}. This version of clumpy has been included in the package
+as ``clumpy\_r'' however it is not included as an option in the higher
+level functions such as calc\_scags() because its computation time is
+too long. This measure tries to build multiple clusters, each having
+their own clumpy value, and then returns the weighted sum, where each
+value is weighted by the number of observations in that cluster. This
+version of clumpy spreads the scatter plots more evenly between 0 and 1
+and is more robust to outliers, however it does a poor job of ordering
+plots generally considered to be clumpy without the assistance of
+binning. Since this scagnostic cannot be used in large scale scagnostic
+calculations (such as those done on every pairwise combination of
+variables as is intended by the package) and it maintains the ordering
+issue from the original measure, it is not discussed here.
 
-\emph{To add in after it is in the package version of clumpy\_adjusted:}
-One we have identifies the large edges, we remove them from the MST and
-identify which cluster all the inter cluster edges belong to. From each
-cluster we identify the largest edge (to avoid the measure being
-arbitrarily from small edges in the MST) and calculate the ratio between
-the largest inter cluster edge, and the large edge that connects the
-clusters. These ratios are added together as a weighted mean, where each
-weight is determined by the number of points that do not satisfy the 180
-degree striated requirement. This weighted mean is the final
-clumpy\_adjusted value.
+Therefore in order to fix the issues in the clumpy measure described
+above, we designed an adjusted clumpy measure, called clumpy2 in the
+package, and it is calculated as follows:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Sort the edges in the MST
+\item
+  Calculate the difference of adjacent vectors in this ordering, and
+  find the index of the maximum. This maximum difference should indicate
+  the jump from between cluster edges and inter-cluster edges.
+\item
+  Remove the between cluster edges from the MST and build clusters using
+  the remaining edges
+\item
+  For each between cluster edge, take the smaller cluster (in number of
+  observations) and take its median edge length. The clumpy value for
+  that edge is the ratio between the large and small edge lengths
+  \(\frac{edge_{small}}{edge_{large}}\), with a two multiplicative
+  penaltys, one for uneven clusters
+  \(\frac{2\times n_{small}}{n_{small}+n_{big}}\), and one for
+  ``stringy'' scatter plots that is only applied if the stringy value is
+  higher than 0.95, to reduce the arbitrarily large clumpy scores that
+  come from striated plots \(1-s_{stringy}\).
+\item
+  Take the mean clumpy value for each between cluster edge, if it is
+  below 1 it is beneath the threshold that is consdiered clumpy, and the
+  value is adjusted to 1.
+\item
+  Clumpy 2 returns \(1-\frac{1}{mean(clumpy_i)}\)
+\end{enumerate}
+
+With this calculation, we generate the clumpy2 measure which is compared
+to the original clumpy measure in the figure below.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Clumpy Vtable-1} \caption[A Visual Table Comparison of Clumpy and Clumpy 2]{A Visual Table Comparison of Clumpy and Clumpy 2}(\#fig:Clumpy Vtable)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Clumpy Vtable-1} \caption[A Visual Table Comparison of Clumpy and Clumpy 2]{A Visual Table Comparison of Clumpy and Clumpy 2}\label{fig:Clumpy Vtable}
 \end{figure}
 \end{Schunk}
 
-Even with a partially completed clumpy\_adjusted measure we can see the
-improvement on the clumpy measure. The first obvious outcome is that the
-measure is more spread out, and so values range more accurately from 0
-to 1. More importantly the measures do a better job of ordering the
-scatter plots. On the original clumpy measure the ``clusters'' scatter
-plot was next to last, so in terms of using it to identify clusters, the
-measure is about as good as one that is randomly generated. On the
-clumpy\_adjsuted measure ``clusters'' is the third highest scatter plot,
-so it does a much better job of identifying it when considering the
-order of the scagnostics. The clumpy\_adjusted measure only has the
-``vlines'' and the ``outliers'' scatter plots ahead ``clusters'' due to
-the measure not yet penalizing plots with adjacent straight lines or
-small lone clusters that appear in those two plots. With these
-adjustments the clumpy\_adjusted measure should work correctly without
-the binning pre-processing step.
+Here we can see the improvements made on the clumpy measure in both
+distribution from 0 to 1 and ordering. The measure is more spread out,
+and so values range more accurately from 0 to 1. More importantly the
+measures do a better job of ordering the scatter plots. On the original
+clumpy measure the ``clusters'' scatter plot was next to last, on the
+clumpy2 measure ``clusters'' is is identified as the most clumpy scatter
+plot. Clumpy 2 also has a penalty for uneven clusters (to avoid being
+large due to a small colelction of outliers) and clusters created
+arbitrarily due to discreteness (such as vlines) in order to better
+aling with the human interpretation of clumpy. With these changes, the
+stronger performance of clumpy2 is apparent in this visual table.
 
 \hypertarget{software-implementation}{%
 \section{Software implementation}\label{software-implementation}}
@@ -898,7 +910,7 @@ rarely the fastest.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/aflwstatic-1} \caption[Scatterplots with high values on the splines scagnostic]{Scatterplots with high values on the splines scagnostic.}(\#fig:aflwstatic)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/aflwstatic-1} \caption[Scatterplots with high values on the splines scagnostic]{Scatterplots with high values on the splines scagnostic.}\label{fig:aflwstatic}
 \end{figure}
 \end{Schunk}
 
@@ -932,7 +944,7 @@ pre-processing, there are 20 indicators for 79 countries.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/wbistatic-1} \caption[Most of the pairs of indicators exhibit outliersor are stringy]{Most of the pairs of indicators exhibit outliersor are stringy. There is one pair that has clumpy as the highest value. There are numerous pairs that have a highest value on convex.}(\#fig:wbistatic)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/wbistatic-1} \caption[Most of the pairs of indicators exhibit outliersor are stringy]{Most of the pairs of indicators exhibit outliersor are stringy. There is one pair that has clumpy as the highest value. There are numerous pairs that have a highest value on convex.}\label{fig:wbistatic}
 \end{figure}
 \end{Schunk}
 
@@ -1051,9 +1063,6 @@ Descriptions}\label{aflw-data-variable-descriptions}}
   \emph{clearances.totalClearances}: how many time a player or team
   clears the ball from a stoppage or from the centre
 \end{itemize}
-
-\begin{verbatim}
-\end{verbatim}
 
 \bibliography{mason-lee-laa-cook.bib}
 

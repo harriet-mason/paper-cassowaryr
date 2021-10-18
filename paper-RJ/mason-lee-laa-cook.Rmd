@@ -100,12 +100,12 @@ knitr::include_graphics("figures/draw1.png")
 library(alphahull)
 data("features")
 nl <- features %>% filter(feature == "nonlinear2")
-d1 <- draw_convexhull(nl$x, nl$y, fill=TRUE) +
+d1 <- draw_convexhull(nl$x, nl$y, clr="#FFD700", fill=TRUE) +
   ggtitle("a. Convex hull") +
   xlab("") + ylab("") +
   theme_void() +
   theme(aspect.ratio=1, axis.text = element_blank())
-d2 <- draw_alphahull(nl$x, nl$y) +
+d2 <- draw_alphahull(nl$x, nl$y, clr="#00a800") +
   ggtitle("b. Alpha hull") +
   xlab("") + ylab("") +
   theme_void() +
@@ -729,9 +729,9 @@ get_features <- function(ts_in) {
            value, feature_set("feasts"))
 }
 
-load("data/cets_macro.rda")
+load(here::here("data/cets_macro.rda"))
 feats_macro <- purrr::map_dfr(cets_macro, get_features)
-save(feats_macro, file="data/feats_macro.rda")
+save(feats_macro, file=here::here("data/feats_macro.rda"))
 
 load("data/cets_micro.rda")
 feats_micro <- purrr::map_dfr(cets_micro, get_features)
@@ -739,8 +739,8 @@ save(feats_micro, file = "data/feats_micro.rda")
 ```
 
 ```{r}
-load("data/feats_macro.rda")
-load("data/feats_micro.rda")
+load(here::here("data/feats_macro.rda"))
+load(here::here("data/feats_micro.rda"))
 
 # Check scale of each variable
 #feats_macro %>% 

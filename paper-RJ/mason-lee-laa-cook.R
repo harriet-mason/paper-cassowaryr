@@ -27,12 +27,12 @@ library(gridExtra) #groups of static scatter plots
 library(alphahull)
 data("features")
 nl <- features %>% filter(feature == "nonlinear2")
-d1 <- draw_convexhull(nl$x, nl$y, fill=TRUE) +
+d1 <- draw_convexhull(nl$x, nl$y, clr="#FFD700", fill=TRUE) +
   ggtitle("a. Convex hull") +
   xlab("") + ylab("") +
   theme_void() +
   theme(aspect.ratio=1, axis.text = element_blank())
-d2 <- draw_alphahull(nl$x, nl$y) +
+d2 <- draw_alphahull(nl$x, nl$y, clr="#00a800") +
   ggtitle("b. Alpha hull") +
   xlab("") + ylab("") +
   theme_void() +
@@ -117,13 +117,13 @@ ggplot(features, aes(x,y,colour=feature))+
 #>         )
 #> 
 #> #save scatter plots as images
-#> plots <- unique(bigfeatures$feature)
+#> plots <- sort(unique(features$feature))
 #> 
 #> for (i in seq(length(plots))){
-#>   holdplot <- bigfeatures %>%
+#>   holdplot <- features %>%
 #>     filter(feature==plots[i]) %>%
-#>     ggplot(aes(x,y, size=2))+ geom_point((colour=mypal[i]) + plot_theme
-#>   # ggsave(paste0("figures/", plots[i], ".png"),holdplot) files already in /figure/
+#>     ggplot(aes(x,y, size=2))+ geom_point(colour=mypal[i]) + plot_theme
+#>   ggsave(paste0("paper-RJ/figures/", plots[i], ".png"),holdplot) #files already in /figure/
 #> }
 #> 
 
@@ -212,7 +212,7 @@ visual_table <- ggplot(plot_data, aes(x=value , y=scagnostic))+
     strip.text.x = element_blank(),
     panel.grid.major.y = element_line()
 )
-#ggsave("figures/visual_table.png", visual_table, width=10, height=10)
+#ggsave("paper-RJ/figures/visual_table.png", visual_table, width=10, height=10)
 visual_table
 
 
@@ -223,7 +223,7 @@ visual_table
 # Data
 plot_data_striated <- plot_path_data %>%
   group_by(scagnostic, feature) %>%
-  mutate(doplot = ifelse(all(scagnostic %in% c("striated","striated_adjusted"), 
+  mutate(doplot = ifelse(all(scagnostic %in% c("striated","striated2"), 
                              feature %in% c("vlines", "discrete","line", "disk", "outliers2")),
                          TRUE,
                          FALSE)) %>% 
@@ -249,7 +249,7 @@ striated_visual_table <- ggplot(plot_data_striated, aes(x=value , y=scagnostic))
     strip.text.x = element_blank(),
     panel.grid.major.y = element_line()
 )
-#ggsave("figures/striated_visual_table.png", striated_visual_table, width=10, height=10)
+#ggsave("paper-RJ/figures/striated_visual_table.png", striated_visual_table, width=10, height=10)
 
 striated_visual_table
 
@@ -259,9 +259,8 @@ striated_visual_table
 
 plot_data_clumpy <- plot_path_data %>%
   group_by(scagnostic, feature) %>%
-  mutate(doplot = ifelse(all(scagnostic %in% c("clumpy","clumpy_adjusted"), 
-                             feature %in% c("vlines", "clusters","barrier", "outliers", "nonlinear1", 	
-"nonlinear2")),
+  mutate(doplot = ifelse(all(scagnostic %in% c("clumpy","clumpy2"), 
+                             feature %in% c("vlines", "clusters","gaps", "outliers", "barrier")),
                          TRUE,
                          FALSE)) %>% 
   ungroup() %>%
@@ -286,7 +285,7 @@ clumpy_visual_table <- ggplot(plot_data_clumpy, aes(x=value , y=scagnostic))+
     strip.text.x = element_blank(),
     panel.grid.major.y = element_line()
 )
-#ggsave("figures/clumpy_visual_table.png", clumpy_visual_table, width=10, height=10)
+#ggsave("paper-RJ/figures/clumpy_visual_table.png", clumpy_visual_table, width=10, height=10)
 
 clumpy_visual_table
 
@@ -477,9 +476,9 @@ clumpy_visual_table
 #>            value, feature_set("feasts"))
 #> }
 #> 
-#> load("data/cets_macro.rda")
+#> load(here::here("data/cets_macro.rda"))
 #> feats_macro <- purrr::map_dfr(cets_macro, get_features)
-#> save(feats_macro, file="data/feats_macro.rda")
+#> save(feats_macro, file=here::here("data/feats_macro.rda"))
 #> 
 #> load("data/cets_micro.rda")
 #> feats_micro <- purrr::map_dfr(cets_micro, get_features)
@@ -487,8 +486,8 @@ clumpy_visual_table
 
 
 ## -----------------------------------------------------------------------------
-load("data/feats_macro.rda")
-load("data/feats_micro.rda")
+load(here::here("data/feats_macro.rda"))
+load(here::here("data/feats_micro.rda"))
 
 # Check scale of each variable
 #feats_macro %>% 
@@ -779,14 +778,14 @@ s3 <- ggplot(test, aes(x=sparse, convex, colour=plot3)) +
   scale_colour_manual(values=c("grey", mypal[3])) +
   ggtitle("Relevant Scagnostics Plot")
 
-s4 <- ggplot(test, aes(x=clumpy_adjusted, monotonic, colour=plot4)) +
+s4 <- ggplot(test, aes(x=clumpy2, monotonic, colour=plot4)) +
   geom_point() +
   theme_classic() +
   theme(legend.position ="none") +
   scale_colour_manual(values=c("grey", mypal[4])) +
   ggtitle("Relevant Scagnostics Plot")
 
-s5 <- ggplot(test, aes(x=outlying, y = striated_adjusted, colour=plot5, label=lab)) +
+s5 <- ggplot(test, aes(x=outlying, y = striated2, colour=plot5, label=lab)) +
   geom_point() +
   theme_classic() +
   theme(legend.position ="none") +
@@ -1055,5 +1054,3 @@ w6 <- ggplot(wbi_scags_topvars,
 ## ----wbistatic, fig.cap="Most of the pairs of indicators exhibit outliersor are stringy. There is one pair that has clumpy as the highest value. There are numerous pairs that have a highest value on convex.", fig.height=12, fig.width=12, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()----
 w6 + w3a + w3b
 
-```{.r .distill-force-highlighting-css}
-```
