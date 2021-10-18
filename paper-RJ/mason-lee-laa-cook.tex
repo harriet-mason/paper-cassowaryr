@@ -706,22 +706,27 @@ other machine learning methods.
 
 Here, just a small set of features is examined (because code fragile)
 but what emerges as interesting is the difference between curvature and
-trend strength. Microeconomic series tend to have high values on trend
-strength, and a range of values on curvature. In comparison
-macroeconomic series tend to have near constant average values on
-curvature, and highly varied on trend strength.
+trend strength (Figure @ref(fig:timeseries)). Microeconomic series tend
+to have high values on trend strength, and a range of values on
+curvature. In comparison macroeconomic series tend to have near constant
+average values on curvature, and highly varied on trend strength.
 
 Plotting a few series actually suggests that the microeconomic series
-contain lots of micro structure, which might be what we should expect.
-Interestingly the trend strength seems to pick up the jaggies!
+contain lots of micro structure, which might be what we should expect
+(Figure @ref(fig:tsplots)). Interestingly the trend strength seems to
+pick up the jaggies!
 
 \begin{Schunk}
-
-\includegraphics{mason-lee-laa-cook_files/figure-latex/unnamed-chunk-3-1} \end{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/timeseries-1} \caption[Interesting differences between two groups of time series detected by scagnostics]{Interesting differences between two groups of time series detected by scagnostics. The time series are described by time series features, in order to handle different length series. Scagnostics are computed on these features separately for each set to explore for shape differences.}\label{fig:timeseries}
+\end{figure}
+\end{Schunk}
 
 \begin{Schunk}
-
-\includegraphics{mason-lee-laa-cook_files/figure-latex/unnamed-chunk-4-1} \end{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/tsplots-1} \caption[Selection of series from the two groups, macroeconomics and microeconomics]{Selection of series from the two groups, macroeconomics and microeconomics. The difference is in the jagginess of the two series.}\label{fig:tsplots}
+\end{figure}
+\end{Schunk}
 
 \hypertarget{black-hole-mergers}{%
 \subsection{Black hole mergers}\label{black-hole-mergers}}
@@ -743,7 +748,7 @@ our purpose a much smaller sample is sufficient, and we randomly sample
 
 \begin{Schunk}
 
-\includegraphics{mason-lee-laa-cook_files/figure-latex/unnamed-chunk-6-1} \end{Schunk}
+\includegraphics{mason-lee-laa-cook_files/figure-latex/unnamed-chunk-4-1} \end{Schunk}
 
 Combinations that stand out: time-ra, dec-ra, dec-time (low convex, high
 skinny) dec-ra and time-ra also have higher splines than dcor (both
@@ -760,7 +765,7 @@ clumpy of 0.9 and skewed of 0.7.
 
 \begin{Schunk}
 
-\includegraphics{mason-lee-laa-cook_files/figure-latex/unnamed-chunk-7-1} \end{Schunk}
+\includegraphics{mason-lee-laa-cook_files/figure-latex/unnamed-chunk-5-1} \end{Schunk}
 
 \hypertarget{afl-player-statistics}{%
 \subsection{AFL player statistics}\label{afl-player-statistics}}

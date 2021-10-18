@@ -485,7 +485,7 @@ clumpy_visual_table
 #> save(feats_micro, file = "data/feats_micro.rda")
 
 
-## -----------------------------------------------------------------------------
+## ----timeseries, fig.cap="Interesting differences between two groups of time series detected by scagnostics. The time series are described by time series features, in order to handle different length series. Scagnostics are computed on these features separately for each set to explore for shape differences.", fig.width = 12, fig.height = 4, out.width="100%", layout = "l-body"----
 load(here::here("data/feats_macro.rda"))
 load(here::here("data/feats_micro.rda"))
 
@@ -534,27 +534,27 @@ p1 <- ggplot(feats_mac_mic,
        aes(x=curvature, y=spikiness, colour = type)) + 
   geom_point(alpha = 0.5) +
   scale_colour_brewer("", palette="Dark2") +
-  theme(aspect.ratio=1) + 
+  theme(aspect.ratio=1, axis.text = element_blank()) + 
   ggtitle("Boring") # So boring
 
 p2 <- ggplot(feats_mac_mic, 
        aes(x=curvature, y=trend_strength, colour = type)) + 
   geom_point(alpha = 0.5) +
   scale_colour_brewer("", palette="Dark2") +
-  theme(aspect.ratio=1) + 
+  theme(aspect.ratio=1, axis.text = element_blank()) + 
   ggtitle("Interesting") # Interesting
 
 p3 <- ggplot(feats_mac_mic, 
        aes(x=curvature, y=linearity, colour = type)) + 
   geom_point(alpha = 0.5) +
   scale_colour_brewer("", palette="Dark2") +
-  theme(aspect.ratio=1) + 
+  theme(aspect.ratio=1, axis.text = element_blank()) + 
   ggtitle("Interesting?") # Sort of interesting
 
 p1 + p2 + p3 + plot_layout(guides = "collect") & theme(legend.position = "bottom")
 
 
-## -----------------------------------------------------------------------------
+## ----tsplots, fig.cap="Selection of series from the two groups, macroeconomics and microeconomics. The difference is in the jagginess of the two series.", fig.width = 12, fig.height = 8, out.width="100%", layout = "l-body"----
 load("data/cets_macro.rda")
 load("data/cets_micro.rda")
 
