@@ -37,7 +37,7 @@ author:
 type: package
 creative_commons: CC BY
 output: 
-  rjtools::rjournal_pdf_article
+  rjtools::rjournal_web_article
 bibliography: mason-lee-laa-cook.bib
 editor_options: 
   chunk_output_type: console
