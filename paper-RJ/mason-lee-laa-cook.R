@@ -1021,19 +1021,22 @@ w3a <- ggplot(wbi_wide,
        aes_string(x=as.character(wbi_scags_top$Var1[1]),
                   y=as.character(wbi_scags_top$Var2[1]))) +
   geom_point(aes(label = `Country Code`)) +
-  ggtitle(wbi_scags_top$scag[1])
+  #ggtitle(wbi_scags_top$scag[1]) +
+  theme(axis.text = element_blank())
 
 w3b <- ggplot(wbi_wide, 
        aes_string(x=as.character(wbi_scags_top$Var1[2]),
                   y=as.character(wbi_scags_top$Var2[2]))) +
   geom_point(aes(label = `Country Code`)) +
-  ggtitle(wbi_scags_top$scag[2])
+  #ggtitle(wbi_scags_top$scag[2]) +
+  theme(axis.text = element_blank())
 # Most tend to be vars with too many 0's
 
 # Summarise highest on each variable pair
 wbi_scags_topvars <- wbi_scags_long %>% 
   group_by(Var1, Var2) %>%
   slice_head(n=1) %>%
+  ungroup() %>%
   arrange(scag)
 
 pair1 <- wbi_scags_topvars %>% filter(scag == "clumpy2")
@@ -1054,10 +1057,16 @@ w5 <- wbi_wide  %>%
   theme(aspect.ratio=1) +
   ggtitle(pair2$scag)
 
+wbi_scags_topvars <- wbi_scags_topvars %>%
+  mutate(scag = factor(scag, 
+           levels = c("skinny", "striated2",
+           "outlying", "clumpy2", "convex",
+            "skewed", "striped", "stringy")),
+         vars = paste0(Var1, " ", Var2))
 w6 <- ggplot(wbi_scags_topvars, 
-             aes(x=fct_reorder(scag, value, median),
-                 y=value)) +
-  xlab("") + ylab("Scagnostic value") +
+             aes(x=scag,
+                 y=value, label = vars)) +
+  xlab("") + ylab("") +
   geom_point() + coord_flip()
 
 
@@ -1068,6 +1077,6 @@ w6 <- ggplot(wbi_scags_topvars,
 #> subplot(ws1, ws2, ws3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.6)
 
 
-## ----wbistatic, fig.cap="Most of the pairs of indicators exhibit outliersor are stringy. There is one pair that has clumpy as the highest value. There are numerous pairs that have a highest value on convex.", fig.height=12, fig.width=12, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()----
+## ----wbistatic, fig.cap="Most of the pairs of indicators exhibit outliersor are stringy. There is one pair that has clumpy as the highest value. There are numerous pairs that have a highest value on convex.", fig.height=4, fig.width=12, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()----
 w6 + w3a + w3b
 
