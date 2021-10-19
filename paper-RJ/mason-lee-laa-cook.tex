@@ -670,23 +670,21 @@ More documentation of the package can be found at the web site
 The cassowaryr package comes with several data sets that load with the
 package, they are described here.
 
-\begin{itemize}
-\tightlist
-\item
-  \textbf{features}: Simulated data with special features
-\item
-  \textbf{anscombe\_tidy}: Data from Anscombe's famous example in tidy
-  format
-\item
-  \textbf{datasaurus\_dozen}: datasaurus\_dozen data
-\item
-  \textbf{datasaurus\_dozen\_wide}: datasaurus\_dozen data
-\item
-  \textbf{numbat}: A toy data set with a numbat shape hidden among noise
-  variables
-\item
-  \textbf{pk}: Parkinsons data from UCI machine learning archive
-\end{itemize}
+\begin{Schunk}
+
+\begin{tabular}{l|l}
+\hline
+dt & text\\
+\hline
+features & Simulated data with special features.\\
+\hline
+anscombe\_tidy & Data from Anscombes famous example in tidy format.\\
+\hline
+datasaurus\_dozen & Datasaurus Dozen data in a long tidy format.\\
+\hline
+\end{tabular}
+
+\end{Schunk}
 
 \hypertarget{functions}{%
 \subsection{Functions}\label{functions}}
@@ -702,22 +700,7 @@ intended method of calcuating scagnostics as they perform no outlier
 removal, however they are still an option for users if they wish. In
 some cases, such as sc\_clumpy\_r for clumpy robust, they are the only
 method to calculate that scagnostic. the The functions in this group
-are: - \textbf{scree}: Pre-processing to generate scagnostic measures -
-\textbf{sc\_clumpy}: Compute clumpy scagnostic measure using MST. -
-\textbf{sc\_clumpy2}: Compute adjusted clumpy measure using MST -
-\textbf{sc\_clumpy\_r}: Compute robust clumpy scagnostic measure using
-MST - \textbf{sc\_convex}: Compute convex scagnostic measures -
-\textbf{sc\_dcor}: Distance correlation index. - \textbf{sc\_monotonic}:
-Measure of Spearman Correlation - \textbf{sc\_outlying}: Compute
-outlying scagnostic measure using MST - \textbf{sc\_skewed}: Compute
-skewed scagnostic measure using MST - \textbf{sc\_skinny}: Compute
-skinny scagnostic measure - \textbf{sc\_sparse}: Compute sparse
-scagnostic measure using MST - \textbf{sc\_sparse2}: Compute adjusted
-sparse measure using the Alpha Hull - \textbf{sc\_splines}: Spline based
-index. - \textbf{sc\_striated}: Compute stirated scagnostic measure
-using MST - \textbf{sc\_striated2}: Compute angle adjusted striated
-measure using MST - \textbf{sc\_stringy}: Compute stringy scagnostic
-measure using MST - \textbf{sc\_striped}: Measure of Discreteness
+are:
 
 \hypertarget{drawing-functions}{%
 \subsubsection{Drawing functions}\label{drawing-functions}}
@@ -726,19 +709,17 @@ The drawing functions are intended to be used my the user so they can
 better understand the results of the scagnostic functions. The input is
 two numeric vectors and the output is a ggplot object that draws the
 graph based object in question. The functions that belong to this group
-are:\\
-- \textbf{draw\_alphahull}: Drawing the alphahull -
-\textbf{draw\_convexhull}: Drawing the Convex Hull - \textbf{draw\_mst}:
-Drawing the MST
+are:
 
 \hypertarget{summary-functions}{%
 \subsubsection{Summary functions}\label{summary-functions}}
 
 The summary functions are the perferred method for users to calculate
-scagnostics. - \textbf{calc\_scags}: Compute selected scagnostics on
-subsets\\
-- \textbf{calc\_scags\_wide}: Compute scagnostics on all possible
-scatter plots for the given data
+scagnostics. The calc\_scags function is supposed to be used on long
+data with the dplyr group\_by and summarise functions. the
+calc\_scags\_wide functions is designed to take in a tibble of numerical
+variables and return the scagnostics on every possible pairwise scatter
+plot. These are the two main functions of the package.
 
 \hypertarget{tests}{%
 \subsection{Tests}\label{tests}}

@@ -515,6 +515,23 @@ More documentation of the package can be found at the web site https://numbats.g
 ## Data sets
 The cassowaryr package comes with several data sets that load with the package, they are described here.
 
+```{r}
+datasets_tb <- tibble(dt = c("features", 
+                             "anscombe_tidy", 
+                             "datasaurus_dozen"), 
+                      text = c("Simulated data with special features. ",
+                               "Data from Anscombes famous example in tidy format.", "Datasaurus Dozen data in a long tidy format."))
+```
+
+```{r datasets_tb_html, eval=is_html_output()}
+datasets_tb %>% kable() 
+```
+
+```{r datasets_tb_pdf, eval=is_latex_output()}
+datasets_tb %>% kable(format="latex") 
+```
+
+<!--
 | Data Set | Description|
 |-----:|:----------------|
 | features | Simulated data with special features. |
@@ -523,12 +540,13 @@ The cassowaryr package comes with several data sets that load with the package, 
 | datasaurus_dozen_wide | Datasaurus Dozen Data in a wide tidy format. |
 | numbat | A toy data set with a numbat shape hidden among noise variables.|
 | pk | Parkinsons data from UCI machine learning archive. |
-
+-->
 
 ## Functions
 ### Scagnostics functions
 The scagnostics functions functions either calculate each scagnostic measure, or are involved in the process of calcuating a scanostic measure (such as making the hull objects). These functions are low level functions, and while they are exported and can be used, they are not the intended method of calcuating scagnostics as they perform no outlier removal, however they are still an option for users if they wish. In some cases, such as sc_clumpy_r for clumpy robust, they are the only method to calculate that scagnostic. the The functions in this group are:
 
+<!--
 | Function | Description|
 |-----:|:----------------|
 | scree | Generates a "scree" object that contains the Delaunay triangulation of the scater plot. |
@@ -548,25 +566,28 @@ The scagnostics functions functions either calculate each scagnostic measure, or
 |sc_striated2 | Compute angle adjusted striated measure. |
 | sc_stringy | Compute stringy scagnostic measure. |
 | sc_striped | Measure of Discreteness. |
+-->
 
 ### Drawing functions
 The drawing functions are intended to be used my the user so they can better understand the results of the scagnostic functions. The input is two numeric vectors and the output is a ggplot object that draws the graph based object in question. The functions that belong to this group are:  
 
+<!--
 | Function | Description|
 |-----:|:----------------|
 | draw_alphahull | Drawing the alphahull. |
 | draw_convexhull | Drawing the Convex Hull |
 | draw_mst2 | Drawing the MST |
-
+-->
 
 ### Summary functions
 The summary functions are the perferred method for users to calculate scagnostics. The calc_scags function is supposed to be used on long data with the dplyr group_by and summarise functions. the calc_scags_wide functions is designed to take in a tibble of numerical variables and return the scagnostics on every possible pairwise scatter plot. These are the two main functions of the package.
 
+<!--
 | Function | Description|
 |-----:|:----------------|
 | calc_scags | Compute selected scagnostics on subsets  |
 | calc_scags_wide | Compute scagnostics on all possible scatter plots for the given data |
-
+-->
 
 ## Tests
 
