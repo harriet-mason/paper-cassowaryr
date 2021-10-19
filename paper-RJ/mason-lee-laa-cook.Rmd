@@ -118,7 +118,7 @@ d1 + d2 + d3
 
 The nine scagnostics defined in *Scagnostic Distributions* are detailed below with an explanation, formula, and visualisation.  We will let *A*= alpha Hull *C*= convex hull, *M* = minimum spanning tree, and *s*= the scagnostic measure. Since some of the measures have some sample size dependence, we will let *w* be a constant that adjusts for that.  
 
-- **Convex:** Measure of how convex the shape of the data is. Computed as the ratio between the area of the alpha hull (A) and convex hull (C).  
+- **Convex:** Measure of how convex the shape of the data is. Computed as the ratio between the area of the alpha hull (A) and convex hull (C). Unlike the other scagnostic measures, a high value on convex does not correlate to an interesting scatter plot, rather it usually indicates a lack of relationship between the two variables.  
 
 $$s_{convex}=w\frac{area(A)}{area(C)}$$  
 
@@ -682,6 +682,7 @@ grid.arrange(t1, t2, nrow=1)
 # Examples
 
 ## AFL player statistics
+
 The Australian Football League Women's (AFLW) is the national semi-profesisonal Australia Rules football league for female players. Here we will analyse data sourced from the official AFL website with information on the 2020 season, in which the league had 14 teams and 1932 players. These variables are recorded per player per game, so the stats are averaged for each player over the course of the season. The description of each statistic data set can be found in the Appendix. There are 68 variables, 33 of which are numeric, the others are categorical, e.g. players names or match ids, and they would not be used in scagnostic calculations. This means there are 528 possible scatterplots, significantly more than a single person could view and analyse themselves and so we use scagnostics to identify which pairwise plots might be interesting to examine. 
   
 **Figure__** displays 5 scatter plots (Plots 1 to 5 in the figure) that were identified as having a particularly high or low value on a scagnostic, or an unusual combination of two or more scagnostics. In addition to these 5, there is a 6th plot (Plot 6 in the figure) that is included to display what a middling value on almost all of the scagnostics looks like.
@@ -800,24 +801,21 @@ s5 <- ggplot(test, aes(x=outlying, y = striated2, colour=plot5, label=lab)) +
 
 ```
 
-```{r, threeplot-interactive, out.width="70%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
+```{r, threeplot-interactive, out.width="80%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
 subplot(ggplotly(s1), ggplotly(s2), ggplotly(s5), ggplotly(p1), ggplotly(p2), ggplotly(p5),
         nrows=2, widths = c(0.3, 0.3, 0.3), heights = c(0.5, 0.5)) %>%
   config(displayModeBar = FALSE)
 ```
 
-```{r threeplot-static, out.width="70%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center'}
+```{r threeplot-static, out.width="80%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center'}
  s1 + s2 + s5 + p1 + p2 + p5 + plot_layout(nrow=2)
 ```
 
 **Figure __** displays Plot 1, Plot2 and Plot 5 beneath the specific scatter plot of the scagnostics SPLOM that was used to identify the plot as interesting. Plot 1 was identifies as interesting as it returned high values  on both outlying and skewed. Intuitively, this would indicate that even after removing outliers, the data was still disproportionately spread out, a visual feature that we can see very clearly in Plot 1. Plot 2 scored very highly on all the association measures, which indicates a strong relationship between the two variables. The three association measures typically have strong correlation and scatter plots that stay within the large mass in the center have a linear relation, those that don't often have a non-linear relationship. The splines vs dcor plot tells us that there is a strong linear relationship between total posessions and disposals.  Total possessions is the number of times the player has the ball and disposals is the number of times the player gets rid of the ball legally, so the strong linear relation indicates the level of play, i.e. few mistakes are made in a professional league. Plot 5 an excellent example in what new information we can learn from a unique plot identified with scagnostics. This plot is high on striated2 and moderate to low on outlying, telling us most of the points will be at straight or right angles and a little spread out. If a specific sports statistic is related to position, we would see a relationship have a lower triangular structure similar to that of Plot 4, however this plot does not have a lower triangular structure, is has an L-shape. This means these statistics are not about position, but rather the physical abilities of the players. Hitouts measure the number of times the player punches the ball after the referee throws it back into play, bounces have to be done while running, and are typically done by fast players. The L-shape tells us that players who do one very rarely perform the other. The moderate spread along both of the statistics tells us these are both somewhat specialised skills, and the players who specialise in one do not specialise in the other, i.e. in AFL the tallest player in the team is rarely the fastest. These plots provide a clear example in the unique information gained using scagnostics as a tool in exploratory data analysis.
 
 ## Black hole mergers
-
-We now use scagnostics to study a simulated dataset that contains posterior samples describing a gravitational waves signal from a black hole merger. The data contains 13 variables that describe the event in terms of: its position in the sky (three variables: ra, dec, distance), the time of the event (time), the black hole properties (masses m1 and m2; spin related properties alpha, theta_jn, chi_tot, chi_eff, chi_p), and additional nuisance parameters psi (polarisation angle) and phi_jl (orbital phase). 
-In this example looking at the complete SPLOM is still feasible, and could be used to identify several interesting scatterplots and the corresponding combination of variables. Most notably we can see non-linear and non-functional relations between pairs of variables, and we expect that these should stand out on the scagnostics measures as well.
-
-The full data file contains 9998 posterior samples, without binning it is too long to compute the scagnostics on such a large number of observations. For our purpose a much smaller sample is sufficient, and we randomly sample 200 observations before computing the scagnostics.
+Physics data often contains multiple variables with highly non-linear pairwise relationships that often also have a large amount of clustering, which makes this type of data ideal for investigating the capability of the splines and clumpy2 scagnostics. Two scagnostics that's uses were not particularly visible in the AFLW example. Here we will use scagnostics to study a simulated dataset that contains posterior samples describing a gravitational waves signal from a black hole merger. The data contains 13 variables that describe _____(what event)___, the explanation of each can be found in the appendix. In this example looking at the complete SPLOM is still feasible, and could be used to identify several interesting scatterplots and the corresponding combination of variables. Most notably we can see non-linear and non-functional relations between pairs of variables, and we expect that these should stand out on the scagnostics measures as well.
+The full data file contains 9998 posterior samples, without binning it is too long to compute the scagnostics on such a large number of observations. For our purpose a much smaller sample is sufficient, and we randomly sample 200 observations before computing the scagnostics. We will focus on the structures we know exist by looking at which scatter plots significant difference in their splines and dcor values, as well as which plots stand out on the clumpy2 measure.
 
 
 ```{r eval=FALSE}
@@ -1239,3 +1237,6 @@ w6 + w3a + w3b
 - *clearances.centreClearances*: this is the clearance from the centre bounce after a goal or at the start of a quarter
 - *clearances.stoppageClearances*: all the clearance from stoppages around the ground
 - *clearances.totalClearances*: how many time a player or team clears the ball from a stoppage or from the centre
+
+## Black Hole Merger Data Description
+its position in the sky (three variables: ra, dec, distance), the time of the event (time), the black hole properties (masses m1 and m2; spin related properties alpha, theta_jn, chi_tot, chi_eff, chi_p), and additional nuisance parameters psi (polarisation angle) and phi_jl (orbital phase). 
