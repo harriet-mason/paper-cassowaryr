@@ -784,8 +784,7 @@ data with the dplyr group\_by and summarise functions. the
 calc\_scags\_wide functions is designed to take in a tibble of numerical
 variables and return the scagnostics on every possible pairwise scatter
 plot. Both functions return a tibble where each column is a scagnostics.
-These are the two main functions of the package. The main arguments of
-the calc\_scags function are shown in **Table \_\_**.
+These are the two main functions of the package.
 
 \begin{Schunk}
 
@@ -795,11 +794,14 @@ func\_name & description\\
 \hline
 calc\_scags & Compute selected scagnostics on subsets.\\
 \hline
-calc\_scags\_widet & Compute scagnostics on all possible scatter plots for the given data.\\
+calc\_scags\_wide & Compute scagnostics on all possible scatter plots for the given data.\\
 \hline
 \end{tabular}
 
 \end{Schunk}
+
+The main arguments of the calc\_scags function are shown in **Table
+\_\_**.
 
 \begin{Schunk}
 
@@ -818,114 +820,57 @@ scags & collection of strings matching names of scagnostics to calculate: outlyi
 \end{Schunk}
 
 While the calc\_scags function does not take in a tibble, it is designed
-to be seamlessly integrated into the tidy\_data format, for example,
-using the code below, we can calculate a specified list of scagnostics
-on the scatter plots from the features data, producing the output shown
-in **Table \_\_**.
+to be seamlessly integrated into the tidy\_data format. Currently if we
+specify the scagnostics in the summarise function it does not work
+correctly, however we can work around that with the filter option until
+it is fixed. Using the code below, we can calculate a specified list of
+scagnostics on the scatter plots from the features data, producing the
+output shown in **Table \_\_**.
 
 \begin{Schunk}
 \begin{Sinput}
 features_scags <- features %>%
   group_by(feature) %>%
-  summarise(calc_scags(x,y), scags=c("outlying", "clumpy2", "splines"))
+  summarise(calc_scags(x,y)) %>%
+  select(c(feature, outlying, clumpy2, monotonic))
 \end{Sinput}
 \end{Schunk}
 
 \begin{Schunk}
 
-\begin{tabular}{l|r|r|r|r|r|r|r|r|r|r|r|r|r|l}
+\begin{tabular}{l|r|r|r}
 \hline
-feature & outlying & stringy & striated & striated2 & clumpy & clumpy2 & sparse & skewed & convex & skinny & monotonic & splines & dcor & scags\\
+feature & outlying & clumpy2 & monotonic\\
 \hline
-barrier & 0.0000000 & 0.7560976 & 0.2307692 & 0.0588235 & 0.8104995 & 0.0000000 & 0.0958269 & 0.5244451 & 0.8176685 & 0.2423652 & 0.3480849 & 0.2533140 & 0.3719488 & outlying\\
+barrier & 0.0000000 & 0.0000000 & 0.3480849\\
 \hline
-barrier & 0.0000000 & 0.7560976 & 0.2307692 & 0.0588235 & 0.8104995 & 0.0000000 & 0.0958269 & 0.5244451 & 0.8176685 & 0.2423652 & 0.3480849 & 0.2533140 & 0.3719488 & clumpy2\\
+clusters & 0.0551486 & 0.8349580 & 0.0343677\\
 \hline
-barrier & 0.0000000 & 0.7560976 & 0.2307692 & 0.0588235 & 0.8104995 & 0.0000000 & 0.0958269 & 0.5244451 & 0.8176685 & 0.2423652 & 0.3480849 & 0.2533140 & 0.3719488 & splines\\
+discrete & 0.0000000 & 0.0000000 & 0.0082035\\
 \hline
-clusters & 0.0551486 & 0.7027027 & 0.2721088 & 0.0827586 & 0.8015825 & 0.8349580 & 0.0600144 & 0.5607868 & 0.4872930 & 0.5192027 & 0.0343677 & 0.6079558 & 0.3754130 & outlying\\
+disk & 0.0185229 & 0.4045036 & 0.0855451\\
 \hline
-clusters & 0.0551486 & 0.7027027 & 0.2721088 & 0.0827586 & 0.8015825 & 0.8349580 & 0.0600144 & 0.5607868 & 0.4872930 & 0.5192027 & 0.0343677 & 0.6079558 & 0.3754130 & clumpy2\\
+gaps & 0.0000000 & 0.7520619 & 0.0572168\\
 \hline
-clusters & 0.0551486 & 0.7027027 & 0.2721088 & 0.0827586 & 0.8015825 & 0.8349580 & 0.0600144 & 0.5607868 & 0.4872930 & 0.5192027 & 0.0343677 & 0.6079558 & 0.3754130 & splines\\
+l-shape & 0.3849340 & 0.0000000 & 0.4797960\\
 \hline
-discrete & 0.0000000 & 0.7065217 & 0.2809917 & 0.0756303 & 0.8068468 & 0.0000000 & 0.1077328 & 0.7105037 & 0.9317297 & 0.0714153 & 0.0082035 & 0.0000905 & 0.1043876 & outlying\\
+line & 0.1137124 & 0.0000000 & 1.0000000\\
 \hline
-discrete & 0.0000000 & 0.7065217 & 0.2809917 & 0.0756303 & 0.8068468 & 0.0000000 & 0.1077328 & 0.7105037 & 0.9317297 & 0.0714153 & 0.0082035 & 0.0000905 & 0.1043876 & clumpy2\\
+nonlinear1 & 0.2715451 & 0.0000000 & 0.1684822\\
 \hline
-discrete & 0.0000000 & 0.7065217 & 0.2809917 & 0.0756303 & 0.8068468 & 0.0000000 & 0.1077328 & 0.7105037 & 0.9317297 & 0.0714153 & 0.0082035 & 0.0000905 & 0.1043876 & splines\\
+nonlinear2 & 0.0000000 & 0.0000000 & 0.8094209\\
 \hline
-disk & 0.0185229 & 0.7542373 & 0.3154362 & 0.0408163 & 0.9276877 & 0.4045036 & 0.0820240 & 0.5791372 & 0.8778536 & 0.1431009 & 0.0855451 & 0.0973406 & 0.1792892 & outlying\\
+outliers & 0.0000000 & 0.5248417 & 0.7051628\\
 \hline
-disk & 0.0185229 & 0.7542373 & 0.3154362 & 0.0408163 & 0.9276877 & 0.4045036 & 0.0820240 & 0.5791372 & 0.8778536 & 0.1431009 & 0.0855451 & 0.0973406 & 0.1792892 & clumpy2\\
+outliers2 & 0.5906739 & 0.0000000 & 0.0600126\\
 \hline
-disk & 0.0185229 & 0.7542373 & 0.3154362 & 0.0408163 & 0.9276877 & 0.4045036 & 0.0820240 & 0.5791372 & 0.8778536 & 0.1431009 & 0.0855451 & 0.0973406 & 0.1792892 & splines\\
+positive & 0.1380011 & 0.2864513 & 0.9206001\\
 \hline
-gaps & 0.0000000 & 0.7142857 & 0.2868852 & 0.0750000 & 0.9075206 & 0.7520619 & 0.0984819 & 0.5824063 & 0.8171231 & 0.2187712 & 0.0572168 & 0.0417080 & 0.1321236 & outlying\\
+ring & 0.0189650 & 0.4493065 & 0.0446935\\
 \hline
-gaps & 0.0000000 & 0.7142857 & 0.2868852 & 0.0750000 & 0.9075206 & 0.7520619 & 0.0984819 & 0.5824063 & 0.8171231 & 0.2187712 & 0.0572168 & 0.0417080 & 0.1321236 & clumpy2\\
+vlines & 0.0000000 & 0.1708173 & 0.0824344\\
 \hline
-gaps & 0.0000000 & 0.7142857 & 0.2868852 & 0.0750000 & 0.9075206 & 0.7520619 & 0.0984819 & 0.5824063 & 0.8171231 & 0.2187712 & 0.0572168 & 0.0417080 & 0.1321236 & splines\\
-\hline
-l-shape & 0.3849340 & 0.7534247 & 0.2765957 & 0.0434783 & 0.8783569 & 0.0000000 & 0.0528575 & 0.7884859 & 0.0684984 & 0.7013534 & 0.4797960 & 0.1924127 & 0.4621725 & outlying\\
-\hline
-l-shape & 0.3849340 & 0.7534247 & 0.2765957 & 0.0434783 & 0.8783569 & 0.0000000 & 0.0528575 & 0.7884859 & 0.0684984 & 0.7013534 & 0.4797960 & 0.1924127 & 0.4621725 & clumpy2\\
-\hline
-l-shape & 0.3849340 & 0.7534247 & 0.2765957 & 0.0434783 & 0.8783569 & 0.0000000 & 0.0528575 & 0.7884859 & 0.0684984 & 0.7013534 & 0.4797960 & 0.1924127 & 0.4621725 & splines\\
-\hline
-line & 0.1137124 & 1.0000000 & 0.9863946 & 1.0000000 & 0.9527164 & 0.0000000 & 0.0237047 & 0.7792845 & 0.0000000 & 1.0000000 & 1.0000000 & 1.0000000 & 1.0000000 & outlying\\
-\hline
-line & 0.1137124 & 1.0000000 & 0.9863946 & 1.0000000 & 0.9527164 & 0.0000000 & 0.0237047 & 0.7792845 & 0.0000000 & 1.0000000 & 1.0000000 & 1.0000000 & 1.0000000 & clumpy2\\
-\hline
-line & 0.1137124 & 1.0000000 & 0.9863946 & 1.0000000 & 0.9527164 & 0.0000000 & 0.0237047 & 0.7792845 & 0.0000000 & 1.0000000 & 1.0000000 & 1.0000000 & 1.0000000 & splines\\
-\hline
-nonlinear1 & 0.2715451 & 1.0000000 & 0.9863014 & 1.0000000 & 0.9530983 & 0.0000000 & 0.0259366 & 0.8006017 & 0.7104439 & 0.3267782 & 0.1684822 & 0.9999054 & 0.5956946 & outlying\\
-\hline
-nonlinear1 & 0.2715451 & 1.0000000 & 0.9863014 & 1.0000000 & 0.9530983 & 0.0000000 & 0.0259366 & 0.8006017 & 0.7104439 & 0.3267782 & 0.1684822 & 0.9999054 & 0.5956946 & clumpy2\\
-\hline
-nonlinear1 & 0.2715451 & 1.0000000 & 0.9863014 & 1.0000000 & 0.9530983 & 0.0000000 & 0.0259366 & 0.8006017 & 0.7104439 & 0.3267782 & 0.1684822 & 0.9999054 & 0.5956946 & splines\\
-\hline
-nonlinear2 & 0.0000000 & 0.7435897 & 0.3200000 & 0.0816327 & 0.7417817 & 0.0000000 & 0.0531586 & 0.6008527 & 0.2178211 & 0.6724595 & 0.8094209 & 0.9738497 & 0.8736559 & outlying\\
-\hline
-nonlinear2 & 0.0000000 & 0.7435897 & 0.3200000 & 0.0816327 & 0.7417817 & 0.0000000 & 0.0531586 & 0.6008527 & 0.2178211 & 0.6724595 & 0.8094209 & 0.9738497 & 0.8736559 & clumpy2\\
-\hline
-nonlinear2 & 0.0000000 & 0.7435897 & 0.3200000 & 0.0816327 & 0.7417817 & 0.0000000 & 0.0531586 & 0.6008527 & 0.2178211 & 0.6724595 & 0.8094209 & 0.9738497 & 0.8736559 & splines\\
-\hline
-outliers & 0.0000000 & 0.6923077 & 0.2761905 & 0.0970874 & 0.8656430 & 0.5248417 & 0.0749958 & 0.5730171 & 0.4265678 & 0.4658078 & 0.7051628 & 0.6247843 & 0.7329544 & outlying\\
-\hline
-outliers & 0.0000000 & 0.6923077 & 0.2761905 & 0.0970874 & 0.8656430 & 0.5248417 & 0.0749958 & 0.5730171 & 0.4265678 & 0.4658078 & 0.7051628 & 0.6247843 & 0.7329544 & clumpy2\\
-\hline
-outliers & 0.0000000 & 0.6923077 & 0.2761905 & 0.0970874 & 0.8656430 & 0.5248417 & 0.0749958 & 0.5730171 & 0.4265678 & 0.4658078 & 0.7051628 & 0.6247843 & 0.7329544 & splines\\
-\hline
-outliers2 & 0.5906739 & 0.7378641 & 0.2556391 & 0.0916031 & 0.8168932 & 0.0000000 & 0.0752187 & 0.5544897 & 0.6363848 & 0.2571140 & 0.0600126 & 0.1437244 & 0.2247284 & outlying\\
-\hline
-outliers2 & 0.5906739 & 0.7378641 & 0.2556391 & 0.0916031 & 0.8168932 & 0.0000000 & 0.0752187 & 0.5544897 & 0.6363848 & 0.2571140 & 0.0600126 & 0.1437244 & 0.2247284 & clumpy2\\
-\hline
-outliers2 & 0.5906739 & 0.7378641 & 0.2556391 & 0.0916031 & 0.8168932 & 0.0000000 & 0.0752187 & 0.5544897 & 0.6363848 & 0.2571140 & 0.0600126 & 0.1437244 & 0.2247284 & splines\\
-\hline
-positive & 0.1380011 & 0.7600000 & 0.2315789 & 0.0537634 & 0.8064850 & 0.2864513 & 0.0698193 & 0.5492786 & 0.7065185 & 0.4383215 & 0.9206001 & 0.8511705 & 0.9120633 & outlying\\
-\hline
-positive & 0.1380011 & 0.7600000 & 0.2315789 & 0.0537634 & 0.8064850 & 0.2864513 & 0.0698193 & 0.5492786 & 0.7065185 & 0.4383215 & 0.9206001 & 0.8511705 & 0.9120633 & clumpy2\\
-\hline
-positive & 0.1380011 & 0.7600000 & 0.2315789 & 0.0537634 & 0.8064850 & 0.2864513 & 0.0698193 & 0.5492786 & 0.7065185 & 0.4383215 & 0.9206001 & 0.8511705 & 0.9120633 & splines\\
-\hline
-ring & 0.0189650 & 0.7627119 & 0.3087248 & 0.0816327 & 0.9389213 & 0.4493065 & 0.0652138 & 0.6540108 & 0.2572840 & 0.7189457 & 0.0446935 & 0.0035393 & 0.2341579 & outlying\\
-\hline
-ring & 0.0189650 & 0.7627119 & 0.3087248 & 0.0816327 & 0.9389213 & 0.4493065 & 0.0652138 & 0.6540108 & 0.2572840 & 0.7189457 & 0.0446935 & 0.0035393 & 0.2341579 & clumpy2\\
-\hline
-ring & 0.0189650 & 0.7627119 & 0.3087248 & 0.0816327 & 0.9389213 & 0.4493065 & 0.0652138 & 0.6540108 & 0.2572840 & 0.7189457 & 0.0446935 & 0.0035393 & 0.2341579 & splines\\
-\hline
-vlines & 0.0000000 & 0.9722222 & 0.9333333 & 1.0000000 & 0.9890221 & 0.1708173 & 0.0479482 & 0.7603892 & 0.9584572 & 0.1308428 & 0.0824344 & 0.0000000 & 0.1039919 & outlying\\
-\hline
-vlines & 0.0000000 & 0.9722222 & 0.9333333 & 1.0000000 & 0.9890221 & 0.1708173 & 0.0479482 & 0.7603892 & 0.9584572 & 0.1308428 & 0.0824344 & 0.0000000 & 0.1039919 & clumpy2\\
-\hline
-vlines & 0.0000000 & 0.9722222 & 0.9333333 & 1.0000000 & 0.9890221 & 0.1708173 & 0.0479482 & 0.7603892 & 0.9584572 & 0.1308428 & 0.0824344 & 0.0000000 & 0.1039919 & splines\\
-\hline
-weak & 0.0491130 & 0.7532468 & 0.2244898 & 0.0520833 & 0.7601166 & 0.0000000 & 0.1139095 & 0.6607944 & 0.8445384 & 0.1878559 & 0.4080648 & 0.1699943 & 0.3973523 & outlying\\
-\hline
-weak & 0.0491130 & 0.7532468 & 0.2244898 & 0.0520833 & 0.7601166 & 0.0000000 & 0.1139095 & 0.6607944 & 0.8445384 & 0.1878559 & 0.4080648 & 0.1699943 & 0.3973523 & clumpy2\\
-\hline
-weak & 0.0491130 & 0.7532468 & 0.2244898 & 0.0520833 & 0.7601166 & 0.0000000 & 0.1139095 & 0.6607944 & 0.8445384 & 0.1878559 & 0.4080648 & 0.1699943 & 0.3973523 & splines\\
+weak & 0.0491130 & 0.0000000 & 0.4080648\\
 \hline
 \end{tabular}
 
@@ -935,7 +880,54 @@ We are also considering an additional two summary functions that could
 be introduced to the package. While the code required to write them is
 simple and easily performed by the user, having them as ready functions
 in the package would help guide users to use the package most
-effectively.
+effectively. The two additional functions that have not yet been
+implemented into the package are calc\_topscacs and calc\_toppairs which
+are described in **table\_\_**.
+
+\begin{Schunk}
+
+\begin{tabular}{l|l}
+\hline
+func\_name & description\\
+\hline
+calc\_topscacs & Return the top scagnostic value for each pair of variables\\
+\hline
+calc\_toppairs & Return the top pair of variables for each scagnostic\\
+\hline
+\end{tabular}
+
+\end{Schunk}
+
+The code for both are simple, but an example of how to calculate
+calc\_toppairs with its output will be shown here. In this case it is
+the top groups, but the main idea is the same as if we had used
+calc\_scags wide to generate pairs of variables.
+
+\begin{Schunk}
+\begin{Sinput}
+features_toppairs <- features_scags %>% 
+  pivot_longer(!feature, names_to = "scag", values_to = "value") %>%
+  arrange(desc(value)) %>% 
+  group_by(scag) %>%
+  slice_head(n=1)
+\end{Sinput}
+\end{Schunk}
+
+\begin{Schunk}
+
+\begin{tabular}{l|l|r}
+\hline
+feature & scag & value\\
+\hline
+clusters & clumpy2 & 0.8349580\\
+\hline
+line & monotonic & 1.0000000\\
+\hline
+outliers2 & outlying & 0.5906739\\
+\hline
+\end{tabular}
+
+\end{Schunk}
 
 \hypertarget{tests}{%
 \subsection{Tests}\label{tests}}
@@ -984,56 +976,92 @@ of the scatter plot.
 \hypertarget{examples}{%
 \section{Examples}\label{examples}}
 
-\hypertarget{compare-two-sets-of-time-series}{%
-\subsubsection{Compare two sets of time
-series}\label{compare-two-sets-of-time-series}}
+\hypertarget{afl-player-statistics}{%
+\subsection{AFL player statistics}\label{afl-player-statistics}}
 
-A potential application of scagnostics is to detect shape differences
-between groups. Commonly, classification focuses on differences in the
-means of groups, or separations between groups. Differences between the
-shapes of different groups is also an interesting task, but there are
-few techniques. Differences in shapes occurs when the variance patterns
-between groups is different. Quadratic discriminant analysis is a
-classical example. It arises when the equal variance-covariance
-assumption of linear discriminant analysis is relaxed. The
-classification rule becomes a quadratic function, with a boundary
-respecting that one group has a larger elliptical variance-covariance
-than another group. With scagnostics, irregular shape differences
-between groups could be detected.
+The Australian Football League Women's (AFLW) is the national
+semi-profesisonal Australia Rules football league for female players.
+Here we will analyse data sourced from the official AFL website with
+information on the 2020 season, in which the league had 14 teams and
+1932 players. These variables are recorded per player per game, so the
+stats are averaged for each player over the course of the season. The
+description of each statistic data set can be found in the Appendix.
+There are 68 variables, 33 of which are numeric, the others are
+categorical, e.g.~players names or match ids, and they would not be used
+in scagnostic calculations. This means there are 528 possible
+scatterplots, significantly more than a single person could view and
+analyse themselves and so we use scagnostics to identify which pairwise
+plots might be interesting to examine.
 
-This analysis compares the features of two large collections time
-series, using scagnostics. The goal of the comparison is to compare
-shapes, not necessarily centres of groups as might be done in LDA or
-other machine learning methods. The two groups chosen for comparison are
-macroeconomic and microeconomic series. The data is pulled from the
-self-organizing database of time-series data \citep{sots}, using the
-compenginets R package \citep{compenginets}. Because the time series are
-different lengths, each is described by a set of time series features
-\citep[chapter 4 of][]{fpp} using the feasts R package \citep{feasts}.
-
-For illustration, just a small set of features is examined but what
-emerges as interesting is the difference between curvature and trend
-strength (Figure @ref(fig:timeseries)). Microeconomic series tend to
-have high values on trend strength, and a range of values on curvature.
-In comparison macroeconomic series tend to have near constant average
-values on curvature, and highly varied on trend strength.
-
-Plotting a few series actually suggests that the microeconomic series
-contain lots of micro structure, which might be what we should expect
-(Figure @ref(fig:tsplots)). Interestingly the trend strength seems to
-pick up the jaggies!
+**Figure\_\_** displays 5 scatter plots (Plots 1 to 5 in the figure)
+that were identified as having a particularly high or low value on a
+scagnostic, or an unusual combination of two or more scagnostics. In
+addition to these 5, there is a 6th plot (Plot 6 in the figure) that is
+included to display what a middling value on almost all of the
+scagnostics looks like.
 
 \begin{Schunk}
-\begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/timeseries-1} \caption[Interesting differences between two groups of time series detected by scagnostics]{Interesting differences between two groups of time series detected by scagnostics. The time series are described by time series features, in order to handle different length series. Scagnostics are computed on these features separately for each set to explore for shape differences.}(\#fig:timeseries)
-\end{figure}
+
+
+\begin{center}\includegraphics[width=0.8\linewidth]{mason-lee-laa-cook_files/figure-latex/AFLW-scatters-static-1} \end{center}
+
 \end{Schunk}
 
+Most scatter plots score middling values on the scagnostics, so Plot 6
+is a good indication of what we would look at if we picked variables to
+plot ourselves with no intuition. The visual structure that changes
+significantly between Plots 1 to 5, and the lack of interesting visual
+features in Plot 6, shows the benefit of using scagnostics in early
+stages of exploratory data analysis. Extreme values on the scagnostic
+measurements identify atypical scatter plots.
+
+The best way to identify interesting scatter plots using scagnostics is
+to construct a large interactive SPLOM. This is how Plots 1 to 5 were
+identified, but for the sake of space, we are only going to show the
+specific scatter plots of the SPLOM that led to the selection of Plots
+1, 2, and 5.
+
 \begin{Schunk}
-\begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/tsplots-1} \caption[Selection of series from the two groups, macroeconomics and microeconomics]{Selection of series from the two groups, macroeconomics and microeconomics. The difference is in the jagginess of the two series.}(\#fig:tsplots)
-\end{figure}
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{mason-lee-laa-cook_files/figure-latex/threeplot-static-1} \end{center}
+
 \end{Schunk}
+
+**Figure \_\_** displays Plot 1, Plot2 and Plot 5 beneath the specific
+scatter plot of the scagnostics SPLOM that was used to identify the plot
+as interesting. Plot 1 was identifies as interesting as it returned high
+values on both outlying and skewed. Intuitively, this would indicate
+that even after removing outliers, the data was still disproportionately
+spread out, a visual feature that we can see very clearly in Plot 1.
+Plot 2 scored very highly on all the association measures, which
+indicates a strong relationship between the two variables. The three
+association measures typically have strong correlation and scatter plots
+that stay within the large mass in the center have a linear relation,
+those that don't often have a non-linear relationship. The splines vs
+dcor plot tells us that there is a strong linear relationship between
+total posessions and disposals. Total possessions is the number of times
+the player has the ball and disposals is the number of times the player
+gets rid of the ball legally, so the strong linear relation indicates
+the level of play, i.e.~few mistakes are made in a professional league.
+Plot 5 an excellent example in what new information we can learn from a
+unique plot identified with scagnostics. This plot is high on striated2
+and moderate to low on outlying, telling us most of the points will be
+at straight or right angles and a little spread out. If a specific
+sports statistic is related to position, we would see a relationship
+have a lower triangular structure similar to that of Plot 4, however
+this plot does not have a lower triangular structure, is has an L-shape.
+This means these statistics are not about position, but rather the
+physical abilities of the players. Hitouts measure the number of times
+the player punches the ball after the referee throws it back into play,
+bounces have to be done while running, and are typically done by fast
+players. The L-shape tells us that players who do one very rarely
+perform the other. The moderate spread along both of the statistics
+tells us these are both somewhat specialised skills, and the players who
+specialise in one do not specialise in the other, i.e.~in AFL the
+tallest player in the team is rarely the fastest. These plots provide a
+clear example in the unique information gained using scagnostics as a
+tool in exploratory data analysis.
 
 \hypertarget{black-hole-mergers}{%
 \subsection{Black hole mergers}\label{black-hole-mergers}}
@@ -1102,168 +1130,55 @@ Figure @ref(fig:blackholes).
 \end{figure}
 \end{Schunk}
 
-\hypertarget{afl-player-statistics}{%
-\subsection{AFL player statistics}\label{afl-player-statistics}}
+\hypertarget{time-series}{%
+\subsection{Time Series}\label{time-series}}
 
-The Australian Football League Women's (AFLW) is the national
-semi-profesisonal Australia Rules football league for female players.
-Here we will analyse data sourced from the official AFL website with
-information on the 2020 season, in which the league had 14 teams and
-1932 players. There are 68 variables, 38 of which are numeric. The
-others are categorical, like the players names or match ids, which would
-not be used in scagnostic calculations. These numeric variables are
-recorded per player per game, and a description of each variable in this
-data set can be found in the appendix. With 33 numeric variables, there
-are 528 possible scatterplots to make. This is much more than we could
-possibly plot ourselves, and so we can use the scagnostics to identify
-which might be interesting to examine ourselves. The figure below
-displays 5 scatter plots that were identified as having a particularly
-high or low value on a scagnostic, or an unusual combination of two or
-more scagnostics. In addition to these 5, there is a 6th plot that is
-included to display what a middling value on almost all of the
-scagnostics looks like. You may like to test your scagnostics knowledge
-by guessing which plot is the middling value on all the scagnsotics.
+A potential application of scagnostics is to detect shape differences
+between groups. Commonly, classification focuses on differences in the
+means of groups, or separations between groups. Differences between the
+shapes of different groups is also an interesting task, but there are
+few techniques. Differences in shapes occurs when the variance patterns
+between groups is different. Quadratic discriminant analysis is a
+classical example. It arises when the equal variance-covariance
+assumption of linear discriminant analysis is relaxed. The
+classification rule becomes a quadratic function, with a boundary
+respecting that one group has a larger elliptical variance-covariance
+than another group. With scagnostics, irregular shape differences
+between groups could be detected.
 
-\begin{Schunk}
+This analysis compares the features of two large collections time
+series, using scagnostics. The goal of the comparison is to compare
+shapes, not necessarily centres of groups as might be done in LDA or
+other machine learning methods. The two groups chosen for comparison are
+macroeconomic and microeconomic series. The data is pulled from the
+self-organizing database of time-series data \citep{sots}, using the
+compenginets R package \citep{compenginets}. Because the time series are
+different lengths, each is described by a set of time series features
+\citep[chapter 4 of][]{fpp} using the feasts R package \citep{feasts}.
 
+For illustration, just a small set of features is examined but what
+emerges as interesting is the difference between curvature and trend
+strength (Figure @ref(fig:timeseries)). Microeconomic series tend to
+have high values on trend strength, and a range of values on curvature.
+In comparison macroeconomic series tend to have near constant average
+values on curvature, and highly varied on trend strength.
 
-\begin{center}\includegraphics[width=0.8\linewidth]{mason-lee-laa-cook_files/figure-latex/AFLW-scatters-static-1} \end{center}
-
-\end{Schunk}
-
-Plots 1 to 5 are examples of unusual combinations of scagnostics, Plot 6
-is an example of a scatter plot that was had moderate values across all
-the scagnostics and was mostly picked at random. We can present Plot 6
-alongside two other scatter plots that were selected arbitrarily (the
-same way we would if we were going to try and do EDA ourselves) to give
-an idea of what we would get if we arbitrarily selected variables to
-plot.
-
-\begin{Schunk}
-
-
-\begin{center}\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/3 Random Plots-1} \end{center}
-
-\end{Schunk}
-
-We could plot scatter plots like this all day, but most of the scatter
-plots in this data set look something like this, and when compared to
-Plots 1 to 5 we can see that the extreme values on the scagnostic
-measurements identify atypical scatter plots. While it is interesting to
-know that scagnostics can pick out interesting scatter plots, we still
-need to know how to use them. Typically the plots with strange
-scagnostic combinations are identified using an interactive SPLOM, but
-for the sake of space, we are only going to show the specific scatter
-plots of the SPLOM that led to the selection of Plots 1, 2, and 5. Lets
-start with Plot 1.
-
-\hypertarget{plot-1}{%
-\paragraph{Plot 1}\label{plot-1}}
-
-We identified Plot 1 as interesting as it returned high values on both
-Outlying and Skewed. This indicates that even after removing outliers,
-the data was still disproportionately spread out, a trend we can see
-very clearly in the identified scatter plot.
+Plotting a few series actually suggests that the microeconomic series
+contain lots of micro structure, which might be what we should expect
+(Figure @ref(fig:tsplots)). Interestingly the trend strength seems to
+pick up the jaggies!
 
 \begin{Schunk}
-
-
-\begin{center}\includegraphics[width=0.7\linewidth]{mason-lee-laa-cook_files/figure-latex/plot1-static-1} \end{center}
-
-\end{Schunk}
-
-\hypertarget{plot-2}{%
-\paragraph{Plot 2}\label{plot-2}}
-
-Plot 2 scored very highly on all the association measures, which
-indicates a strong relationship between the two variables. The three
-association measures typically have strong correlation, and scatter
-plots that stay within the large mass in the center have a linear
-relation, scatter plots that deviate from this large correlation
-typically have some strong non-linear relationship. Unfortunately that
-does not appear here, and so none of these variable pairs have strong
-non-linear relationships, rather our highest scagnostic on the
-association measures indicates the linear relationship between total
-posessions and disposals. Total possessions is the number of times the
-player has the ball and disposals is the number of times the player gets
-rid of the ball legally, so the high correlation makes sense, this is a
-professional league so most of the players succeed in getting rid of the
-ball legally.
-
-\begin{Schunk}
-
-
-\begin{center}\includegraphics[width=0.7\linewidth]{mason-lee-laa-cook_files/figure-latex/plot2-static-1} \end{center}
-
-\end{Schunk}
-
-\hypertarget{plot-5}{%
-\paragraph{Plot 5}\label{plot-5}}
-
-This plot is an excellent example in what new information we can learn
-from a unique pairwise relationship. This scatter plot is separate from
-the mass of pairwise relationships because it was high on striated\_2
-and low on outlying, which tells us most of the points are at right
-angles and a little spread out (but not enough for a high outlying
-value). This plot tells us something interesting about the physicality
-of the players. If a specific sports statistic is related to position,
-we would see a relationship have a lower triangular structure similar to
-that of Plot 4, however this plot does not have a lower triangular
-structure, is has an L-shape. This means these statistics are not about
-position, but rather the physical abilities of the players. Hitouts
-measure the number of times the player punches the ball after the
-referee throws it back into play, bounces have to be done while running,
-and are typically done by fast players. The l-shape tells us that
-players who do one very rarely perform the other. The moderate spread
-along both of the statistics tells us these are both somewhat
-specialised skills, and the players who specialise in one do not
-specialise in the other, i.e.~in AFL the tallest player in the team is
-rarely the fastest.
-
-\begin{Schunk}
-
-
-\begin{center}\includegraphics[width=0.7\linewidth]{mason-lee-laa-cook_files/figure-latex/plot5-static-1} \end{center}
-
-\end{Schunk}
-
-\hypertarget{splines-work}{%
-\subsubsection{Splines Work}\label{splines-work}}
-
-\begin{Schunk}
-
-
-|Var1                       |Var2                          | splines|
-|:--------------------------|:-----------------------------|-------:|
-|totalPossessions           |disposals                     |    0.94|
-|clearances.totalClearances |clearances.stoppageClearances |    0.88|
-|goalAccuracy               |goals                         |    0.83|
-|metresGained               |kicks                         |    0.77|
-|dreamTeamPoints            |disposals                     |    0.74|
-|disposals                  |kicks                         |    0.72|
-|dreamTeamPoints            |totalPossessions              |    0.72|
-|totalPossessions           |uncontestedPossessions        |    0.68|
-|dreamTeamPoints            |kicks                         |    0.67|
-|uncontestedPossessions     |disposals                     |    0.66|
-
+\begin{figure}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/timeseries-1} \caption[Interesting differences between two groups of time series detected by scagnostics]{Interesting differences between two groups of time series detected by scagnostics. The time series are described by time series features, in order to handle different length series. Scagnostics are computed on these features separately for each set to explore for shape differences.}(\#fig:timeseries)
+\end{figure}
 \end{Schunk}
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/aflwstatic-1} \caption[Scatterplots with high values on the splines scagnostic]{Scatterplots with high values on the splines scagnostic.}(\#fig:aflwstatic)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/tsplots-1} \caption[Selection of series from the two groups, macroeconomics and microeconomics]{Selection of series from the two groups, macroeconomics and microeconomics. The difference is in the jagginess of the two series.}(\#fig:tsplots)
 \end{figure}
 \end{Schunk}
-
-Figure @ref(fig:aflwstatic) shows three scatterplots that score highly
-on the splines scagnostic. Each of these shows a relatively strong
-monotonic relationship between the two variables. In the interactive
-version of the plot, mouse over reveals some high-performing players,
-e.g.~Anne Hatchard has a lot of possessions, disposals and kicks, and
-Kaitlyn Ashmore kicked 4 goals in a match with 100\% accuracy.
-
-NOTE: Each player is represented multiple times here, I think. The stats
-are per game. Maybe it is better to aggregate for each player and re-do
-the statistics?
 
 \hypertarget{world-bank-development-indicators}{%
 \subsection{World Bank Development
