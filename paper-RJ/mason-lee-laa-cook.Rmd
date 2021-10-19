@@ -723,7 +723,9 @@ grid.arrange(t1, t2, nrow=1)
 # Examples
 
 ## AFL player statistics
-The Australian Football League Women's (AFLW) is the national semi-profesisonal Australia Rules football league for female players. Here we will analyse data sourced from the official AFL website with information on the 2020 season, in which the league had 14 teams and 1932 players. There are 68 variables, 38 of which are numeric. The others are categorical, like the players names or match ids, which would not be used in scagnostic calculations. These numeric variables are recorded per player per game, and a description of each variable in this data set can be found in the appendix. With 33 numeric variables, there are 528 possible scatterplots to make. This is much more than we could possibly plot ourselves, and so we can use the scagnostics to identify which might be interesting to examine ourselves. The figure below displays 5 scatter plots that were identified as having a particularly high or low value on a scagnostic, or an unusual combination of two or more scagnostics. In addition to these 5, there is a 6th plot that is included to display what a middling value on almost all of the scagnostics looks like. You may like to test your scagnostics knowledge by guessing which plot is the middling value on all the scagnsotics.
+The Australian Football League Women's (AFLW) is the national semi-profesisonal Australia Rules football league for female players. Here we will analyse data sourced from the official AFL website with information on the 2020 season, in which the league had 14 teams and 1932 players. These variables are recorded per player per game, so the stats are averaged for each player over the course of the season. The description of each statistic data set can be found in the Appendix. There are 68 variables, 33 of which are numeric, the others are categorical, e.g. players names or match ids, and they would not be used in scagnostic calculations. This means there are 528 possible scatterplots, significantly more than a single person could view and analyse themselves and so we use scagnostics to identify which pairwise plots might be interesting to examine. 
+  
+**Figure__** displays 5 scatter plots (Plots 1 to 5 in the figure) that were identified as having a particularly high or low value on a scagnostic, or an unusual combination of two or more scagnostics. In addition to these 5, there is a 6th plot (Plot 6 in the figure) that is included to display what a middling value on almost all of the scagnostics looks like.
 
 ```{r, AFL DATA, include=FALSE, eval=FALSE}
 
@@ -800,24 +802,9 @@ subplot(ggplotly(p1), ggplotly(p2), ggplotly(p3), ggplotly(p4), ggplotly(p5), gg
 p1 + p2 + p3 + p4 + p5 + p6 + plot_layout(nrow=2)
 ```
 
-Plots 1 to 5 are examples of unusual combinations of scagnostics, Plot 6 is an example of a scatter plot that was had moderate values across all the scagnostics and was mostly picked at random. We can present Plot 6 alongside two other scatter plots that were selected arbitrarily (the same way we would if we were going to try and do EDA ourselves) to give an idea of what we would get if we arbitrarily selected variables to plot.
+Most scatter plots score middling values on the scagnostics, so Plot 6 is a good indication of what we would look at if we picked variables to plot ourselves with no intuition. The visual structure that changes significantly between Plots 1 to 5, and the lack of interesting visual features in Plot 6, shows the benefit of using scagnostics in early stages of exploratory data analysis. Extreme values on the scagnostic measurements identify atypical scatter plots. 
 
-```{r, 3 Random Plots, echo=FALSE, out.width = "100%", , fig.align='center'}
-p7 <- ggplot(aflw_num, aes(x=goals, y=clangers)) + 
-  geom_point(colour=mypal[6]) +
-  theme_classic()+ 
-  ggtitle("Another Plot") 
-
-p8 <- ggplot(aflw_num, aes(x=totalPossessions, y=metresGained)) + 
-  geom_point(colour=mypal[6]) +
-  theme_classic()+
-  ggtitle("and Another Plot") 
-
-p6 + p7 + p8
-
-```
-
-We could plot scatter plots like this all day, but most of the scatter plots in this data set look something like this, and when compared to Plots 1 to 5 we can see that the extreme values on the scagnostic measurements identify atypical scatter plots. While it is interesting to know that scagnostics can pick out interesting scatter plots, we still need to know how to use them. Typically the plots with strange scagnostic combinations are identified using an interactive SPLOM, but for the sake of space, we are only going to show the specific scatter plots of the SPLOM that led to the selection of Plots 1, 2, and 5. Lets start with Plot 1.
+The best way to identify interesting scatter plots using scagnostics is to construct a large interactive SPLOM. This is how Plots 1 to 5 were identified, but for the sake of space, we are only going to show the specific scatter plots of the SPLOM that led to the selection of Plots 1, 2, and 5.
 
 ```{r, AFL relevent SPLOMS, include= FALSE, echo=FALSE}
 load("data/aflw_scags.rda")
@@ -836,82 +823,35 @@ s1 <- ggplot(test, aes(x=outlying, skewed, colour=plot1, label=lab)) +
   theme_classic() +
   theme(legend.position ="none")+
   scale_colour_manual(values=c("grey", mypal[1]))+
-  ggtitle("Relevant Scagnostics Plot")
+  ggtitle("Outliying vs Skewed")
 
 s2 <- ggplot(test, aes(x=splines, dcor, colour=plot2, label=lab)) + 
   geom_point() +
   theme_classic() +
   theme(legend.position ="none")+
-  scale_colour_manual(values=c("grey", mypal[1]))+
-  ggtitle("Relevant Scagnostics Plot")
-
-s3 <- ggplot(test, aes(x=sparse, convex, colour=plot3)) + 
-  geom_point() +
-  theme_classic() +
-  theme(legend.position ="none") +
-  scale_colour_manual(values=c("grey", mypal[3])) +
-  ggtitle("Relevant Scagnostics Plot")
-
-s4 <- ggplot(test, aes(x=clumpy2, monotonic, colour=plot4)) +
-  geom_point() +
-  theme_classic() +
-  theme(legend.position ="none") +
-  scale_colour_manual(values=c("grey", mypal[4])) +
-  ggtitle("Relevant Scagnostics Plot")
+  scale_colour_manual(values=c("grey", mypal[2]))+
+  ggtitle("Splines vs Dcor")
 
 s5 <- ggplot(test, aes(x=outlying, y = striated2, colour=plot5, label=lab)) +
   geom_point() +
   theme_classic() +
   theme(legend.position ="none") +
   scale_colour_manual(values=c("grey", mypal[5])) +
-  ggtitle("Relevant Scagnostics Plot")
+  ggtitle("Outlying vs Striated2")
 
 ```
 
-#### Plot 1
-We identified Plot 1 as interesting as it returned high values on both Outlying and Skewed. This indicates that even after removing outliers, the data was still disproportionately spread out, a trend we can see very clearly in the identified scatter plot.
-
-```{r, plot1-interactive, out.width="70%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
-
-subplot(ggplotly(p1), ggplotly(s1),
-        nrows=1, widths = c(0.5, 0.5), heights = 0.5) %>%
+```{r, threeplot-interactive, out.width="70%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
+subplot(ggplotly(s1), ggplotly(s2), ggplotly(s5), ggplotly(p1), ggplotly(p2), ggplotly(p5),
+        nrows=2, widths = c(0.3, 0.3, 0.3), heights = c(0.5, 0.5)) %>%
   config(displayModeBar = FALSE)
 ```
 
-```{r plot1-static, out.width="70%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center'}
-p1 + s1
+```{r threeplot-static, out.width="70%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center'}
+ s1 + s2 + s5 + p1 + p2 + p5 + plot_layout(nrow=2)
 ```
 
-#### Plot 2
-  
-Plot 2 scored very highly on all the association measures, which indicates a strong relationship between the two variables. The three association measures typically have strong correlation, and scatter plots that stay within the large mass in the center have a linear relation, scatter plots that deviate from this large correlation typically have some strong non-linear relationship. Unfortunately that does not appear here, and so none of these variable pairs have strong non-linear relationships, rather our highest scagnostic on the association measures indicates the linear relationship between total posessions and disposals. Total possessions is the number of times the player has the ball and disposals is the number of times the player gets rid of the ball legally, so the high correlation makes sense, this is a professional league so most of the players succeed in getting rid of the ball legally.
-
-```{r, plot2-interactive, out.width="70%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
-
-subplot(ggplotly(p2), ggplotly(s2),
-        nrows=1, widths = c(0.5, 0.5), heights = 0.5)%>%
-  config(displayModeBar = FALSE)
-```
-
-```{r plot2-static, out.width="70%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), , fig.align='center'}
-grid.arrange(p2, s2, nrow=1)
-```
-
-#### Plot 5
-This plot is an excellent example in what new information we can learn from a unique pairwise relationship. This scatter plot is separate from the mass of pairwise relationships because it was high on striated_2 and low on outlying, which tells us most of the points are at right angles and a little spread out (but not enough for a high outlying value). This plot tells us something interesting about the physicality of the players. If a specific sports statistic is related to position, we would see a relationship have a lower triangular structure similar to that of Plot 4, however this plot does not have a lower triangular structure, is has an L-shape. This means these statistics are not about position, but rather the physical abilities of the players. Hitouts measure the number of times the player punches the ball after the referee throws it back into play, bounces have to be done while running, and are typically done by fast players. The l-shape tells us that players who do one very rarely perform the other. The moderate spread along both of the statistics tells us these are both somewhat specialised skills, and the players who specialise in one do not specialise in the other, i.e. in AFL the tallest player in the team is rarely the fastest.
-
-```{r, plot5-interactive, out.width="70%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
-
-subplot(ggplotly(p5), ggplotly(s5),
-        nrows=1, widths = c(0.5, 0.5), heights = 0.5)%>%
-  config(displayModeBar = FALSE)
-```
-
-```{r plot5-static, out.width="70%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center'}
-grid.arrange(p5, s5, nrow=1)
-```
-
-
+**Figure __** displays Plot 1, Plot2 and Plot 5 beneath the specific scatter plot of the scagnostics SPLOM that was used to identify the plot as interesting. Plot 1 was identifies as interesting as it returned high values  on both outlying and skewed. Intuitively, this would indicate that even after removing outliers, the data was still disproportionately spread out, a visual feature that we can see very clearly in Plot 1. Plot 2 scored very highly on all the association measures, which indicates a strong relationship between the two variables. The three association measures typically have strong correlation and scatter plots that stay within the large mass in the center have a linear relation, those that don't often have a non-linear relationship. The splines vs dcor plot tells us that there is a strong linear relationship between total posessions and disposals.  Total possessions is the number of times the player has the ball and disposals is the number of times the player gets rid of the ball legally, so the strong linear relation indicates the level of play, i.e. few mistakes are made in a professional league. Plot 5 an excellent example in what new information we can learn from a unique plot identified with scagnostics. This plot is high on striated2 and moderate to low on outlying, telling us most of the points will be at straight or right angles and a little spread out. If a specific sports statistic is related to position, we would see a relationship have a lower triangular structure similar to that of Plot 4, however this plot does not have a lower triangular structure, is has an L-shape. This means these statistics are not about position, but rather the physical abilities of the players. Hitouts measure the number of times the player punches the ball after the referee throws it back into play, bounces have to be done while running, and are typically done by fast players. The L-shape tells us that players who do one very rarely perform the other. The moderate spread along both of the statistics tells us these are both somewhat specialised skills, and the players who specialise in one do not specialise in the other, i.e. in AFL the tallest player in the team is rarely the fastest. These plots provide a clear example in the unique information gained using scagnostics as a tool in exploratory data analysis.
 
 
 ## Time Series
