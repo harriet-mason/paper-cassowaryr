@@ -722,7 +722,199 @@ grid.arrange(t1, t2, nrow=1)
 
 # Examples
 
-### Compare two sets of time series
+## AFL player statistics
+The Australian Football League Women's (AFLW) is the national semi-profesisonal Australia Rules football league for female players. Here we will analyse data sourced from the official AFL website with information on the 2020 season, in which the league had 14 teams and 1932 players. There are 68 variables, 38 of which are numeric. The others are categorical, like the players names or match ids, which would not be used in scagnostic calculations. These numeric variables are recorded per player per game, and a description of each variable in this data set can be found in the appendix. With 33 numeric variables, there are 528 possible scatterplots to make. This is much more than we could possibly plot ourselves, and so we can use the scagnostics to identify which might be interesting to examine ourselves. The figure below displays 5 scatter plots that were identified as having a particularly high or low value on a scagnostic, or an unusual combination of two or more scagnostics. In addition to these 5, there is a 6th plot that is included to display what a middling value on almost all of the scagnostics looks like. You may like to test your scagnostics knowledge by guessing which plot is the middling value on all the scagnsotics.
+
+```{r, AFL DATA, include=FALSE, eval=FALSE}
+
+aflw <- fetch_player_stats(2020, comp = "AFLW")
+
+aflw_num <- aflw %>%
+  select_if(is.numeric)
+
+aflw_num <- aggregate(aflw_num[,5:37], 
+  list(aflw$player.player.player.surname),
+  mean)
+
+aflw_scags <- calc_scags_wide(aflw_num[,2:34])
+
+#AFLW DATA SAVE
+save(aflw, file="paper-RJ/data/aflw.rda")
+save(aflw_num, file="paper-RJ/data/aflw_num.rda")
+save(aflw_scags, file="paper-RJ/data/aflw_scags.rda")
+```
+
+```{r, AFLW Scatter Plots , echo=FALSE}
+
+load("data/aflw.rda")
+load("data/aflw_num.rda")
+load("data/aflw_scags.rda")
+
+mypal <- c("#FF4E50", "#fdae61","#fee08b", "#66c2a5", "#3288bd", "#abd9e9")
+
+#standounts from splom
+#outlying and Skewed + highest skinny not 1
+p1 <- ggplot(aflw_num, aes(x=disposalEfficiency, y=hitouts, label=Group.1)) + 
+  theme_classic()+
+  ggtitle("Plot 1") + 
+  geom_point(colour=mypal[1]) 
+
+#high on the 3 associations measures
+p2 <- ggplot(aflw_num, aes(x=totalPossessions, y=disposals, label=Group.1)) + 
+  theme_classic()+
+  ggtitle("Plot 2") + 
+  geom_point(colour=mypal[2]) 
+
+#low on sparse and high on convex
+p3 <- ggplot(aflw_num, aes(x=marksInside50, y=goals)) + 
+  theme_classic()+
+  ggtitle("Plot 3") + 
+  geom_point(colour=mypal[3]) 
+
+#high on clumpy adjusted, low on monotonic
+p4 <- ggplot(aflw_num, aes(x=onePercenters, y=handballs)) +
+  theme_classic()+
+  ggtitle("Plot 4") + 
+  geom_point(colour=mypal[4]) 
+
+#interesting HIGH on striated, moderate on outlying
+p5 <- ggplot(aflw_num, aes(x=bounces, y=hitouts, label=Group.1)) + 
+  theme_classic()+
+  ggtitle("Plot 5") + 
+  geom_point(colour=mypal[5]) 
+
+# me randomly picking two variables
+p6 <- ggplot(aflw_num, aes(x=kicks, y=handballs)) + 
+  theme_classic()+
+  ggtitle("Plot 6") + 
+  geom_point(colour=mypal[6])
+```
+
+```{r, AFLW-scatters-interactive, out.width="80%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
+
+subplot(ggplotly(p1), ggplotly(p2), ggplotly(p3), ggplotly(p4), ggplotly(p5), ggplotly(p6),
+        nrows=2, widths = c(0.33, 0.33, 0.33), heights = c(0.5,0.5))
+```
+
+```{r AFLW-scatters-static, out.width="80%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center'}
+p1 + p2 + p3 + p4 + p5 + p6 + plot_layout(nrow=2)
+```
+
+Plots 1 to 5 are examples of unusual combinations of scagnostics, Plot 6 is an example of a scatter plot that was had moderate values across all the scagnostics and was mostly picked at random. We can present Plot 6 alongside two other scatter plots that were selected arbitrarily (the same way we would if we were going to try and do EDA ourselves) to give an idea of what we would get if we arbitrarily selected variables to plot.
+
+```{r, 3 Random Plots, echo=FALSE, out.width = "100%", , fig.align='center'}
+p7 <- ggplot(aflw_num, aes(x=goals, y=clangers)) + 
+  geom_point(colour=mypal[6]) +
+  theme_classic()+ 
+  ggtitle("Another Plot") 
+
+p8 <- ggplot(aflw_num, aes(x=totalPossessions, y=metresGained)) + 
+  geom_point(colour=mypal[6]) +
+  theme_classic()+
+  ggtitle("and Another Plot") 
+
+p6 + p7 + p8
+
+```
+
+We could plot scatter plots like this all day, but most of the scatter plots in this data set look something like this, and when compared to Plots 1 to 5 we can see that the extreme values on the scagnostic measurements identify atypical scatter plots. While it is interesting to know that scagnostics can pick out interesting scatter plots, we still need to know how to use them. Typically the plots with strange scagnostic combinations are identified using an interactive SPLOM, but for the sake of space, we are only going to show the specific scatter plots of the SPLOM that led to the selection of Plots 1, 2, and 5. Lets start with Plot 1.
+
+```{r, AFL relevent SPLOMS, include= FALSE, echo=FALSE}
+load("data/aflw_scags.rda")
+test <- aflw_scags %>%
+  mutate(lab = paste0(Var1, ", ", Var2)) %>%
+  mutate(plot1=ifelse(lab=="disposalEfficiency, hitouts", TRUE,FALSE),
+         plot2=ifelse(lab=="totalPossessions, disposals", TRUE,FALSE),
+         plot3=ifelse(lab=="marksInside50, goals", TRUE,FALSE),
+         plot4=ifelse(lab=="onePercenters, handballs", TRUE,FALSE),
+         plot5=ifelse(lab=="hitouts, bounces", TRUE, FALSE)
+         ) %>%
+  mutate(plotted = any(plot1,plot2,plot3,plot4, plot5))
+
+s1 <- ggplot(test, aes(x=outlying, skewed, colour=plot1, label=lab)) + 
+  geom_point() +
+  theme_classic() +
+  theme(legend.position ="none")+
+  scale_colour_manual(values=c("grey", mypal[1]))+
+  ggtitle("Relevant Scagnostics Plot")
+
+s2 <- ggplot(test, aes(x=splines, dcor, colour=plot2, label=lab)) + 
+  geom_point() +
+  theme_classic() +
+  theme(legend.position ="none")+
+  scale_colour_manual(values=c("grey", mypal[1]))+
+  ggtitle("Relevant Scagnostics Plot")
+
+s3 <- ggplot(test, aes(x=sparse, convex, colour=plot3)) + 
+  geom_point() +
+  theme_classic() +
+  theme(legend.position ="none") +
+  scale_colour_manual(values=c("grey", mypal[3])) +
+  ggtitle("Relevant Scagnostics Plot")
+
+s4 <- ggplot(test, aes(x=clumpy2, monotonic, colour=plot4)) +
+  geom_point() +
+  theme_classic() +
+  theme(legend.position ="none") +
+  scale_colour_manual(values=c("grey", mypal[4])) +
+  ggtitle("Relevant Scagnostics Plot")
+
+s5 <- ggplot(test, aes(x=outlying, y = striated2, colour=plot5, label=lab)) +
+  geom_point() +
+  theme_classic() +
+  theme(legend.position ="none") +
+  scale_colour_manual(values=c("grey", mypal[5])) +
+  ggtitle("Relevant Scagnostics Plot")
+
+```
+
+#### Plot 1
+We identified Plot 1 as interesting as it returned high values on both Outlying and Skewed. This indicates that even after removing outliers, the data was still disproportionately spread out, a trend we can see very clearly in the identified scatter plot.
+
+```{r, plot1-interactive, out.width="70%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
+
+subplot(ggplotly(p1), ggplotly(s1),
+        nrows=1, widths = c(0.5, 0.5), heights = 0.5) %>%
+  config(displayModeBar = FALSE)
+```
+
+```{r plot1-static, out.width="70%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center'}
+p1 + s1
+```
+
+#### Plot 2
+  
+Plot 2 scored very highly on all the association measures, which indicates a strong relationship between the two variables. The three association measures typically have strong correlation, and scatter plots that stay within the large mass in the center have a linear relation, scatter plots that deviate from this large correlation typically have some strong non-linear relationship. Unfortunately that does not appear here, and so none of these variable pairs have strong non-linear relationships, rather our highest scagnostic on the association measures indicates the linear relationship between total posessions and disposals. Total possessions is the number of times the player has the ball and disposals is the number of times the player gets rid of the ball legally, so the high correlation makes sense, this is a professional league so most of the players succeed in getting rid of the ball legally.
+
+```{r, plot2-interactive, out.width="70%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
+
+subplot(ggplotly(p2), ggplotly(s2),
+        nrows=1, widths = c(0.5, 0.5), heights = 0.5)%>%
+  config(displayModeBar = FALSE)
+```
+
+```{r plot2-static, out.width="70%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), , fig.align='center'}
+grid.arrange(p2, s2, nrow=1)
+```
+
+#### Plot 5
+This plot is an excellent example in what new information we can learn from a unique pairwise relationship. This scatter plot is separate from the mass of pairwise relationships because it was high on striated_2 and low on outlying, which tells us most of the points are at right angles and a little spread out (but not enough for a high outlying value). This plot tells us something interesting about the physicality of the players. If a specific sports statistic is related to position, we would see a relationship have a lower triangular structure similar to that of Plot 4, however this plot does not have a lower triangular structure, is has an L-shape. This means these statistics are not about position, but rather the physical abilities of the players. Hitouts measure the number of times the player punches the ball after the referee throws it back into play, bounces have to be done while running, and are typically done by fast players. The l-shape tells us that players who do one very rarely perform the other. The moderate spread along both of the statistics tells us these are both somewhat specialised skills, and the players who specialise in one do not specialise in the other, i.e. in AFL the tallest player in the team is rarely the fastest.
+
+```{r, plot5-interactive, out.width="70%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
+
+subplot(ggplotly(p5), ggplotly(s5),
+        nrows=1, widths = c(0.5, 0.5), heights = 0.5)%>%
+  config(displayModeBar = FALSE)
+```
+
+```{r plot5-static, out.width="70%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center'}
+grid.arrange(p5, s5, nrow=1)
+```
+
+
+
+
+## Time Series
 
 A potential application of scagnostics is to detect shape differences between groups. Commonly, classification focuses on differences in the means of groups, or separations between groups. Differences between the shapes of different groups is also an interesting task, but there are few techniques. Differences in shapes occurs when the variance patterns between groups is different. Quadratic discriminant analysis is a classical example. It arises when the equal variance-covariance assumption of linear discriminant analysis is relaxed. The classification rule becomes a quadratic function, with a boundary respecting that one group has a larger elliptical variance-covariance than another group. With scagnostics, irregular shape differences between groups could be detected.
 
@@ -963,299 +1155,7 @@ bbh9 <- ggplot(bbh, aes(x=time, y=alpha)) +
 bbh4 + bbh5 + bbh6 + bbh7 + bbh8 + bbh9 + plot_layout(nrow=2)
 ```
 
-## AFL player statistics
-The Australian Football League Women's (AFLW) is the national semi-profesisonal Australia Rules football league for female players. Here we will analyse data sourced from the official AFL website with information on the 2020 season, in which the league had 14 teams and 1932 players. There are 68 variables, 38 of which are numeric. The others are categorical, like the players names or match ids, which would not be used in scagnostic calculations. These numeric variables are recorded per player per game, and a description of each variable in this data set can be found in the appendix. With 33 numeric variables, there are 528 possible scatterplots to make. This is much more than we could possibly plot ourselves, and so we can use the scagnostics to identify which might be interesting to examine ourselves. The figure below displays 5 scatter plots that were identified as having a particularly high or low value on a scagnostic, or an unusual combination of two or more scagnostics. In addition to these 5, there is a 6th plot that is included to display what a middling value on almost all of the scagnostics looks like. You may like to test your scagnostics knowledge by guessing which plot is the middling value on all the scagnsotics.
 
-```{r, AFL DATA, include=FALSE, eval=FALSE}
-
-aflw <- fetch_player_stats(2020, comp = "AFLW")
-
-aflw_num <- aflw %>%
-  select_if(is.numeric)
-
-aflw_num <- aggregate(aflw_num[,5:37], 
-  list(aflw$player.player.player.surname),
-  mean)
-
-aflw_scags <- calc_scags_wide(aflw_num[,2:34])
-
-#AFLW DATA SAVE
-save(aflw, file="paper-RJ/data/aflw.rda")
-save(aflw_num, file="paper-RJ/data/aflw_num.rda")
-save(aflw_scags, file="paper-RJ/data/aflw_scags.rda")
-```
-
-```{r, AFLW Scatter Plots , echo=FALSE}
-
-load("data/aflw.rda")
-load("data/aflw_num.rda")
-load("data/aflw_scags.rda")
-
-mypal <- c("#FF4E50", "#fdae61","#fee08b", "#66c2a5", "#3288bd", "#abd9e9")
-
-#standounts from splom
-#outlying and Skewed + highest skinny not 1
-p1 <- ggplot(aflw_num, aes(x=disposalEfficiency, y=hitouts, label=Group.1)) + 
-  theme_classic()+
-  ggtitle("Plot 1") + 
-  geom_point(colour=mypal[1]) 
-
-#high on the 3 associations measures
-p2 <- ggplot(aflw_num, aes(x=totalPossessions, y=disposals, label=Group.1)) + 
-  theme_classic()+
-  ggtitle("Plot 2") + 
-  geom_point(colour=mypal[2]) 
-
-#low on sparse and high on convex
-p3 <- ggplot(aflw_num, aes(x=marksInside50, y=goals)) + 
-  theme_classic()+
-  ggtitle("Plot 3") + 
-  geom_point(colour=mypal[3]) 
-
-#high on clumpy adjusted, low on monotonic
-p4 <- ggplot(aflw_num, aes(x=onePercenters, y=handballs)) +
-  theme_classic()+
-  ggtitle("Plot 4") + 
-  geom_point(colour=mypal[4]) 
-
-#interesting HIGH on striated, moderate on outlying
-p5 <- ggplot(aflw_num, aes(x=bounces, y=hitouts, label=Group.1)) + 
-  theme_classic()+
-  ggtitle("Plot 5") + 
-  geom_point(colour=mypal[5]) 
-
-# me randomly picking two variables
-p6 <- ggplot(aflw_num, aes(x=kicks, y=handballs)) + 
-  theme_classic()+
-  ggtitle("Plot 6") + 
-  geom_point(colour=mypal[6])
-```
-
-```{r, AFLW-scatters-interactive, out.width="80%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
-
-subplot(ggplotly(p1), ggplotly(p2), ggplotly(p3), ggplotly(p4), ggplotly(p5), ggplotly(p6),
-        nrows=2, widths = c(0.33, 0.33, 0.33), heights = c(0.5,0.5))
-```
-
-```{r AFLW-scatters-static, out.width="80%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center'}
-p1 + p2 + p3 + p4 + p5 + p6 + plot_layout(nrow=2)
-```
-
-Plots 1 to 5 are examples of unusual combinations of scagnostics, Plot 6 is an example of a scatter plot that was had moderate values across all the scagnostics and was mostly picked at random. We can present Plot 6 alongside two other scatter plots that were selected arbitrarily (the same way we would if we were going to try and do EDA ourselves) to give an idea of what we would get if we arbitrarily selected variables to plot.
-
-```{r, 3 Random Plots, echo=FALSE, out.width = "100%", , fig.align='center'}
-p7 <- ggplot(aflw_num, aes(x=goals, y=clangers)) + 
-  geom_point(colour=mypal[6]) +
-  theme_classic()+ 
-  ggtitle("Another Plot") 
-
-p8 <- ggplot(aflw_num, aes(x=totalPossessions, y=metresGained)) + 
-  geom_point(colour=mypal[6]) +
-  theme_classic()+
-  ggtitle("and Another Plot") 
-
-p6 + p7 + p8
-
-```
-
-We could plot scatter plots like this all day, but most of the scatter plots in this data set look something like this, and when compared to Plots 1 to 5 we can see that the extreme values on the scagnostic measurements identify atypical scatter plots. While it is interesting to know that scagnostics can pick out interesting scatter plots, we still need to know how to use them. Typically the plots with strange scagnostic combinations are identified using an interactive SPLOM, but for the sake of space, we are only going to show the specific scatter plots of the SPLOM that led to the selection of Plots 1, 2, and 5. Lets start with Plot 1.
-
-```{r, AFL relevent SPLOMS, include= FALSE, echo=FALSE}
-load("data/aflw_scags.rda")
-test <- aflw_scags %>%
-  mutate(lab = paste0(Var1, ", ", Var2)) %>%
-  mutate(plot1=ifelse(lab=="disposalEfficiency, hitouts", TRUE,FALSE),
-         plot2=ifelse(lab=="totalPossessions, disposals", TRUE,FALSE),
-         plot3=ifelse(lab=="marksInside50, goals", TRUE,FALSE),
-         plot4=ifelse(lab=="onePercenters, handballs", TRUE,FALSE),
-         plot5=ifelse(lab=="hitouts, bounces", TRUE, FALSE)
-         ) %>%
-  mutate(plotted = any(plot1,plot2,plot3,plot4, plot5))
-
-s1 <- ggplot(test, aes(x=outlying, skewed, colour=plot1, label=lab)) + 
-  geom_point() +
-  theme_classic() +
-  theme(legend.position ="none")+
-  scale_colour_manual(values=c("grey", mypal[1]))+
-  ggtitle("Relevant Scagnostics Plot")
-
-s2 <- ggplot(test, aes(x=splines, dcor, colour=plot2, label=lab)) + 
-  geom_point() +
-  theme_classic() +
-  theme(legend.position ="none")+
-  scale_colour_manual(values=c("grey", mypal[1]))+
-  ggtitle("Relevant Scagnostics Plot")
-
-s3 <- ggplot(test, aes(x=sparse, convex, colour=plot3)) + 
-  geom_point() +
-  theme_classic() +
-  theme(legend.position ="none") +
-  scale_colour_manual(values=c("grey", mypal[3])) +
-  ggtitle("Relevant Scagnostics Plot")
-
-s4 <- ggplot(test, aes(x=clumpy2, monotonic, colour=plot4)) +
-  geom_point() +
-  theme_classic() +
-  theme(legend.position ="none") +
-  scale_colour_manual(values=c("grey", mypal[4])) +
-  ggtitle("Relevant Scagnostics Plot")
-
-s5 <- ggplot(test, aes(x=outlying, y = striated2, colour=plot5, label=lab)) +
-  geom_point() +
-  theme_classic() +
-  theme(legend.position ="none") +
-  scale_colour_manual(values=c("grey", mypal[5])) +
-  ggtitle("Relevant Scagnostics Plot")
-
-```
-
-#### Plot 1
-We identified Plot 1 as interesting as it returned high values on both Outlying and Skewed. This indicates that even after removing outliers, the data was still disproportionately spread out, a trend we can see very clearly in the identified scatter plot.
-
-```{r, plot1-interactive, out.width="70%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
-
-subplot(ggplotly(p1), ggplotly(s1),
-        nrows=1, widths = c(0.5, 0.5), heights = 0.5) %>%
-  config(displayModeBar = FALSE)
-```
-
-```{r plot1-static, out.width="70%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center'}
-p1 + s1
-```
-
-#### Plot 2
-  
-Plot 2 scored very highly on all the association measures, which indicates a strong relationship between the two variables. The three association measures typically have strong correlation, and scatter plots that stay within the large mass in the center have a linear relation, scatter plots that deviate from this large correlation typically have some strong non-linear relationship. Unfortunately that does not appear here, and so none of these variable pairs have strong non-linear relationships, rather our highest scagnostic on the association measures indicates the linear relationship between total posessions and disposals. Total possessions is the number of times the player has the ball and disposals is the number of times the player gets rid of the ball legally, so the high correlation makes sense, this is a professional league so most of the players succeed in getting rid of the ball legally.
-
-```{r, plot2-interactive, out.width="70%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
-
-subplot(ggplotly(p2), ggplotly(s2),
-        nrows=1, widths = c(0.5, 0.5), heights = 0.5)%>%
-  config(displayModeBar = FALSE)
-```
-
-```{r plot2-static, out.width="70%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), , fig.align='center'}
-grid.arrange(p2, s2, nrow=1)
-```
-
-#### Plot 5
-This plot is an excellent example in what new information we can learn from a unique pairwise relationship. This scatter plot is separate from the mass of pairwise relationships because it was high on striated_2 and low on outlying, which tells us most of the points are at right angles and a little spread out (but not enough for a high outlying value). This plot tells us something interesting about the physicality of the players. If a specific sports statistic is related to position, we would see a relationship have a lower triangular structure similar to that of Plot 4, however this plot does not have a lower triangular structure, is has an L-shape. This means these statistics are not about position, but rather the physical abilities of the players. Hitouts measure the number of times the player punches the ball after the referee throws it back into play, bounces have to be done while running, and are typically done by fast players. The l-shape tells us that players who do one very rarely perform the other. The moderate spread along both of the statistics tells us these are both somewhat specialised skills, and the players who specialise in one do not specialise in the other, i.e. in AFL the tallest player in the team is rarely the fastest.
-
-```{r, plot5-interactive, out.width="70%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
-
-subplot(ggplotly(p5), ggplotly(s5),
-        nrows=1, widths = c(0.5, 0.5), heights = 0.5)%>%
-  config(displayModeBar = FALSE)
-```
-
-```{r plot5-static, out.width="70%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center'}
-grid.arrange(p5, s5, nrow=1)
-```
-
-### Splines Work
-```{r splines}
-# Saved scagnostics because calc takes about 30 mins
-load("data/aflw.rda")
-load("data/scagnostics_aflw.rda")
-
-# Highest splines table
-scag_aflw %>% 
-  select(Var1, Var2, splines) %>%
-  arrange(desc(splines)) %>%
-  head(10) %>% 
-  kable(digits=2)
-
-# High on splines
-aflw <- aflw %>%
-  mutate(name = paste(player.givenName, player.surname))
-s1 <- ggplot(aflw, 
-             aes(x=totalPossessions, 
-                 y=disposals, 
-                 label = name)) +
-  geom_abline(intercept = 0, slope = 1) +
-  geom_point() 
-s2 <- ggplot(aflw, 
-             aes(x=goals, 
-                 y=goalAccuracy, 
-                 label = name)) +
-  geom_jitter(width = 0.1, height = 2) 
-s3 <- ggplot(aflw, 
-             aes(x=kicks, 
-                 y=disposals, 
-                 label = name)) +
-  geom_point() 
-```
-
-```{r aflwinteractive, fig.cap="Scatterplots with high values on the splines scagnostic. Mouseover to examine the players relative the the statistics.", include=knitr::is_html_output(), eval=knitr::is_html_output(), layout = "l-body"}
-gs1 <- ggplotly(s1)
-gs2 <- ggplotly(s2)
-gs3 <- ggplotly(s3)
-subplot(gs1, gs2, gs3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.6)
-```
-
-```{r aflwstatic, fig.cap="Scatterplots with high values on the splines scagnostic.", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.width=10, fig.height=3.5, out.width="100%"}
-s1 + s2 + s3
-```
-
-Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:aflwstatic)','\\@ref(fig:aflwinteractive)'))` shows three scatterplots that score highly on the splines scagnostic. Each of these shows a relatively strong monotonic relationship between the two variables. In the interactive version of the plot, mouse over reveals some high-performing players, e.g. Anne Hatchard has a lot of possessions, disposals and kicks, and Kaitlyn Ashmore kicked 4 goals in a match with 100% accuracy.
-
-NOTE: Each player is represented multiple times here, I think. The stats are per game. Maybe it is better to aggregate for each player and re-do the statistics?
-
-```{r some_are_kickers, fig.cap = "Some players tend to kick the ball, even when challenged, whereas others more often use handball for disposals. ", include=knitr::is_html_output(), eval=knitr::is_html_output()}
-# High on clumpy, low on striated
-kickers <- ggplot(aflw, aes(x=contestedPossessions, y=handballs, 
-                      label = name)) +
-  geom_abline(intercept = 0, slope = 1) +
-  geom_jitter()
-ggplotly(kickers, width=400, height=400)
-```
-
-```{r eval=FALSE}
-# Parallel coordinate plot
-library(GGally)
-ggparcoord(scag_aflw, columns = 3:11, scale = "globalminmax")
-
-# Or look at pairs
-ggplot(scag_aflw, aes(x=splines, y=striated, 
-                      label = paste(Var1, Var2))) +
-  geom_point()
-ggplot(scag_aflw, aes(x=clumpy, y=striated, 
-                      label = paste(Var1, Var2))) +
-  geom_point()
-ggplotly()
-
-```
-
-```{r eval=FALSE}
-# Extra AFLW analysis, not to include
-# High on outlying: actually not so interesting
-out <- ggplot(aflw, aes(x=metresGained, y=hitouts)) +
-  geom_point()
-
-# High on clumpy
-ggplot(aflw, aes(x=disposalEfficiency, y=bounces, label = name)) +
-  #geom_abline(intercept = 0, slope = 1) +
-  geom_point() 
-ggplotly()
-```
-
-```{r eval=FALSE}
-# Was thinking this might be a good example, but too many missings
-library(NHANES)
-NHANES_numeric <- NHANES %>%
-  select_if(is.numeric)
-
-# Lots of missing values, need to check
-library(naniar)
-vis_miss(NHANES_numeric)
-vm <- miss_var_summary(NHANES_numeric[,-1])
-
-# Keep only variables with less than 50% missing
-keep <- vm %>% filter(pct_miss < 50)
-
-# Now compute scagnostics
-scag_nhanes <- calc_scags_wide(NHANES_numeric[,keep$variable])
-```
 
 ## World Bank Development Indicators
 
