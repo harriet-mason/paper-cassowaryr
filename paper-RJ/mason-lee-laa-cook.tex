@@ -170,16 +170,12 @@ constant that adjusts for that.
 \item
   \textbf{Convex:} Measure of how convex the shape of the data is.
   Computed as the ratio between the area of the alpha hull (A) and
-  convex hull (C).
+  convex hull (C). Unlike the other scagnostic measures, a high value on
+  convex does not correlate to an interesting scatter plot, rather it
+  usually indicates a lack of relationship between the two variables.
 \end{itemize}
 
 \[s_{convex}=w\frac{area(A)}{area(C)}\]
-
-\begin{Schunk}
-\begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawconvex} \caption[Convex Scagnostic Visual Explanation]{Convex Scagnostic Visual Explanation}(\#fig:convexscag)
-\end{figure}
-\end{Schunk}
 
 \begin{itemize}
 \tightlist
@@ -192,12 +188,6 @@ constant that adjusts for that.
 
 \[s_{skinny}= 1-\frac{\sqrt{4\pi area(A)}}{perimeter(A)}\]
 
-\begin{Schunk}
-\begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawskinny} \caption[Skinny Scagnostic Visual Explanation]{Skinny Scagnostic Visual Explanation}(\#fig:skinnyscag)
-\end{figure}
-\end{Schunk}
-
 \begin{itemize}
 \tightlist
 \item
@@ -207,12 +197,6 @@ constant that adjusts for that.
 \end{itemize}
 
 \[s_{outlying}=\frac{length(M_{outliers})}{length(M)}\]
-
-\begin{Schunk}
-\begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawoutlying} \caption[Outlying Scagnostic Visual Explanation]{Outlying Scagnostic Visual Explanation}(\#fig:outlyingscag)
-\end{figure}
-\end{Schunk}
 
 \begin{itemize}
 \tightlist
@@ -226,12 +210,6 @@ constant that adjusts for that.
 
 \[s_{stringy} = \frac{|V^{(2)}|}{|V|-|V^{(1)}|}\]
 
-\begin{Schunk}
-\begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawstringy} \caption[Stringy Scagnostic Visual Explanation]{Stringy Scagnostic Visual Explanation}(\#fig:stringyscag)
-\end{figure}
-\end{Schunk}
-
 \begin{itemize}
 \tightlist
 \item
@@ -243,12 +221,6 @@ constant that adjusts for that.
 
 \[s_{skewed} = 1-w(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}})\]
 
-\begin{Schunk}
-\begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawskewed} \caption[Skewed Scagnostic Visual Explanation]{Skewed Scagnostic Visual Explanation}(\#fig:skewedscag)
-\end{figure}
-\end{Schunk}
-
 \begin{itemize}
 \tightlist
 \item
@@ -257,12 +229,6 @@ constant that adjusts for that.
 \end{itemize}
 
 \[s_{sparse}= wq_{90}\]
-
-\begin{Schunk}
-\begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawsparse} \caption[Sparse Scagnostic Visual Explanation]{Sparse Scagnostic Visual Explanation}(\#fig:sparsescag)
-\end{figure}
-\end{Schunk}
 
 \begin{itemize}
 \tightlist
@@ -279,12 +245,6 @@ constant that adjusts for that.
 
 \[\max_{j}[1-\frac{\max_{k}[length(e_k)]}{length(e_j)}]\]
 
-\begin{Schunk}
-\begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawclumpy} \caption[Clumpy Scagnostic Visual Explanation]{Clumpy Scagnostic Visual Explanation}(\#fig:clumpyscag)
-\end{figure}
-\end{Schunk}
-
 \begin{itemize}
 \tightlist
 \item
@@ -295,12 +255,6 @@ constant that adjusts for that.
 \end{itemize}
 
 \[\frac1{|V|}\sum_{v \in V^{2}}I(cos\theta_{e(v,a)e(v,b)}<-0.75)\]
-
-\begin{Schunk}
-\begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawstriated} \caption[Striated Scagnostic Visual Explanation]{Striated Scagnostic Visual Explanation}(\#fig:striatedscag)
-\end{figure}
-\end{Schunk}
 
 \hypertarget{association-based-scagnostics}{%
 \subsection{Association-based
@@ -315,12 +269,6 @@ scagnostics}\label{association-based-scagnostics}}
 \end{itemize}
 
 \[s_{monotonic} = r^2_{spearman}\]
-
-\begin{Schunk}
-\begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawmonotonic} \caption[Monotonic Scagnostic Visual Explanation]{Monotonic Scagnostic Visual Explanation}(\#fig:monotonicscag)
-\end{figure}
-\end{Schunk}
 
 The two additional scagnostics discussed by Katrin Grimm are described
 below.
@@ -338,12 +286,6 @@ below.
 
 \[s_{splines}=\max_{i\in x,y}[1-\frac{Var(Residuals_{model~i=.})}{Var(i)}]\]
 
-\begin{Schunk}
-\begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawsplines} \caption[Splines Scagnostic Visual Explanation]{Splines Scagnostic Visual Explanation}(\#fig:splinescag)
-\end{figure}
-\end{Schunk}
-
 \begin{itemize}
 \tightlist
 \item
@@ -357,12 +299,6 @@ where \[\mathcal{V}
 (X,Y)=\frac{1}{n^2}\sum_{k=1}^n\sum_{l=1}^nA_{kl}B_{kl}\]\\
 where \[A_{kl}=a_{kl}-\bar{a}_{k.}-\bar{a}_{.j}-\bar{a}_{..}\]
 \[B_{kl}=b_{kl}-\bar{b}_{k.}-\bar{b}_{.j}-\bar{b}_{..}\]
-
-\begin{Schunk}
-\begin{figure}
-\includegraphics[width=1\linewidth,height=0.2\textheight]{figures/drawdcor} \caption[Dcor Scagnostic Visual Explanation]{Dcor Scagnostic Visual Explanation}(\#fig:dcorscag)
-\end{figure}
-\end{Schunk}
 
 \hypertarget{checking-the-scagnostics-calculations}{%
 \subsection{Checking the scagnostics
@@ -474,8 +410,16 @@ measures and their issues are:
   this issue stems from binning.
 \end{itemize}
 
-With these issues in mind, we have defines and written several new
-scagnostics that work even without the pre-processing seto of binning.
+Some of these measures primary issue is that they do not seem to range
+uniformly from 0 to 1. These measures still put the scatter plots in the
+correct order and so do not urgently need adjustments in order to work
+as intended. For other measures, removing the binning step completely
+changes the visual feature the measure is identifying. For that reason
+we will only adjust the measures which no longer make sense without
+binning, and keep the measures that have a warped distribution (but
+correctly order the scagnostics) as they are. With these issues in mind,
+we have defines and written several new scagnostics that work even
+without the pre-processing step of binning.
 
 \hypertarget{the-adjusted-scagnostics-measures}{%
 \subsubsection{The Adjusted Scagnostics
@@ -1024,7 +968,7 @@ specific scatter plots of the SPLOM that led to the selection of Plots
 \begin{Schunk}
 
 
-\begin{center}\includegraphics[width=0.7\linewidth]{mason-lee-laa-cook_files/figure-latex/threeplot-static-1} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{mason-lee-laa-cook_files/figure-latex/threeplot-static-1} \end{center}
 
 \end{Schunk}
 
@@ -1066,24 +1010,27 @@ tool in exploratory data analysis.
 \hypertarget{black-hole-mergers}{%
 \subsection{Black hole mergers}\label{black-hole-mergers}}
 
-We now use scagnostics to study a simulated dataset that contains
+Physics data often contains multiple variables with highly non-linear
+pairwise relationships that often also have a large amount of
+clustering, which makes this type of data ideal for investigating the
+capability of the splines and clumpy2 scagnostics. Two scagnostics
+that's uses were not particularly visible in the AFLW example. Here we
+will use scagnostics to study a simulated dataset that contains
 posterior samples describing a gravitational waves signal from a black
-hole merger. The data contains 13 variables that describe the event in
-terms of: its position in the sky (three variables: ra, dec, distance),
-the time of the event (time), the black hole properties (masses m1 and
-m2; spin related properties alpha, theta\_jn, chi\_tot, chi\_eff,
-chi\_p), and additional nuisance parameters psi (polarisation angle) and
-phi\_jl (orbital phase). In this example looking at the complete SPLOM
-is still feasible, and could be used to identify several interesting
-scatterplots and the corresponding combination of variables. Most
-notably we can see non-linear and non-functional relations between pairs
-of variables, and we expect that these should stand out on the
-scagnostics measures as well.
-
-The full data file contains 9998 posterior samples, without binning it
-is too long to compute the scagnostics on such a large number of
-observations. For our purpose a much smaller sample is sufficient, and
-we randomly sample 200 observations before computing the scagnostics.
+hole merger. The data contains 13 variables that describe
+\_\_\_\_\_(what event)\_\_\_, the explanation of each can be found in
+the appendix. In this example looking at the complete SPLOM is still
+feasible, and could be used to identify several interesting scatterplots
+and the corresponding combination of variables. Most notably we can see
+non-linear and non-functional relations between pairs of variables, and
+we expect that these should stand out on the scagnostics measures as
+well. The full data file contains 9998 posterior samples, without
+binning it is too long to compute the scagnostics on such a large number
+of observations. For our purpose a much smaller sample is sufficient,
+and we randomly sample 200 observations before computing the
+scagnostics. We will focus on the structures we know exist by looking at
+which scatter plots significant difference in their splines and dcor
+values, as well as which plots stand out on the clumpy2 measure.
 
 \begin{Schunk}
 \begin{figure}
@@ -1206,6 +1153,9 @@ pre-processing, there are 20 indicators for 79 countries.
 \hypertarget{summary}{%
 \subsection{Summary}\label{summary}}
 
+\hypertarget{conclusion}{%
+\section{Conclusion}\label{conclusion}}
+
 \hypertarget{appendix}{%
 \section{Appendix}\label{appendix}}
 
@@ -1318,6 +1268,16 @@ Descriptions}\label{aflw-data-variable-descriptions}}
   \emph{clearances.totalClearances}: how many time a player or team
   clears the ball from a stoppage or from the centre
 \end{itemize}
+
+\hypertarget{black-hole-merger-data-description}{%
+\subsection{Black Hole Merger Data
+Description}\label{black-hole-merger-data-description}}
+
+its position in the sky (three variables: ra, dec, distance), the time
+of the event (time), the black hole properties (masses m1 and m2; spin
+related properties alpha, theta\_jn, chi\_tot, chi\_eff, chi\_p), and
+additional nuisance parameters psi (polarisation angle) and phi\_jl
+(orbital phase).
 
 \begin{verbatim}
 \end{verbatim}
