@@ -92,10 +92,6 @@ In order to capture the visual structure of the data, graph theory is used to ca
 
 - **MST:** the minimum spanning tree, i.e the smallest distance of branches that can be used to connect all the points. In the package it is calculated from the graph using the igraph package [@igraph].  
 
-```{r building-blocks, out.height = "30%", out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics", eval=FALSE}
-knitr::include_graphics("figures/draw1.png")
-```
-
 ```{r building-blocks2, width = 15, height = 5, out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics"}
 library(alphahull)
 data("features")
@@ -125,69 +121,40 @@ The nine scagnostics defined in *Scagnostic Distributions* are detailed below wi
 - **Convex:** Measure of how convex the shape of the data is. Computed as the ratio between the area of the alpha hull (A) and convex hull (C).  
 
 $$s_{convex}=w\frac{area(A)}{area(C)}$$  
-```{r convexscag, out.height = "20%", out.width = "100%", fig.cap = "Convex Scagnostic Visual Explanation"}
-knitr::include_graphics("figures/drawconvex.png")
-```
-
 
 
 - **Skinny:** A measure of how "thin" the shape of the data is. It is calculated as the ratio between the area and perimeter of the alpha hull (A) with some normalisation such that 0 correspond to a perfect circle and values close to 1 indicate a skinny polygon.  
 
 $$s_{skinny}= 1-\frac{\sqrt{4\pi area(A)}}{perimeter(A)}$$  
 
-```{r skinnyscag, out.height = "20%", out.width = "100%", fig.cap = "Skinny Scagnostic Visual Explanation"}
-knitr::include_graphics("figures/drawskinny.png")
-```
-
 - **Outlying:** A measure of proportion and severity of outliers in dataset. Calculated by comparing the edge lengths of the outlying points in the MST with the length of the entire MST.  
 
 $$s_{outlying}=\frac{length(M_{outliers})}{length(M)}$$  
 
-```{r outlyingscag, out.height = "20%", out.width = "100%", fig.cap = "Outlying Scagnostic Visual Explanation"}
-knitr::include_graphics("figures/drawoutlying.png")
-```
 
 - **Stringy:** This measure identifies a "stringy" shape with no branches, such as a thin line of data. It is calculated by comparing the number of vertices of degree two ($V^{(2)}$) with the total number of vertices ($V$), dropping those of degree one ($V^{(1)}$).  
 
 $$s_{stringy} = \frac{|V^{(2)}|}{|V|-|V^{(1)}|}$$  
 
-```{r stringyscag, out.height = "20%", out.width = "100%", fig.cap = "Stringy Scagnostic Visual Explanation"}
-knitr::include_graphics("figures/drawstringy.png")
-```
 
 - **Skewed:** A measure of skewness in the edge lengths of the MST (not in the distribution of the data). It is calculated as the ratio between the 40% IQR and the 80% IQR, adjusted for sample size dependence.  
 
 $$s_{skewed} = 1-w(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}})$$  
 
-```{r skewedscag, out.height = "20%", out.width = "100%", fig.cap = "Skewed Scagnostic Visual Explanation"}
-knitr::include_graphics("figures/drawskewed.png")
-```
 
 - **Sparse:**  Identifies if the data is sporadically located on the plane. Calculated as the 90th percentile of MST edge lengths.
 
 $$s_{sparse}= wq_{90}$$
-
-```{r sparsescag, out.height = "20%", out.width = "100%", fig.cap = "Sparse Scagnostic Visual Explanation"}
-knitr::include_graphics("figures/drawsparse.png")
-```
 
 
 - **Clumpy:** This measure is used to detect clustering and is calculated through an iterative process. First an edge J is selected and removed from the MST. From the two spanning trees that are created by this break, we select the largest edge from the smaller tree (K). The length of this edge (K) is compared to the removed edge (J) giving a clumpy measure for this edge. This process is repeated for every edge in the MST and the final clumpy measure is the maximum of this value over all edges.  
 
 $$\max_{j}[1-\frac{\max_{k}[length(e_k)]}{length(e_j)}]$$  
 
-```{r clumpyscag, out.height = "20%", out.width = "100%", fig.cap = "Clumpy Scagnostic Visual Explanation"}
-knitr::include_graphics("figures/drawclumpy.png")
-```
-
 
 - **Striated:** This measure identifies features such as discreteness by finding parallel lines, or smooth algebraic functions. Calculated by counting the proportion of acute (0 to 40 degree) angles between the adjacent edges of vertices with only two edges.  
 
 $$\frac1{|V|}\sum_{v \in V^{2}}I(cos\theta_{e(v,a)e(v,b)}<-0.75)$$  
-
-```{r striatedscag, out.height = "20%", out.width = "100%", fig.cap = "Striated Scagnostic Visual Explanation"}
-knitr::include_graphics("figures/drawstriated.png")
-```
 
 
 ## Association-based scagnostics 
@@ -196,20 +163,13 @@ knitr::include_graphics("figures/drawstriated.png")
 - **Monotonic:** Checks if the data has an increasing or decreasing trend. Calculated as the Spearman correlation coefficient, i.e. the Pearson correlation between the ranks of x and y.  
 
 $$s_{monotonic} = r^2_{spearman}$$
-
-```{r monotonicscag, out.height = "20%", out.width = "100%", fig.cap = "Monotonic Scagnostic Visual Explanation"}
-knitr::include_graphics("figures/drawmonotonic.png")
-```
   
-
 The two additional scagnostics discussed by Katrin Grimm are described below.
 
 - **Splines:** Measures the functional non-linear dependence by fitting a penalised splines model on X using Y, and on Y using X. The variance of the residuals are scaled down by the axis so they are comparable, and finally the maximum is taken. Therefore the value will be closer to 1 if either relationship can be decently explained by a splines model.
 
 $$s_{splines}=\max_{i\in x,y}[1-\frac{Var(Residuals_{model~i=.})}{Var(i)}]$$
-```{r splinescag, out.height = "20%", out.width = "100%", fig.cap = "Splines Scagnostic Visual Explanation"}
-knitr::include_graphics("figures/drawsplines.png")
-```
+
 
 
 - **Dcor:** A measure of non-linear dependence which is 0 if and only if the two variables are independent. Computed using an ANOVA like calculation on the pairwise distances between observations. 
@@ -222,10 +182,9 @@ where
 $$A_{kl}=a_{kl}-\bar{a}_{k.}-\bar{a}_{.j}-\bar{a}_{..}$$
 $$B_{kl}=b_{kl}-\bar{b}_{k.}-\bar{b}_{.j}-\bar{b}_{..}$$
 
-```{r dcorscag, out.height = "20%", out.width = "100%", fig.cap = "Dcor Scagnostic Visual Explanation"}
-knitr::include_graphics("figures/drawdcor.png")
+```{r scagdrawn, eval=FALSE, out.height = "20%", out.width = "100%", fig.cap = "Scagnostic Visual Explanation"}
+knitr::include_graphics("figures/drawoutlying.png")
 ```
-
 
 ## Checking the scagnostics calculations 
 Once we have working functions that correctly calculate the scagnostics according to their definition, we can assess how well they identify the visual features of scatter plots. To test the packages ability to differentiate plots, we have creates a dataset called "features" (that is also in the Cassowaryr package) that contains a series of interesting and unique scatter plots which we can run our scagnsotics on.
