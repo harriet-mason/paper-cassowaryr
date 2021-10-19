@@ -515,44 +515,58 @@ More documentation of the package can be found at the web site https://numbats.g
 ## Data sets
 The cassowaryr package comes with several data sets that load with the package, they are described here.
 
-- **features**: 	Simulated data with special features
-- **anscombe_tidy**: Data from Anscombe's famous example in tidy format
-- **datasaurus_dozen**: datasaurus_dozen data
-- **datasaurus_dozen_wide**: datasaurus_dozen data
-- **numbat**: A toy data set with a numbat shape hidden among noise variables
-- **pk**: Parkinsons data from UCI machine learning archive
+| Data Set | Description|
+|-----:|:----------------|
+| features | Simulated data with special features. |
+| anscombe_tidy | Data from Anscombe's famous example in tidy format. |
+| datasaurus_dozen | Datasaurus Dozen data in a long tidy format. |
+| datasaurus_dozen_wide | Datasaurus Dozen Data in a wide tidy format. |
+| numbat | A toy data set with a numbat shape hidden among noise variables.|
+| pk | Parkinsons data from UCI machine learning archive. |
+
 
 ## Functions
 ### Scagnostics functions
 The scagnostics functions functions either calculate each scagnostic measure, or are involved in the process of calcuating a scanostic measure (such as making the hull objects). These functions are low level functions, and while they are exported and can be used, they are not the intended method of calcuating scagnostics as they perform no outlier removal, however they are still an option for users if they wish. In some cases, such as sc_clumpy_r for clumpy robust, they are the only method to calculate that scagnostic. the The functions in this group are:
-- **scree**: Pre-processing to generate scagnostic measures
-- **sc_clumpy**: Compute clumpy scagnostic measure using MST. 
-- **sc_clumpy2**: Compute adjusted clumpy measure using MST
-- **sc_clumpy_r**: Compute robust clumpy scagnostic measure using MST
-- **sc_convex**: Compute convex scagnostic measures
-- **sc_dcor**: Distance correlation index.
-- **sc_monotonic**: Measure of Spearman Correlation
-- **sc_outlying**: Compute outlying scagnostic measure using MST
-- **sc_skewed**: Compute skewed scagnostic measure using MST
-- **sc_skinny**: Compute skinny scagnostic measure
-- **sc_sparse**: Compute sparse scagnostic measure using MST
-- **sc_sparse2**: Compute adjusted sparse measure using the Alpha Hull
-- **sc_splines**: Spline based index.
-- **sc_striated**: Compute stirated scagnostic measure using MST
-- **sc_striated2**: Compute angle adjusted striated measure using MST
-- **sc_stringy**: Compute stringy scagnostic measure using MST
-- **sc_striped**: Measure of Discreteness
+
+| Function | Description|
+|-----:|:----------------|
+| scree | Generates a "scree" object that contains the Delaunay triangulation of the scater plot. |
+| sc_clumpy | Compute the original clumpy scagnostic measure |
+| sc_clumpy2 | Compute adjusted clumpy scagnositc measure |
+| sc_clumpy_r | Compute robust clumpy scagnostic measure |
+| sc_convex | Compute the original convex scagnostic measure |
+| sc_dcor | Compute the distance correlation index. |
+| sc_monotonic | Compute the Spearman correlation. |
+| sc_outlying | Compute the original outlying scagnostic measure. |
+| sc_skewed | Compute the original skewed scagnostic measure. |
+| sc_skinny | Compute the original skinny scagnostic measure. |
+| sc_sparse | Compute the original sparse scagnostic measure. |
+| sc_sparse2 | Compute adjusted sparse measure. |
+| sc_splines | Compute the spline based index |
+| sc_striated | Compute the original stirated scagnostic measure. |
+|sc_striated2 | Compute angle adjusted striated measure. |
+| sc_stringy | Compute stringy scagnostic measure. |
+| sc_striped | Measure of Discreteness. |
 
 ### Drawing functions
 The drawing functions are intended to be used my the user so they can better understand the results of the scagnostic functions. The input is two numeric vectors and the output is a ggplot object that draws the graph based object in question. The functions that belong to this group are:  
-- **draw_alphahull**: Drawing the alphahull
-- **draw_convexhull**: Drawing the Convex Hull
-- **draw_mst**: Drawing the MST
+
+| Function | Description|
+|-----:|:----------------|
+| draw_alphahull | Drawing the alphahull. |
+| draw_convexhull | Drawing the Convex Hull |
+| draw_mst2 | Drawing the MST |
+
 
 ### Summary functions
-The summary functions are the perferred method for users to calculate scagnostics. 
-- **calc_scags**: Compute selected scagnostics on subsets  
-- **calc_scags_wide**: Compute scagnostics on all possible scatter plots for the given data
+The summary functions are the perferred method for users to calculate scagnostics. The calc_scags function is supposed to be used on long data with the dplyr group_by and summarise functions. the calc_scags_wide functions is designed to take in a tibble of numerical variables and return the scagnostics on every possible pairwise scatter plot. These are the two main functions of the package.
+
+| Function | Description|
+|-----:|:----------------|
+| calc_scags | Compute selected scagnostics on subsets  |
+| calc_scags_wide | Compute scagnostics on all possible scatter plots for the given data |
+
 
 ## Tests
 
