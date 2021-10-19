@@ -334,7 +334,7 @@ This plot gives a slight idea of the issues some of the scagnsotics face in thei
 - **Stringy**: This measure rarely drops below 0.5 even on data generated from a random normal distribution (which should intuitively return a 0). Unlike the other scagnostics on this list, stringy does not depend upon the edge lengths of the MST, so it is hard to say if this issue stems from binning.   
   
 
-With these issues in mind, we have defines and written several new scagnostics that work even without the pre-processing seto of binning.
+Some of these measures primary issue is that they do not seem to range uniformly from 0 to 1. These measures still put the scatter plots in the correct order and so do not urgently need adjustments in order to work as intended. For other measures, removing the binning step completely changes the visual feature the measure is identifying. For that reason we will only adjust the measures which no longer make sense without binning, and keep the measures that have a warped distribution (but correctly order the scagnostics) as they are. With these issues in mind, we have defines and written several new scagnostics that work even without the pre-processing step of binning.
   
 ### The Adjusted Scagnostics Measures
 The measures that need an adjusted version are striated, sparse, skewed, and clumpy. The outlying and stringy measure could possibly be left as they are, as they are not as badly damaged by the removal of binning. 
@@ -1199,6 +1199,9 @@ w6 + w3a + w3b
 ```
 
 ## Summary
+
+# Conclusion
+
 
 # Appendix
 
