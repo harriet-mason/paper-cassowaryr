@@ -609,11 +609,11 @@ drawfuncs_tb %>% kable(format="latex")
 
 
 ### Summary functions
-The summary functions are the perferred method for users to calculate scagnostics. The calc_scags function is supposed to be used on long data with the dplyr group_by and summarise functions. the calc_scags_wide functions is designed to take in a tibble of numerical variables and return the scagnostics on every possible pairwise scatter plot. Both functions return a tibble where each column is a scagnostics. These are the two main functions of the package. The main arguments of the calc_scags function are shown in **Table __**.
+The summary functions are the perferred method for users to calculate scagnostics. The calc_scags function is supposed to be used on long data with the dplyr group_by and summarise functions. the calc_scags_wide functions is designed to take in a tibble of numerical variables and return the scagnostics on every possible pairwise scatter plot. Both functions return a tibble where each column is a scagnostics. These are the two main functions of the package. 
 
 ```{r}
 sumfuncs_tb <- tibble(func_name = c("calc_scags",
-                             "calc_scags_widet"), 
+                             "calc_scags_wide"), 
                       description = c("Compute selected scagnostics on subsets.",
                                "Compute scagnostics on all possible scatter plots for the given data."))
 ```
@@ -625,6 +625,8 @@ sumfuncs_tb %>% kable()
 ```{r dsumfuncs_tb_pdf, eval=is_latex_output()}
 sumfuncs_tb %>% kable(format="latex") 
 ```
+
+The main arguments of the calc_scags function are shown in **Table __**.
 
 ```{r}
 calcfunc_tb <- tibble(argument = c("y", "x", "scags"), 
@@ -641,12 +643,13 @@ calcfunc_tb %>% kable()
 calcfunc_tb %>% kable(format="latex") 
 ```
 
-While the calc_scags function does not take in a tibble, it is designed to be seamlessly integrated into the tidy_data format, for example, using the code below, we can calculate a specified list of scagnostics on the scatter plots from the features data, producing the output shown in **Table __**.
+While the calc_scags function does not take in a tibble, it is designed to be seamlessly integrated into the tidy_data format. Currently if we specify the scagnostics in the summarise function it does not work correctly, however we can work around that with the filter option until it is fixed. Using the code below, we can calculate a specified list of scagnostics on the scatter plots from the features data, producing the output shown in **Table __**.
 
 ```{r calcscags example, echo=TRUE}
 features_scags <- features %>%
   group_by(feature) %>%
-  summarise(calc_scags(x,y), scags=c("outlying", "clumpy2", "splines"))
+  summarise(calc_scags(x,y)) %>%
+  select(c(feature, outlying, clumpy2, monotonic))
 ```
 
 ```{r features_scags_html, eval=is_html_output()}
@@ -657,7 +660,40 @@ features_scags %>% kable()
 features_scags %>% kable(format="latex") 
 ```
 
-We are also considering an additional two summary functions that could be introduced to the package. While the code required to write them is simple and easily performed by the user, having them as ready functions in the package would help guide users to use the package most effectively.
+We are also considering an additional two summary functions that could be introduced to the package. While the code required to write them is simple and easily performed by the user, having them as ready functions in the package would help guide users to use the package most effectively. The two additional functions that have not yet been implemented into the package are calc_topscacs and calc_toppairs which are described in **table__**.
+
+```{r}
+exsumfuncs_tb <- tibble(func_name = c("calc_topscacs",
+                             "calc_toppairs"), 
+                      description = c("Return the top scagnostic value for each pair of variables",
+                               "Return the top pair of variables for each scagnostic"))
+```
+
+```{r exsumfuncs_tb_html, eval=is_html_output()}
+exsumfuncs_tb %>% kable() 
+```
+
+```{r exsumfuncs_tb_pdf, eval=is_latex_output()}
+exsumfuncs_tb %>% kable(format="latex") 
+```
+
+The code for both are simple, but an example of how to calculate calc_toppairs with its output will be shown here. In this case it is the top groups, but the main idea is the same as if we had used calc_scags wide to generate pairs of variables.
+
+```{r, echo=TRUE}
+features_toppairs <- features_scags %>% 
+  pivot_longer(!feature, names_to = "scag", values_to = "value") %>%
+  arrange(desc(value)) %>% 
+  group_by(scag) %>%
+  slice_head(n=1)
+```
+
+```{r features_toppairs_html, eval=is_html_output()}
+features_toppairs %>% kable() 
+```
+
+```{r features_toppairs_pdf, eval=is_latex_output()}
+features_toppairs %>% kable(format="latex") 
+```
 
 ## Tests
 All the functions that calculate the scagnostic measures (all the measures that start with "sc") have tests written and implemented using the testthat package. They have all been compared to calculations completed by hand to ensure the difference in results from previous literature are due to other steps in the process, such as binning, and not a mistake in the write up of the code. These tests also illuminated some issues that allowed us to make meaningful changes to the definitions of the scagnostics and the implementation of the package. For example, several tests to check the outying scagnostic was working correctly illustrated some issues in the process of outlier removal, which is illustrated in **Figure __**. 
