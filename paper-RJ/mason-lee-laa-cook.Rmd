@@ -518,9 +518,16 @@ The cassowaryr package comes with several data sets that load with the package, 
 ```{r}
 datasets_tb <- tibble(dt = c("features", 
                              "anscombe_tidy", 
-                             "datasaurus_dozen"), 
+                             "datasaurus_dozen",
+                             "datasaurus_dozen_wide",
+                             "numbat",
+                             "pk"), 
                       text = c("Simulated data with special features. ",
-                               "Data from Anscombes famous example in tidy format.", "Datasaurus Dozen data in a long tidy format."))
+                               "Data from Anscombes famous example in tidy format.", 
+                               "Datasaurus Dozen data in a long tidy format.",
+                               "Datasaurus Dozen Data in a wide tidy format.",
+                               "A toy data set with a numbat shape hidden among noise variables.",
+                               "Parkinsons data from UCI machine learning archive."))
 ```
 
 ```{r datasets_tb_html, eval=is_html_output()}
@@ -531,66 +538,151 @@ datasets_tb %>% kable()
 datasets_tb %>% kable(format="latex") 
 ```
 
-<!--
-| Data Set | Description|
-|-----:|:----------------|
-| features | Simulated data with special features. |
-| anscombe_tidy | Data from Anscombe's famous example in tidy format. |
-| datasaurus_dozen | Datasaurus Dozen data in a long tidy format. |
-| datasaurus_dozen_wide | Datasaurus Dozen Data in a wide tidy format. |
-| numbat | A toy data set with a numbat shape hidden among noise variables.|
-| pk | Parkinsons data from UCI machine learning archive. |
--->
 
 ## Functions
 ### Scagnostics functions
 The scagnostics functions functions either calculate each scagnostic measure, or are involved in the process of calcuating a scanostic measure (such as making the hull objects). These functions are low level functions, and while they are exported and can be used, they are not the intended method of calcuating scagnostics as they perform no outlier removal, however they are still an option for users if they wish. In some cases, such as sc_clumpy_r for clumpy robust, they are the only method to calculate that scagnostic. the The functions in this group are:
 
-<!--
-| Function | Description|
-|-----:|:----------------|
-| scree | Generates a "scree" object that contains the Delaunay triangulation of the scater plot. |
-| sc_clumpy | Compute the original clumpy scagnostic measure |
-| sc_clumpy2 | Compute adjusted clumpy scagnositc measure |
-| sc_clumpy_r | Compute robust clumpy scagnostic measure |
-| sc_convex | Compute the original convex scagnostic measure |
-| sc_dcor | Compute the distance correlation index. |
-| sc_monotonic | Compute the Spearman correlation. |
-| sc_outlying | Compute the original outlying scagnostic measure. |
-| sc_skewed | Compute the original skewed scagnostic measure. |
-| sc_skinny | Compute the original skinny scagnostic measure. |
-| sc_sparse | Compute the original sparse scagnostic measure. |
-| sc_sparse2 | Compute adjusted sparse measure. |
-| sc_splines | Compute the spline based index |
-| sc_striated | Compute the original stirated scagnostic measure. |
-|sc_striated2 | Compute angle adjusted striated measure. |
-| sc_stringy | Compute stringy scagnostic measure. |
-| sc_striped | Measure of Discreteness. |
--->
+```{r}
+scagfuncs_tb <- tibble(dt = c("scree", 
+                             "sc_clumpy", 
+                             "sc_clumpy2",
+                             "sc_clumpy_r",
+                             "sc_convex",
+                             "sc_dcor",
+                             "sc_monotonic",
+                             "sc_outlying",
+                             "sc_skewed",
+                             "sc_skinny",
+                             "sc_sparse",
+                             "sc_sparse2",
+                             "sc_splines",
+                             "sc_striated",
+                             "sc_striated2",
+                             "sc_stringy"), 
+                      text = c("Generates a scree object that contains the Delaunay triangulation of the scater plot.",
+                               "Compute the original clumpy scagnostic measure.", 
+                               "Compute adjusted clumpy scagnositc measure.",
+                               "Compute robust clumpy scagnostic measure.",
+                               "Compute the original convex scagnostic measure",
+                               "Compute the distance correlation index.",
+                               "Compute the Spearman correlation.",
+                               "Compute the original outlying scagnostic measure.",
+                               "Compute the original skewed scagnostic measure.",
+                               "Compute the original skinny scagnostic measure.",
+                               "Compute the original sparse scagnostic measure.",
+                               "Compute adjusted sparse measure.",
+                               "Compute the spline based index.",
+                               "Compute the original stirated scagnostic measure.",
+                               "Compute angle adjusted striated measure.",
+                               "Compute stringy scagnostic measure."))
+```
+
+```{r scagfuncs_tb_html, eval=is_html_output()}
+scagfuncs_tb %>% kable() 
+```
+
+```{r scagfuncs_tb_pdf, eval=is_latex_output()}
+scagfuncs_tb %>% kable(format="latex") 
+```
+
 
 ### Drawing functions
 The drawing functions are intended to be used my the user so they can better understand the results of the scagnostic functions. The input is two numeric vectors and the output is a ggplot object that draws the graph based object in question. The functions that belong to this group are:  
 
-<!--
-| Function | Description|
-|-----:|:----------------|
-| draw_alphahull | Drawing the alphahull. |
-| draw_convexhull | Drawing the Convex Hull |
-| draw_mst2 | Drawing the MST |
--->
+```{r}
+drawfuncs_tb <- tibble(func_name = c("draw_alphahull", 
+                             "draw_convexhull",
+                             "draw_mst"), 
+                      description = c("Drawing the alpha hull.",
+                               "Drawing the convex hull.",
+                               "Drawing the MST."))
+```
+
+```{r drawfuncs_tb_html, eval=is_html_output()}
+drawfuncs_tb %>% kable() 
+```
+
+```{r drawfuncs_tb_pdf, eval=is_latex_output()}
+drawfuncs_tb %>% kable(format="latex") 
+```
+
 
 ### Summary functions
-The summary functions are the perferred method for users to calculate scagnostics. The calc_scags function is supposed to be used on long data with the dplyr group_by and summarise functions. the calc_scags_wide functions is designed to take in a tibble of numerical variables and return the scagnostics on every possible pairwise scatter plot. These are the two main functions of the package.
+The summary functions are the perferred method for users to calculate scagnostics. The calc_scags function is supposed to be used on long data with the dplyr group_by and summarise functions. the calc_scags_wide functions is designed to take in a tibble of numerical variables and return the scagnostics on every possible pairwise scatter plot. Both functions return a tibble where each column is a scagnostics. These are the two main functions of the package. The main arguments of the calc_scags function are shown in **Table __**.
 
-<!--
-| Function | Description|
-|-----:|:----------------|
-| calc_scags | Compute selected scagnostics on subsets  |
-| calc_scags_wide | Compute scagnostics on all possible scatter plots for the given data |
--->
+```{r}
+sumfuncs_tb <- tibble(func_name = c("calc_scags",
+                             "calc_scags_widet"), 
+                      description = c("Compute selected scagnostics on subsets.",
+                               "Compute scagnostics on all possible scatter plots for the given data."))
+```
+
+```{r sumfuncs_tb_html, eval=is_html_output()}
+sumfuncs_tb %>% kable() 
+```
+
+```{r dsumfuncs_tb_pdf, eval=is_latex_output()}
+sumfuncs_tb %>% kable(format="latex") 
+```
+
+```{r}
+calcfunc_tb <- tibble(argument = c("y", "x", "scags"), 
+                      description = c("numeric vector of x values.",
+                               "numeric vector of y values.",
+                               "collection of strings matching names of scagnostics to calculate: outlying, stringy, striated, striated2, striped, clumpy, clumpy2, sparse, skewed, convex, skinny, monotonic, splines, dcor. The default is to calculate all scagnostics."))
+```
+
+```{r calcfunc_tb_html, eval=is_html_output()}
+calcfunc_tb %>% kable() 
+```
+
+```{r calcfunc_tb_pdf, eval=is_latex_output()}
+calcfunc_tb %>% kable(format="latex") 
+```
+
+While the calc_scags function does not take in a tibble, it is designed to be seamlessly integrated into the tidy_data format, for example, using the code below, we can calculate a specified list of scagnostics on the scatter plots from the features data, producing the output shown in **Table __**.
+
+```{r calcscags example, echo=TRUE}
+features_scags <- features %>%
+  group_by(feature) %>%
+  summarise(calc_scags(x,y), scags=c("outlying", "clumpy2", "splines"))
+```
+
+```{r features_scags_html, eval=is_html_output()}
+features_scags %>% kable() 
+```
+
+```{r features_scags_pdf, eval=is_latex_output()}
+features_scags %>% kable(format="latex") 
+```
+
+We are also considering an additional two summary functions that could be introduced to the package. While the code required to write them is simple and easily performed by the user, having them as ready functions in the package would help guide users to use the package most effectively.
 
 ## Tests
+All the functions that calculate the scagnostic measures (all the measures that start with "sc") have tests written and implemented using the testthat package. They have all been compared to calculations completed by hand to ensure the difference in results from previous literature are due to other steps in the process, such as binning, and not a mistake in the write up of the code. These tests also illuminated some issues that allowed us to make meaningful changes to the definitions of the scagnostics and the implementation of the package. For example, several tests to check the outying scagnostic was working correctly illustrated some issues in the process of outlier removal, which is illustrated in **Figure __**. 
 
+```{r, Outlying test plot, width = 100, height = 50, out.width = "100%", fig.cap = "Outlying Test Plots"}
+x1<- c(0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1, 10, 10, 10)
+y1 <- c(0,0,1,2,2,3,4,4,5,6,6,7,8,8,9,10, 10, 7, 5)
+
+t1 <- ggplot(tibble(x1, y1), aes(x1, y1)) + geom_point() +
+  geom_text(data=tibble(x1= c(10,10,10), y1 = c(10, 7, 5), lab=c(1,2,3)), 
+            aes(x=x1, y=y1, label=lab), 
+            colour="blue", nudge_x=-0.3, nudge_y=0.3) +
+  theme_classic() + ggtitle("Simlulated Data for Outlying Test")
+t2 <- draw_mst(x1, y1) + theme_classic() + 
+  ggtitle("MST of Simulated Data") +
+  geom_segment(aes(x=0.1, y=1, xend=1, yend=1, colour="#fb8072"), linetype=2)+
+  geom_text(data=tibble(x1= c(1,1,1), y1 = c(1, 0.7, 0.5), lab=c(1,2,3)), 
+            aes(x=x1, y=y1, label=lab), 
+            colour="blue", nudge_x=-0.03, nudge_y=0.03) +
+  theme(legend.position="none")
+
+grid.arrange(t1, t2, nrow=1)
+```
+
+**Figure __** below shows the an example of a simulated test set, combined with the associated MST. When creating this test data set, we assumed the MST would connect via the red line shown on the left plot of **Figure __**, but instead the MST connected via the long black line. The difference between these choices is essentially random, they are the exact same length, but it has significant implications for the value returned by the outlying scagnostic. This test was designed to check the outlier removal process for internal outliers, point 1 should have been identified as an internal outlier which means both its edges were considered in the calculation of outlying, and points 2 and 3 are too close to each other for either to fulfill the outlying definition, so they are left alone. Using the draw_mst function when the test failled showed the issue was an esentially random desicionin the MST construction. If the red line was used to construct the MST, both the red dashed line, and the line connecting point 1 to point 2 would be included in the outlying scagnostic calcuation, in the actual calculation it was only the edge between points 1 and 2, giving a significantly smaller value on the the outlying scagnostic. This shows that even the scagnostics that work reliably well and did not need significant adjustments are still succeptible to arbitrarily large changes resulting from seemingly small changes in the visual structure of the scatter plot. 
 
 # Examples
 
