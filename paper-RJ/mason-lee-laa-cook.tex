@@ -638,14 +638,55 @@ arbitrarily due to discreteness (such as vlines) in order to better
 aling with the human interpretation of clumpy. With these changes, the
 stronger performance of clumpy2 is apparent in this visual table.
 
-\hypertarget{software-implementation}{%
-\section{Software implementation}\label{software-implementation}}
+\hypertarget{implementation}{%
+\section{Implementation}\label{implementation}}
 
 \hypertarget{installation}{%
 \subsection{Installation}\label{installation}}
 
+The package can be installed using
+
+\begin{verbatim}
+install.packages("cassowaryr")
+\end{verbatim}
+
+from CRAN and using
+
+\begin{verbatim}
+remotes::install_github("numbats/cassowaryr")
+\end{verbatim}
+
+installs the development version.
+
+\hypertarget{web-site}{%
+\subsection{Web site}\label{web-site}}
+
+More documentation of the package can be found at the web site
+\url{https://numbats.github.io/cassowaryr/}.
+
 \hypertarget{data-sets}{%
 \subsection{Data sets}\label{data-sets}}
+
+The cassowaryr package comes with several data sets that load with the
+package, they are described here.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{features}: Simulated data with special features
+\item
+  \textbf{anscombe\_tidy}: Data from Anscombe's famous example in tidy
+  format
+\item
+  \textbf{datasaurus\_dozen}: datasaurus\_dozen data
+\item
+  \textbf{datasaurus\_dozen\_wide}: datasaurus\_dozen data
+\item
+  \textbf{numbat}: A toy data set with a numbat shape hidden among noise
+  variables
+\item
+  \textbf{pk}: Parkinsons data from UCI machine learning archive
+\end{itemize}
 
 \hypertarget{functions}{%
 \subsection{Functions}\label{functions}}
@@ -653,11 +694,51 @@ stronger performance of clumpy2 is apparent in this visual table.
 \hypertarget{scagnostics-functions}{%
 \subsubsection{Scagnostics functions}\label{scagnostics-functions}}
 
+The scagnostics functions functions either calculate each scagnostic
+measure, or are involved in the process of calcuating a scanostic
+measure (such as making the hull objects). These functions are low level
+functions, and while they are exported and can be used, they are not the
+intended method of calcuating scagnostics as they perform no outlier
+removal, however they are still an option for users if they wish. In
+some cases, such as sc\_clumpy\_r for clumpy robust, they are the only
+method to calculate that scagnostic. the The functions in this group
+are: - \textbf{scree}: Pre-processing to generate scagnostic measures -
+\textbf{sc\_clumpy}: Compute clumpy scagnostic measure using MST. -
+\textbf{sc\_clumpy2}: Compute adjusted clumpy measure using MST -
+\textbf{sc\_clumpy\_r}: Compute robust clumpy scagnostic measure using
+MST - \textbf{sc\_convex}: Compute convex scagnostic measures -
+\textbf{sc\_dcor}: Distance correlation index. - \textbf{sc\_monotonic}:
+Measure of Spearman Correlation - \textbf{sc\_outlying}: Compute
+outlying scagnostic measure using MST - \textbf{sc\_skewed}: Compute
+skewed scagnostic measure using MST - \textbf{sc\_skinny}: Compute
+skinny scagnostic measure - \textbf{sc\_sparse}: Compute sparse
+scagnostic measure using MST - \textbf{sc\_sparse2}: Compute adjusted
+sparse measure using the Alpha Hull - \textbf{sc\_splines}: Spline based
+index. - \textbf{sc\_striated}: Compute stirated scagnostic measure
+using MST - \textbf{sc\_striated2}: Compute angle adjusted striated
+measure using MST - \textbf{sc\_stringy}: Compute stringy scagnostic
+measure using MST - \textbf{sc\_striped}: Measure of Discreteness
+
 \hypertarget{drawing-functions}{%
 \subsubsection{Drawing functions}\label{drawing-functions}}
 
+The drawing functions are intended to be used my the user so they can
+better understand the results of the scagnostic functions. The input is
+two numeric vectors and the output is a ggplot object that draws the
+graph based object in question. The functions that belong to this group
+are:\\
+- \textbf{draw\_alphahull}: Drawing the alphahull -
+\textbf{draw\_convexhull}: Drawing the Convex Hull - \textbf{draw\_mst}:
+Drawing the MST
+
 \hypertarget{summary-functions}{%
 \subsubsection{Summary functions}\label{summary-functions}}
+
+The summary functions are the perferred method for users to calculate
+scagnostics. - \textbf{calc\_scags}: Compute selected scagnostics on
+subsets\\
+- \textbf{calc\_scags\_wide}: Compute scagnostics on all possible
+scatter plots for the given data
 
 \hypertarget{tests}{%
 \subsection{Tests}\label{tests}}

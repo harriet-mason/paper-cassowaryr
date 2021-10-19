@@ -490,9 +490,27 @@ clumpy_visual_table
 
 Here we can see the improvements made on the clumpy measure in both distribution from 0 to 1 and ordering. The measure is more spread out, and so values range more accurately from 0 to 1. More importantly the measures do a better job of ordering the scatter plots. On the original clumpy measure the "clusters" scatter plot was next to last, on the clumpy2 measure "clusters" is is identified as the most clumpy scatter plot. Clumpy 2 also has a penalty for uneven clusters (to avoid being large due to a small colelction of outliers) and clusters created arbitrarily due to discreteness (such as vlines) in order to better aling with the human interpretation of clumpy. With these changes, the stronger performance of clumpy2 is apparent in this visual table.
 
-# Software implementation
+# Implementation
 
 ## Installation
+
+The package can be installed using 
+
+```
+install.packages("cassowaryr")
+```
+
+from CRAN and using 
+
+```
+remotes::install_github("numbats/cassowaryr")
+```
+
+installs the development version.
+
+## Web site
+
+More documentation of the package can be found at the web site https://numbats.github.io/cassowaryr/. 
 
 ## Data sets
 The cassowaryr package comes with several data sets that load with the package, they are described here.
