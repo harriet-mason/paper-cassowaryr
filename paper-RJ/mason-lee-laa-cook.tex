@@ -323,8 +323,8 @@ each of these scatter plots.
 \end{figure}
 \end{Schunk}
 
-Figure @ref(fig:visual\_table) shows scatter plots from the features
-data aligned on a 0 to 1 scale for each scagnostic. This visualisation
+Figure \ref{fig:visual-table} shows scatter plots from the features data
+aligned on a 0 to 1 scale for each scagnostic. This visualisation
 displays a low, high, and moderate value for each scagnostic, and is
 useful to see how the scagnostics order data that typifies their visual
 feature. This plot gives a slight idea of the issues some of the
@@ -343,7 +343,7 @@ Therefore the current scagnostics will be assessed without binning.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/visual_table-1} \caption[A visual table of a selection of scagnostics computed on the features data]{A visual table of a selection of scagnostics computed on the features data. The rows correspond to different scagnostics and the horizontal axis is the calculated value on a range of 0-1. Thumbnail plots of variable pairs are placed at their scagnostic value, and indicate the type of structure that would produce high or low or medium values. Some scagnostics, e.g. clumpy, clearly need adjustment, while others, such as splines work well as they are. XXX DC: not sure I see this}\label{fig:visual_table}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/visual-table-1} \caption[A visual table of a selection of scagnostics computed on the features data]{A visual table of a selection of scagnostics computed on the features data. The rows correspond to different scagnostics and the horizontal axis is the calculated value on a range of 0-1. Thumbnail plots of variable pairs are placed at their scagnostic value, and indicate the type of structure that would produce high or low or medium values. Some scagnostics, e.g. clumpy, clearly need adjustment, while others, such as splines work well as they are. XXX DC: not sure I see this}\label{fig:visual-table}
 \end{figure}
 \end{Schunk}
 
@@ -453,16 +453,16 @@ The issues surrounding the striated scagnostic are:
 To account for these two issues the striated adjusted measure considers
 all vertices (not just those with two adjacent edges), and makes the
 measure strict around the 180 and 90 degree angles. With this we can see
-the improvements on the measure in Figure @ref(fig:striated\_vtable).
+the improvements on the measure in Figure \ref{fig:striated-vtable}.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/striated_vtable-1} \caption[A Visual Table Comparison of striated and striated2]{A Visual Table Comparison of striated and striated2. This plot compares the scagnostic value of a select group of scatter plots for striated and striated2. While the functions may seem similar at a glance, striated2 has a stricter version of discreteness, hence why line and vlines have the same result and plots with no discreteness score a 0.}\label{fig:striated_vtable}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/striated-vtable-1} \caption[Using a visual table to compare the striated and it's adjusted counterpart, striated2]{Using a visual table to compare the striated and it's adjusted counterpart, striated2. This plot compares the scagnostic value of a select group of scatter plots for striated and striated2. While the functions may seem similar at a glance, striated2 has a stricter version of discreteness, hence why line and vlines have the same result and plots with no discreteness score a 0.}\label{fig:striated-vtable}
 \end{figure}
 \end{Schunk}
 
-Figure @ref(fig:striated\_vtable) shows that while these two measures
-may seem similar at a glace, there are a few minor things that make the
+Figure \ref{fig:striated-vtable} shows that while these two measures may
+seem similar at a glace, there are a few minor things that make the
 striated2 scagnsotic an improvement on the stirated scagnsotic. First of
 all, the perfect 1 value on striated goes to the ``line'' scatter plot.
 While this does fulfil the definition, it is not what the measure is
@@ -565,7 +565,7 @@ package, and it is calculated as follows:
 \end{enumerate}
 
 With this calculation, we generate the clumpy2 measure which is compared
-to the original clumpy measure in the Figure @ref(fig:clumpy\_vtable).
+to the original clumpy measure in the Figure \ref{fig:clumpy-vtable}.
 Here we can see the improvements made on the clumpy measure in both
 distribution from 0 to 1 and ordering. The measure is more spread out,
 and so values range more accurately from 0 to 1. More importantly the
@@ -580,7 +580,7 @@ stronger performance of clumpy2 is apparent in this visual table.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/clumpy_vtable-1} \caption[A visual table comparison of clumpy and clumpy2]{A visual table comparison of clumpy and clumpy2. This plot compares the scagnostic value of a select group of scatter plots for clumpy and clumpy2. It is clear that clumpy2 achieves a more ballanced distribution and more intuitive plot ordering.}\label{fig:clumpy_vtable}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/clumpy-vtable-1} \caption[A visual table comparison of clumpy and clumpy2]{A visual table comparison of clumpy and clumpy2. This plot compares the scagnostic value of a select group of scatter plots for clumpy and clumpy2. It is clear that clumpy2 achieves a more ballanced distribution and more intuitive plot ordering.}\label{fig:clumpy-vtable}
 \end{figure}
 \end{Schunk}
 
@@ -735,7 +735,7 @@ is a scagnostics. These are the two main functions of the package.
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:dsumfuncs_tb_pdf}Cassowaryr summary functions}
+\caption{\label{tab:dsumfuncs-tb-pdf}Cassowaryr summary functions}
 \centering
 \begin{tabular}[t]{>{\raggedright\arraybackslash}p{2cm}l}
 \toprule
@@ -750,12 +750,12 @@ calc\_scags\_wide & Compute scagnostics on all possible scatter plots for the gi
 \end{Schunk}
 
 The main arguments of the \texttt{calc\_scags()} function are shown in
-Table @ref(tab:calcfunc\_tb\_pdf).
+Table \ref{tab:calcfunc-tb-pdf}.
 
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:calcfunc_tb_pdf}The main arguments for the calculate scagnostics function.}
+\caption{\label{tab:calcfunc-tb-pdf}The main arguments for calc\_scags().}
 \centering
 \begin{tabular}[t]{l|l}
 \hline
@@ -772,13 +772,13 @@ scags & collection of strings matching names of scagnostics to calculate: outlyi
 
 \end{Schunk}
 
-While the calc\_scags function does not take in a tibble, it is designed
-to be seamlessly integrated into the tidy\_data format. Currently if we
-specify the scagnostics in the summarise function it does not work
-correctly, however we can work around that with the filter option until
-it is fixed. Using the code below, we can calculate a specified list of
-scagnostics on the scatter plots from the features data, producing the
-output shown in **Table \_\_**.
+While the \texttt{calc\_scags()} function does not take in a tibble, it
+is designed to be seamlessly integrated into the tidy data work flow.
+Currently if we specify the scagnostics in the summarise function it
+does not work correctly, however we can work around that with the filter
+option until it is fixed. Using the code below, we can calculate a
+specified list of scagnostics on the scatter plots from the features
+data, producing the output shown in **Table \_\_**.
 
 \begin{Schunk}
 \begin{Sinput}

@@ -8,6 +8,20 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-- Format of thesis as pdf and html
-- Package is not accepted on CRAN, so instructions for CRAN installation will not work yet
-- Experimental paper format
+# Overview
+
+The thesis is written in paper format, so that it will be ready to submit to the R Journal, after completion of the Honours degree. 
+
+This work has also been used as a test case for the new HTML format for the R Journal. The new format delivers the journal content natively in HTML, to accommodate interactive graphics, and in the traditional PDF format. As such, there may still be some small errors in the typesetting, in this thesis, that are beyond my control. However, this has been enormously useful for the journal's editorial staff to identify problems with the new styling and to fix them. 
+
+The new format uses Rmarkdown as the source file, which includes all the code needs to produce the results reported in the paper. The full set of files can be found at https://github.com/harriet-mason/paper-cassowaryr/tree/main/paper-RJ.
+
+# My original contributions
+
+This project has involved the work of several people, but I have lead the development since taking on the project at the start of Honours. The initial package structure was created by Stuart Lee. Most of the scagnostics definitions originated from previous work in the binostics package collated by Ursula Laa, but this package has to be abandoned because the code base in incomprehensible C makes it impossible to maintain.
+
+XXX All the details of your work ....
+
+# Software
+
+The package is not accepted on CRAN, so instructions for CRAN installation in the paper will not yet work. Installation needs to follow the GitHub instructions.
