@@ -169,10 +169,11 @@ sample size.
 \tightlist
 \item
   \textbf{Convex:} Measure of how convex the shape of the data is.
-  Computed as the ratio between the area of the alpha hull (A) and
-  convex hull (C). Unlike the other scagnostic measures, a high value on
-  convex does not correlate to an interesting scatter plot, rather it
-  usually indicates a lack of relationship between the two variables.
+  Computed as the ratio between the area of the alpha hull (\(A\)) and
+  convex hull (\(C\)). Unlike the other scagnostic measures, a high
+  value on convex does not correlate to an interesting scatter plot,
+  rather it usually indicates a lack of relationship between the two
+  variables.
 \end{itemize}
 
 \[s_{convex}=w\frac{area(A)}{area(C)}\]
@@ -182,7 +183,7 @@ sample size.
 \item
   \textbf{Skinny:} A measure of how ``thin'' the shape of the data is.
   It is calculated as the ratio between the area and perimeter of the
-  alpha hull (A) with some normalisation such that 0 correspond to a
+  alpha hull (\(A\)) with some normalisation such that 0 correspond to a
   perfect circle and values close to 1 indicate a skinny polygon.
 \end{itemize}
 
@@ -236,11 +237,11 @@ sample size.
   \textbf{Clumpy:} This measure is used to detect clustering and is
   calculated through an iterative process. First an edge J is selected
   and removed from the MST. From the two spanning trees that are created
-  by this break, we select the largest edge from the smaller tree (K).
-  The length of this edge (K) is compared to the removed edge (J) giving
-  a clumpy measure for this edge. This process is repeated for every
-  edge in the MST and the final clumpy measure is the maximum of this
-  value over all edges.
+  by this break, we select the largest edge from the smaller tree
+  (\(K\)). The length of this edge (\(K\)) is compared to the removed
+  edge (\(J\)) giving a clumpy measure for this edge. This process is
+  repeated for every edge in the MST and the final clumpy measure is the
+  maximum of this value over all edges.
 \end{itemize}
 
 \[\max_{j}[1-\frac{\max_{k}[length(e_k)]}{length(e_j)}]\]
@@ -277,11 +278,11 @@ below.
 \tightlist
 \item
   \textbf{Splines:} Measures the functional non-linear dependence by
-  fitting a penalised splines model on X using Y, and on Y using X. The
-  variance of the residuals are scaled down by the axis so they are
-  comparable, and finally the maximum is taken. Therefore the value will
-  be closer to 1 if either relationship can be decently explained by a
-  splines model.
+  fitting a penalised splines model on \(X\) using \(Y\), and on \(Y\)
+  using \(X\). The variance of the residuals are scaled down by the axis
+  so they are comparable, and finally the maximum is taken. Therefore
+  the value will be closer to 1 if either relationship can be decently
+  explained by a splines model.
 \end{itemize}
 
 \[s_{splines}=\max_{i\in x,y}[1-\frac{Var(Residuals_{model~i=.})}{Var(i)}]\]
@@ -308,8 +309,8 @@ Once we have working functions that correctly calculate the scagnostics
 according to their definition, we can assess how well they identify the
 visual features of scatter plots. To test the packages ability to
 differentiate plots, we have creates a dataset called ``features''
-(Figure @ref(fig:features\_plot), that contains a series of interesting
-and unique scatter plots which we can run our scagnsotics on. These
+(Figure \ref{fig:features-plot}), that contains a series of interesting
+and unique scatter plots which we can run our scagnostics on. These
 scatter plots typify certain visual features we want to look for in
 scatter plots, be it deterministic relationships (such as that shown in
 the nonlinear feature), discreteness in variables (vlines), or
@@ -318,7 +319,7 @@ each of these scatter plots.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/features_plot-1} \caption[The scatter plots of the features dataset]{The scatter plots of the features dataset. These scatter plots were designed to each represent a distinct visual feature, for example the ring scatter plot is a hollow version of disk. The scagnostics need to be able to differentiate these plots. }\label{fig:features_plot}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/features-plot-1} \caption[The scatter plots of the features dataset]{The scatter plots of the features dataset. These scatter plots were designed to each represent a distinct visual feature, for example the ring scatter plot is a hollow version of disk. The scagnostics need to be able to differentiate these plots.}\label{fig:features-plot}
 \end{figure}
 \end{Schunk}
 
@@ -327,7 +328,7 @@ data aligned on a 0 to 1 scale for each scagnostic. This visualisation
 displays a low, high, and moderate value for each scagnostic, and is
 useful to see how the scagnostics order data that typifies their visual
 feature. This plot gives a slight idea of the issues some of the
-scagnsotics face in their current state. The scagnostics are supposed to
+scagnostics face in their current state. The scagnostics are supposed to
 range from 0 to 1 however in some cases the values are so compressed
 that a moderate value would not fit, indicating that the scagnostics do
 not work quite as intended. The scagnostics based upon the convex hull
@@ -337,13 +338,12 @@ based on the MST. We suspect the reason for these warped distributions
 is the removal of binning as a preliminary step in calculating the
 scagnostics. We wanted the package to have binning as an optional
 method, considering choices in binning can lead to bias as noted in
-\emph{Scagnostic Distributions} \citep{scagdist} or unreproducible
-results as noted in \emph{Robustness of Scagnostics} \citep{robust}.
+\citet{scagdist} or unreproducible results as noted in \citet{robust}.
 Therefore the current scagnostics will be assessed without binning.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/visual_table-1} \caption[The Features Scatterplots in a Visual Table]{The Features Scatterplots in a Visual Table. An example high, low, and mooderate (if the scagnostic distribution is spread out enough for it to fit) example scatter plot for each scagnostic. Some scagnostics, like clumpy, clearly need adjustment, while others, such as splines work well as they are.}\label{fig:visual_table}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/visual_table-1} \caption[A visual table of a selection of scagnostics computed on the features data]{A visual table of a selection of scagnostics computed on the features data. The rows correspond to different scagnostics and the horizontal axis is the calculated value on a range of 0-1. Thumbnail plots of variable pairs are placed at their scagnostic value, and indicate the type of structure that would produce high or low or medium values. Some scagnostics, e.g. clumpy, clearly need adjustment, while others, such as splines work well as they are. XXX DC: not sure I see this}\label{fig:visual_table}
 \end{figure}
 \end{Schunk}
 
@@ -388,7 +388,7 @@ Therefore the current scagnostics will be assessed without binning.
   lengths make sense within the distribution. Outlying does not take
   this into account, and identifies a large number of the spread out
   points to be outliers and removes them before computing the other
-  scagnsotics. The value that scores the highest on the outlying measure
+  scagnostics. The value that scores the highest on the outlying measure
   is, without question, a highly outlying distribution, however the
   outlying measure only returns a 0.5, this is again due to the removal
   of binning as a preprocessing step.
@@ -482,7 +482,7 @@ rotated ``discrete'' plot. Therefore in terms of ordering the plots in
 how well they represent the feature of discreteness, striated2
 outperforms striated.
 
-The scagnsotics need to be used and interpreted with the type of dataset
+The scagnostics need to be used and interpreted with the type of dataset
 you are working with in mind. For if we are looking at a dataset that is
 discrete, a very low value on striated2 would indicate some strange
 relationship in the scatter plot. Since the old striated measure is
@@ -515,7 +515,7 @@ The issues that need to be addressed with the new clumpy measure are:
 
 Before we calculated a new clumpy measure, we looked into applying a
 different adjustment defined in the \emph{Improving the robustness of
-scagnsotics} that is a robust version of the original clumpy measure
+scagnostics} that is a robust version of the original clumpy measure
 \citep{robust}. This version of clumpy has been included in the package
 as \texttt{clumpy\_r} however it is not included as an option in the
 higher level functions such as \texttt{calc\_scags()} because its
@@ -1220,14 +1220,14 @@ The greatest limitation in this project was the 1 year time limit on the
 research.
 
 There is a large amount of future work that could build upon this
-research. To start with, the distribution of the scagnsotics have been
+research. To start with, the distribution of the scagnostics have been
 largely warped by the removal of binning as a preprocessing step. In the
 World Bank indicators example, we made the assumption that the
 scagnostics are all uniformly distributed from 0 to 1, however, looking
 at some of our results as well as well as the visual table of the
 features scatter plots (Figure @ref(fig:visual\_table)), shows this may
 not be the case. It would be a substantial task to identify the
-distributions of the scagnsotics, and make adjustments to rectify any
+distributions of the scagnostics, and make adjustments to rectify any
 irregularities. The scagnostics would need to be reassessed using large
 volumes of data to ensure the measures are not simply identifying the
 structures of that data set. Looking only at the outlying scagnostic on
@@ -1235,21 +1235,21 @@ the features data may lead us to beleive that the maximum outlier value
 is 0.5 and its distribution is warped, however other data sets in this
 paper had scatter plots that measured a perfect 1 on outlying. Without
 this wide variety of data it is difficult for us to make comments on the
-spread of the scagnsotics. Scagnostics could also be expanded to be the
+spread of the scagnostics. Scagnostics could also be expanded to be the
 basis of a classification technique that identifies shape differences in
 groups. While we showed in the time series example that scagnostics can
 identify shape differences between groups, expanding that observation to
 stand alone classification technique is outside the scope of this
-research. \emph{Transforming Scagnostics to Reveal Hidden Features}
-showed that scagnostics can be used to identify useful structure in
-pairwise plots after transformations such as log or logit
+research. \emph{Transforming Scagnostics to Reveal Hidden Features} (XXX
+needs citation) showed that scagnostics can be used to identify useful
+structure in pairwise plots after transformations such as log or logit
 transformations. This paper showed a possible natural extension for the
 scagnostics in the original code, but could also be considered a natural
 extension of the cassowaryr package. Finally, there are a handful of
-scagnostics that are used in the projection persuit in the \emph{tourr}
+scagnostics that are used in the projection pursuit in the \emph{tourr}
 package to find the best view of a large number of variables. The
 scagnostics described here could also be implemented into the package to
-improve the projection persuit. Previously scagnostics have has a large
+improve the projection pursuit. Previously scagnostics have has a large
 amount of noise (i.e.~the tourr struggles to reliably move in the
 direction that will have the greatest increase in the scagnostic) and
 checking if these scagnostics maintain that issue, and developing them
