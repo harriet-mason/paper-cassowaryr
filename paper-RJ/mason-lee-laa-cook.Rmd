@@ -92,7 +92,7 @@ In order to capture the visual structure of the data, graph theory is used to ca
 
 - **MST:** the minimum spanning tree, i.e the smallest distance of branches that can be used to connect all the points. In the package it is calculated from the graph using the igraph package [@igraph].  
 
-```{r building-blocks2, width = 15, height = 5, out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics"}
+```{r building-blocks2, width = 15, height = 5, out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics: (a) convex hull, (b) alpha hull and (c) minimal spanning tree. The convex hull is a convex shell around all the data points. The alphahull contains all the points but allows concavities better capturing some shapes, but it needs tuning. The minimal spanning tree connects all points once, and has a single chain connecting central points.", layout = "l-body"}
 library(alphahull)
 data("features")
 nl <- features %>% filter(feature == "nonlinear2")
@@ -107,7 +107,7 @@ d2 <- draw_alphahull(nl$x, nl$y, clr="#00a800") +
   theme_void() +
   theme(aspect.ratio=1, axis.text = element_blank())
 d3 <- draw_mst(nl$x, nl$y) +
-  ggtitle("c. Min. span. tree") +
+  ggtitle("c. Minimal spanning tree") +
   xlab("") + ylab("") +
   theme_void() +
   theme(aspect.ratio=1, axis.text = element_blank())
@@ -491,11 +491,13 @@ datasets_tb <- tibble(dt = c("features",
 ```
 
 ```{r datasets_tb_html, eval=is_html_output()}
-datasets_tb %>% kable() 
+datasets_tb %>% 
+  kable(col.names = c("data", "explanation")) 
 ```
 
 ```{r datasets_tb_pdf, eval=is_latex_output()}
-datasets_tb %>% kable(format="latex") 
+datasets_tb %>% 
+  kable(format="latex", col.names = c("data", "explanation")) 
 ```
 
 
@@ -586,9 +588,9 @@ sumfuncs_tb %>% kable()
 sumfuncs_tb %>% kable(format="latex") 
 ```
 
-The main arguments of the calc_scags function are shown in **Table __**.
+The main arguments of the calc_scags function are shown in Table `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(tab:calcfunc_tb_html)', '\\@ref(tab:calcfunc_tb_pdf)'))`.
 
-```{r}
+```{r calc-scags-args}
 calcfunc_tb <- tibble(argument = c("y", "x", "scags"), 
                       description = c("numeric vector of x values.",
                                "numeric vector of y values.",
@@ -596,11 +598,11 @@ calcfunc_tb <- tibble(argument = c("y", "x", "scags"),
 ```
 
 ```{r calcfunc_tb_html, eval=is_html_output()}
-calcfunc_tb %>% kable() 
+calcfunc_tb %>% kable(caption="The main arguments for the `calc_scags()` function.") 
 ```
 
 ```{r calcfunc_tb_pdf, eval=is_latex_output()}
-calcfunc_tb %>% kable(format="latex") 
+calcfunc_tb %>% kable(format="latex",caption="The main arguments for the `calc_scags()` function.") 
 ```
 
 While the calc_scags function does not take in a tibble, it is designed to be seamlessly integrated into the tidy_data format. Currently if we specify the scagnostics in the summarise function it does not work correctly, however we can work around that with the filter option until it is fixed. Using the code below, we can calculate a specified list of scagnostics on the scatter plots from the features data, producing the output shown in **Table __**.
@@ -656,7 +658,7 @@ features_toppairs %>% kable(format="latex")
 ```
 
 ## Tests
-All the functions that calculate the scagnostic measures (all the measures that start with "sc") have tests written and implemented using the testthat package. They have all been compared to calculations completed by hand to ensure the difference in results from previous literature are due to other steps in the process, such as binning, and not a mistake in the write up of the code. These tests also illuminated some issues that allowed us to make meaningful changes to the definitions of the scagnostics and the implementation of the package. For example, several tests to check the outying scagnostic was working correctly illustrated some issues in the process of outlier removal, which is illustrated in Figure \@(fig:outlying-test-plot). 
+All the functions that calculate the scagnostic measures (all the measures that start with "sc") have tests written and implemented using the testthat package. They have all been compared to calculations completed by hand to ensure the difference in results from previous literature are due to other steps in the process, such as binning, and not a mistake in the write up of the code. These tests also illuminated some issues that allowed us to make meaningful changes to the definitions of the scagnostics and the implementation of the package. For example, several tests to check the outying scagnostic was working correctly illustrated some issues in the process of outlier removal, which is illustrated in Figure \@ref(fig:outlying-test-plot). 
 
 ```{r outlying-test-plot, width = 100, height = 50, out.width = "100%", fig.cap = "Plots used for testing the 'outlying' scagnostic."}
 x1<- c(0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1, 10, 10, 10)
