@@ -35,9 +35,11 @@ author:
     orcid: 000-0002-3813-7155
     email:  dicook@monash.edu
 type: package
+csl: "rjournal.csl"
 creative_commons: CC BY
 output: 
-  rjtools::rjournal_web_article
+  rjtools::rjournal_web_article:
+    css: "rjournal.css"
 bibliography: mason-lee-laa-cook.bib
 editor_options: 
   chunk_output_type: console
