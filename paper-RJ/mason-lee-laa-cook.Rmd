@@ -55,13 +55,11 @@ library(cassowaryr)
 library(GGally)
 library(plotly)
 library(tidyverse)
-library(plotly)
 library(patchwork)
 library(knitr)
+library(kableExtra)
 library(ggimg) #for the visual table
 library(ggstance) #for vertical dodge on plot
-library(fitzRoy) #for AFLW data
-library(gridExtra) #groups of static scatter plots
 
 options(digits=2) # for numerical printing
 ```
@@ -190,9 +188,9 @@ knitr::include_graphics("figures/drawoutlying.png")
 
 ## Checking the scagnostics calculations 
 
-Once we have working functions that correctly calculate the scagnostics according to their definition, we can assess how well they identify the visual features of scatter plots. To test the packages ability to differentiate plots, we have creates a dataset called "features" (that is also in the Cassowaryr package) that contains a series of interesting and unique scatter plots which we can run our scagnsotics on.
+Once we have working functions that correctly calculate the scagnostics according to their definition, we can assess how well they identify the visual features of scatter plots. To test the packages ability to differentiate plots, we have creates a dataset called "features" (Figure \@ref(fig:features_plot), that contains a series of interesting and unique scatter plots which we can run our scagnsotics on. These scatter plots typify certain visual features we want to look for in scatter plots, be it deterministic relationships (such as that shown in the nonlinear feature), discreteness in variables (vlines), or clustering (clumpy), we should be able to use scagnostics to identify each of these scatter plots.
 
-```{r, Features plot, width = 150, height = 150, out.width = "100%", fig.cap = "The Scatter Plots of the Features Dataset"}
+```{r, features_plot, width = 150, height = 150, out.width = "100%", fig.cap = "The scatter plots of the features dataset. These scatter plots were designed to each represent a distinct visual feature, for example the ring scatter plot is a hollow version of disk. The scagnostics need to be able to differentiate these plots. "}
 mypal <- c("#b2182b", "#d53e4f","#FF4E50", "#FC913A", "#fdae61",
            "#F9D423", "#fee08b" , "#abdda4" , "#a6d96a" , "#66c2a5" ,
            "#66bd63","#3B8183", "#3288bd", "#74add1",  "#abd9e9")
@@ -210,7 +208,7 @@ ggplot(features, aes(x,y,colour=feature))+
 
 ```
 
-These scatter plots typify certain visual features we want to look for in scatter plots, be it deterministic relationships (such as that shown in the nonlinear feature), discreteness in variables (vlines), or clustering (clumpy), we should be able to use scagnostics to identify each of these scatter plots. Below is a visual table of an example of a high, a moderate, and a low value, on each scagnostic. The scagnostics are supposed to range from 0 to 1 however in some cases the values are so compressed that a moderate value would not fit, indicating that the scagnostics do not work quite as intended. We suspect the reason for these warped distributions is the removal of binning as a preliminary step in calculating the scagnostics. We wanted the package to have binning as an optional method, considering choices in binning can lead to bias as noted in "Scagnostic Distributions" [@scagdist] or unreproducible results as noted in "Robustness of Scagnostics" . Therefore the current scagnostics will be assessed without binning [@robust].
+Figure \@ref(fig:visual_table) shows scatter plots from the features data aligned on a 0 to 1 scale for each scagnostic. This visualisation displays a low, high, and moderate value for each scagnostic, and is useful to see how the scagnostics order data that typifies their visual feature. This plot gives a slight idea of the issues some of the scagnsotics face in their current state. The scagnostics are supposed to range from 0 to 1 however in some cases the values are so compressed that a moderate value would not fit, indicating that the scagnostics do not work quite as intended. The scagnostics based upon the convex hull (i.e. skinny and convex) work fine, as do the association measures such as montonic, dcor and splines. The main issue comes from the measures based on the MST. We suspect the reason for these warped distributions is the removal of binning as a preliminary step in calculating the scagnostics. We wanted the package to have binning as an optional method, considering choices in binning can lead to bias as noted in *Scagnostic Distributions* [@scagdist] or unreproducible results as noted in *Robustness of Scagnostics* [@robust]. Therefore the current scagnostics will be assessed without binning.
 
 ```{r, Scatter Plots as images,  include=FALSE, eval=FALSE}
 #set theme so all scatter plots in table match
@@ -233,7 +231,7 @@ for (i in seq(length(plots))){
 
 ```
 
-```{r, Visual Table, width = 150, height = 150, out.width = "100%", fig.cap = "The Features Scatterplots in a Visual Table"}
+```{r, visual_table, width = 150, height = 150, out.width = "100%", fig.cap = "The Features Scatterplots in a Visual Table. An example high, low, and mooderate (if the scagnostic distribution is spread out enough for it to fit) example scatter plot for each scagnostic. Some scagnostics, like clumpy, clearly need adjustment, while others, such as splines work well as they are."}
 
 # Calculate Scagnostics
 features_scagnostics_long <- features %>%
@@ -321,8 +319,6 @@ visual_table <- ggplot(plot_data, aes(x=value , y=scagnostic))+
 visual_table
 
 ```
-
-This plot gives a slight idea of the issues some of the scagnsotics face in their current state. The scagnostics based upon the convex hull (i.e. skinny and convex) work fine, as do the association measures such as montonic, dcor and splines. The main issue comes from the measures based on the MST, and their issues largely come from binning. The MST measures and their issues are:
   
 - **Striated**: striated can identify the specific case of one discrete variable and one continuous variable (which alone is not particularly interesting) but will not identify two discrete variables. Since by definition it is a subset of the stringy measure, they are highly correlated, which means most variables that score highly on striated already score highly on stringy, making the measure less useful.
   
@@ -339,19 +335,19 @@ This plot gives a slight idea of the issues some of the scagnsotics face in thei
 
 Some of these measures primary issue is that they do not seem to range uniformly from 0 to 1. These measures still put the scatter plots in the correct order and so do not urgently need adjustments in order to work as intended. For other measures, removing the binning step completely changes the visual feature the measure is identifying. For that reason we will only adjust the measures which no longer make sense without binning, and keep the measures that have a warped distribution (but correctly order the scagnostics) as they are. With these issues in mind, we have defines and written several new scagnostics that work even without the pre-processing step of binning.
   
-### The adjusted scagnostics measures
-The measures that need an adjusted version are striated, sparse, skewed, and clumpy. The outlying and stringy measure could possibly be left as they are, as they are not as badly damaged by the removal of binning. 
+### The Adjusted Scagnostics Measures
+The measures that need an adjusted version are striated, and clumpy. The outlying and stringy measure could possibly be left as they are, as they are not as badly damaged by the removal of binning. 
 
 #### Striated adjusted
 The issues surrounding the striated scagnostic are:
   
 1. By only counting vertices with 2 edges, the set of vertices counted in this measure are a subset of those counted in stringy, thus the two meaures are highly correlated.
   
-2. In order for the vertex to be counted, the angle between the edges needs to be approximately 135 to 220 degrees. The original idea seems to have been to identify the predominantly 180 degree angles that come with a discrete variable plotted against a continuous one, however the large margin of error just makes the measure almost identical to stringy.
+2. In order for the vertex to be counted, the angle between the edges needs to be approximately 135 to 220 degrees. The original idea seems to have been to give an allowance for the binning, data on a line might end up slightly to either side if the boundary for the bins is exactly on the line the data follows. With the removal of binning this leeway is unecessary and many plots that are not discrete are identified as such.
   
-To account for these two issues the striated adjusted measure considers all vertices (not just those with two adjacent edges), and makes the measure strict around the 180 and 90 degree angles. With this we can see the improvements on the measure.
+To account for these two issues the striated adjusted measure considers all vertices (not just those with two adjacent edges), and makes the measure strict around the 180 and 90 degree angles. With this we can see the improvements on the measure in Figure \@ref(fig:striated_vtable).
 
-```{r, Striated Vtable, width = 150, height = 50, out.width = "100%", fig.cap = "A Visual Table Comparison of Striated and Striated 2"}
+```{r, striated_vtable, width = 150, height = 50, out.width = "100%", fig.cap = "A Visual Table Comparison of striated and striated2. This plot compares the scagnostic value of a select group of scatter plots for striated and striated2. While the functions may seem similar at a glance, striated2 has a stricter version of discreteness, hence why line and vlines have the same result and plots with no discreteness score a 0."}
 
 # Make Visual Table
 # Data
@@ -389,7 +385,7 @@ striated_visual_table
 
 ```
 
-While these two measures may seem similar at a glace, there are a few minor things that make the striated2 scagnsotic an improvement on the stirated scagnsotic. First of all, the perfect 1 value on striated goes to the "line" scatter plot. While this does fulfil the definition, it is not what the measure is supposed to be looking for, rather supposed to be identifying the "vlines" scatter plot. Since striated does not count the right angles that go between the vertical lines, a truely striated plot will never get a full 1 on this measure, striated adjusted fixes this. After that there is a large gap in both measures because none of the other scatter plots have a strictly discrete measure on the x or y axis. The lower plots show that striated2 is also better at identifying discrete relationships with a rotation and noise added as shown in the "discrete" plot. In striated "discrete" is lower in the order than "outlying" which would indicate that striated has finished looking at discreteness. In striated2, after the plots with strict discreteness in "vlines" or strict rotated disceteness in "line", is the noisey and rotated "discrete" plot. Therefore in terms of ordering the plots in how well they represent the feature of discreteness, striated2 outperforms striated.
+Figure \@ref(fig:striated_vtable) shows that while these two measures may seem similar at a glace, there are a few minor things that make the striated2 scagnsotic an improvement on the stirated scagnsotic. First of all, the perfect 1 value on striated goes to the "line" scatter plot. While this does fulfil the definition, it is not what the measure is supposed to be looking for, rather supposed to be identifying the "vlines" scatter plot. Since striated does not count the right angles that go between the vertical lines, a truely striated plot will never get a full 1 on this measure, striated adjusted fixes this. After that there is a large gap in both measures because none of the other scatter plots have a strictly discrete measure on the x or y axis. The lower plots show that striated2 is also better at identifying discrete relationships with a rotation and noise added as shown in the "discrete" plot. In striated "discrete" is lower in the order than "outlying" which would indicate that striated has finished looking at discreteness. In striated2, after the plots with strict discreteness in "vlines" or strict rotated disceteness in "line", is the noisey and rotated "discrete" plot. Therefore in terms of ordering the plots in how well they represent the feature of discreteness, striated2 outperforms striated.
 
 The scagnsotics need to be used and interpreted with the type of dataset you are working with in mind. For  if we are looking at a dataset that is discrete, a very low value on striated2 would indicate some strange relationship in the scatter plot. Since the old striated measure is specifically trying to find a continuous variable against a discrete variable, its highest values are also identified by the striated2. The lowest values on striated simply identify a plot where all the variables are at right angles, once again a measure of disceteness but one that is not identified by striated. Striated2 encapsulates both versions of discreteness in the values that get exactly a 1.
 
@@ -413,9 +409,9 @@ Therefore in order to fix the issues in the clumpy measure described above, we d
 6. Take the mean clumpy value for each between cluster edge, if it is below 1 it is beneath the threshold that is consdiered clumpy, and the value is adjusted to 1.
 7. Clumpy 2 returns $1-\frac{1}{mean(clumpy_i)}$
 
-With this calculation, we generate the clumpy2 measure which is compared to the original clumpy measure in the figure below.
+With this calculation, we generate the clumpy2 measure which is compared to the original clumpy measure in the Figure \@ref(fig:clumpy_vtable). Here we can see the improvements made on the clumpy measure in both distribution from 0 to 1 and ordering. The measure is more spread out, and so values range more accurately from 0 to 1. More importantly the measures do a better job of ordering the scatter plots. On the original clumpy measure the "clusters" scatter plot was next to last, on the clumpy2 measure "clusters" is is identified as the most clumpy scatter plot. Clumpy 2 also has a penalty for uneven clusters (to avoid being large due to a small colelction of outliers) and clusters created arbitrarily due to discreteness (such as vlines) in order to better aling with the human interpretation of clumpy. With these changes, the stronger performance of clumpy2 is apparent in this visual table.
 
-```{r, Clumpy Vtable, width = 150, height = 50, out.width = "100%", fig.cap = "A Visual Table Comparison of Clumpy and Clumpy 2"}
+```{r, clumpy_vtable, width = 150, height = 50, out.width = "100%", fig.cap = "A visual table comparison of clumpy and clumpy2. This plot compares the scagnostic value of a select group of scatter plots for clumpy and clumpy2. It is clear that clumpy2 achieves a more ballanced distribution and more intuitive plot ordering."}
 
 plot_data_clumpy <- plot_path_data %>%
   group_by(scagnostic, feature) %>%
@@ -449,8 +445,6 @@ clumpy_visual_table <- ggplot(plot_data_clumpy, aes(x=value , y=scagnostic))+
 
 clumpy_visual_table
 ```
-
-Here we can see the improvements made on the clumpy measure in both distribution from 0 to 1 and ordering. The measure is more spread out, and so values range more accurately from 0 to 1. More importantly the measures do a better job of ordering the scatter plots. On the original clumpy measure the "clusters" scatter plot was next to last, on the clumpy2 measure "clusters" is is identified as the most clumpy scatter plot. Clumpy 2 also has a penalty for uneven clusters (to avoid being large due to a small colelction of outliers) and clusters created arbitrarily due to discreteness (such as vlines) in order to better aling with the human interpretation of clumpy. With these changes, the stronger performance of clumpy2 is apparent in this visual table.
 
 # Implementation
 
@@ -555,7 +549,7 @@ scagfuncs_tb %>% kable(format="latex")
 The drawing functions are intended to be used my the user so they can better understand the results of the scagnostic functions. The input is two numeric vectors and the output is a ggplot object that draws the graph based object in question. The functions that belong to this group are:  
 
 ```{r}
-drawfuncs_tb <- tibble(func_name = c("draw_alphahull", 
+drawfuncs_tb <- tibble(funcname = c("draw_alphahull", 
                              "draw_convexhull",
                              "draw_mst"), 
                       description = c("Drawing the alpha hull.",
@@ -576,18 +570,24 @@ drawfuncs_tb %>% kable(format="latex")
 The summary functions are the perferred method for users to calculate scagnostics. The calc_scags function is supposed to be used on long data with the dplyr group_by and summarise functions. the calc_scags_wide functions is designed to take in a tibble of numerical variables and return the scagnostics on every possible pairwise scatter plot. Both functions return a tibble where each column is a scagnostics. These are the two main functions of the package. 
 
 ```{r}
-sumfuncs_tb <- tibble(func_name = c("calc_scags",
-                             "calc_scags_wide"), 
+sumfuncs_tb <- tibble(funcname = c("calc\\_scags",
+                             "calc_scags\\_wide"), 
                       description = c("Compute selected scagnostics on subsets.",
                                "Compute scagnostics on all possible scatter plots for the given data."))
 ```
 
 ```{r sumfuncs_tb_html, eval=is_html_output()}
-sumfuncs_tb %>% kable() 
+sumfuncs_tb %>% kable(caption = "Cassowaryr Summary Functions", booktabs = T)  %>%
+  kable_styling(bootstrap_options ="striped", position = "center") %>%
+  column_spec(1, width = "2cm")
+
 ```
 
 ```{r dsumfuncs_tb_pdf, eval=is_latex_output()}
-sumfuncs_tb %>% kable(format="latex") 
+sumfuncs_tb %>% kable(format="latex", caption = "Cassowaryr Summary Functions", booktabs = T)  %>%
+  kable_styling(latex_options = "striped", position = "center") %>%
+  column_spec(1, width = "2cm")
+
 ```
 
 The main arguments of the calc_scags function are shown in Table `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(tab:calcfunc_tb_html)', '\\@ref(tab:calcfunc_tb_pdf)'))`.
@@ -600,11 +600,11 @@ calcfunc_tb <- tibble(argument = c("y", "x", "scags"),
 ```
 
 ```{r calcfunc_tb_html, eval=is_html_output()}
-calcfunc_tb %>% kable()#caption="The main arguments for the calculate scagnostics function.") 
+calcfunc_tb %>% kable(caption="The main arguments for the calculate scagnostics function.") 
 ```
 
 ```{r calcfunc_tb_pdf, eval=is_latex_output()}
-calcfunc_tb %>% kable(format="latex") #, caption="The main arguments for the calculate scagnostics function.") 
+calcfunc_tb %>% kable(format="latex", caption="The main arguments for the calculate scagnostics function.") 
 ```
 
 While the calc_scags function does not take in a tibble, it is designed to be seamlessly integrated into the tidy_data format. Currently if we specify the scagnostics in the summarise function it does not work correctly, however we can work around that with the filter option until it is fixed. Using the code below, we can calculate a specified list of scagnostics on the scatter plots from the features data, producing the output shown in **Table __**.
@@ -662,7 +662,9 @@ features_toppairs %>% kable(format="latex")
 ## Tests
 All the functions that calculate the scagnostic measures (all the measures that start with "sc") have tests written and implemented using the testthat package. They have all been compared to calculations completed by hand to ensure the difference in results from previous literature are due to other steps in the process, such as binning, and not a mistake in the write up of the code. These tests also illuminated some issues that allowed us to make meaningful changes to the definitions of the scagnostics and the implementation of the package. For example, several tests to check the outying scagnostic was working correctly illustrated some issues in the process of outlier removal, which is illustrated in Figure \@ref(fig:outlying-test-plot). 
 
-```{r outlying-test-plot, width = 100, height = 50, out.width = "100%", fig.cap = "Plots used for testing the 'outlying' scagnostic."}
+Figure \@ref(fig:outlying-test-plot) shows the an example of a simulated test set, combined with the associated MST. When creating this test data set, we assumed the MST would connect via the red line, but instead the MST connected via the long black line. The difference between these choices is essentially random, they are the exact same length, but it has significant implications for the value returned by the outlying scagnostic. This test was designed to check the outlier removal process for internal outliers, point 1 should have been identified as an internal outlier which means both its edges were considered in the calculation of outlying, and points 2 and 3 are too close to each other for either to fulfill the outlying definition, so they are left alone. Using the draw_mst function when the test failled showed the issue was an esentially random desicionin the MST construction. If the red line was used to construct the MST, both the red dashed line, and the line connecting point 1 to point 2 would be included in the outlying scagnostic calcuation, in the actual calculation it was only the edge between points 1 and 2, giving a significantly smaller value on the the outlying scagnostic. This shows that even the scagnostics that work reliably well and did not need significant adjustments are still succeptible to arbitrarily large changes resulting from seemingly small changes in the visual structure of the scatter plot. 
+
+```{r outlying-test-plot, width = 100, height = 50, out.width = "80%", fig.cap = "Plot of simulated data used for testing the 'outlying' scagnostic. The left plot shows the raw data, while the right plot presents the MST generated on that data. The edges that make it into the MST can be random and also have serious implications for outlier scagnostic. If the red edge is in the MST rather than the black edge that connects to 3, the outlying value on this plot is much higher."}
 x1<- c(0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1, 10, 10, 10)
 y1 <- c(0,0,1,2,2,3,4,4,5,6,6,7,8,8,9,10, 10, 7, 5)
 
@@ -676,13 +678,11 @@ t2 <- draw_mst(x1, y1) + theme_classic() +
   geom_segment(aes(x=0.1, y=1, xend=1, yend=1, colour="#fb8072"), linetype=2)+
   geom_text(data=tibble(x1= c(1,1,1), y1 = c(1, 0.7, 0.5), lab=c(1,2,3)), 
             aes(x=x1, y=y1, label=lab), 
-            colour="blue", nudge_x=-0.03, nudge_y=0.03) +
-  theme(legend.position="none")
+            colour="#3288bd", nudge_x=-0.03, nudge_y=0.03) +
+  theme(legend.position="none", aspect.ratio=1)
 
-grid.arrange(t1, t2, nrow=1)
+t1 + t2 + plot_layout(nrow=1)
 ```
-
-**Figure __** below shows the an example of a simulated test set, combined with the associated MST. When creating this test data set, we assumed the MST would connect via the red line shown on the left plot of **Figure __**, but instead the MST connected via the long black line. The difference between these choices is essentially random, they are the exact same length, but it has significant implications for the value returned by the outlying scagnostic. This test was designed to check the outlier removal process for internal outliers, point 1 should have been identified as an internal outlier which means both its edges were considered in the calculation of outlying, and points 2 and 3 are too close to each other for either to fulfill the outlying definition, so they are left alone. Using the draw_mst function when the test failled showed the issue was an esentially random desicionin the MST construction. If the red line was used to construct the MST, both the red dashed line, and the line connecting point 1 to point 2 would be included in the outlying scagnostic calcuation, in the actual calculation it was only the edge between points 1 and 2, giving a significantly smaller value on the the outlying scagnostic. This shows that even the scagnostics that work reliably well and did not need significant adjustments are still succeptible to arbitrarily large changes resulting from seemingly small changes in the visual structure of the scatter plot. 
 
 # Examples
 
@@ -690,10 +690,10 @@ grid.arrange(t1, t2, nrow=1)
 
 The Australian Football League Women's (AFLW) is the national semi-profesisonal Australia Rules football league for female players. Here we will analyse data sourced from the official AFL website with information on the 2020 season, in which the league had 14 teams and 1932 players. These variables are recorded per player per game, so the stats are averaged for each player over the course of the season. The description of each statistic data set can be found in the Appendix. There are 68 variables, 33 of which are numeric, the others are categorical, e.g. players names or match ids, and they would not be used in scagnostic calculations. This means there are 528 possible scatterplots, significantly more than a single person could view and analyse themselves and so we use scagnostics to identify which pairwise plots might be interesting to examine. 
   
-**Figure__** displays 5 scatter plots (Plots 1 to 5 in the figure) that were identified as having a particularly high or low value on a scagnostic, or an unusual combination of two or more scagnostics. In addition to these 5, there is a 6th plot (Plot 6 in the figure) that is included to display what a middling value on almost all of the scagnostics looks like.
+Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:AFLW-scatters-static)','\\@ref(fig:AFLW-scatters-interactive)'))`  displays 5 scatter plots (Plots 1 to 5 in the figure) that were identified as having a particularly high or low value on a scagnostic, or an unusual combination of two or more scagnostics. In addition to these 5, there is a 6th plot (Plot 6 in the figure) that is included to display what a middling value on almost all of the scagnostics looks like. Most scatter plots score middling values on the scagnostics, so Plot 6 is a good indication of what we would look at if we picked variables to plot ourselves with no intuition. The visual structure that changes significantly between Plots 1 to 5, and the lack of interesting visual features in Plot 6, shows the benefit of using scagnostics in early stages of exploratory data analysis. Extreme values on the scagnostic measurements identify atypical scatter plots. 
 
 ```{r, AFL DATA, include=FALSE, eval=FALSE}
-
+library(fitzRoy)
 aflw <- fetch_player_stats(2020, comp = "AFLW")
 
 aflw_num <- aflw %>%
@@ -757,17 +757,15 @@ p6 <- ggplot(aflw_num, aes(x=kicks, y=handballs)) +
   geom_point(colour=mypal[6])
 ```
 
-```{r, AFLW-scatters-interactive, out.width="80%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
+```{r, AFLW-scatters-interactive, out.width="80%", include=knitr::is_html_output(), eval=knitr::is_html_output(), fig.cap="Six AFLW sport statistic scatter plots that were identified as identified as interesting by the scagnostics. Plots 1 to 5 had unique values an individual or pair of scagnostics, Plot 6 had middling values on all measures. There is a clear difference in structure between these plots that was identified by the scagnostics."}
 
 subplot(ggplotly(p1), ggplotly(p2), ggplotly(p3), ggplotly(p4), ggplotly(p5), ggplotly(p6),
         nrows=2, widths = c(0.33, 0.33, 0.33), heights = c(0.5,0.5))
 ```
 
-```{r AFLW-scatters-static, out.width="80%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center'}
+```{r AFLW-scatters-static, out.width="80%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center', fig.cap="Six AFLW sport statistic scatter plots that were identified as identified as interesting by the scagnostics. Plots 1 to 5 had unique values an individual or pair of scagnostics, Plot 6 had middling values on all measures. There is a clear difference in structure between these plots that was identified by the scagnostics."}
 p1 + p2 + p3 + p4 + p5 + p6 + plot_layout(nrow=2)
 ```
-
-Most scatter plots score middling values on the scagnostics, so Plot 6 is a good indication of what we would look at if we picked variables to plot ourselves with no intuition. The visual structure that changes significantly between Plots 1 to 5, and the lack of interesting visual features in Plot 6, shows the benefit of using scagnostics in early stages of exploratory data analysis. Extreme values on the scagnostic measurements identify atypical scatter plots. 
 
 The best way to identify interesting scatter plots using scagnostics is to construct a large interactive SPLOM. This is how Plots 1 to 5 were identified, but for the sake of space, we are only going to show the specific scatter plots of the SPLOM that led to the selection of Plots 1, 2, and 5.
 
@@ -806,17 +804,17 @@ s5 <- ggplot(test, aes(x=outlying, y = striated2, colour=plot5, label=lab)) +
 
 ```
 
-```{r, threeplot-interactive, out.width="80%", include=knitr::is_html_output(), eval=knitr::is_html_output()}
+Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:threeplot-static)','\\@ref(fig:threeplot-interactive)'))`  displays Plot 1, Plot2 and Plot 5 beneath the specific scatter plot of the scagnostics SPLOM that was used to identify the plot as interesting. Plot 1 was identifies as interesting as it returned high values  on both outlying and skewed. Intuitively, this would indicate that even after removing outliers, the data was still disproportionately spread out, a visual feature that we can see very clearly in Plot 1. Plot 2 scored very highly on all the association measures, which indicates a strong relationship between the two variables. The three association measures typically have strong correlation and scatter plots that stay within the large mass in the center have a linear relation, those that don't often have a non-linear relationship. The splines vs dcor plot tells us that there is a strong linear relationship between total posessions and disposals.  Total possessions is the number of times the player has the ball and disposals is the number of times the player gets rid of the ball legally, so the strong linear relation indicates the level of play, i.e. few mistakes are made in a professional league. Plot 5 an excellent example in what new information we can learn from a unique plot identified with scagnostics. This plot is high on striated2 and moderate to low on outlying, telling us most of the points will be at straight or right angles and a little spread out. If a specific sports statistic is related to position, we would see a relationship have a lower triangular structure similar to that of Plot 4, however this plot does not have a lower triangular structure, is has an L-shape. This means these statistics are not about position, but rather the physical abilities of the players. Hitouts measure the number of times the player punches the ball after the referee throws it back into play, bounces have to be done while running, and are typically done by fast players. The L-shape tells us that players who do one very rarely perform the other. The moderate spread along both of the statistics tells us these are both somewhat specialised skills, and the players who specialise in one do not specialise in the other, i.e. in AFL the tallest player in the team is rarely the fastest. These plots provide a clear example in the unique information gained using scagnostics as a tool in exploratory data analysis.
+
+```{r, threeplot-interactive, out.width="80%", include=knitr::is_html_output(), fig.cap="Three plots that were identified as interesting with the scagnostic scatter plot used to identify it. Each scatter plot of AFLW data is displayed below a plot of the two scagnostic measures it stood out on. One of the most useful ways to identify plots is through scatter plots of the scagnostics.", eval=knitr::is_html_output()}
 subplot(ggplotly(s1), ggplotly(s2), ggplotly(s5), ggplotly(p1), ggplotly(p2), ggplotly(p5),
         nrows=2, widths = c(0.3, 0.3, 0.3), heights = c(0.5, 0.5)) %>%
   config(displayModeBar = FALSE)
 ```
 
-```{r threeplot-static, out.width="80%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center'}
+```{r threeplot-static, out.width="80%", include=knitr::is_latex_output(), fig.cap="Three plots that were identified as interesting with the scagnostic scatter plot used to identify it. Each scatter plot of AFLW data is displayed below a plot of the two scagnostic measures it stood out on. One of the most useful ways to identify plots is through scatter plots of the scagnostics.", eval=knitr::is_latex_output(), fig.align='center'}
  s1 + s2 + s5 + p1 + p2 + p5 + plot_layout(nrow=2)
 ```
-
-**Figure __** displays Plot 1, Plot2 and Plot 5 beneath the specific scatter plot of the scagnostics SPLOM that was used to identify the plot as interesting. Plot 1 was identifies as interesting as it returned high values  on both outlying and skewed. Intuitively, this would indicate that even after removing outliers, the data was still disproportionately spread out, a visual feature that we can see very clearly in Plot 1. Plot 2 scored very highly on all the association measures, which indicates a strong relationship between the two variables. The three association measures typically have strong correlation and scatter plots that stay within the large mass in the center have a linear relation, those that don't often have a non-linear relationship. The splines vs dcor plot tells us that there is a strong linear relationship between total posessions and disposals.  Total possessions is the number of times the player has the ball and disposals is the number of times the player gets rid of the ball legally, so the strong linear relation indicates the level of play, i.e. few mistakes are made in a professional league. Plot 5 an excellent example in what new information we can learn from a unique plot identified with scagnostics. This plot is high on striated2 and moderate to low on outlying, telling us most of the points will be at straight or right angles and a little spread out. If a specific sports statistic is related to position, we would see a relationship have a lower triangular structure similar to that of Plot 4, however this plot does not have a lower triangular structure, is has an L-shape. This means these statistics are not about position, but rather the physical abilities of the players. Hitouts measure the number of times the player punches the ball after the referee throws it back into play, bounces have to be done while running, and are typically done by fast players. The L-shape tells us that players who do one very rarely perform the other. The moderate spread along both of the statistics tells us these are both somewhat specialised skills, and the players who specialise in one do not specialise in the other, i.e. in AFL the tallest player in the team is rarely the fastest. These plots provide a clear example in the unique information gained using scagnostics as a tool in exploratory data analysis.
 
 ## Black hole mergers
 Physics data often contains multiple variables with highly non-linear pairwise relationships that often also have a large amount of clustering, which makes this type of data ideal for investigating the capability of the splines and clumpy2 scagnostics. Two scagnostics that's uses were not particularly visible in the AFLW example. Here we will use scagnostics to study a simulated dataset that contains posterior samples describing a gravitational waves signal from a black hole merger. The data contains 13 variables that describe _____(what event)___, the explanation of each can be found in the appendix. In this example looking at the complete SPLOM is still feasible, and could be used to identify several interesting scatterplots and the corresponding combination of variables. Most notably we can see non-linear and non-functional relations between pairs of variables, and we expect that these should stand out on the scagnostics measures as well.
