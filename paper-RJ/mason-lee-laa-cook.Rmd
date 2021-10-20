@@ -62,6 +62,8 @@ library(ggimg) #for the visual table
 library(ggstance) #for vertical dodge on plot
 library(fitzRoy) #for AFLW data
 library(gridExtra) #groups of static scatter plots
+
+options(digits=2) # for numerical printing
 ```
 
 # Introduction
