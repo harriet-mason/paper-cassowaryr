@@ -118,14 +118,15 @@ d1 + d2 + d3
 
 ## Graph-based scagnostics
 
-The nine scagnostics defined in *Scagnostic Distributions* are detailed below with an explanation, formula, and visualisation.  We will let *A*= alpha Hull *C*= convex hull, *M* = minimum spanning tree, and *s*= the scagnostic measure. Since some of the measures have some sample size dependence, we will let *w* be a constant that adjusts for that.  
+The nine scagnostics defined in *Scagnostic Distributions* are detailed below with an explanation, formula, and visualisation.  We will let $A=$ alpha Hull, $C=$ convex hull, $M$ = minimum spanning tree, and $s=$ the scagnostic measure. 
+Since some of the measures have a sample size dependence, $w$ is a parameter used to adjust for the sample size.  
 
-- **Convex:** Measure of how convex the shape of the data is. Computed as the ratio between the area of the alpha hull (A) and convex hull (C). Unlike the other scagnostic measures, a high value on convex does not correlate to an interesting scatter plot, rather it usually indicates a lack of relationship between the two variables.  
+- **Convex:** Measure of how convex the shape of the data is. Computed as the ratio between the area of the alpha hull ($A$) and convex hull ($C$). Unlike the other scagnostic measures, a high value on convex does not correlate to an interesting scatter plot, rather it usually indicates a lack of relationship between the two variables.  
 
 $$s_{convex}=w\frac{area(A)}{area(C)}$$  
 
 
-- **Skinny:** A measure of how "thin" the shape of the data is. It is calculated as the ratio between the area and perimeter of the alpha hull (A) with some normalisation such that 0 correspond to a perfect circle and values close to 1 indicate a skinny polygon.  
+- **Skinny:** A measure of how "thin" the shape of the data is. It is calculated as the ratio between the area and perimeter of the alpha hull ($A$) with some normalisation such that 0 correspond to a perfect circle and values close to 1 indicate a skinny polygon.  
 
 $$s_{skinny}= 1-\frac{\sqrt{4\pi area(A)}}{perimeter(A)}$$  
 
@@ -149,7 +150,7 @@ $$s_{skewed} = 1-w(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}})$$
 $$s_{sparse}= wq_{90}$$
 
 
-- **Clumpy:** This measure is used to detect clustering and is calculated through an iterative process. First an edge J is selected and removed from the MST. From the two spanning trees that are created by this break, we select the largest edge from the smaller tree (K). The length of this edge (K) is compared to the removed edge (J) giving a clumpy measure for this edge. This process is repeated for every edge in the MST and the final clumpy measure is the maximum of this value over all edges.  
+- **Clumpy:** This measure is used to detect clustering and is calculated through an iterative process. First an edge J is selected and removed from the MST. From the two spanning trees that are created by this break, we select the largest edge from the smaller tree ($K$). The length of this edge ($K$) is compared to the removed edge ($J$) giving a clumpy measure for this edge. This process is repeated for every edge in the MST and the final clumpy measure is the maximum of this value over all edges.  
 
 $$\max_{j}[1-\frac{\max_{k}[length(e_k)]}{length(e_j)}]$$  
 
@@ -168,7 +169,7 @@ $$s_{monotonic} = r^2_{spearman}$$
   
 The two additional scagnostics discussed by Katrin Grimm are described below.
 
-- **Splines:** Measures the functional non-linear dependence by fitting a penalised splines model on X using Y, and on Y using X. The variance of the residuals are scaled down by the axis so they are comparable, and finally the maximum is taken. Therefore the value will be closer to 1 if either relationship can be decently explained by a splines model.
+- **Splines:** Measures the functional non-linear dependence by fitting a penalised splines model on $X$ using $Y$, and on $Y$ using $X$. The variance of the residuals are scaled down by the axis so they are comparable, and finally the maximum is taken. Therefore the value will be closer to 1 if either relationship can be decently explained by a splines model.
 
 $$s_{splines}=\max_{i\in x,y}[1-\frac{Var(Residuals_{model~i=.})}{Var(i)}]$$
 
@@ -392,12 +393,11 @@ Figure \@ref(fig:striated_vtable) shows that while these two measures may seem s
 The scagnsotics need to be used and interpreted with the type of dataset you are working with in mind. For  if we are looking at a dataset that is discrete, a very low value on striated2 would indicate some strange relationship in the scatter plot. Since the old striated measure is specifically trying to find a continuous variable against a discrete variable, its highest values are also identified by the striated2. The lowest values on striated simply identify a plot where all the variables are at right angles, once again a measure of disceteness but one that is not identified by striated. Striated2 encapsulates both versions of discreteness in the values that get exactly a 1.
 
 #### Clumpy adjusted
+
 The issues that need to be addressed with the new clumpy measure are:
 
 1. It needs to consider more than 1 edge in its final measure to make the measure more robust
-
 2. The impact of the ratio between the long and short edges need to be weighted by the size of their clusters so the measure does not simply identify outliers
-
 3. It should not consider vertices that's adjacent angles form a straight line (to avoid identifying the angles striated identifies)
 
 Before we calculated a new clumpy measure, we looked into applying a different adjustment defined in the *Improving the robustness of scagnsotics* that is a robust version of the original clumpy measure [@robust]. This version of clumpy has been included in the package as ```clumpy_r``` however it is not included as an option in the higher level functions such as ```calc_scags()``` because its computation time is too long. This measure tries to build multiple clusters, each having their own clumpy value, and then returns the weighted sum, where each value is weighted by the number of observations in that cluster. This version of clumpy spreads the scatter plots more evenly between 0 and 1 and is more robust to outliers, however it does a poor job of ordering plots generally considered to be clumpy without the assistance of binning. Since this scagnostic cannot be used in large scale scagnostic calculations (such as those done on every pairwise combination of variables as is intended by the package) and it maintains the ordering issue from the original measure, it is not discussed here.

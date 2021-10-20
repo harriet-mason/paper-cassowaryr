@@ -1,0 +1,13 @@
+---
+title: "My original contributions and additional information"
+author:  Harriet Mason
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+- Format of thesis as pdf and html
+- Package is not accepted on CRAN, so instructions for CRAN installation will not work yet
+- Experimental paper format

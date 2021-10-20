@@ -160,10 +160,10 @@ tree (MST) (Figure \ref{fig:building-blocks2}).
 
 The nine scagnostics defined in \emph{Scagnostic Distributions} are
 detailed below with an explanation, formula, and visualisation. We will
-let \emph{A}= alpha Hull \emph{C}= convex hull, \emph{M} = minimum
-spanning tree, and \emph{s}= the scagnostic measure. Since some of the
-measures have some sample size dependence, we will let \emph{w} be a
-constant that adjusts for that.
+let \(A=\) alpha Hull, \(C=\) convex hull, \(M\) = minimum spanning
+tree, and \(s=\) the scagnostic measure. Since some of the measures have
+a sample size dependence, \(w\) is a parameter used to adjust for the
+sample size.
 
 \begin{itemize}
 \tightlist
@@ -500,6 +500,7 @@ The issues that need to be addressed with the new clumpy measure are:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
+\tightlist
 \item
   It needs to consider more than 1 edge in its final measure to make the
   measure more robust
@@ -589,19 +590,19 @@ stronger performance of clumpy2 is apparent in this visual table.
 \hypertarget{installation}{%
 \subsection{Installation}\label{installation}}
 
-The package can be installed using
+The package can be installed from CRAN using
 
 \begin{quote}
 \texttt{install.packages("cassowaryr")}
 \end{quote}
 
-from CRAN and using
+and from GitHub using
 
 \begin{quote}
 \texttt{remotes::install\_github("numbats/cassowaryr")}
 \end{quote}
 
-installs the development version.
+to install the development version.
 
 \hypertarget{web-site}{%
 \subsection{Web site}\label{web-site}}
