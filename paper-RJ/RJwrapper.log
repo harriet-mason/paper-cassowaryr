@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.10.5)  20 OCT 2021 22:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.10.21)  21 OCT 2021 00:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **RJwrapper.tex
 (./RJwrapper.tex
 LaTeX2e <2021-06-01> patch level 1
-L3 programming layer <2021-08-27> (c:/Users/harri/AppData/Roaming/TinyTeX/texmf
+L3 programming layer <2021-10-18> (c:/Users/harri/AppData/Roaming/TinyTeX/texmf
 -dist/tex/latex/base/report.cls
 Document Class: report 2021/02/12 v1.4n Standard LaTeX document class
 (c:/Users/harri/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/size10.clo
@@ -682,7 +682,7 @@ LaTeX Info: Redefining \cite on input line 694.
 )
 (c:/Users/harri/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/fancyvrb/fancyvrb.
 sty
-Package: fancyvrb 2021/08/12 v3.8 verbatim text (tvz,hv)
+Package: fancyvrb 2021/10/15 v3.9 verbatim text (tvz,hv)
 \FV@CodeLineNo=\count296
 \FV@InFile=\read3
 \FV@TabBox=\box62
@@ -829,7 +829,7 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 )
 (c:/Users/harri/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3backen
 d-pdftex.def
-File: l3backend-pdftex.def 2021-08-04 L3 backend support: PDF output (pdfTeX)
+File: l3backend-pdftex.def 2021-10-18 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count317
 \l__pdf_internal_box=\box67
 ) (./RJwrapper.aux)
@@ -970,7 +970,7 @@ LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 1
 (c:/Users/harri/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
 )
-<mason-lee-laa-cook_files/figure-latex/building-blocks2-1.pdf, id=146, 469.755p
+<mason-lee-laa-cook_files/figure-latex/building-blocks2-1.pdf, id=142, 469.755p
 t x 325.215pt>
 File: mason-lee-laa-cook_files/figure-latex/building-blocks2-1.pdf Graphic file
  (type pdf)
@@ -1030,7 +1030,7 @@ LaTeX Font Info:    Font shape `U/msb/m/n' will be
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 5.21004pt on input line 178.
 [2] [3 <./mason-lee-laa-cook_files/figure-latex/building-blocks2-1.pdf>]
-<mason-lee-laa-cook_files/figure-latex/Features plot-1.pdf, id=180, 469.755pt x
+<mason-lee-laa-cook_files/figure-latex/Features plot-1.pdf, id=176, 469.755pt x
  325.215pt>
 File: mason-lee-laa-cook_files/figure-latex/Features plot-1.pdf Graphic file (t
 ype pdf)
@@ -1038,7 +1038,7 @@ ype pdf)
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/Features plot-1.
 pdf  used on input line 316.
 (pdftex.def)             Requested size: 398.33858pt x 275.77405pt.
-<mason-lee-laa-cook_files/figure-latex/Visual Table-1.pdf, id=185, 469.755pt x 
+<mason-lee-laa-cook_files/figure-latex/Visual Table-1.pdf, id=181, 469.755pt x 
 325.215pt>
 File: mason-lee-laa-cook_files/figure-latex/Visual Table-1.pdf Graphic file (ty
 pe pdf)
@@ -1048,7 +1048,7 @@ df  used on input line 339.
 (pdftex.def)             Requested size: 398.33858pt x 275.77405pt.
 [4] [5 <./mason-lee-laa-cook_files/figure-latex/Features plot-1.pdf> <./mason-l
 ee-laa-cook_files/figure-latex/Visual Table-1.pdf>] [6]
-<mason-lee-laa-cook_files/figure-latex/Striated Vtable-1.pdf, id=249, 469.755pt
+<mason-lee-laa-cook_files/figure-latex/Striated Vtable-1.pdf, id=244, 469.755pt
  x 325.215pt>
 File: mason-lee-laa-cook_files/figure-latex/Striated Vtable-1.pdf Graphic file 
 (type pdf)
@@ -1057,7 +1057,7 @@ Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/Striated Vtable-
 1.pdf  used on input line 459.
 (pdftex.def)             Requested size: 398.33858pt x 275.77405pt.
 [7 <./mason-lee-laa-cook_files/figure-latex/Striated Vtable-1.pdf>]
-<mason-lee-laa-cook_files/figure-latex/Clumpy Vtable-1.pdf, id=277, 469.755pt x
+<mason-lee-laa-cook_files/figure-latex/Clumpy Vtable-1.pdf, id=272, 469.755pt x
  325.215pt>
 File: mason-lee-laa-cook_files/figure-latex/Clumpy Vtable-1.pdf Graphic file (t
 ype pdf)
@@ -1081,16 +1081,16 @@ Overfull \hbox (576.7259pt too wide) in paragraph at lines 752--763
  []
 
 [10]
-<mason-lee-laa-cook_files/figure-latex/Outlying test plot-1.pdf, id=322, 469.75
+<mason-lee-laa-cook_files/figure-latex/outlying-test-plot-1.pdf, id=318, 469.75
 5pt x 325.215pt>
-File: mason-lee-laa-cook_files/figure-latex/Outlying test plot-1.pdf Graphic fi
+File: mason-lee-laa-cook_files/figure-latex/outlying-test-plot-1.pdf Graphic fi
 le (type pdf)
-<use mason-lee-laa-cook_files/figure-latex/Outlying test plot-1.pdf>
-Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/Outlying test pl
+<use mason-lee-laa-cook_files/figure-latex/outlying-test-plot-1.pdf>
+Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/outlying-test-pl
 ot-1.pdf  used on input line 893.
 (pdftex.def)             Requested size: 398.33858pt x 275.77405pt.
-[11 <./mason-lee-laa-cook_files/figure-latex/Outlying test plot-1.pdf>]
-<mason-lee-laa-cook_files/figure-latex/AFLW-scatters-static-1.pdf, id=339, 469.
+[11]
+<mason-lee-laa-cook_files/figure-latex/AFLW-scatters-static-1.pdf, id=324, 469.
 755pt x 325.215pt>
 File: mason-lee-laa-cook_files/figure-latex/AFLW-scatters-static-1.pdf Graphic 
 file (type pdf)
@@ -1098,7 +1098,8 @@ file (type pdf)
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/AFLW-scatters-st
 atic-1.pdf  used on input line 950.
 (pdftex.def)             Requested size: 318.67207pt x 220.61726pt.
-<mason-lee-laa-cook_files/figure-latex/threeplot-static-1.pdf, id=340, 469.755p
+[12 <./mason-lee-laa-cook_files/figure-latex/outlying-test-plot-1.pdf>]
+<mason-lee-laa-cook_files/figure-latex/threeplot-static-1.pdf, id=342, 469.755p
 t x 325.215pt>
 File: mason-lee-laa-cook_files/figure-latex/threeplot-static-1.pdf Graphic file
  (type pdf)
@@ -1106,8 +1107,9 @@ File: mason-lee-laa-cook_files/figure-latex/threeplot-static-1.pdf Graphic file
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/threeplot-static
 -1.pdf  used on input line 971.
 (pdftex.def)             Requested size: 318.67207pt x 220.61726pt.
-[12 <./mason-lee-laa-cook_files/figure-latex/AFLW-scatters-static-1.pdf>]
-<mason-lee-laa-cook_files/figure-latex/bbh-scags-static-1.pdf, id=352, 867.24pt
+[13 <./mason-lee-laa-cook_files/figure-latex/AFLW-scatters-static-1.pdf> <./mas
+on-lee-laa-cook_files/figure-latex/threeplot-static-1.pdf>]
+<mason-lee-laa-cook_files/figure-latex/bbh-scags-static-1.pdf, id=358, 867.24pt
  x 289.08pt>
 File: mason-lee-laa-cook_files/figure-latex/bbh-scags-static-1.pdf Graphic file
  (type pdf)
@@ -1115,8 +1117,8 @@ File: mason-lee-laa-cook_files/figure-latex/bbh-scags-static-1.pdf Graphic file
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/bbh-scags-static
 -1.pdf  used on input line 1037.
 (pdftex.def)             Requested size: 398.33858pt x 132.7799pt.
-[13 <./mason-lee-laa-cook_files/figure-latex/threeplot-static-1.pdf>]
-<mason-lee-laa-cook_files/figure-latex/blackholes-1.pdf, id=364, 867.24pt x 578
+[14 <./mason-lee-laa-cook_files/figure-latex/bbh-scags-static-1.pdf>]
+<mason-lee-laa-cook_files/figure-latex/blackholes-1.pdf, id=370, 867.24pt x 578
 .16pt>
 File: mason-lee-laa-cook_files/figure-latex/blackholes-1.pdf Graphic file (type
  pdf)
@@ -1124,8 +1126,8 @@ File: mason-lee-laa-cook_files/figure-latex/blackholes-1.pdf Graphic file (type
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/blackholes-1.pdf
   used on input line 1076.
 (pdftex.def)             Requested size: 398.33858pt x 265.55983pt.
-[14 <./mason-lee-laa-cook_files/figure-latex/bbh-scags-static-1.pdf>]
-<mason-lee-laa-cook_files/figure-latex/timeseries-1.pdf, id=388, 867.24pt x 289
+[15 <./mason-lee-laa-cook_files/figure-latex/blackholes-1.pdf>]
+<mason-lee-laa-cook_files/figure-latex/timeseries-1.pdf, id=394, 867.24pt x 289
 .08pt>
 File: mason-lee-laa-cook_files/figure-latex/timeseries-1.pdf Graphic file (type
  pdf)
@@ -1133,8 +1135,7 @@ File: mason-lee-laa-cook_files/figure-latex/timeseries-1.pdf Graphic file (type
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/timeseries-1.pdf
   used on input line 1168.
 (pdftex.def)             Requested size: 398.33858pt x 132.7799pt.
-[15 <./mason-lee-laa-cook_files/figure-latex/blackholes-1.pdf>]
-<mason-lee-laa-cook_files/figure-latex/wbistatic-1.pdf, id=403, 867.24pt x 289.
+<mason-lee-laa-cook_files/figure-latex/wbistatic-1.pdf, id=397, 867.24pt x 289.
 08pt>
 File: mason-lee-laa-cook_files/figure-latex/wbistatic-1.pdf Graphic file (type 
 pdf)
@@ -1146,36 +1147,36 @@ Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/wbistatic-1.pdf
 \tf@brf=\write6
 \openout6 = `RJwrapper.brf'.
 
-[16 <./mason-lee-laa-cook_files/figure-latex/timeseries-1.pdf> <./mason-lee-laa
--cook_files/figure-latex/wbistatic-1.pdf>])
+[16 <./mason-lee-laa-cook_files/figure-latex/timeseries-1.pdf>] [17 <./mason-le
+e-laa-cook_files/figure-latex/wbistatic-1.pdf>])
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 1215.
+(Font)              using `T1/zi4/m/n' instead on input line 1212.
 
 LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
-(Font)              scaled to size 9.18004pt on input line 1215.
+(Font)              scaled to size 9.18004pt on input line 1212.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1225--1226
+Underfull \hbox (badness 10000) in paragraph at lines 1222--1223
 
  []
 
-) [17] [18] (./RJwrapper.aux)
+) [18] (./RJwrapper.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
-(rerunfilecheck)             Checksum: 06C5B546A17CE9AB8A64ABB22F9250A9;3420.
+(rerunfilecheck)             Checksum: 556CC9097751AD599C38F9FFCE6F3559;3323.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
-(rerunfilecheck)             Checksum: B53975962DAD4B6199341BB10C78F3D3;1238.
+(rerunfilecheck)             Checksum: 1F7241AF723C021CDD7E06713D1E2420;1238.
  ) 
 Here is how much of TeX's memory you used:
- 25493 strings out of 480559
- 463390 string characters out of 5901528
- 771260 words of memory out of 5000000
- 42212 multiletter control sequences out of 15000+600000
+ 25490 strings out of 480539
+ 463306 string characters out of 5901136
+ 772897 words of memory out of 5000000
+ 42233 multiletter control sequences out of 15000+600000
  447636 words of font info for 271 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 117i,12n,131p,777b,689s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 117i,12n,131p,777b,711s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/Users/harri/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/inconsolat
 a/i4-t1-0.enc}{c:/Users/harri/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvip
 s/base/8r.enc}<c:/Users/harri/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/pu
@@ -1190,10 +1191,10 @@ s/type1/public/mathpazo/fplmri.pfb><c:/Users/harri/AppData/Roaming/TinyTeX/texm
 f-dist/fonts/type1/urw/palatino/uplb8a.pfb><c:/Users/harri/AppData/Roaming/Tiny
 TeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb><c:/Users/harri/AppData/Roam
 ing/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (18 pages, 1983466 bytes).
+Output written on RJwrapper.pdf (18 pages, 1984761 bytes).
 PDF statistics:
- 554 PDF objects out of 1000 (max. 8388607)
- 436 compressed objects within 5 object streams
- 107 named destinations out of 1000 (max. 500000)
- 57577 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 549 PDF objects out of 1000 (max. 8388607)
+ 431 compressed objects within 5 object streams
+ 105 named destinations out of 1000 (max. 500000)
+ 57569 words of extra memory for PDF output out of 61914 (max. 10000000)
 

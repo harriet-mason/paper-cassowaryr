@@ -151,11 +151,7 @@ tree (MST) (Figure @ref(fig:building-blocks2)).
 
 \begin{Schunk}
 \begin{figure}
-<<<<<<< HEAD
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/building-blocks2-1} \caption[The building blocks for graph-based scagnostics]{The building blocks for graph-based scagnostics}(\#fig:building-blocks2)
-=======
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/building-blocks2-1} \caption[The building blocks for graph-based scagnostics]{The building blocks for graph-based scagnostics: (a) convex hull, (b) alpha hull and (c) minimal spanning tree. The convex hull is a convex shell around all the data points. The alphahull contains all the points but allows concavities better capturing some shapes, but it needs tuning. The minimal spanning tree connects all points once, and has a single chain connecting central points.}\label{fig:building-blocks2}
->>>>>>> d0dc828431fcbde2d1ff2c40f3c849ebc83328cd
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/building-blocks2-1} \caption[The building blocks for graph-based scagnostics]{The building blocks for graph-based scagnostics: (a) convex hull, (b) alpha hull and (c) minimal spanning tree. The convex hull is a convex shell around all the data points. The alphahull contains all the points but allows concavities better capturing some shapes, but it needs tuning. The minimal spanning tree connects all points once, and has a single chain connecting central points.}(\#fig:building-blocks2)
 \end{figure}
 \end{Schunk}
 
@@ -752,11 +748,8 @@ The main arguments of the calc\_scags function are shown in Table
 @ref(tab:calcfunc\_tb\_pdf).
 
 \begin{Schunk}
-\begin{table}
 
-\caption{\label{tab:calcfunc_tb_pdf}The main arguments for the calculate scagnostics function.}
-\centering
-\begin{tabular}[t]{l|l}
+\begin{tabular}{l|l}
 \hline
 argument & description\\
 \hline
@@ -767,7 +760,6 @@ x & numeric vector of y values.\\
 scags & collection of strings matching names of scagnostics to calculate: outlying, stringy, striated, striated2, striped, clumpy, clumpy2, sparse, skewed, convex, skinny, monotonic, splines, dcor. The default is to calculate all scagnostics.\\
 \hline
 \end{tabular}
-\end{table}
 
 \end{Schunk}
 
@@ -796,23 +788,13 @@ feature & outlying & clumpy2 & monotonic\\
 \hline
 barrier & 0.00 & 0.00 & 0.35\\
 \hline
-<<<<<<< HEAD
-clusters & 0.0551486 & 0.8340918 & 0.0343677\\
-=======
 clusters & 0.06 & 0.83 & 0.03\\
->>>>>>> d0dc828431fcbde2d1ff2c40f3c849ebc83328cd
 \hline
 discrete & 0.00 & 0.00 & 0.01\\
 \hline
-<<<<<<< HEAD
-disk & 0.0185229 & 0.2237189 & 0.0855451\\
-\hline
-gaps & 0.0000000 & 0.7499695 & 0.0572168\\
-=======
-disk & 0.02 & 0.40 & 0.09\\
+disk & 0.02 & 0.22 & 0.09\\
 \hline
 gaps & 0.00 & 0.75 & 0.06\\
->>>>>>> d0dc828431fcbde2d1ff2c40f3c849ebc83328cd
 \hline
 l-shape & 0.38 & 0.00 & 0.48\\
 \hline
@@ -822,27 +804,15 @@ nonlinear1 & 0.27 & 0.00 & 0.17\\
 \hline
 nonlinear2 & 0.00 & 0.00 & 0.81\\
 \hline
-<<<<<<< HEAD
-outliers & 0.0000000 & 0.0000000 & 0.7051628\\
-=======
-outliers & 0.00 & 0.52 & 0.71\\
->>>>>>> d0dc828431fcbde2d1ff2c40f3c849ebc83328cd
+outliers & 0.00 & 0.00 & 0.71\\
 \hline
 outliers2 & 0.59 & 0.00 & 0.06\\
 \hline
-<<<<<<< HEAD
-positive & 0.1380011 & 0.1805457 & 0.9206001\\
+positive & 0.14 & 0.18 & 0.92\\
 \hline
-ring & 0.0189650 & 0.3666103 & 0.0446935\\
+ring & 0.02 & 0.37 & 0.04\\
 \hline
-vlines & 0.0000000 & 0.1292846 & 0.0824344\\
-=======
-positive & 0.14 & 0.29 & 0.92\\
-\hline
-ring & 0.02 & 0.45 & 0.04\\
-\hline
-vlines & 0.00 & 0.17 & 0.08\\
->>>>>>> d0dc828431fcbde2d1ff2c40f3c849ebc83328cd
+vlines & 0.00 & 0.13 & 0.08\\
 \hline
 weak & 0.05 & 0.00 & 0.41\\
 \hline
@@ -893,11 +863,7 @@ features_toppairs <- features_scags %>%
 \hline
 feature & scag & value\\
 \hline
-<<<<<<< HEAD
-clusters & clumpy2 & 0.8340918\\
-=======
 clusters & clumpy2 & 0.83\\
->>>>>>> d0dc828431fcbde2d1ff2c40f3c849ebc83328cd
 \hline
 line & monotonic & 1.00\\
 \hline
@@ -920,15 +886,11 @@ some issues that allowed us to make meaningful changes to the
 definitions of the scagnostics and the implementation of the package.
 For example, several tests to check the outying scagnostic was working
 correctly illustrated some issues in the process of outlier removal,
-which is illustrated in Figure \ref{fig:outlying-test-plot}.
+which is illustrated in Figure @ref(fig:outlying-test-plot).
 
 \begin{Schunk}
 \begin{figure}
-<<<<<<< HEAD
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Outlying test plot-1} \caption[Outlying Test Plots]{Outlying Test Plots}(\#fig:Outlying test plot)
-=======
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/outlying-test-plot-1} \caption[Plots used for testing the 'outlying' scagnostic]{Plots used for testing the 'outlying' scagnostic.}\label{fig:outlying-test-plot}
->>>>>>> d0dc828431fcbde2d1ff2c40f3c849ebc83328cd
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/outlying-test-plot-1} \caption[Plots used for testing the 'outlying' scagnostic]{Plots used for testing the 'outlying' scagnostic.}(\#fig:outlying-test-plot)
 \end{figure}
 \end{Schunk}
 
@@ -1115,15 +1077,9 @@ Figure @ref(fig:blackholes).
 \end{figure}
 \end{Schunk}
 
-<<<<<<< HEAD
 \hypertarget{comparing-macroeconomic-and-microecnomic-time-series}{%
 \subsection{Comparing Macroeconomic and Microecnomic Time
 Series}\label{comparing-macroeconomic-and-microecnomic-time-series}}
-=======
-\hypertarget{collections-of-time-series}{%
-\subsection{Collections of time
-series}\label{collections-of-time-series}}
->>>>>>> d0dc828431fcbde2d1ff2c40f3c849ebc83328cd
 
 A potential application of scagnostics is to detect shape differences
 between groups. Commonly, classification focuses on differences in the
@@ -1185,23 +1141,23 @@ classification technique is beyond the scope of this research.
 \hline
 Var1 & Var2 & scags & macro\_value & micro\_value & scag\_dif\\
 \hline
-pacf5 & linearity & clumpy2 & 0.7830480 & 0.0000000 & 0.7830480\\
+pacf5 & linearity & clumpy2 & 0.78 & 0.00 & 0.78\\
 \hline
-longest\_flat\_spot & trend\_strength & convex & 0.1202349 & 0.6212495 & 0.5010146\\
+longest\_flat\_spot & trend\_strength & convex & 0.12 & 0.62 & 0.50\\
 \hline
-pacf5 & diff1\_acf1 & outlying & 0.3206680 & 0.7093774 & 0.3887095\\
+pacf5 & diff1\_acf1 & outlying & 0.32 & 0.71 & 0.39\\
 \hline
-curvature & trend\_strength & skewed & 0.6555525 & 0.8438398 & 0.1882874\\
+curvature & trend\_strength & skewed & 0.66 & 0.84 & 0.19\\
 \hline
-longest\_flat\_spot & trend\_strength & skinny & 0.6436844 & 0.3716400 & 0.2720444\\
+longest\_flat\_spot & trend\_strength & skinny & 0.64 & 0.37 & 0.27\\
 \hline
-acf1 & trend\_strength & sparse & 0.0370531 & 0.1081571 & 0.0711040\\
+acf1 & trend\_strength & sparse & 0.04 & 0.11 & 0.07\\
 \hline
-pacf5 & acf1 & splines & 0.8751372 & 0.0000000 & 0.8751372\\
+pacf5 & acf1 & splines & 0.88 & 0.00 & 0.88\\
 \hline
-longest\_flat\_spot & diff1\_acf1 & striated2 & 0.1290323 & 0.0645161 & 0.0645161\\
+longest\_flat\_spot & diff1\_acf1 & striated2 & 0.13 & 0.06 & 0.06\\
 \hline
-diff1\_acf1 & trend\_strength & stringy & 0.8421053 & 0.7272727 & 0.1148325\\
+diff1\_acf1 & trend\_strength & stringy & 0.84 & 0.73 & 0.11\\
 \hline
 \end{tabular}
 
@@ -1236,18 +1192,12 @@ pre-processing, there are 20 indicators for 79 countries.
 \end{figure}
 \end{Schunk}
 
-<<<<<<< HEAD
-\hypertarget{summary}{%
-\subsection{Summary}\label{summary}}
-
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
 
 \begin{verbatim}
 \end{verbatim}
 
-=======
->>>>>>> d0dc828431fcbde2d1ff2c40f3c849ebc83328cd
 \bibliography{mason-lee-laa-cook.bib}
 
 \address{%
