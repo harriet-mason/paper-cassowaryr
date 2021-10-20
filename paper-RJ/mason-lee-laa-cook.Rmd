@@ -62,6 +62,8 @@ library(ggimg) #for the visual table
 library(ggstance) #for vertical dodge on plot
 library(fitzRoy) #for AFLW data
 library(gridExtra) #groups of static scatter plots
+
+options(digits=2) # for numerical printing
 ```
 
 # Introduction
@@ -92,7 +94,7 @@ In order to capture the visual structure of the data, graph theory is used to ca
 
 - **MST:** the minimum spanning tree, i.e the smallest distance of branches that can be used to connect all the points. In the package it is calculated from the graph using the igraph package [@igraph].  
 
-```{r building-blocks2, width = 15, height = 5, out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics"}
+```{r building-blocks2, width = 15, height = 5, out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics: (a) convex hull, (b) alpha hull and (c) minimal spanning tree. The convex hull is a convex shell around all the data points. The alphahull contains all the points but allows concavities better capturing some shapes, but it needs tuning. The minimal spanning tree connects all points once, and has a single chain connecting central points.", layout = "l-body"}
 library(alphahull)
 data("features")
 nl <- features %>% filter(feature == "nonlinear2")
@@ -107,7 +109,7 @@ d2 <- draw_alphahull(nl$x, nl$y, clr="#00a800") +
   theme_void() +
   theme(aspect.ratio=1, axis.text = element_blank())
 d3 <- draw_mst(nl$x, nl$y) +
-  ggtitle("c. Min. span. tree") +
+  ggtitle("c. Minimal spanning tree") +
   xlab("") + ylab("") +
   theme_void() +
   theme(aspect.ratio=1, axis.text = element_blank())
@@ -187,6 +189,7 @@ knitr::include_graphics("figures/drawoutlying.png")
 ```
 
 ## Checking the scagnostics calculations 
+
 Once we have working functions that correctly calculate the scagnostics according to their definition, we can assess how well they identify the visual features of scatter plots. To test the packages ability to differentiate plots, we have creates a dataset called "features" (that is also in the Cassowaryr package) that contains a series of interesting and unique scatter plots which we can run our scagnsotics on.
 
 ```{r, Features plot, width = 150, height = 150, out.width = "100%", fig.cap = "The Scatter Plots of the Features Dataset"}
@@ -336,10 +339,10 @@ This plot gives a slight idea of the issues some of the scagnsotics face in thei
 
 Some of these measures primary issue is that they do not seem to range uniformly from 0 to 1. These measures still put the scatter plots in the correct order and so do not urgently need adjustments in order to work as intended. For other measures, removing the binning step completely changes the visual feature the measure is identifying. For that reason we will only adjust the measures which no longer make sense without binning, and keep the measures that have a warped distribution (but correctly order the scagnostics) as they are. With these issues in mind, we have defines and written several new scagnostics that work even without the pre-processing step of binning.
   
-### The Adjusted Scagnostics Measures
+### The adjusted scagnostics measures
 The measures that need an adjusted version are striated, sparse, skewed, and clumpy. The outlying and stringy measure could possibly be left as they are, as they are not as badly damaged by the removal of binning. 
 
-#### Striated Adjusted
+#### Striated adjusted
 The issues surrounding the striated scagnostic are:
   
 1. By only counting vertices with 2 edges, the set of vertices counted in this measure are a subset of those counted in stringy, thus the two meaures are highly correlated.
@@ -390,7 +393,7 @@ While these two measures may seem similar at a glace, there are a few minor thin
 
 The scagnsotics need to be used and interpreted with the type of dataset you are working with in mind. For  if we are looking at a dataset that is discrete, a very low value on striated2 would indicate some strange relationship in the scatter plot. Since the old striated measure is specifically trying to find a continuous variable against a discrete variable, its highest values are also identified by the striated2. The lowest values on striated simply identify a plot where all the variables are at right angles, once again a measure of disceteness but one that is not identified by striated. Striated2 encapsulates both versions of discreteness in the values that get exactly a 1.
 
-#### Clumpy Adjusted
+#### Clumpy adjusted
 The issues that need to be addressed with the new clumpy measure are:
 
 1. It needs to consider more than 1 edge in its final measure to make the measure more robust
@@ -490,11 +493,13 @@ datasets_tb <- tibble(dt = c("features",
 ```
 
 ```{r datasets_tb_html, eval=is_html_output()}
-datasets_tb %>% kable() 
+datasets_tb %>% 
+  kable(col.names = c("data", "explanation")) 
 ```
 
 ```{r datasets_tb_pdf, eval=is_latex_output()}
-datasets_tb %>% kable(format="latex") 
+datasets_tb %>% 
+  kable(format="latex", col.names = c("data", "explanation")) 
 ```
 
 
@@ -585,9 +590,9 @@ sumfuncs_tb %>% kable()
 sumfuncs_tb %>% kable(format="latex") 
 ```
 
-The main arguments of the calc_scags function are shown in **Table __**.
+The main arguments of the calc_scags function are shown in Table `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(tab:calcfunc_tb_html)', '\\@ref(tab:calcfunc_tb_pdf)'))`.
 
-```{r}
+```{r calc-scags-args}
 calcfunc_tb <- tibble(argument = c("y", "x", "scags"), 
                       description = c("numeric vector of x values.",
                                "numeric vector of y values.",
@@ -595,11 +600,11 @@ calcfunc_tb <- tibble(argument = c("y", "x", "scags"),
 ```
 
 ```{r calcfunc_tb_html, eval=is_html_output()}
-calcfunc_tb %>% kable() 
+calcfunc_tb %>% kable(caption="The main arguments for the calculate scagnostics function.") 
 ```
 
 ```{r calcfunc_tb_pdf, eval=is_latex_output()}
-calcfunc_tb %>% kable(format="latex") 
+calcfunc_tb %>% kable(format="latex", caption="The main arguments for the calculate scagnostics function.") 
 ```
 
 While the calc_scags function does not take in a tibble, it is designed to be seamlessly integrated into the tidy_data format. Currently if we specify the scagnostics in the summarise function it does not work correctly, however we can work around that with the filter option until it is fixed. Using the code below, we can calculate a specified list of scagnostics on the scatter plots from the features data, producing the output shown in **Table __**.
@@ -655,9 +660,9 @@ features_toppairs %>% kable(format="latex")
 ```
 
 ## Tests
-All the functions that calculate the scagnostic measures (all the measures that start with "sc") have tests written and implemented using the testthat package. They have all been compared to calculations completed by hand to ensure the difference in results from previous literature are due to other steps in the process, such as binning, and not a mistake in the write up of the code. These tests also illuminated some issues that allowed us to make meaningful changes to the definitions of the scagnostics and the implementation of the package. For example, several tests to check the outying scagnostic was working correctly illustrated some issues in the process of outlier removal, which is illustrated in **Figure __**. 
+All the functions that calculate the scagnostic measures (all the measures that start with "sc") have tests written and implemented using the testthat package. They have all been compared to calculations completed by hand to ensure the difference in results from previous literature are due to other steps in the process, such as binning, and not a mistake in the write up of the code. These tests also illuminated some issues that allowed us to make meaningful changes to the definitions of the scagnostics and the implementation of the package. For example, several tests to check the outying scagnostic was working correctly illustrated some issues in the process of outlier removal, which is illustrated in Figure \@ref(fig:outlying-test-plot). 
 
-```{r, Outlying test plot, width = 100, height = 50, out.width = "100%", fig.cap = "Outlying Test Plots"}
+```{r outlying-test-plot, width = 100, height = 50, out.width = "100%", fig.cap = "Plots used for testing the 'outlying' scagnostic."}
 x1<- c(0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1, 10, 10, 10)
 y1 <- c(0,0,1,2,2,3,4,4,5,6,6,7,8,8,9,10, 10, 7, 5)
 
@@ -892,8 +897,12 @@ bbh4 + bbh5 + bbh6 + bbh7 + bbh8 + bbh9 + plot_layout(nrow=2)
 
 
 
+<<<<<<< HEAD
 ## Comparing Macroeconomic and Microecnomic Time Series
 A potential application of scagnostics is to detect shape differences between groups. Commonly, classification focuses on differences in the means, or separations between groups, there are few techniques that focus on difference in shape. This difference in shape occurs when the variance patters between groups are different, and quadratic discriminant analysis (QDA), is a classical example of a method that takes this difference in variance into consideration. QDA assumes the distribution of each group is normal, and then draws a curved boundary between them that is furthest from each groups mean, but also respects that one group might have a larger elliptical variance-covariance than another group. While this method is useful when groups have different shapes, the technique is still limited by an assumption of normality. Scagnostics could be utilised in a similar fashion to QDA to identify irregular shape differences between.
+=======
+## Collections of time series
+>>>>>>> d0dc828431fcbde2d1ff2c40f3c849ebc83328cd
 
 This analysis compares the features of two large collections time series, and then tries to differentiate them using scagnostics. The goal of the comparison is to compare shapes, not necessarily centres of groups as might be done in LDA or other machine learning methods. The two groups chosen for comparison are macroeconomic and microeconomic series. The data is pulled from the self-organizing database of time-series data [@sots], using the compenginets R package [@compenginets]. Since the time series are different lengths, each is described by a set of time series features [chapter 4 of @fpp] using the feasts R package [@feasts].
 
@@ -1068,7 +1077,7 @@ mac + mic
 
 
 
-## World Bank Development Indicators
+## World bank development indicators
 
 The World Bank delivers a lot of development indicators [@WBI], for many countries and multiple years. The sheer volume of indicators, in addition to substantial missing values, makes a barrier to analysis. This is a good example to where scagnostics can be used to identify pairs of indicators with interesting relationships. 
 
@@ -1210,8 +1219,6 @@ subplot(ws1, ws2, ws3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.6)
 ```{r wbistatic, fig.cap="Most of the pairs of indicators exhibit outliersor are stringy. There is one pair that has clumpy as the highest value. There are numerous pairs that have a highest value on convex.", fig.height=4, fig.width=12, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
 w6 + w3a + w3b
 ```
-
-## Summary
 
 # Conclusion
 
