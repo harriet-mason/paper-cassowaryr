@@ -602,7 +602,7 @@ calcfunc_tb %>% kable(caption="The main arguments for the `calc_scags()` functio
 ```
 
 ```{r calcfunc_tb_pdf, eval=is_latex_output()}
-calcfunc_tb %>% kable(format="latex",caption="The main arguments for the `calc_scags()` function.") 
+calcfunc_tb %>% kable(format="latex", caption="The main arguments for the \verb#calc_scags()# function.") 
 ```
 
 While the calc_scags function does not take in a tibble, it is designed to be seamlessly integrated into the tidy_data format. Currently if we specify the scagnostics in the summarise function it does not work correctly, however we can work around that with the filter option until it is fixed. Using the code below, we can calculate a specified list of scagnostics on the scatter plots from the features data, producing the output shown in **Table __**.
