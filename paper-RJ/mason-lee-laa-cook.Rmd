@@ -400,7 +400,7 @@ The issues that need to be addressed with the new clumpy measure are:
 
 3. It should not consider vertices that's adjacent angles form a straight line (to avoid identifying the angles striated identifies)
 
-Before we calculated a new clumpy measure, we looked into applying a different adjustment defined in the *Improving the robustness of scagnsotics* that is a robust version of the original clumpy measure [@robust]. This version of clumpy has been included in the package as "clumpy_r" however it is not included as an option in the higher level functions such as calc_scags() because its computation time is too long. This measure tries to build multiple clusters, each having their own clumpy value, and then returns the weighted sum, where each value is weighted by the number of observations in that cluster. This version of clumpy spreads the scatter plots more evenly between 0 and 1 and is more robust to outliers, however it does a poor job of ordering plots generally considered to be clumpy without the assistance of binning. Since this scagnostic cannot be used in large scale scagnostic calculations (such as those done on every pairwise combination of variables as is intended by the package) and it maintains the ordering issue from the original measure, it is not discussed here.
+Before we calculated a new clumpy measure, we looked into applying a different adjustment defined in the *Improving the robustness of scagnsotics* that is a robust version of the original clumpy measure [@robust]. This version of clumpy has been included in the package as ```clumpy_r``` however it is not included as an option in the higher level functions such as ```calc_scags()``` because its computation time is too long. This measure tries to build multiple clusters, each having their own clumpy value, and then returns the weighted sum, where each value is weighted by the number of observations in that cluster. This version of clumpy spreads the scatter plots more evenly between 0 and 1 and is more robust to outliers, however it does a poor job of ordering plots generally considered to be clumpy without the assistance of binning. Since this scagnostic cannot be used in large scale scagnostic calculations (such as those done on every pairwise combination of variables as is intended by the package) and it maintains the ordering issue from the original measure, it is not discussed here.
 
 Therefore in order to fix the issues in the clumpy measure described above, we designed an adjusted clumpy measure, called clumpy2 in the package, and it is calculated as follows:
   
@@ -452,19 +452,15 @@ clumpy_visual_table
 
 ## Installation
 
-The package can be installed using 
+The package can be installed from CRAN using 
 
-```
-install.packages("cassowaryr")
-```
+> ```install.packages("cassowaryr")```
 
-from CRAN and using 
+and from GitHub using 
 
-```
-remotes::install_github("numbats/cassowaryr")
-```
+> ```remotes::install_github("numbats/cassowaryr")```
 
-installs the development version.
+to install the development version.
 
 ## Web site
 
@@ -569,30 +565,32 @@ drawfuncs_tb %>% kable(format="latex")
 
 
 ### Summary functions
-The summary functions are the perferred method for users to calculate scagnostics. The calc_scags function is supposed to be used on long data with the dplyr group_by and summarise functions. the calc_scags_wide functions is designed to take in a tibble of numerical variables and return the scagnostics on every possible pairwise scatter plot. Both functions return a tibble where each column is a scagnostics. These are the two main functions of the package. 
+The summary functions are the perferred method for users to calculate scagnostics. The ```calc_scags()``` function is supposed to be used on long data with the dplyr group_by and summarise functions. the ```calc_scags_wide()``` functions is designed to take in a tibble of numerical variables and return the scagnostics on every possible pairwise scatter plot. Both functions return a tibble where each column is a scagnostics. These are the two main functions of the package. 
 
 ```{r}
-sumfuncs_tb <- tibble(funcname = c("calc\\_scags",
-                             "calc_scags\\_wide"), 
+sumfuncs_tb <- tibble(funcname = c("calc_scags",
+                             "calc_scags_wide"), 
                       description = c("Compute selected scagnostics on subsets.",
                                "Compute scagnostics on all possible scatter plots for the given data."))
 ```
 
 ```{r sumfuncs_tb_html, eval=is_html_output()}
-sumfuncs_tb %>% kable(caption = "Cassowaryr Summary Functions", booktabs = T)  %>%
-  kable_styling(bootstrap_options ="striped", position = "center") %>%
+sumfuncs_tb %>% 
+  kable(caption = "Cassowaryr summary functions", booktabs = T)  %>%
+  kable_styling(bootstrap_options ="striped", 
+                position = "center") %>%
   column_spec(1, width = "2cm")
-
 ```
 
 ```{r dsumfuncs_tb_pdf, eval=is_latex_output()}
-sumfuncs_tb %>% kable(format="latex", caption = "Cassowaryr Summary Functions", booktabs = T)  %>%
-  kable_styling(latex_options = "striped", position = "center") %>%
+sumfuncs_tb %>% kable(format="latex", 
+  caption = "Cassowaryr summary functions", booktabs = T)  %>%
+  #kable_styling(latex_options = "striped", 
+  #             position = "center") %>%
   column_spec(1, width = "2cm")
-
 ```
 
-The main arguments of the calc_scags function are shown in Table `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(tab:calcfunc_tb_html)', '\\@ref(tab:calcfunc_tb_pdf)'))`.
+The main arguments of the ```calc_scags()``` function are shown in Table `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(tab:calcfunc_tb_html)', '\\@ref(tab:calcfunc_tb_pdf)'))`.
 
 ```{r calc-scags-args}
 calcfunc_tb <- tibble(argument = c("y", "x", "scags"), 

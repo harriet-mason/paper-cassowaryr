@@ -516,18 +516,18 @@ Before we calculated a new clumpy measure, we looked into applying a
 different adjustment defined in the \emph{Improving the robustness of
 scagnsotics} that is a robust version of the original clumpy measure
 \citep{robust}. This version of clumpy has been included in the package
-as ``clumpy\_r'' however it is not included as an option in the higher
-level functions such as calc\_scags() because its computation time is
-too long. This measure tries to build multiple clusters, each having
-their own clumpy value, and then returns the weighted sum, where each
-value is weighted by the number of observations in that cluster. This
-version of clumpy spreads the scatter plots more evenly between 0 and 1
-and is more robust to outliers, however it does a poor job of ordering
-plots generally considered to be clumpy without the assistance of
-binning. Since this scagnostic cannot be used in large scale scagnostic
-calculations (such as those done on every pairwise combination of
-variables as is intended by the package) and it maintains the ordering
-issue from the original measure, it is not discussed here.
+as \texttt{clumpy\_r} however it is not included as an option in the
+higher level functions such as \texttt{calc\_scags()} because its
+computation time is too long. This measure tries to build multiple
+clusters, each having their own clumpy value, and then returns the
+weighted sum, where each value is weighted by the number of observations
+in that cluster. This version of clumpy spreads the scatter plots more
+evenly between 0 and 1 and is more robust to outliers, however it does a
+poor job of ordering plots generally considered to be clumpy without the
+assistance of binning. Since this scagnostic cannot be used in large
+scale scagnostic calculations (such as those done on every pairwise
+combination of variables as is intended by the package) and it maintains
+the ordering issue from the original measure, it is not discussed here.
 
 Therefore in order to fix the issues in the clumpy measure described
 above, we designed an adjusted clumpy measure, called clumpy2 in the
@@ -591,15 +591,15 @@ stronger performance of clumpy2 is apparent in this visual table.
 
 The package can be installed using
 
-\begin{verbatim}
-install.packages("cassowaryr")
-\end{verbatim}
+\begin{quote}
+\texttt{install.packages("cassowaryr")}
+\end{quote}
 
 from CRAN and using
 
-\begin{verbatim}
-remotes::install_github("numbats/cassowaryr")
-\end{verbatim}
+\begin{quote}
+\texttt{remotes::install\_github("numbats/cassowaryr")}
+\end{quote}
 
 installs the development version.
 
@@ -724,32 +724,32 @@ draw\_mst & Drawing the MST.\\
 \subsubsection{Summary functions}\label{summary-functions}}
 
 The summary functions are the perferred method for users to calculate
-scagnostics. The calc\_scags function is supposed to be used on long
-data with the dplyr group\_by and summarise functions. the
-calc\_scags\_wide functions is designed to take in a tibble of numerical
-variables and return the scagnostics on every possible pairwise scatter
-plot. Both functions return a tibble where each column is a scagnostics.
-These are the two main functions of the package.
+scagnostics. The \texttt{calc\_scags()} function is supposed to be used
+on long data with the dplyr group\_by and summarise functions. the
+\texttt{calc\_scags\_wide()} functions is designed to take in a tibble
+of numerical variables and return the scagnostics on every possible
+pairwise scatter plot. Both functions return a tibble where each column
+is a scagnostics. These are the two main functions of the package.
 
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:dsumfuncs_tb_pdf}Cassowaryr Summary Functions}
+\caption{\label{tab:dsumfuncs_tb_pdf}Cassowaryr summary functions}
 \centering
 \begin{tabular}[t]{>{\raggedright\arraybackslash}p{2cm}l}
 \toprule
 funcname & description\\
 \midrule
-\cellcolor{gray!6}{calc\textbackslash{}\_scags} & \cellcolor{gray!6}{Compute selected scagnostics on subsets.}\\
-calc\_scags\textbackslash{}\_wide & Compute scagnostics on all possible scatter plots for the given data.\\
+calc\_scags & Compute selected scagnostics on subsets.\\
+calc\_scags\_wide & Compute scagnostics on all possible scatter plots for the given data.\\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \end{Schunk}
 
-The main arguments of the calc\_scags function are shown in Table
-@ref(tab:calcfunc\_tb\_pdf).
+The main arguments of the \texttt{calc\_scags()} function are shown in
+Table @ref(tab:calcfunc\_tb\_pdf).
 
 \begin{Schunk}
 \begin{table}
