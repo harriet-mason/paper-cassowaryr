@@ -51,3 +51,33 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Its position in the sky (three variables: ra, dec, distance), the time of the event (time), the black hole properties (masses m1 and m2; spin related properties alpha, theta_jn, chi_tot, chi_eff, chi_p), and additional nuisance parameters psi (polarisation angle) and phi_jl (orbital phase). 
 
+## World Bank Indicators
+
+- NV.AGR.TOTL.ZS	Agriculture, value added (% of GDP)
+- EN.ATM.CO2E.PC	CO2 emissions (metric tons per capita)
+- NE.EXP.GNFS.ZS	Exports of goods and services (% of GDP)
+- DT.DOD.DECT.CD	External debt stocks, total (DOD, current US$)
+- SP.DYN.TFRT.IN	Fertility rate, total (births per woman)
+- NY.GDP.MKTP.CD	GDP (current US$)
+- NY.GNP.MKTP.PP.CD	GNI, PPP (current international $)
+TX.VAL.TECH.MF.ZS	High-technology exports (% of manufactured exports)
+- SH.IMM.MEAS	Immunization, measles (% of children ages 12-23 months)
+- NE.IMP.GNFS.ZS	Imports of goods and services (% of GDP)
+- NV.IND.TOTL.ZS	Industry, value added (% of GDP)
+- SP.DYN.LE00.IN	Life expectancy at birth, total (years)
+- TG.VAL.TOTL.GD.ZS	Merchandise trade (% of GDP)
+- MS.MIL.XPND.GD.ZS	Use and distribution of these data are subject to Stockholm International Peace Research Institute (SIPRI) terms and conditions.	Military expenditure (% of GDP)
+- IT.CEL.SETS.P2	Mobile cellular subscriptions (per 100 people)
+- SH.DYN.MORT	Mortality rate, under-5 (per 1,000 live births)
+- SP.POP.TOTL	Population, total
+- SH.DYN.AIDS.ZS	Prevalence of HIV, total (% of population ages 15-49)
+- GC.TAX.TOTL.GD.ZS	Tax revenue (% of GDP)
+- EG.ELC.ACCS.ZS	Access to electricity (% of population)
+- NY.ADJ.NNTY.CD	Adjusted net national income (current US$)
+- SH.HIV.INCD.TL	Adults (ages 15+) and children (ages 0-14) newly infected with HIV
+- AG.LND.AGRI.ZS	Agricultural land (% of land area)
+- ER.FSH.AQUA.MT	Aquaculture production (metric tons)
+- AG.LND.ARBL.HA.PC	Arable land (hectares per person)
+- MS.MIL.TOTL.TF.ZS	Armed forces personnel (% of total labor force)
+- FB.BNK.CAPA.ZS	Bank capital to assets ratio (%)
+- SE.COM.DURS	Compulsory education, duration (years)
