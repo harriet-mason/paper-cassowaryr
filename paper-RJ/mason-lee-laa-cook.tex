@@ -131,7 +131,7 @@ the other objects that are used to calculate the scagnostics (except for
 monotonic, dcor and splines which use the raw data). The graph (screen
 object) is then used to construct the three key structures on which the
 scagnostics are based; the convex hull, alpha hull and minimum-spanning
-tree (MST) (Figure @ref(fig:building-blocks2)).
+tree (MST) (Figure \ref{fig:building-blocks2}).
 
 \begin{itemize}
 \item
@@ -151,7 +151,7 @@ tree (MST) (Figure @ref(fig:building-blocks2)).
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/building-blocks2-1} \caption[The building blocks for graph-based scagnostics]{The building blocks for graph-based scagnostics}(\#fig:building-blocks2)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/building-blocks2-1} \caption[The building blocks for graph-based scagnostics]{The building blocks for graph-based scagnostics}\label{fig:building-blocks2}
 \end{figure}
 \end{Schunk}
 
@@ -313,7 +313,7 @@ and unique scatter plots which we can run our scagnsotics on.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Features plot-1} \caption[The Scatter Plots of the Features Dataset]{The Scatter Plots of the Features Dataset}(\#fig:Features plot)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Features plot-1} \caption[The Scatter Plots of the Features Dataset]{The Scatter Plots of the Features Dataset}\label{fig:Features plot}
 \end{figure}
 \end{Schunk}
 
@@ -336,7 +336,7 @@ Therefore the current scagnostics will be assessed without binning
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Visual Table-1} \caption[The Features Scatterplots in a Visual Table]{The Features Scatterplots in a Visual Table}(\#fig:Visual Table)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Visual Table-1} \caption[The Features Scatterplots in a Visual Table]{The Features Scatterplots in a Visual Table}\label{fig:Visual Table}
 \end{figure}
 \end{Schunk}
 
@@ -456,7 +456,7 @@ the improvements on the measure.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Striated Vtable-1} \caption[A Visual Table Comparison of Striated and Striated 2]{A Visual Table Comparison of Striated and Striated 2}(\#fig:Striated Vtable)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Striated Vtable-1} \caption[A Visual Table Comparison of Striated and Striated 2]{A Visual Table Comparison of Striated and Striated 2}\label{fig:Striated Vtable}
 \end{figure}
 \end{Schunk}
 
@@ -566,7 +566,7 @@ to the original clumpy measure in the figure below.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Clumpy Vtable-1} \caption[A Visual Table Comparison of Clumpy and Clumpy 2]{A Visual Table Comparison of Clumpy and Clumpy 2}(\#fig:Clumpy Vtable)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Clumpy Vtable-1} \caption[A Visual Table Comparison of Clumpy and Clumpy 2]{A Visual Table Comparison of Clumpy and Clumpy 2}\label{fig:Clumpy Vtable}
 \end{figure}
 \end{Schunk}
 
@@ -890,7 +890,7 @@ which is illustrated in **Figure \_\_**.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Outlying test plot-1} \caption[Outlying Test Plots]{Outlying Test Plots}(\#fig:Outlying test plot)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Outlying test plot-1} \caption[Outlying Test Plots]{Outlying Test Plots}\label{fig:Outlying test plot}
 \end{figure}
 \end{Schunk}
 
@@ -1034,46 +1034,46 @@ values, as well as which plots stand out on the clumpy2 measure.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/bbh-scags-static-1} \caption[Pairs of scagnostics computed for the black hole mergers data]{Pairs of scagnostics computed for the black hole mergers data. XXX}(\#fig:bbh-scags-static)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/bbh-scags-static-1} \caption[Pairs of scagnostics computed for the black hole mergers data]{Pairs of scagnostics computed for the black hole mergers data. XXX}\label{fig:bbh-scags-static}
 \end{figure}
 \end{Schunk}
 
-Figure @ref(fig:bbh-scags-static) shows scatterplots of the computed
+Figure \ref{fig:bbh-scags-static} shows scatterplots of the computed
 scagnostics measures, where several combinations stand out. On the left
 plot we see three points with very low values of the convex measure and
 high values of skinny. These are all possible combinations containing
 the variables time, ra and dec, and the corresponding scatterplots are
-shown in the upper row of Figure @ref(fig:blackholes). Because of how a
+shown in the upper row of Figure \ref{fig:blackholes}. Because of how a
 single experiment observes the sky, there is an interesting pattern
 between these variables, with posterior samples being drawn along a
 non-linear band in this three-dimensional space.
 
 These variables also stand out in the middle plot of Figure
-@ref(fig:bbh-scags-static), where it is interesting to note that the
+\ref{fig:bbh-scags-static}, where it is interesting to note that the
 cominations with non-linear but functional relation (time vs ra and dec
 vs ra) have somewhat higher values in the splines measure compared to
 dcor. On the other hand dec vs time does not exhibit a functional
 relation, and consequently gets a higher dcor score compared to splines
 (with both measures still taking large values). This also happens for
 two other combinations: m1 vs m2 and chi\_p vs chi\_tot, which are shown
-in the bottom row (left and middle) of Figure @ref(fig:blackholes). We
+in the bottom row (left and middle) of Figure \ref{fig:blackholes}. We
 see that both these combinations show noisy linear relations.
 
 Another interesting aspect with this dataset is that there are several
 combinations that lead to visible separations between groups of points.
 It is thus an ideal testcase for our new implementation of clumpy2. The
-right plot in Figure @ref(fig:bbh-scags-static) shows clumpy vs clumpy2,
+right plot in Figure \ref{fig:bbh-scags-static} shows clumpy vs clumpy2,
 and reveals large differences between the two measures. In particular
 there are many combinations without visible clustering, that still score
 high on clumpy, but where clumpy2 is zero. On the other hand we can see
 that there are several combinations that do lead to visible separation
 between groups that stand out in terms of clumpy2, but not the original
 clumpy. One example is time vs alpha, shown in the bottom right plot of
-Figure @ref(fig:blackholes).
+Figure \ref{fig:blackholes}.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/blackholes-1} \caption[Features in the BBH data that stand out on several of the scagnostics measures (convey, skinny, splines and dcor), showing strong relations between variables including non-linear and non-functional dependencies]{Features in the BBH data that stand out on several of the scagnostics measures (convey, skinny, splines and dcor), showing strong relations between variables including non-linear and non-functional dependencies. The final example (time vs alpha) is expected to take high values in clumpy, but only stands out on the corrected clumpy2.}(\#fig:blackholes)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/blackholes-1} \caption[Features in the BBH data that stand out on several of the scagnostics measures (convey, skinny, splines and dcor), showing strong relations between variables including non-linear and non-functional dependencies]{Features in the BBH data that stand out on several of the scagnostics measures (convey, skinny, splines and dcor), showing strong relations between variables including non-linear and non-functional dependencies. The final example (time vs alpha) is expected to take high values in clumpy, but only stands out on the corrected clumpy2.}\label{fig:blackholes}
 \end{figure}
 \end{Schunk}
 
@@ -1105,25 +1105,25 @@ different lengths, each is described by a set of time series features
 
 For illustration, just a small set of features is examined but what
 emerges as interesting is the difference between curvature and trend
-strength (Figure @ref(fig:timeseries)). Microeconomic series tend to
+strength (Figure \ref{fig:timeseries}). Microeconomic series tend to
 have high values on trend strength, and a range of values on curvature.
 In comparison macroeconomic series tend to have near constant average
 values on curvature, and highly varied on trend strength.
 
 Plotting a few series actually suggests that the microeconomic series
 contain lots of micro structure, which might be what we should expect
-(Figure @ref(fig:tsplots)). Interestingly the trend strength seems to
+(Figure \ref{fig:tsplots}). Interestingly the trend strength seems to
 pick up the jaggies!
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/timeseries-1} \caption[Interesting differences between two groups of time series detected by scagnostics]{Interesting differences between two groups of time series detected by scagnostics. The time series are described by time series features, in order to handle different length series. Scagnostics are computed on these features separately for each set to explore for shape differences.}(\#fig:timeseries)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/timeseries-1} \caption[Interesting differences between two groups of time series detected by scagnostics]{Interesting differences between two groups of time series detected by scagnostics. The time series are described by time series features, in order to handle different length series. Scagnostics are computed on these features separately for each set to explore for shape differences.}\label{fig:timeseries}
 \end{figure}
 \end{Schunk}
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/tsplots-1} \caption[Selection of series from the two groups, macroeconomics and microeconomics]{Selection of series from the two groups, macroeconomics and microeconomics. The difference is in the jagginess of the two series.}(\#fig:tsplots)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/tsplots-1} \caption[Selection of series from the two groups, macroeconomics and microeconomics]{Selection of series from the two groups, macroeconomics and microeconomics. The difference is in the jagginess of the two series.}\label{fig:tsplots}
 \end{figure}
 \end{Schunk}
 
@@ -1146,141 +1146,12 @@ pre-processing, there are 20 indicators for 79 countries.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/wbistatic-1} \caption[Most of the pairs of indicators exhibit outliersor are stringy]{Most of the pairs of indicators exhibit outliersor are stringy. There is one pair that has clumpy as the highest value. There are numerous pairs that have a highest value on convex.}(\#fig:wbistatic)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/wbistatic-1} \caption[Most of the pairs of indicators exhibit outliersor are stringy]{Most of the pairs of indicators exhibit outliersor are stringy. There is one pair that has clumpy as the highest value. There are numerous pairs that have a highest value on convex.}\label{fig:wbistatic}
 \end{figure}
 \end{Schunk}
 
 \hypertarget{summary}{%
 \subsection{Summary}\label{summary}}
-
-\hypertarget{conclusion}{%
-\section{Conclusion}\label{conclusion}}
-
-\hypertarget{appendix}{%
-\section{Appendix}\label{appendix}}
-
-\hypertarget{aflw-data-variable-descriptions}{%
-\subsection{AFLW Data Variable
-Descriptions}\label{aflw-data-variable-descriptions}}
-
-\begin{itemize}
-\tightlist
-\item
-  \emph{timeOnGroundPercentage}: percentage of the game the player was
-  on the field.\\
-\item
-  \emph{goals}: the 6 points a team gets when the kick the ball between
-  the two big posts.\\
-\item
-  \emph{behinds}: the 1 point a team gets when they kick the ball
-  between the big post and small post.\\
-\item
-  \emph{kicks}: number of kicks done by the player in this game.\\
-\item
-  \emph{handballs}: number of handballs does by the player in the
-  game.\\
-\item
-  \emph{disposals}: the number kicks and handballs a player has.\\
-\item
-  \emph{marks}: total number of marks in the game (the ball travels more
-  than 15m and the player catches it without another player touching it
-  or it hitting the ground).\\
-\item
-  \emph{bounces}: the number of times a player bounced the ball in a
-  game. A player must bounce the ball if they travel more than 15m and
-  they can only bounce the ball once.\\
-\item
-  \emph{tackles}: Number of tackles performed by the player.\\
-\item
-  \emph{contestedPossessions}: the number of disposals a player has
-  under pressure, i.e if a player is getting tackled and the get a
-  handball or kick out of the scuffle.\\
-\item
-  \emph{uncontestedPossessions}: the number of disposals a player has
-  under no pressure where they have space and time to get rid of the
-  ball.\\
-\item
-  \emph{totalPossessions}: The total number of time the player has the
-  ball.
-\item
-  \emph{inside50s}: the number of times the player has the ball within
-  the 50m arc around the oponents goals.\\
-\item
-  \emph{marksInside50}: the number of marks a player gets within the 50m
-  arc around the oponents goals.\\
-\item
-  \emph{contestedMarks}: the number of marks a player has under
-  pressure.
-\item
-  \emph{hitouts}: this is how many times a player or team taps or
-  punching the ball from a stoppage.
-\item
-  \emph{onePercenters}: all the things a player can do without
-  registering a disposal. Eg. Spoils (punching the ball to stop someone
-  from marking it), Shepparding (blocking for a teammate), smothering.\\
-  \emph{disposalEfficiency}: a measure of how well a player disposes of
-  the ball. E.g. if a player kicks or handballs to the opposition a lot,
-  they will have a low disposal efficiency percentage.\\
-\item
-  \emph{clangers}: this is how many times a player or team dispose of
-  the ball and it results in a turnover to the other team.\\
-\item
-  \emph{freesFor}: this player was awarded a free kick.\\
-\item
-  \emph{freesAgainst}: this player caused a free kick to be awarded to
-  the other team.\\
-\item
-  \emph{dreamTeamPoints}: this is fantasy football scoring points.\\
-\item
-  \emph{rebound50s}: how many times the player exits the ball out of
-  their defence 50m arc.\\
-\item
-  \emph{goalAssists}: number of times the player gave the pass
-  immediately before the player that scored a goal.
-\item
-  \emph{goalAccuracy}: percentage ratio of the number of goals kicked to
-  the number of goal attempts.\\
-\item
-  \emph{turnovers}: this players disposal caused a turnover (the ball
-  touches the ground and the other team get it).\\
-\item
-  \emph{intercepts}: number of times this player intercepts the disposal
-  of the other team.
-\item
-  \emph{tacklesInside50}: number of tackles performed by this player
-  within their defence 50m arc.\\
-\item
-  \emph{shotsAtGoal}: number of total shots at goal for this player (sum
-  of goals, behinds and misses)
-\item
-  \emph{scoreInvolvements}: number of times the player was involved in a
-  passage of play leading up to a goal.
-\item
-  \emph{metresGained}: how far a player has been able to advance the
-  ball without turning it over.\\
-\item
-  \emph{clearances.centreClearances}: this is the clearance from the
-  centre bounce after a goal or at the start of a quarter
-\item
-  \emph{clearances.stoppageClearances}: all the clearance from stoppages
-  around the ground
-\item
-  \emph{clearances.totalClearances}: how many time a player or team
-  clears the ball from a stoppage or from the centre
-\end{itemize}
-
-\hypertarget{black-hole-merger-data-description}{%
-\subsection{Black Hole Merger Data
-Description}\label{black-hole-merger-data-description}}
-
-its position in the sky (three variables: ra, dec, distance), the time
-of the event (time), the black hole properties (masses m1 and m2; spin
-related properties alpha, theta\_jn, chi\_tot, chi\_eff, chi\_p), and
-additional nuisance parameters psi (polarisation angle) and phi\_jl
-(orbital phase).
-
-\begin{verbatim}
-\end{verbatim}
 
 \bibliography{mason-lee-laa-cook.bib}
 

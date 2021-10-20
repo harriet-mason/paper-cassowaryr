@@ -1,0 +1,53 @@
+---
+title: "Supplementary Material for 'Teaching Computers to See Patterns in Scatterplots with Scagnostics'"
+author:  Harriet Mason, Stuart Lee, Ursula Laa, Dianne Cook
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Data dictionaries
+
+## AFLW 
+
+- *timeOnGroundPercentage*: percentage of the game the player was on the field.  
+- *goals*: the 6 points a team gets when the kick the ball between the two big posts.  
+- *behinds*: the 1 point a team gets when they kick the ball between the big post and small post.  
+- *kicks*: number of kicks done by the player in this game.  
+- *handballs*: number of handballs does by the player in the game.  
+- *disposals*: the number kicks and handballs a player has.  
+- *marks*: total number of marks in the game (the ball travels more than 15m and the player catches it without another player touching it or it hitting the ground).  
+- *bounces*: the number of times a player bounced the ball in a game. A player must bounce the ball if they travel more than 15m and they can only bounce the ball once.  
+- *tackles*: Number of tackles performed by the player.  
+- *contestedPossessions*: the number of disposals a player has under pressure, i.e if a player is getting tackled and the get a handball or kick out of the scuffle.  
+- *uncontestedPossessions*: the number of disposals a player has under no pressure where they have space and time to get rid of the ball.  
+- *totalPossessions*: The total number of time the player has the ball. 
+- *inside50s*: the number of times the player has the ball within the 50m arc around the oponents goals.  
+- *marksInside50*: the number of marks a player gets within the 50m arc around the oponents goals.  
+- *contestedMarks*: the number of marks a player has under pressure.
+- *hitouts*: this is how many times a player or team taps or punching the ball from a stoppage.
+- *onePercenters*: all the things a player can do without registering a disposal. Eg. Spoils (punching the ball to stop someone from marking it), Shepparding (blocking for a teammate), smothering.  
+*disposalEfficiency*: a measure of how well a player disposes of the ball. E.g. if a player kicks or handballs to the opposition a lot, they will have a low disposal efficiency percentage.   
+- *clangers*: this is how many times a player or team dispose of the ball and it results in a turnover to the other team.  
+- *freesFor*: this player was awarded a free kick.  
+- *freesAgainst*:  this player caused a free kick to be awarded to the other team.  
+- *dreamTeamPoints*: this is fantasy football scoring points.  
+- *rebound50s*: how many times the player exits the ball out of their defence 50m arc.  
+- *goalAssists*: number of times the player gave the pass immediately before the player that scored a goal.
+- *goalAccuracy*: percentage ratio of the number of goals kicked to the number of goal attempts.  
+- *turnovers*: this players disposal caused a turnover (the ball touches the ground and the other team get it).  
+- *intercepts*: number of times this player intercepts the disposal of the other team.
+- *tacklesInside50*: number of tackles performed by this player within their defence 50m arc.  
+- *shotsAtGoal*: number of total shots at goal for this player (sum of goals, behinds and misses)
+- *scoreInvolvements*: number of times the player was involved in a passage of play leading up to a goal.
+- *metresGained*:  how far a player has been able to advance the ball without turning it over.  
+- *clearances.centreClearances*: this is the clearance from the centre bounce after a goal or at the start of a quarter
+- *clearances.stoppageClearances*: all the clearance from stoppages around the ground
+- *clearances.totalClearances*: how many time a player or team clears the ball from a stoppage or from the centre
+
+## Black Hole Merger 
+
+Its position in the sky (three variables: ra, dec, distance), the time of the event (time), the black hole properties (masses m1 and m2; spin related properties alpha, theta_jn, chi_tot, chi_eff, chi_p), and additional nuisance parameters psi (polarisation angle) and phi_jl (orbital phase). 
+
