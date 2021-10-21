@@ -858,7 +858,7 @@ used \texttt{calc\_scags()} wide to generate pairs of variables.
 
 \begin{Schunk}
 \begin{Sinput}
-featurestoppairs <- features_scags %>% 
+features_toppairs <- features_scags %>% 
   pivot_longer(!feature, names_to = "scag", values_to = "value") %>%
   arrange(desc(value)) %>% 
   group_by(scag) %>%
@@ -1212,12 +1212,38 @@ pre-processing, there are 20 indicators for 79 countries.
 
 Scagnostics are a useful tool to identify the visual features in scatter
 plots. By building upon the earlier work, we have successfully
-implemented previously defined scagnostics into the cassowaryr package,
-and adjusted some of them so they continue to work without a
-pre-processing binning step.
+implemented previously defined scagnostics into the \emph{cassowaryr}
+package, and adjusted some of them so they continue to work without a
+pre-processing binning step. The package is shown to work, with details
+on its functions, the testing process and its possible applications. We
+displayed these applications by giving four examples. The first, AFLW
+was designed to show the general use of the \emph{cassowaryr} package,
+how to best use scagnostics to find unique scatter plots and what
+information we can find from understanding
 
 The greatest limitation in this project was the 1 year time limit on the
-research.
+research. When the presenting the research proposal, I thought there
+would be time to code up all the original scagnositcs, fix any issues
+with them, implement binning as an option, and have time left over to
+create scagnostics completely of my own design. This clearly did not
+occur. Ultimately coding up the previous scagnostics was more time
+consuming than I originally thought it would be, expecially because
+there was a fair bit of room for interpretation on some of the
+scagnostics. For example, skinny and convex do no specify what to do in
+the event the alphahull has no area (this occurs when the data is on a
+perfect straight line), and so we used intuition to set them to 1 and 0
+respectively. Additionally, a large portion of the project was invisible
+to me at the outset, such as the testing to ensure the scagnostics were
+working according to definition, rounds of debugging, and meeting CRAN
+requirements. These elements produced very little output but were
+required for the rigour of the project. On top of this, to reduce
+dependencies most of the functions were written only using base R, which
+made the project more challenging. For these reasons, the software
+aspect of this thesis narrowed in scope throughtout the year, however
+the number of examples and applications increased, as we recognised new
+ways the scagnostics could be used throughout the year. Ultimately the
+final project is significantly different to its original goals, but it
+contains an equal amount of work.
 
 There is a large amount of future work that could build upon this
 research. To start with, the distribution of the scagnostics have been
