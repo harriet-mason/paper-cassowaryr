@@ -564,7 +564,8 @@ drawfuncs_tb %>% kable(format="latex")
 ```
 
 
-### Summary functions
+### Calculate functions
+
 The summary functions are the perferred method for users to calculate scagnostics. The ```calc_scags()``` function is supposed to be used on long data with the dplyr group_by and summarise functions. the ```calc_scags_wide()``` functions is designed to take in a tibble of numerical variables and return the scagnostics on every possible pairwise scatter plot. Both functions return a tibble where each column is a scagnostics. These are the two main functions of the package. 
 
 ```{r}
@@ -604,10 +605,12 @@ calcfunc_tb %>% kable(caption="The main arguments for `calc_scags()`.")
 ```
 
 ```{r calcfunc-tb-pdf, eval=is_latex_output()}
-calcfunc_tb %>% kable(format="latex", caption="The main arguments for calc\\_scags().") 
+calcfunc_tb %>% kable(format="latex", caption="The main arguments for calc\\_scags().", escape=FALSE) 
 ```
 
-While the ```calc_scags()``` function does not take in a tibble, it is designed to be seamlessly integrated into the tidy data work flow. Currently if we specify the scagnostics in the summarise function it does not work correctly, however we can work around that with the filter option until it is fixed. Using the code below, we can calculate a specified list of scagnostics on the scatter plots from the features data, producing the output shown in **Table**.
+### Making summaries
+
+While the ```calc_scags()``` function does not take in a tibble, it is designed to be seamlessly integrated into the tidy data work flow. Currently if we specify the scagnostics in the summarise function it does not work correctly, however we can work around that with the filter option until it is fixed. Using the code below, we can calculate a specified list of scagnostics on the scatter plots from the features data, producing the output shown in **Table __**.
 
 ```{r calcscags-example, echo=TRUE}
 features_scags <- features %>%
@@ -850,11 +853,11 @@ bbh3 <- ggplot(bbh_scags, aes(x=clumpy, y=clumpy2,
   theme(aspect.ratio=1, axis.text = element_blank())
 ```
 
-```{r bbh-scags-interactive, fig.cap="Selected pairs of scagnostics computed for the black hole mergers data. Groups of parameter combinations can be seen to stand out in the left plot (high on skinny and low on convex) and in the middle plot (high on both dcor and splines). The plot on the right shows clumpy vs clumpy2, where we can see the big impact of the correction for this dataset.", layout = "l-body", eval=knitr::is_html_output()}
+```{r bbh-scags-interactive, fig.cap="Selected pairs of scagnostics computed for the black hole mergers data. Groups of parameter combinations can be seen to stand out in the left plot (high on skinny and low on convex) and in the middle plot (high on both dcor and splines). The plot on the right shows clumpy vs clumpy2, where we can see the big impact of the correction for this dataset.", layout = "l-body", out.width="100%", eval=knitr::is_html_output()}
 gs1 <- ggplotly(bbh1, width=700, height=600)
 gs2 <- ggplotly(bbh2, width=700, height=600)
 gs3 <- ggplotly(bbh3, width=700, height=600)
-subplot(gs1, gs2, gs3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.45)
+subplot(gs1, gs2, gs3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 1)
 ```
 
 ```{r bbh-scags-static, fig.cap="Pairs of scagnostics computed for the black hole mergers data. XXX", fig.width = 12, fig.height = 4, out.width="100%", eval=knitr::is_latex_output()}
