@@ -49,7 +49,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Black Hole Merger 
 
-Its position in the sky (three variables: ra, dec, distance), the time of the event (time), the black hole properties (masses m1 and m2; spin related properties alpha, theta_jn, chi_tot, chi_eff, chi_p), and additional nuisance parameters psi (polarisation angle) and phi_jl (orbital phase). 
+- **position** in the sky is characterized by three variables: ra (right ascension), dec (declination) and distance
+- **time** of the event: time
+- **mass** of the two black holes: m1, m2 (with m1 > m2)
+- **spin** related properties: angles alpha, theta_jn, chi_tot, chi_eff, chi_p
+- **polarisation angle**: psi
+- **orbital phase**: phi_jl
+
+For a detailed description including a diagram explaining the different angles describing the spin we refer to @Smith:2016qas.
 
 ## World Bank Indicators
 
