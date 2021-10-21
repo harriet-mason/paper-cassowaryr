@@ -213,7 +213,7 @@ ggplot(features, aes(x,y,colour=feature))+
 
 Figure \@ref(fig:visual-table) shows scatter plots from the features data aligned on a 0 to 1 scale for each scagnostic. This visualisation displays a low, high, and moderate value for each scagnostic, and is useful to see how the scagnostics order data that typifies their visual feature. This plot gives a slight idea of the issues some of the scagnostics face in their current state. The scagnostics are supposed to range from 0 to 1 however in some cases the values are so compressed that a moderate value would not fit, indicating that the scagnostics do not work quite as intended. The scagnostics based upon the convex hull (i.e. skinny and convex) work fine, as do the association measures such as montonic, dcor and splines. The main issue comes from the measures based on the MST. We suspect the reason for these warped distributions is the removal of binning as a preliminary step in calculating the scagnostics. We wanted the package to have binning as an optional method, considering choices in binning can lead to bias as noted in @scagdist or unreproducible results as noted in @robust. Therefore the current scagnostics will be assessed without binning.
 
-```{r scatterplots_as_images,  include=FALSE, eval=FALSE}
+```{r scatterplots-as-images,  include=FALSE, eval=FALSE}
 #set theme so all scatter plots in table match
 plot_theme <-  theme_classic() + #theme_minimal() + 
   theme(aspect.ratio=1, axis.title=element_blank(), axis.text = element_blank(), 
@@ -607,7 +607,7 @@ calcfunc_tb %>% kable(caption="The main arguments for `calc_scags()`.")
 calcfunc_tb %>% kable(format="latex", caption="The main arguments for calc\\_scags().") 
 ```
 
-While the ```calc_scags()``` function does not take in a tibble, it is designed to be seamlessly integrated into the tidy data work flow. Currently if we specify the scagnostics in the summarise function it does not work correctly, however we can work around that with the filter option until it is fixed. Using the code below, we can calculate a specified list of scagnostics on the scatter plots from the features data, producing the output shown in **Table __**.
+While the ```calc_scags()``` function does not take in a tibble, it is designed to be seamlessly integrated into the tidy data work flow. Currently if we specify the scagnostics in the summarise function it does not work correctly, however we can work around that with the filter option until it is fixed. Using the code below, we can calculate a specified list of scagnostics on the scatter plots from the features data, producing the output shown in **Table**.
 
 ```{r calcscags-example, echo=TRUE}
 features_scags <- features %>%
@@ -616,32 +616,32 @@ features_scags <- features %>%
   select(c(feature, outlying, clumpy2, monotonic))
 ```
 
-```{r features_scags_html, eval=is_html_output()}
+```{r featuresscags-html, eval=is_html_output()}
 features_scags %>% kable() 
 ```
 
-```{r features_scags_pdf, eval=is_latex_output()}
+```{r featuresscags-pdf, eval=is_latex_output()}
 features_scags %>% kable(format="latex") 
 ```
 
-We are also considering an additional two summary functions that could be introduced to the package. While the code required to write them is simple and easily performed by the user, having them as ready functions in the package would help guide users to use the package most effectively. The two additional functions that have not yet been implemented into the package are calc_topscacs and calc_toppairs which are described in **table__**.
+We are also considering an additional two summary functions that could be introduced to the package. While the code required to write them is simple and easily performed by the user, having them as ready functions in the package would help guide users to use the package most effectively. The two additional functions that have not yet been implemented into the package are ```calc_topscacs()``` and ```calc_toppairs()``` which are described in **table**.
 
 ```{r}
-exsumfuncs_tb <- tibble(func_name = c("calc_topscacs",
-                             "calc_toppairs"), 
+exsumfuncstb <- tibble(func_name = c("calc\\_topscacs",
+                             "calc\\_toppairs"), 
                       description = c("Return the top scagnostic value for each pair of variables",
                                "Return the top pair of variables for each scagnostic"))
 ```
 
-```{r exsumfuncs_tb_html, eval=is_html_output()}
-exsumfuncs_tb %>% kable() 
+```{r exsumfuncstb-html, eval=is_html_output()}
+exsumfuncstb %>% kable() 
 ```
 
-```{r exsumfuncs_tb_pdf, eval=is_latex_output()}
-exsumfuncs_tb %>% kable(format="latex") 
+```{r exsumfuncstb-pdf, eval=is_latex_output()}
+exsumfuncstb %>% kable(format="latex") 
 ```
 
-The code for both are simple, but an example of how to calculate calc_toppairs with its output will be shown here. In this case it is the top groups, but the main idea is the same as if we had used calc_scags wide to generate pairs of variables.
+The code for both are simple, but an example of how to calculate ```calc_toppairs()``` with its output will be shown here. In this case it is the top groups, but the main idea is the same as if we had used ```calc_scags()``` wide to generate pairs of variables.
 
 ```{r, echo=TRUE}
 features_toppairs <- features_scags %>% 
@@ -651,18 +651,18 @@ features_toppairs <- features_scags %>%
   slice_head(n=1)
 ```
 
-```{r features_toppairs_html, eval=is_html_output()}
+```{r features-toppairs-html, eval=is_html_output()}
 features_toppairs %>% kable() 
 ```
 
-```{r features_toppairs_pdf, eval=is_latex_output()}
+```{r features-toppairs-pdf, eval=is_latex_output()}
 features_toppairs %>% kable(format="latex") 
 ```
 
 ## Tests
 All the functions that calculate the scagnostic measures (all the measures that start with "sc") have tests written and implemented using the testthat package. They have all been compared to calculations completed by hand to ensure the difference in results from previous literature are due to other steps in the process, such as binning, and not a mistake in the write up of the code. These tests also illuminated some issues that allowed us to make meaningful changes to the definitions of the scagnostics and the implementation of the package. For example, several tests to check the outying scagnostic was working correctly illustrated some issues in the process of outlier removal, which is illustrated in Figure \@ref(fig:outlying-test-plot). 
 
-Figure \@ref(fig:outlying-test-plot) shows the an example of a simulated test set, combined with the associated MST. When creating this test data set, we assumed the MST would connect via the red line, but instead the MST connected via the long black line. The difference between these choices is essentially random, they are the exact same length, but it has significant implications for the value returned by the outlying scagnostic. This test was designed to check the outlier removal process for internal outliers, point 1 should have been identified as an internal outlier which means both its edges were considered in the calculation of outlying, and points 2 and 3 are too close to each other for either to fulfill the outlying definition, so they are left alone. Using the draw_mst function when the test failled showed the issue was an esentially random desicionin the MST construction. If the red line was used to construct the MST, both the red dashed line, and the line connecting point 1 to point 2 would be included in the outlying scagnostic calcuation, in the actual calculation it was only the edge between points 1 and 2, giving a significantly smaller value on the the outlying scagnostic. This shows that even the scagnostics that work reliably well and did not need significant adjustments are still succeptible to arbitrarily large changes resulting from seemingly small changes in the visual structure of the scatter plot. 
+Figure \@ref(fig:outlying-test-plot) shows the an example of a simulated test set, combined with the associated MST. When creating this test data set, we assumed the MST would connect via the red line, but instead the MST connected via the long black line. The difference between these choices is essentially random, they are the exact same length, but it has significant implications for the value returned by the outlying scagnostic. This test was designed to check the outlier removal process for internal outliers, point 1 should have been identified as an internal outlier which means both its edges were considered in the calculation of outlying, and points 2 and 3 are too close to each other for either to fulfill the outlying definition, so they are left alone. Using the ```draw_mst()``` function when the test failled showed the issue was an esentially random desicionin the MST construction. If the red line was used to construct the MST, both the red dashed line, and the line connecting point 1 to point 2 would be included in the outlying scagnostic calcuation, in the actual calculation it was only the edge between points 1 and 2, giving a significantly smaller value on the the outlying scagnostic. This shows that even the scagnostics that work reliably well and did not need significant adjustments are still succeptible to arbitrarily large changes resulting from seemingly small changes in the visual structure of the scatter plot. 
 
 ```{r outlying-test-plot, width = 100, height = 50, out.width = "80%", fig.cap = "Plot of simulated data used for testing the 'outlying' scagnostic. The left plot shows the raw data, while the right plot presents the MST generated on that data. The edges that make it into the MST can be random and also have serious implications for outlier scagnostic. If the red edge is in the MST rather than the black edge that connects to 3, the outlying value on this plot is much higher."}
 x1<- c(0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1, 10, 10, 10)
@@ -817,7 +817,7 @@ subplot(ggplotly(s1), ggplotly(s2), ggplotly(s5), ggplotly(p1), ggplotly(p2), gg
 ```
 
 ## Black hole mergers
-Physics data often contains multiple variables with highly non-linear pairwise relationships that often also have a large amount of clustering, which makes this type of data ideal for investigating the capability of the splines and clumpy2 scagnostics. Two scagnostics that's uses were not particularly visible in the AFLW example. Here we will use scagnostics to study a simulated dataset that contains posterior samples describing a gravitational waves signal from a black hole merger. The data contains 13 variables that describe _____(what event)___, the explanation of each can be found in the appendix. In this example looking at the complete SPLOM is still feasible, and could be used to identify several interesting scatterplots and the corresponding combination of variables. Most notably we can see non-linear and non-functional relations between pairs of variables, and we expect that these should stand out on the scagnostics measures as well.
+Physics data often contains multiple variables with highly non-linear pairwise relationships that often also have a large amount of clustering, which makes this type of data ideal for investigating the capability of the splines and clumpy2 scagnostics. Two scagnostics that's uses were not particularly visible in the AFLW example. Here we will use scagnostics to study a simulated dataset that contains posterior samples describing a gravitational waves signal from a black hole merger. The data contains 13 variables that describe (what event), the explanation of each can be found in the appendix. In this example looking at the complete SPLOM is still feasible, and could be used to identify several interesting scatterplots and the corresponding combination of variables. Most notably we can see non-linear and non-functional relations between pairs of variables, and we expect that these should stand out on the scagnostics measures as well.
 The full data file contains 9998 posterior samples, without binning it is too long to compute the scagnostics on such a large number of observations. For our purpose a much smaller sample is sufficient, and we randomly sample 200 observations before computing the scagnostics. We will focus on the structures we know exist by looking at which scatter plots significant difference in their splines and dcor values, as well as which plots stand out on the clumpy2 measure.
 
 
@@ -899,7 +899,7 @@ A potential application of scagnostics is to detect shape differences between gr
 
 This analysis compares the features of two large collections time series, and then tries to differentiate them using scagnostics. The goal of the comparison is to compare shapes, not necessarily centres of groups as might be done in LDA or other machine learning methods. The two groups chosen for comparison are macroeconomic and microeconomic series. The data is pulled from the self-organizing database of time-series data [@sots], using the compenginets R package [@compenginets]. Since the time series are different lengths, each is described by a set of time series features [chapter 4 of @fpp] using the feasts R package [@feasts].
 
-For illustration, just a small set of features is examined, but still enough that the list of scatter plots identified by the scagnostics is significantly smaller than the list of all possible scatter plots. **Table __** shows the pair of features that maximises the difference between groups for each scagnostic. Plotting a handful of these in (Figure \@ref(fig:timeseries)), we can see the difference in shape that the scagnostics have identified. For example, the difference between the curvature and trend strength features shows both types of time series have, on average, strong trends and moderate curvature, however the former varies more in the macroeconomic series and the later in the microeconomic series. We can see from this example, and the other comparisons in the plot, that the scagnostics have identified a difference in shape that is not apparent in the mean of the data. Similar comments can be made about the other two plots in Figure \@ref(fig:timeseries).
+For illustration, just a small set of features is examined, but still enough that the list of scatter plots identified by the scagnostics is significantly smaller than the list of all possible scatter plots. **Table** shows the pair of features that maximises the difference between groups for each scagnostic. Plotting a handful of these in (Figure \@ref(fig:timeseries)), we can see the difference in shape that the scagnostics have identified. For example, the difference between the curvature and trend strength features shows both types of time series have, on average, strong trends and moderate curvature, however the former varies more in the macroeconomic series and the later in the microeconomic series. We can see from this example, and the other comparisons in the plot, that the scagnostics have identified a difference in shape that is not apparent in the mean of the data. Similar comments can be made about the other two plots in Figure \@ref(fig:timeseries).
 
 While we have shown that the scagnostics succeed in identifying difference in shapes between groups, this does not automatically transfer to a classification technique. Utilising the scagnostics ability to identify between group shape differences is an early step in using them for classification. It is not uncommon for surpervised learning methods to be born from unsupervised learning methods. For example, principal component analysis transforms a dataset by making linear combinations of the old variables in the direction of most variance, and using these transformed variables in a linear regression can improve results. However, despite its promise, developing a classification technique is beyond the scope of this research. 
 
@@ -967,11 +967,11 @@ scags_mac_mic <- scags_mac_mic %>%
   slice_head(n=1)
 ```
 
-```{r scags_mac_mic_html, eval=is_html_output()}
+```{r scagsmacmic-html, eval=is_html_output()}
 scags_mac_mic %>% kable() 
 ```
 
-```{r scags_mac_mic_pdf, eval=is_latex_output()}
+```{r scagsmacmic-pdf, eval=is_latex_output()}
 scags_mac_mic %>% kable(format="latex") 
 ```
 
@@ -1214,8 +1214,9 @@ w6 + w3a + w3b
 ```
 
 # Conclusion
-Scagnostics are a useful tool to identify the visual features in scatter plots. By building upon the earlier work, we have successfully implemeneted previously defined scagnostics into the cassowaryr package, and adjusted some of them so they continue to work without a pre-processing binning step. 
+Scagnostics are a useful tool to identify the visual features in scatter plots. By building upon the earlier work, we have successfully implemented previously defined scagnostics into the cassowaryr package, and adjusted some of them so they continue to work without a pre-processing binning step. 
 
-The greatest limitation in this project was the 1 year time limit on the research. 
+The greatest limitation in this project was the 1 year time limit on the research. When the presenting the research proposal, I thought there would be time to code up all the original scagnositcs, fix any issues with them, implement binning as an option, and have time left over to create scagnostics completely of my own design. This clearly did not occur. Ultimately coding up the previous scagnostics was more time consuming than I originally thought it would be, expecially because there was a fair bit of room for interpretation on some of the scagnostics. 
 
-There is a large amount of future work that could build upon this research. To start with, the distribution of the scagnostics have been largely warped by the removal of binning as a preprocessing step. In the World Bank indicators example, we made the assumption that the scagnostics are all uniformly distributed from 0 to 1, however, looking at some of our results as well as well as the visual table of the features scatter plots (Figure \@ref(fig:visual_table)), shows this may not be the case. It would be a substantial task to identify the distributions of the scagnostics, and make adjustments to rectify any irregularities. The scagnostics would need to be reassessed using large volumes of data to ensure the measures are not simply identifying the structures of that data set. Looking only at the outlying scagnostic on the features data may lead us to beleive that the maximum outlier value is 0.5 and its distribution is warped, however other data sets in this paper had scatter plots that measured a perfect 1 on outlying. Without this wide variety of data it is difficult for us to make comments on the spread of the scagnostics. Scagnostics could also be expanded to be the basis of a classification technique that identifies shape differences in groups. While we showed in the time series example that scagnostics can identify shape differences between groups, expanding that observation to stand alone classification technique is outside the scope of this research. *Transforming Scagnostics to Reveal Hidden Features* (XXX needs citation) showed that scagnostics can be used to identify useful structure in pairwise plots after transformations such as log or logit transformations. This paper showed a possible natural extension for the scagnostics in the original code, but could also be considered a natural extension of the cassowaryr package. Finally, there are a handful of scagnostics that are used in the projection pursuit in the *tourr* package to find the best view of a large number of variables. The scagnostics described here could also be implemented into the package to improve the projection pursuit. Previously scagnostics have has a large amount of noise (i.e. the tourr struggles to reliably move in the direction that will have the greatest increase in the scagnostic) and checking if these scagnostics maintain that issue, and developing them to negate this issue, is another possible area of future research. It is clear from this list that there is a significant amount of research that could be built upon this scagnostics.
+  
+There is a large amount of future work that could build upon this research. To start with, the distribution of the scagnostics have been largely warped by the removal of binning as a preprocessing step. In the World Bank indicators example, we made the assumption that the scagnostics are all uniformly distributed from 0 to 1, however, looking at some of our results as well as well as the visual table of the features scatter plots (Figure \@ref(fig:visual-table)), shows this may not be the case. It would be a substantial task to identify the distributions of the scagnostics, and make adjustments to rectify any irregularities. The scagnostics would need to be reassessed using large volumes of data to ensure the measures are not simply identifying the structures of that data set. Looking only at the outlying scagnostic on the features data may lead us to beleive that the maximum outlier value is 0.5 and its distribution is warped, however other data sets in this paper had scatter plots that measured a perfect 1 on outlying. Without this wide variety of data it is difficult for us to make comments on the spread of the scagnostics. Scagnostics could also be expanded to be the basis of a classification technique that identifies shape differences in groups. While we showed in the time series example that scagnostics can identify shape differences between groups, expanding that observation to stand alone classification technique is outside the scope of this research. *Transforming Scagnostics to Reveal Hidden Features* (XXX needs citation) showed that scagnostics can be used to identify useful structure in pairwise plots after transformations such as log or logit transformations. This paper showed a possible natural extension for the scagnostics in the original code, but could also be considered a natural extension of the cassowaryr package. Finally, there are a handful of scagnostics that are used in the projection pursuit in the *tourr* package to find the best view of a large number of variables. The scagnostics described here could also be implemented into the package to improve the projection pursuit. Previously scagnostics have has a large amount of noise (i.e. the tourr struggles to reliably move in the direction that will have the greatest increase in the scagnostic) and checking if these scagnostics maintain that issue, and developing them to negate this issue, is another possible area of future research. It is clear from this list that there is a significant amount of research that could be built upon this scagnostics.
