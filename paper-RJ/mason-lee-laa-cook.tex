@@ -334,28 +334,32 @@ that a moderate value would not fit, indicating that the scagnostics do
 not work quite as intended. The scagnostics based upon the convex hull
 (i.e.~skinny and convex) work fine, as do the association measures such
 as montonic, dcor and splines. The main issue comes from the measures
-based on the MST. We suspect the reason for these warped distributions
-is the removal of binning as a preliminary step in calculating the
-scagnostics. We wanted the package to have binning as an optional
-method, considering choices in binning can lead to bias as noted in
-\citet{scagdist} or unreproducible results as noted in \citet{robust}.
-Therefore the current scagnostics will be assessed without binning.
-
-\begin{Schunk}
-\begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/visual-table-1} \caption[A visual table of a selection of scagnostics computed on the features data]{A visual table of a selection of scagnostics computed on the features data. The rows correspond to different scagnostics and the horizontal axis is the calculated value on a range of 0-1. Thumbnail plots of variable pairs are placed at their scagnostic value, and indicate the type of structure that would produce high or low or medium values. Some scagnostics, e.g. clumpy, clearly need adjustment, while others, such as splines work well as they are. XXX DC: not sure I see this}\label{fig:visual-table}
-\end{figure}
-\end{Schunk}
+based on the MST. We can see in the figure that the sparse, stringy,
+skewed, and clumpy are each concentrated on a small portion of 0 to 1
+number line. In addition to this, clumpy does not correctly order the
+scatter plots, and while it is not visible here, striated also struggles
+with a correct ordering. We suspect the reason for these warped
+distributions is the removal of binning as a preliminary step in
+calculating the scagnostics. The removal of binning allows for a large
+number of arbitrarily small edges, which upon testing was found to be
+the cause of a lot of these issues. Since many of these measures are
+based on the percentile edge lengths, or the ratio between two edge
+lengths, infintesimally small edges can warp the scagnsotics and
+redefines what they identify. For example, outlying allowing for
+infintesimally small edges means it struggles to allow distributions
+with increasing variance if the number of points close to the centre of
+the cluster is large enough, which is seen in the l-shape plot. The
+l-shape shows an increasing spread of the points as they move away from
+the bottom left corner, as such, the larger edge lengths make sense
+within the distribution. Outlying does not take this into account, and
+identifies a large number of the spread out points to be outliers and
+removes them before computing the other scagnostics. We wanted the
+package to have binning as an optional method, considering choices in
+binning can lead to bias as noted in \citet{scagdist} or unreproducible
+results as noted in \citet{robust}. Therefore the current scagnostics
+will be assessed without binning.
 
 \begin{itemize}
-\item
-  \textbf{Striated}: striated can identify the specific case of one
-  discrete variable and one continuous variable (which alone is not
-  particularly interesting) but will not identify two discrete
-  variables. Since by definition it is a subset of the stringy measure,
-  they are highly correlated, which means most variables that score
-  highly on striated already score highly on stringy, making the measure
-  less useful.
 \item
   \textbf{Sparse}: While sparse does seem to identify spread out
   distributions, it rarely returns a value higher than 0.1. As this
@@ -383,15 +387,10 @@ Therefore the current scagnostics will be assessed without binning.
   enough that all of them have at least one edge that is below the
   outlying threshold. Even if we changed the measure such that only one
   edge needed to be above the outlying threshold, it would only remove a
-  single point. The l-shape shows an increasing spread of the points as
-  they move away from the bottom left corner, as such, the larger edge
-  lengths make sense within the distribution. Outlying does not take
-  this into account, and identifies a large number of the spread out
-  points to be outliers and removes them before computing the other
-  scagnostics. The value that scores the highest on the outlying measure
-  is, without question, a highly outlying distribution, however the
-  outlying measure only returns a 0.5, this is again due to the removal
-  of binning as a preprocessing step.
+  single point. The value that scores the highest on the outlying
+  measure is, without question, a highly outlying distribution, however
+  the outlying measure only returns a 0.5, this is again due to the
+  removal of binning as a preprocessing step.
 \item
   \textbf{Clumpy}: the clumpy scagnostic is probably the one that
   suffers the most with the removal of the binning step. Due to it being
@@ -410,16 +409,26 @@ Therefore the current scagnostics will be assessed without binning.
   this issue stems from binning.
 \end{itemize}
 
+\begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/visual-table-1} \caption[A visual table of a selection of scagnostics computed on the features data]{A visual table of a selection of scagnostics computed on the features data. The rows correspond to different scagnostics and the horizontal axis is the calculated value on a range of 0-1. Thumbnail plots of variable pairs are placed at their scagnostic value, and indicate the type of structure that would produce high or low or medium values. Some scagnostics, e.g. clumpy, clearly need adjustment, while others, such as splines work well as they are. XXX DC: not sure I see this}\label{fig:visual-table}
+\end{figure}
+\end{Schunk}
+
 Some of these measures primary issue is that they do not seem to range
 uniformly from 0 to 1. These measures still put the scatter plots in the
-correct order and so do not urgently need adjustments in order to work
-as intended. For other measures, removing the binning step completely
-changes the visual feature the measure is identifying. For that reason
-we will only adjust the measures which no longer make sense without
-binning, and keep the measures that have a warped distribution (but
-correctly order the scagnostics) as they are. With these issues in mind,
-we have defines and written several new scagnostics that work even
-without the pre-processing step of binning.
+correct order and so do not urgently need adjustments. In order to
+truely assess the distribution of these functions, we would need to
+check the scagnostics on a large range of data from muliple diciplines
+before claiming that the distribution is truely warped by the removal of
+binning. Intuition on a small simulated features data set is not enough.
+This is a large task that is beyond the scope of this research, and so
+we will assume that the scagnsotics range uniformly from 0 to 1. For
+some measures, removing the binning step completely changes the visual
+feature the measure is identifying, unlike the measures where the
+primary issue is their distribution, these scagnostics need to be
+redefined. Therefore, in the section below we will discuss the
+adjustments made to the striated and clumpy scagnostics.
 
 \hypertarget{the-adjusted-scagnostics-measures}{%
 \subsubsection{The Adjusted Scagnostics
@@ -617,24 +626,24 @@ The cassowaryr package comes with several data sets that load with the
 package, they are described here.
 
 \begin{Schunk}
+\begin{table}
 
-\begin{tabular}{l|l}
-\hline
+\caption{\label{tab:datasets-tb-pdf}Cassowaryr data sets}
+\centering
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{3cm}l}
+\toprule
 data & explanation\\
-\hline
+\midrule
 features & Simulated data with special features.\\
-\hline
 anscombe\_tidy & Data from Anscombes famous example in tidy format.\\
-\hline
 datasaurus\_dozen & Datasaurus Dozen data in a long tidy format.\\
-\hline
 datasaurus\_dozen\_wide & Datasaurus Dozen Data in a wide tidy format.\\
-\hline
 numbat & A toy data set with a numbat shape hidden among noise variables.\\
-\hline
+\addlinespace
 pk & Parkinsons data from UCI machine learning archive.\\
-\hline
+\bottomrule
 \end{tabular}
+\end{table}
 
 \end{Schunk}
 
@@ -655,44 +664,36 @@ method to calculate that scagnostic. the The functions in this group
 are:
 
 \begin{Schunk}
+\begin{table}
 
-\begin{tabular}{l|l}
-\hline
-dt & text\\
-\hline
+\caption{\label{tab:scagfuncs-tb-pdf}Cassowaryr Scagnostic functions}
+\centering
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{3cm}l}
+\toprule
+Function & Explanation\\
+\midrule
 scree & Generates a scree object that contains the Delaunay triangulation of the scater plot.\\
-\hline
 sc\_clumpy & Compute the original clumpy scagnostic measure.\\
-\hline
 sc\_clumpy2 & Compute adjusted clumpy scagnositc measure.\\
-\hline
 sc\_clumpy\_r & Compute robust clumpy scagnostic measure.\\
-\hline
 sc\_convex & Compute the original convex scagnostic measure\\
-\hline
+\addlinespace
 sc\_dcor & Compute the distance correlation index.\\
-\hline
 sc\_monotonic & Compute the Spearman correlation.\\
-\hline
 sc\_outlying & Compute the original outlying scagnostic measure.\\
-\hline
 sc\_skewed & Compute the original skewed scagnostic measure.\\
-\hline
 sc\_skinny & Compute the original skinny scagnostic measure.\\
-\hline
+\addlinespace
 sc\_sparse & Compute the original sparse scagnostic measure.\\
-\hline
 sc\_sparse2 & Compute adjusted sparse measure.\\
-\hline
 sc\_splines & Compute the spline based index.\\
-\hline
 sc\_striated & Compute the original stirated scagnostic measure.\\
-\hline
 sc\_striated2 & Compute angle adjusted striated measure.\\
-\hline
+\addlinespace
 sc\_stringy & Compute stringy scagnostic measure.\\
-\hline
+\bottomrule
 \end{tabular}
+\end{table}
 
 \end{Schunk}
 
@@ -706,18 +707,20 @@ graph based object in question. The functions that belong to this group
 are:
 
 \begin{Schunk}
+\begin{table}
 
-\begin{tabular}{l|l}
-\hline
-funcname & description\\
-\hline
+\caption{\label{tab:drawfuncs-tb-pdf}Cassowaryr drawing functions}
+\centering
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{3cm}l}
+\toprule
+Function & Explanation\\
+\midrule
 draw\_alphahull & Drawing the alpha hull.\\
-\hline
 draw\_convexhull & Drawing the convex hull.\\
-\hline
 draw\_mst & Drawing the MST.\\
-\hline
+\bottomrule
 \end{tabular}
+\end{table}
 
 \end{Schunk}
 
@@ -737,9 +740,9 @@ is a scagnostics. These are the two main functions of the package.
 
 \caption{\label{tab:dsumfuncs-tb-pdf}Cassowaryr summary functions}
 \centering
-\begin{tabular}[t]{>{\raggedright\arraybackslash}p{2cm}l}
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{3cm}l}
 \toprule
-funcname & description\\
+Function & Explanation\\
 \midrule
 calc\_scags & Compute selected scagnostics on subsets.\\
 calc\_scags\_wide & Compute scagnostics on all possible scatter plots for the given data.\\
@@ -757,16 +760,14 @@ Table \ref{tab:calcfunc-tb-pdf}.
 
 \caption{\label{tab:calcfunc-tb-pdf}The main arguments for calc\_scags().}
 \centering
-\begin{tabular}[t]{l|l}
-\hline
-argument & description\\
-\hline
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{3cm}l}
+\toprule
+Argument & Explanation\\
+\midrule
 y & numeric vector of x values.\\
-\hline
 x & numeric vector of y values.\\
-\hline
 scags & collection of strings matching names of scagnostics to calculate: outlying, stringy, striated, striated2, striped, clumpy, clumpy2, sparse, skewed, convex, skinny, monotonic, splines, dcor. The default is to calculate all scagnostics.\\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -796,40 +797,28 @@ features_scags <- features %>%
 
 \caption{\label{tab:featuresscags-pdf}Summary of three scagnostics computed by calc\_scags() on the long form of the features data.}
 \centering
-\begin{tabular}[t]{l|r|r|r}
-\hline
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{3cm}rrr}
+\toprule
 feature & outlying & clumpy2 & monotonic\\
-\hline
+\midrule
 barrier & 0.00 & 0.00 & 0.35\\
-\hline
 clusters & 0.06 & 0.83 & 0.03\\
-\hline
 discrete & 0.00 & 0.00 & 0.01\\
-\hline
 disk & 0.02 & 0.40 & 0.09\\
-\hline
 gaps & 0.00 & 0.75 & 0.06\\
-\hline
+\addlinespace
 l-shape & 0.38 & 0.00 & 0.48\\
-\hline
 line & 0.11 & 0.00 & 1.00\\
-\hline
 nonlinear1 & 0.27 & 0.00 & 0.17\\
-\hline
 nonlinear2 & 0.00 & 0.00 & 0.81\\
-\hline
 outliers & 0.00 & 0.52 & 0.71\\
-\hline
+\addlinespace
 outliers2 & 0.59 & 0.00 & 0.06\\
-\hline
 positive & 0.14 & 0.29 & 0.92\\
-\hline
 ring & 0.02 & 0.45 & 0.04\\
-\hline
 vlines & 0.00 & 0.17 & 0.08\\
-\hline
 weak & 0.05 & 0.00 & 0.41\\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -847,16 +836,19 @@ implemented into the package are \texttt{calc\_topscags()} and
 \texttt{calc\_toppairs()} which are described in \textbf{table}.
 
 \begin{Schunk}
+\begin{table}
 
-\begin{tabular}{l|l}
-\hline
-func\_name & description\\
-\hline
+\caption{\label{tab:exsumfuncstb-pdf}Additional summary functions}
+\centering
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{3cm}l}
+\toprule
+Function & Explanation\\
+\midrule
 calc\textbackslash{}\_topscags & Return the top scagnostic value for each pair of variables\\
-\hline
 calc\textbackslash{}\_toppairs & Return the top pair of variables for each scagnostic\\
-\hline
+\bottomrule
 \end{tabular}
+\end{table}
 
 \end{Schunk}
 
@@ -877,16 +869,14 @@ features_toppairs <- features_scags %>%
 
 \begin{Schunk}
 
-\begin{tabular}{l|l|r}
-\hline
+\begin{tabular}{>{\raggedright\arraybackslash}p{3cm}lr}
+\toprule
 feature & scag & value\\
-\hline
+\midrule
 clusters & clumpy2 & 0.83\\
-\hline
 line & monotonic & 1.00\\
-\hline
 outliers2 & outlying & 0.59\\
-\hline
+\bottomrule
 \end{tabular}
 
 \end{Schunk}
@@ -1101,9 +1091,9 @@ Figure \ref{fig:blackholes}.
 \end{figure}
 \end{Schunk}
 
-\hypertarget{comparing-macroeconomic-and-microecnomic-time-series}{%
-\subsection{Comparing Macroeconomic and Microecnomic Time
-Series}\label{comparing-macroeconomic-and-microecnomic-time-series}}
+\hypertarget{shape-differences-between-groups}{%
+\subsection{Shape Differences Between
+Groups}\label{shape-differences-between-groups}}
 
 A potential application of scagnostics is to detect shape differences
 between groups. Commonly, classification focuses on differences in the
@@ -1310,22 +1300,22 @@ basis of a classification technique that identifies shape differences in
 groups. While we showed in the time series example that scagnostics can
 identify shape differences between groups, expanding that observation to
 stand alone classification technique is outside the scope of this
-research. \emph{Transforming Scagnostics to Reveal Hidden Features} (XXX
-needs citation) showed that scagnostics can be used to identify useful
-structure in pairwise plots after transformations such as log or logit
-transformations. This paper showed a possible natural extension for the
-scagnostics in the original code, but could also be considered a natural
-extension of the cassowaryr package. Finally, there are a handful of
-scagnostics that are used in the projection pursuit in the \emph{tourr}
-package to find the best view of a large number of variables. The
-scagnostics described here could also be implemented into the package to
-improve the projection pursuit. Previously scagnostics have has a large
-amount of noise (i.e.~the tourr struggles to reliably move in the
-direction that will have the greatest increase in the scagnostic) and
-checking if these scagnostics maintain that issue, and developing them
-to negate this issue, is another possible area of future research. It is
-clear from this list that there is a significant amount of research that
-could be built upon this scagnostics.
+research. \emph{Transforming Scagnostics to Reveal Hidden Features}
+(\citet{hidscags}) showed that scagnostics can be used to identify
+useful structure in pairwise plots after transformations such as log or
+logit transformations. This paper showed a possible natural extension
+for the scagnostics in the original code, but could also be considered a
+natural extension of the cassowaryr package. Finally, there are a
+handful of scagnostics that are used in the projection pursuit in the
+\emph{tourr} package to find the best view of a large number of
+variables. The scagnostics described here could also be implemented into
+the package to improve the projection pursuit. Previously scagnostics
+have has a large amount of noise (i.e.~the tourr struggles to reliably
+move in the direction that will have the greatest increase in the
+scagnostic) and checking if these scagnostics maintain that issue, and
+developing them to negate this issue, is another possible area of future
+research. It is clear from this list that there is a significant amount
+of research that could be built upon this scagnostics.
 
 \bibliography{mason-lee-laa-cook.bib}
 

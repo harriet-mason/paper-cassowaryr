@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2020)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: RJwrapper.aux
+The style file: abbrvnat.bst
+Database file #1: mason-lee-laa-cook.bib
+Warning--to sort, need author, editor, or key in fpp
+Warning--empty author and editor in fpp
+Warning--empty journal in binostics
+Warning--can't use both author and editor fields in tukey
+You've used 21 entries,
+            2773 wiz_defined-function locations,
+            731 strings with 8138 characters,
+and the built_in function-call counts, 9328 in all, are:
+= -- 848
+> -- 502
+< -- 15
++ -- 173
+- -- 150
+* -- 744
+:= -- 1422
+add.period$ -- 76
+call.type$ -- 21
+change.case$ -- 107
+chr.to.int$ -- 19
+cite$ -- 47
+duplicate$ -- 434
+empty$ -- 767
+format.name$ -- 186
+if$ -- 1964
+int.to.chr$ -- 3
+int.to.str$ -- 1
+missing$ -- 15
+newline$ -- 126
+num.names$ -- 80
+pop$ -- 218
+preamble$ -- 1
+purify$ -- 92
+quote$ -- 0
+skip$ -- 341
+stack$ -- 0
+substring$ -- 316
+swap$ -- 57
+text.length$ -- 3
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 221
+warning$ -- 4
+while$ -- 79
+width$ -- 0
+write$ -- 296
+(There were 4 warnings)
