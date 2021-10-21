@@ -986,10 +986,11 @@ clustered pairwise relationships, which makes this type of data ideal
 for displaying splines and clumpy2, two scagnostics that's uses were not
 particularly visible in the AFLW example. Here we will use scagnostics
 to explore data that comes from a simulation of a model describing a
-binary blck hole (BBH) merger event. The data contains 13 variables that
-describe the BBH event. As the variables describe complicated physics
-phenomena, details of the variables will be left to the appendix and the
-analysis in this paper will ignore their meaning. Since the size of the
+binary black hole (BBH) merger event. The data contains 13 variables
+that describe the BBH event, and each point is a posterior sample that
+could describe the event. As the variables describe complicated physics
+phenomena, details of the variables will be left to the appendix and we
+will focus on the types of patterns observed. Since the size of the
 dataset is small enough, looking at the complete SPLOM is still
 feasible, and could be used to identify several interesting
 scatterplots. We will omit the SPLOM here, however it allows us to see
@@ -1013,18 +1014,22 @@ measure.
 \end{Schunk}
 
 Figure \ref{fig:bbh-scags-static} shows scatterplots of the computed
-scagnostics measures, where several combinations stand out. On the left
-plot we see three points with very low values of the convex measure and
-high values of skinny. These are all possible combinations containing
-the variables time, ra and dec, and the corresponding scatterplots are
-shown in the upper row of Figure \ref{fig:blackholes}. Because of how a
-single experiment observes the sky, there is an interesting pattern
-between these variables, with posterior samples being drawn along a
-non-linear band in this three-dimensional space.
+scagnostics measures. On the left plot we see three points with very low
+values of the convex measure and high values of skinny. These are all
+possible combinations containing the variables time, ra and dec, and the
+corresponding scatterplots are shown in the upper row of Figure
+\ref{fig:blackholes}. This pattern arises because the location of an
+event observed from gravitational waves can only be localized when using
+a network of three detectors (as described in \citet{gwtriang}), and
+observations with one or two detectors will result in a degeneracy
+between the location in the sky (parametrized by ra and dec) and the
+time of the event (time). It will lead to the observed pattern of a
+broken ring in this three dimensional space, thus inducing both
+non-linear dependence and clustering in the posterior sample.
 
-These variables also stand out in the middle plot of Figure
+These three variables also stand out in the middle plot of Figure
 \ref{fig:bbh-scags-static}, where it is interesting to note that the
-cominations with non-linear but functional relation (time vs ra and dec
+combinations with non-linear but functional relation (time vs ra and dec
 vs ra) have somewhat higher values in the splines measure compared to
 dcor. On the other hand dec vs time does not exhibit a functional
 relation, and consequently gets a higher dcor score compared to splines

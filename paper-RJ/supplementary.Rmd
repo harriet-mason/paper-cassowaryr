@@ -1,6 +1,7 @@
 ---
 title: "Supplementary Material for 'Teaching Computers to See Patterns in Scatterplots with Scagnostics'"
 author:  Harriet Mason, Stuart Lee, Ursula Laa, Dianne Cook
+bibliography: mason-lee-laa-cook.bib
 output: pdf_document
 ---
 
@@ -88,3 +89,5 @@ TX.VAL.TECH.MF.ZS	High-technology exports (% of manufactured exports)
 - MS.MIL.TOTL.TF.ZS	Armed forces personnel (% of total labor force)
 - FB.BNK.CAPA.ZS	Bank capital to assets ratio (%)
 - SE.COM.DURS	Compulsory education, duration (years)
+
+# References
