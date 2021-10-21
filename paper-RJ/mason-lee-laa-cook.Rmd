@@ -564,7 +564,8 @@ drawfuncs_tb %>% kable(format="latex")
 ```
 
 
-### Summary functions
+### Calculate functions
+
 The summary functions are the perferred method for users to calculate scagnostics. The ```calc_scags()``` function is supposed to be used on long data with the dplyr group_by and summarise functions. the ```calc_scags_wide()``` functions is designed to take in a tibble of numerical variables and return the scagnostics on every possible pairwise scatter plot. Both functions return a tibble where each column is a scagnostics. These are the two main functions of the package. 
 
 ```{r}
@@ -604,8 +605,10 @@ calcfunc_tb %>% kable(caption="The main arguments for `calc_scags()`.")
 ```
 
 ```{r calcfunc-tb-pdf, eval=is_latex_output()}
-calcfunc_tb %>% kable(format="latex", caption="The main arguments for calc\\_scags().") 
+calcfunc_tb %>% kable(format="latex", caption="The main arguments for calc\\_scags().", escape=FALSE) 
 ```
+
+### Making summaries
 
 While the ```calc_scags()``` function does not take in a tibble, it is designed to be seamlessly integrated into the tidy data work flow. Currently if we specify the scagnostics in the summarise function it does not work correctly, however we can work around that with the filter option until it is fixed. Using the code below, we can calculate a specified list of scagnostics on the scatter plots from the features data, producing the output shown in **Table __**.
 
