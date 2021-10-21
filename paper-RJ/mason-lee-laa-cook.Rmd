@@ -491,7 +491,8 @@ datasets_tb %>%
 
 ```{r datasets-tb-pdf, eval=is_latex_output()}
 datasets_tb %>% 
-  kable(format="latex", col.names = c("data", "explanation")) 
+  kable(caption = "Cassowaryr data sets", format="latex", col.names = c("data", "explanation"), booktabs = T)  %>%
+  column_spec(1, width = "3cm")
 ```
 
 
@@ -534,12 +535,13 @@ scagfuncs_tb <- tibble(dt = c("scree",
                                "Compute stringy scagnostic measure."))
 ```
 
-```{r scagfuncs_tb_html, eval=is_html_output()}
+```{r scagfuncs-tb-html, eval=is_html_output()}
 scagfuncs_tb %>% kable() 
 ```
 
-```{r scagfuncs_tb_pdf, eval=is_latex_output()}
-scagfuncs_tb %>% kable(format="latex") 
+```{r scagfuncs-tb-pdf, eval=is_latex_output()}
+scagfuncs_tb %>% kable(caption = "Cassowaryr Scagnostic functions", col.names = c("Function", "Explanation"), format="latex", booktabs = T)  %>%
+  column_spec(1, width = "3cm") 
 ```
 
 
@@ -560,7 +562,8 @@ drawfuncs_tb %>% kable()
 ```
 
 ```{r drawfuncs-tb-pdf, eval=is_latex_output()}
-drawfuncs_tb %>% kable(format="latex") 
+drawfuncs_tb %>% kable(caption = "Cassowaryr drawing functions", col.names = c("Function", "Explanation"), format="latex", booktabs = T)  %>%
+  column_spec(1, width = "3cm")
 ```
 
 
@@ -585,10 +588,8 @@ sumfuncs_tb %>%
 
 ```{r dsumfuncs-tb-pdf, eval=is_latex_output()}
 sumfuncs_tb %>% kable(format="latex", 
-  caption = "Cassowaryr summary functions", booktabs = T)  %>%
-  #kable_styling(latex_options = "striped", 
-  #             position = "center") %>%
-  column_spec(1, width = "2cm")
+  caption = "Cassowaryr summary functions", col.names = c("Function", "Explanation"), booktabs = T)  %>%
+  column_spec(1, width = "3cm")
 ```
 
 The main arguments of the ```calc_scags()``` function are shown in Table `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(tab:calcfunc-tb-html)', '\\@ref(tab:calcfunc-tb-pdf)'))`.
@@ -605,7 +606,8 @@ calcfunc_tb %>% kable(caption="The main arguments for `calc_scags()`.")
 ```
 
 ```{r calcfunc-tb-pdf, eval=is_latex_output()}
-calcfunc_tb %>% kable(format="latex", caption="The main arguments for calc\\_scags().", escape=FALSE) 
+calcfunc_tb %>% kable(format="latex", caption="The main arguments for calc\\_scags().", col.names = c("Argument", "Explanation"), escape=FALSE, booktabs = T)  %>%
+  column_spec(1, width = "3cm")
 ```
 
 ### Making summaries
@@ -624,13 +626,14 @@ features_scags %>% kable()
 ```
 
 ```{r featuresscags-pdf, eval=is_latex_output()}
-features_scags %>% kable(format="latex") 
+features_scags %>% kable(caption = "Output of the calc\\_scags() function.", escape=FALSE, format="latex", booktabs = T)  %>%
+  column_spec(1, width = "3cm")
 ```
 
 We are also considering an additional two summary functions that could be introduced to the package. While the code required to write them is simple and easily performed by the user, having them as ready functions in the package would help guide users to use the package most effectively. The two additional functions that have not yet been implemented into the package are ```calc_topscacs()``` and ```calc_toppairs()``` which are described in **table**.
 
 ```{r}
-exsumfuncstb <- tibble(func_name = c("calc\\_topscacs",
+exsumfuncstb <- tibble(funcname = c("calc\\_topscacs",
                              "calc\\_toppairs"), 
                       description = c("Return the top scagnostic value for each pair of variables",
                                "Return the top pair of variables for each scagnostic"))
@@ -641,7 +644,8 @@ exsumfuncstb %>% kable()
 ```
 
 ```{r exsumfuncstb-pdf, eval=is_latex_output()}
-exsumfuncstb %>% kable(format="latex") 
+exsumfuncstb %>% kable(caption = "Additional summary functions", col.names = c("Function", "Explanation"), format="latex", booktabs = T)  %>%
+  column_spec(1, width = "3cm") 
 ```
 
 The code for both are simple, but an example of how to calculate ```calc_toppairs()``` with its output will be shown here. In this case it is the top groups, but the main idea is the same as if we had used ```calc_scags()``` wide to generate pairs of variables.
@@ -659,7 +663,8 @@ features_toppairs %>% kable()
 ```
 
 ```{r features-toppairs-pdf, eval=is_latex_output()}
-features_toppairs %>% kable(format="latex") 
+features_toppairs %>% kable(format="latex", booktabs = T)  %>%
+  column_spec(1, width = "3cm") 
 ```
 
 ## Tests
@@ -1221,4 +1226,4 @@ Scagnostics are a useful tool to identify the visual features in scatter plots. 
 
 The greatest limitation in this project was the 1 year time limit on the research. When the presenting the research proposal, I thought there would be time to code up all the original scagnositcs, fix any issues with them, implement binning as an option, and have time left over to create scagnostics completely of my own design. This clearly did not occur. Ultimately coding up the previous scagnostics was more time consuming than I originally thought it would be, expecially because there was a fair bit of room for interpretation on some of the scagnostics. For example, skinny and convex do no specify what to do in the event the alphahull has no area (this occurs when the data is on a perfect straight line), and so we used intuition to set them to 1 and 0 respectively. Additionally, a large portion of the project was invisible to me at the outset, such as the testing to ensure the scagnostics were working according to definition, rounds of debugging, and meeting CRAN requirements. These elements produced very little output but were required for the rigour of the project. On top of this, to reduce dependencies most of the functions were written only using base R, which made the project more challenging. For these reasons, the software aspect of this thesis narrowed in scope throughtout the year, however the number of examples and applications increased, as we recognised new ways the scagnostics could be used throughout the year. Ultimately the final project is significantly different to its original goals, but it contains an equal amount of work.
   
-There is a large amount of future work that could build upon this research. To start with, the distribution of the scagnostics have been largely warped by the removal of binning as a preprocessing step. In the World Bank indicators example, we made the assumption that the scagnostics are all uniformly distributed from 0 to 1, however, looking at some of our results as well as well as the visual table of the features scatter plots (Figure \@ref(fig:visual-table)), shows this may not be the case. It would be a substantial task to identify the distributions of the scagnostics, and make adjustments to rectify any irregularities. The scagnostics would need to be reassessed using large volumes of data to ensure the measures are not simply identifying the structures of that data set. Looking only at the outlying scagnostic on the features data may lead us to beleive that the maximum outlier value is 0.5 and its distribution is warped, however other data sets in this paper had scatter plots that measured a perfect 1 on outlying. Without this wide variety of data it is difficult for us to make comments on the spread of the scagnostics. Scagnostics could also be expanded to be the basis of a classification technique that identifies shape differences in groups. While we showed in the time series example that scagnostics can identify shape differences between groups, expanding that observation to stand alone classification technique is outside the scope of this research. *Transforming Scagnostics to Reveal Hidden Features* (XXX needs citation) showed that scagnostics can be used to identify useful structure in pairwise plots after transformations such as log or logit transformations. This paper showed a possible natural extension for the scagnostics in the original code, but could also be considered a natural extension of the cassowaryr package. Finally, there are a handful of scagnostics that are used in the projection pursuit in the *tourr* package to find the best view of a large number of variables. The scagnostics described here could also be implemented into the package to improve the projection pursuit. Previously scagnostics have has a large amount of noise (i.e. the tourr struggles to reliably move in the direction that will have the greatest increase in the scagnostic) and checking if these scagnostics maintain that issue, and developing them to negate this issue, is another possible area of future research. It is clear from this list that there is a significant amount of research that could be built upon this scagnostics.
+There is a large amount of future work that could build upon this research. To start with, the distribution of the scagnostics have been largely warped by the removal of binning as a preprocessing step. In the World Bank indicators example, we made the assumption that the scagnostics are all uniformly distributed from 0 to 1, however, looking at some of our results as well as well as the visual table of the features scatter plots (Figure \@ref(fig:visual-table)), shows this may not be the case. It would be a substantial task to identify the distributions of the scagnostics, and make adjustments to rectify any irregularities. The scagnostics would need to be reassessed using large volumes of data to ensure the measures are not simply identifying the structures of that data set. Looking only at the outlying scagnostic on the features data may lead us to beleive that the maximum outlier value is 0.5 and its distribution is warped, however other data sets in this paper had scatter plots that measured a perfect 1 on outlying. Without this wide variety of data it is difficult for us to make comments on the spread of the scagnostics. Scagnostics could also be expanded to be the basis of a classification technique that identifies shape differences in groups. While we showed in the time series example that scagnostics can identify shape differences between groups, expanding that observation to stand alone classification technique is outside the scope of this research. *Transforming Scagnostics to Reveal Hidden Features* (@hidscags) showed that scagnostics can be used to identify useful structure in pairwise plots after transformations such as log or logit transformations. This paper showed a possible natural extension for the scagnostics in the original code, but could also be considered a natural extension of the cassowaryr package. Finally, there are a handful of scagnostics that are used in the projection pursuit in the *tourr* package to find the best view of a large number of variables. The scagnostics described here could also be implemented into the package to improve the projection pursuit. Previously scagnostics have has a large amount of noise (i.e. the tourr struggles to reliably move in the direction that will have the greatest increase in the scagnostic) and checking if these scagnostics maintain that issue, and developing them to negate this issue, is another possible area of future research. It is clear from this list that there is a significant amount of research that could be built upon this scagnostics.
