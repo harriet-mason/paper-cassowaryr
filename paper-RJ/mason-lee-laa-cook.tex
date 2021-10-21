@@ -334,18 +334,14 @@ that a moderate value would not fit, indicating that the scagnostics do
 not work quite as intended. The scagnostics based upon the convex hull
 (i.e.~skinny and convex) work fine, as do the association measures such
 as montonic, dcor and splines. The main issue comes from the measures
-based on the MST. We suspect the reason for these warped distributions
-is the removal of binning as a preliminary step in calculating the
-scagnostics. We wanted the package to have binning as an optional
-method, considering choices in binning can lead to bias as noted in
-\citet{scagdist} or unreproducible results as noted in \citet{robust}.
-Therefore the current scagnostics will be assessed without binning.
-
-\begin{Schunk}
-\begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/visual-table-1} \caption[A visual table of a selection of scagnostics computed on the features data]{A visual table of a selection of scagnostics computed on the features data. The rows correspond to different scagnostics and the horizontal axis is the calculated value on a range of 0-1. Thumbnail plots of variable pairs are placed at their scagnostic value, and indicate the type of structure that would produce high or low or medium values. Some scagnostics, e.g. clumpy, clearly need adjustment, while others, such as splines work well as they are. XXX DC: not sure I see this}(\#fig:visual-table)
-\end{figure}
-\end{Schunk}
+based on the MST. We can see in the figure that the sparse, stringy,
+skewed, and clumpy are each concentrated on a small portion of 0 to 1
+number line. We suspect the reason for these warped distributions is the
+removal of binning as a preliminary step in calculating the scagnostics.
+We wanted the package to have binning as an optional method, considering
+choices in binning can lead to bias as noted in \citet{scagdist} or
+unreproducible results as noted in \citet{robust}. Therefore the current
+scagnostics will be assessed without binning.
 
 \begin{itemize}
 \item
@@ -410,16 +406,26 @@ Therefore the current scagnostics will be assessed without binning.
   this issue stems from binning.
 \end{itemize}
 
+\begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/visual-table-1} \caption[A visual table of a selection of scagnostics computed on the features data]{A visual table of a selection of scagnostics computed on the features data. The rows correspond to different scagnostics and the horizontal axis is the calculated value on a range of 0-1. Thumbnail plots of variable pairs are placed at their scagnostic value, and indicate the type of structure that would produce high or low or medium values. Some scagnostics, e.g. clumpy, clearly need adjustment, while others, such as splines work well as they are. XXX DC: not sure I see this}(\#fig:visual-table)
+\end{figure}
+\end{Schunk}
+
 Some of these measures primary issue is that they do not seem to range
 uniformly from 0 to 1. These measures still put the scatter plots in the
-correct order and so do not urgently need adjustments in order to work
-as intended. For other measures, removing the binning step completely
-changes the visual feature the measure is identifying. For that reason
-we will only adjust the measures which no longer make sense without
-binning, and keep the measures that have a warped distribution (but
-correctly order the scagnostics) as they are. With these issues in mind,
-we have defines and written several new scagnostics that work even
-without the pre-processing step of binning.
+correct order and so do not urgently need adjustments. In order to
+truely assess the distribution of these functions, we would need to
+check the scagnostics on a large range of data from muliple diciplines
+before claiming that the distribution is truely warped by the removal of
+binning. Intuition on a small simulated features data set is not enough.
+This is a large task that is beyond the scope of this research, and so
+we will assume that the scagnsotics range uniformly from 0 to 1. For
+some measures, removing the binning step completely changes the visual
+feature the measure is identifying, unlike the measures where the
+primary issue is their distribution, these scagnostics need to be
+redefined. Therefore, in the section below we will discuss the
+adjustments made to the striated and clumpy scagnostics.
 
 \hypertarget{the-adjusted-scagnostics-measures}{%
 \subsubsection{The Adjusted Scagnostics
@@ -764,16 +770,15 @@ scags & collection of strings matching names of scagnostics to calculate: outlyi
 
 \end{Schunk}
 
-\hypertarget{making-summaries}{%
-\subsubsection{Making summaries}\label{making-summaries}}
-
 While the \texttt{calc\_scags()} function does not take in a tibble, it
 is designed to be seamlessly integrated into the tidy data work flow.
-Currently if we specify the scagnostics in the summarise function it
-does not work correctly, however we can work around that with the filter
-option until it is fixed. Using the code below, we can calculate a
-specified list of scagnostics on the scatter plots from the features
-data, producing the output shown in **Table \_\_**.
+Currently to specify the scagnostics on long form tidy data using
+\texttt{summarise()} requires \texttt{group\_by()}, computing all the
+scagnostics, and then selecting just the ones of interest to display,
+using \texttt{select()}. The reason is that the argument for
+\texttt{calc\_scags()} is not currently recognised inside
+\texttt{summarise()}. The code below generates the summary data in Table
+@ref(tab:featuresscags-pdf).
 
 \begin{Schunk}
 \begin{Sinput}
@@ -787,7 +792,7 @@ features_scags <- features %>%
 \begin{Schunk}
 \begin{table}
 
-\caption{(\#tab:featuresscags-pdf)Output of the calc\_scags() function.}
+\caption{(\#tab:featuresscags-pdf)Summary of three scagnostics computed by calc\_scags() on the long form of the features data.}
 \centering
 \begin{tabular}[t]{>{\raggedright\arraybackslash}p{3cm}rrr}
 \toprule
@@ -815,6 +820,9 @@ weak & 0.05 & 0.00 & 0.41\\
 \end{table}
 
 \end{Schunk}
+
+\hypertarget{making-summaries}{%
+\subsubsection{Making summaries}\label{making-summaries}}
 
 We are also considering an additional two summary functions that could
 be introduced to the package. While the code required to write them is
@@ -1080,9 +1088,9 @@ Figure @ref(fig:blackholes).
 \end{figure}
 \end{Schunk}
 
-\hypertarget{comparing-macroeconomic-and-microecnomic-time-series}{%
-\subsection{Comparing Macroeconomic and Microecnomic Time
-Series}\label{comparing-macroeconomic-and-microecnomic-time-series}}
+\hypertarget{shape-differences-between-groups}{%
+\subsection{Shape Differences Between
+Groups}\label{shape-differences-between-groups}}
 
 A potential application of scagnostics is to detect shape differences
 between groups. Commonly, classification focuses on differences in the
