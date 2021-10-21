@@ -307,45 +307,45 @@ calculations}\label{checking-the-scagnostics-calculations}}
 Once we have working functions that correctly calculate the scagnostics
 according to their definition, we can assess how well they identify the
 visual features of scatter plots. To test the packages ability to
-differentiate plots, we have creates a dataset called ``features'' (that
-is also in the Cassowaryr package) that contains a series of interesting
-and unique scatter plots which we can run our scagnsotics on.
-
-\begin{Schunk}
-\begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Features plot-1} \caption[The Scatter Plots of the Features Dataset]{The Scatter Plots of the Features Dataset}(\#fig:Features plot)
-\end{figure}
-\end{Schunk}
-
-These scatter plots typify certain visual features we want to look for
-in scatter plots, be it deterministic relationships (such as that shown
-in the nonlinear feature), discreteness in variables (vlines), or
+differentiate plots, we have creates a dataset called ``features''
+(Figure @ref(fig:features\_plot), that contains a series of interesting
+and unique scatter plots which we can run our scagnsotics on. These
+scatter plots typify certain visual features we want to look for in
+scatter plots, be it deterministic relationships (such as that shown in
+the nonlinear feature), discreteness in variables (vlines), or
 clustering (clumpy), we should be able to use scagnostics to identify
-each of these scatter plots. Below is a visual table of an example of a
-high, a moderate, and a low value, on each scagnostic. The scagnostics
-are supposed to range from 0 to 1 however in some cases the values are
-so compressed that a moderate value would not fit, indicating that the
-scagnostics do not work quite as intended. We suspect the reason for
-these warped distributions is the removal of binning as a preliminary
-step in calculating the scagnostics. We wanted the package to have
-binning as an optional method, considering choices in binning can lead
-to bias as noted in ``Scagnostic Distributions'' \citep{scagdist} or
-unreproducible results as noted in ``Robustness of Scagnostics'' .
-Therefore the current scagnostics will be assessed without binning
-\citep{robust}.
+each of these scatter plots.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Visual Table-1} \caption[The Features Scatterplots in a Visual Table]{The Features Scatterplots in a Visual Table}(\#fig:Visual Table)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/features_plot-1} \caption[The scatter plots of the features dataset]{The scatter plots of the features dataset. These scatter plots were designed to each represent a distinct visual feature, for example the ring scatter plot is a hollow version of disk. The scagnostics need to be able to differentiate these plots. }(\#fig:features_plot)
 \end{figure}
 \end{Schunk}
 
-This plot gives a slight idea of the issues some of the scagnsotics face
-in their current state. The scagnostics based upon the convex hull
+Figure @ref(fig:visual\_table) shows scatter plots from the features
+data aligned on a 0 to 1 scale for each scagnostic. This visualisation
+displays a low, high, and moderate value for each scagnostic, and is
+useful to see how the scagnostics order data that typifies their visual
+feature. This plot gives a slight idea of the issues some of the
+scagnsotics face in their current state. The scagnostics are supposed to
+range from 0 to 1 however in some cases the values are so compressed
+that a moderate value would not fit, indicating that the scagnostics do
+not work quite as intended. The scagnostics based upon the convex hull
 (i.e.~skinny and convex) work fine, as do the association measures such
 as montonic, dcor and splines. The main issue comes from the measures
-based on the MST, and their issues largely come from binning. The MST
-measures and their issues are:
+based on the MST. We suspect the reason for these warped distributions
+is the removal of binning as a preliminary step in calculating the
+scagnostics. We wanted the package to have binning as an optional
+method, considering choices in binning can lead to bias as noted in
+\emph{Scagnostic Distributions} \citep{scagdist} or unreproducible
+results as noted in \emph{Robustness of Scagnostics} \citep{robust}.
+Therefore the current scagnostics will be assessed without binning.
+
+\begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/visual_table-1} \caption[The Features Scatterplots in a Visual Table]{The Features Scatterplots in a Visual Table. An example high, low, and mooderate (if the scagnostic distribution is spread out enough for it to fit) example scatter plot for each scagnostic. Some scagnostics, like clumpy, clearly need adjustment, while others, such as splines work well as they are.}(\#fig:visual_table)
+\end{figure}
+\end{Schunk}
 
 \begin{itemize}
 \item
@@ -422,12 +422,12 @@ we have defines and written several new scagnostics that work even
 without the pre-processing step of binning.
 
 \hypertarget{the-adjusted-scagnostics-measures}{%
-\subsubsection{The adjusted scagnostics
-measures}\label{the-adjusted-scagnostics-measures}}
+\subsubsection{The Adjusted Scagnostics
+Measures}\label{the-adjusted-scagnostics-measures}}
 
-The measures that need an adjusted version are striated, sparse, skewed,
-and clumpy. The outlying and stringy measure could possibly be left as
-they are, as they are not as badly damaged by the removal of binning.
+The measures that need an adjusted version are striated, and clumpy. The
+outlying and stringy measure could possibly be left as they are, as they
+are not as badly damaged by the removal of binning.
 
 \hypertarget{striated-adjusted}{%
 \paragraph{Striated adjusted}\label{striated-adjusted}}
@@ -443,42 +443,44 @@ The issues surrounding the striated scagnostic are:
 \item
   In order for the vertex to be counted, the angle between the edges
   needs to be approximately 135 to 220 degrees. The original idea seems
-  to have been to identify the predominantly 180 degree angles that come
-  with a discrete variable plotted against a continuous one, however the
-  large margin of error just makes the measure almost identical to
-  stringy.
+  to have been to give an allowance for the binning, data on a line
+  might end up slightly to either side if the boundary for the bins is
+  exactly on the line the data follows. With the removal of binning this
+  leeway is unecessary and many plots that are not discrete are
+  identified as such.
 \end{enumerate}
 
 To account for these two issues the striated adjusted measure considers
 all vertices (not just those with two adjacent edges), and makes the
 measure strict around the 180 and 90 degree angles. With this we can see
-the improvements on the measure.
+the improvements on the measure in Figure @ref(fig:striated\_vtable).
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Striated Vtable-1} \caption[A Visual Table Comparison of Striated and Striated 2]{A Visual Table Comparison of Striated and Striated 2}(\#fig:Striated Vtable)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/striated_vtable-1} \caption[A Visual Table Comparison of striated and striated2]{A Visual Table Comparison of striated and striated2. This plot compares the scagnostic value of a select group of scatter plots for striated and striated2. While the functions may seem similar at a glance, striated2 has a stricter version of discreteness, hence why line and vlines have the same result and plots with no discreteness score a 0.}(\#fig:striated_vtable)
 \end{figure}
 \end{Schunk}
 
-While these two measures may seem similar at a glace, there are a few
-minor things that make the striated2 scagnsotic an improvement on the
-stirated scagnsotic. First of all, the perfect 1 value on striated goes
-to the ``line'' scatter plot. While this does fulfil the definition, it
-is not what the measure is supposed to be looking for, rather supposed
-to be identifying the ``vlines'' scatter plot. Since striated does not
-count the right angles that go between the vertical lines, a truely
-striated plot will never get a full 1 on this measure, striated adjusted
-fixes this. After that there is a large gap in both measures because
-none of the other scatter plots have a strictly discrete measure on the
-x or y axis. The lower plots show that striated2 is also better at
-identifying discrete relationships with a rotation and noise added as
-shown in the ``discrete'' plot. In striated ``discrete'' is lower in the
-order than ``outlying'' which would indicate that striated has finished
-looking at discreteness. In striated2, after the plots with strict
-discreteness in ``vlines'' or strict rotated disceteness in ``line'', is
-the noisey and rotated ``discrete'' plot. Therefore in terms of ordering
-the plots in how well they represent the feature of discreteness,
-striated2 outperforms striated.
+Figure @ref(fig:striated\_vtable) shows that while these two measures
+may seem similar at a glace, there are a few minor things that make the
+striated2 scagnsotic an improvement on the stirated scagnsotic. First of
+all, the perfect 1 value on striated goes to the ``line'' scatter plot.
+While this does fulfil the definition, it is not what the measure is
+supposed to be looking for, rather supposed to be identifying the
+``vlines'' scatter plot. Since striated does not count the right angles
+that go between the vertical lines, a truely striated plot will never
+get a full 1 on this measure, striated adjusted fixes this. After that
+there is a large gap in both measures because none of the other scatter
+plots have a strictly discrete measure on the x or y axis. The lower
+plots show that striated2 is also better at identifying discrete
+relationships with a rotation and noise added as shown in the
+``discrete'' plot. In striated ``discrete'' is lower in the order than
+``outlying'' which would indicate that striated has finished looking at
+discreteness. In striated2, after the plots with strict discreteness in
+``vlines'' or strict rotated disceteness in ``line'', is the noisey and
+rotated ``discrete'' plot. Therefore in terms of ordering the plots in
+how well they represent the feature of discreteness, striated2
+outperforms striated.
 
 The scagnsotics need to be used and interpreted with the type of dataset
 you are working with in mind. For if we are looking at a dataset that is
@@ -562,14 +564,7 @@ package, and it is calculated as follows:
 \end{enumerate}
 
 With this calculation, we generate the clumpy2 measure which is compared
-to the original clumpy measure in the figure below.
-
-\begin{Schunk}
-\begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/Clumpy Vtable-1} \caption[A Visual Table Comparison of Clumpy and Clumpy 2]{A Visual Table Comparison of Clumpy and Clumpy 2}(\#fig:Clumpy Vtable)
-\end{figure}
-\end{Schunk}
-
+to the original clumpy measure in the Figure @ref(fig:clumpy\_vtable).
 Here we can see the improvements made on the clumpy measure in both
 distribution from 0 to 1 and ordering. The measure is more spread out,
 and so values range more accurately from 0 to 1. More importantly the
@@ -581,6 +576,12 @@ large due to a small colelction of outliers) and clusters created
 arbitrarily due to discreteness (such as vlines) in order to better
 aling with the human interpretation of clumpy. With these changes, the
 stronger performance of clumpy2 is apparent in this visual table.
+
+\begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/clumpy_vtable-1} \caption[A visual table comparison of clumpy and clumpy2]{A visual table comparison of clumpy and clumpy2. This plot compares the scagnostic value of a select group of scatter plots for clumpy and clumpy2. It is clear that clumpy2 achieves a more ballanced distribution and more intuitive plot ordering.}(\#fig:clumpy_vtable)
+\end{figure}
+\end{Schunk}
 
 \hypertarget{implementation}{%
 \section{Implementation}\label{implementation}}
@@ -707,7 +708,7 @@ are:
 
 \begin{tabular}{l|l}
 \hline
-func\_name & description\\
+funcname & description\\
 \hline
 draw\_alphahull & Drawing the alpha hull.\\
 \hline
@@ -731,16 +732,19 @@ plot. Both functions return a tibble where each column is a scagnostics.
 These are the two main functions of the package.
 
 \begin{Schunk}
+\begin{table}
 
-\begin{tabular}{l|l}
-\hline
-func\_name & description\\
-\hline
-calc\_scags & Compute selected scagnostics on subsets.\\
-\hline
-calc\_scags\_wide & Compute scagnostics on all possible scatter plots for the given data.\\
-\hline
+\caption{(\#tab:dsumfuncs_tb_pdf)Cassowaryr Summary Functions}
+\centering
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{2cm}l}
+\toprule
+funcname & description\\
+\midrule
+\cellcolor{gray!6}{calc\textbackslash{}\_scags} & \cellcolor{gray!6}{Compute selected scagnostics on subsets.}\\
+calc\_scags\textbackslash{}\_wide & Compute scagnostics on all possible scatter plots for the given data.\\
+\bottomrule
 \end{tabular}
+\end{table}
 
 \end{Schunk}
 
@@ -792,7 +796,7 @@ clusters & 0.06 & 0.83 & 0.03\\
 \hline
 discrete & 0.00 & 0.00 & 0.01\\
 \hline
-disk & 0.02 & 0.22 & 0.09\\
+disk & 0.02 & 0.40 & 0.09\\
 \hline
 gaps & 0.00 & 0.75 & 0.06\\
 \hline
@@ -804,15 +808,15 @@ nonlinear1 & 0.27 & 0.00 & 0.17\\
 \hline
 nonlinear2 & 0.00 & 0.00 & 0.81\\
 \hline
-outliers & 0.00 & 0.00 & 0.71\\
+outliers & 0.00 & 0.52 & 0.71\\
 \hline
 outliers2 & 0.59 & 0.00 & 0.06\\
 \hline
-positive & 0.14 & 0.18 & 0.92\\
+positive & 0.14 & 0.29 & 0.92\\
 \hline
-ring & 0.02 & 0.37 & 0.04\\
+ring & 0.02 & 0.45 & 0.04\\
 \hline
-vlines & 0.00 & 0.13 & 0.08\\
+vlines & 0.00 & 0.17 & 0.08\\
 \hline
 weak & 0.05 & 0.00 & 0.41\\
 \hline
@@ -1141,7 +1145,7 @@ classification technique is beyond the scope of this research.
 \hline
 Var1 & Var2 & scags & macro\_value & micro\_value & scag\_dif\\
 \hline
-pacf5 & linearity & clumpy2 & 0.78 & 0.00 & 0.78\\
+acf1 & trend\_strength & clumpy2 & 0.83 & 0.00 & 0.83\\
 \hline
 longest\_flat\_spot & trend\_strength & convex & 0.12 & 0.62 & 0.50\\
 \hline
