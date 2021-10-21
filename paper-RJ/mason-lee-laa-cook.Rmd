@@ -35,9 +35,11 @@ author:
     orcid: 000-0002-3813-7155
     email:  dicook@monash.edu
 type: package
+csl: "rjournal.csl"
 creative_commons: CC BY
 output: 
-  rjtools::rjournal_web_article
+  rjtools::rjournal_web_article:
+    css: "rjournal.css"
 bibliography: mason-lee-laa-cook.bib
 editor_options: 
   chunk_output_type: console
@@ -116,14 +118,15 @@ d1 + d2 + d3
 
 ## Graph-based scagnostics
 
-The nine scagnostics defined in *Scagnostic Distributions* are detailed below with an explanation, formula, and visualisation.  We will let *A*= alpha Hull *C*= convex hull, *M* = minimum spanning tree, and *s*= the scagnostic measure. Since some of the measures have some sample size dependence, we will let *w* be a constant that adjusts for that.  
+The nine scagnostics defined in *Scagnostic Distributions* are detailed below with an explanation, formula, and visualisation.  We will let $A=$ alpha Hull, $C=$ convex hull, $M$ = minimum spanning tree, and $s=$ the scagnostic measure. 
+Since some of the measures have a sample size dependence, $w$ is a parameter used to adjust for the sample size.  
 
-- **Convex:** Measure of how convex the shape of the data is. Computed as the ratio between the area of the alpha hull (A) and convex hull (C). Unlike the other scagnostic measures, a high value on convex does not correlate to an interesting scatter plot, rather it usually indicates a lack of relationship between the two variables.  
+- **Convex:** Measure of how convex the shape of the data is. Computed as the ratio between the area of the alpha hull ($A$) and convex hull ($C$). Unlike the other scagnostic measures, a high value on convex does not correlate to an interesting scatter plot, rather it usually indicates a lack of relationship between the two variables.  
 
 $$s_{convex}=w\frac{area(A)}{area(C)}$$  
 
 
-- **Skinny:** A measure of how "thin" the shape of the data is. It is calculated as the ratio between the area and perimeter of the alpha hull (A) with some normalisation such that 0 correspond to a perfect circle and values close to 1 indicate a skinny polygon.  
+- **Skinny:** A measure of how "thin" the shape of the data is. It is calculated as the ratio between the area and perimeter of the alpha hull ($A$) with some normalisation such that 0 correspond to a perfect circle and values close to 1 indicate a skinny polygon.  
 
 $$s_{skinny}= 1-\frac{\sqrt{4\pi area(A)}}{perimeter(A)}$$  
 
@@ -147,7 +150,7 @@ $$s_{skewed} = 1-w(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}})$$
 $$s_{sparse}= wq_{90}$$
 
 
-- **Clumpy:** This measure is used to detect clustering and is calculated through an iterative process. First an edge J is selected and removed from the MST. From the two spanning trees that are created by this break, we select the largest edge from the smaller tree (K). The length of this edge (K) is compared to the removed edge (J) giving a clumpy measure for this edge. This process is repeated for every edge in the MST and the final clumpy measure is the maximum of this value over all edges.  
+- **Clumpy:** This measure is used to detect clustering and is calculated through an iterative process. First an edge J is selected and removed from the MST. From the two spanning trees that are created by this break, we select the largest edge from the smaller tree ($K$). The length of this edge ($K$) is compared to the removed edge ($J$) giving a clumpy measure for this edge. This process is repeated for every edge in the MST and the final clumpy measure is the maximum of this value over all edges.  
 
 $$\max_{j}[1-\frac{\max_{k}[length(e_k)]}{length(e_j)}]$$  
 
@@ -166,7 +169,7 @@ $$s_{monotonic} = r^2_{spearman}$$
   
 The two additional scagnostics discussed by Katrin Grimm are described below.
 
-- **Splines:** Measures the functional non-linear dependence by fitting a penalised splines model on X using Y, and on Y using X. The variance of the residuals are scaled down by the axis so they are comparable, and finally the maximum is taken. Therefore the value will be closer to 1 if either relationship can be decently explained by a splines model.
+- **Splines:** Measures the functional non-linear dependence by fitting a penalised splines model on $X$ using $Y$, and on $Y$ using $X$. The variance of the residuals are scaled down by the axis so they are comparable, and finally the maximum is taken. Therefore the value will be closer to 1 if either relationship can be decently explained by a splines model.
 
 $$s_{splines}=\max_{i\in x,y}[1-\frac{Var(Residuals_{model~i=.})}{Var(i)}]$$
 
@@ -182,15 +185,15 @@ where
 $$A_{kl}=a_{kl}-\bar{a}_{k.}-\bar{a}_{.j}-\bar{a}_{..}$$
 $$B_{kl}=b_{kl}-\bar{b}_{k.}-\bar{b}_{.j}-\bar{b}_{..}$$
 
-```{r scagdrawn, eval=FALSE, out.height = "20%", out.width = "100%", fig.cap = "Scagnostic Visual Explanation"}
+```{r scagdrawn, eval=FALSE, out.height = "20%", out.width = "100%", fig.cap = "Illustration of the calculation made to compuet the outlying scagnostic."}
 knitr::include_graphics("figures/drawoutlying.png")
 ```
 
 ## Checking the scagnostics calculations 
 
-Once we have working functions that correctly calculate the scagnostics according to their definition, we can assess how well they identify the visual features of scatter plots. To test the packages ability to differentiate plots, we have creates a dataset called "features" (Figure \@ref(fig:features_plot), that contains a series of interesting and unique scatter plots which we can run our scagnsotics on. These scatter plots typify certain visual features we want to look for in scatter plots, be it deterministic relationships (such as that shown in the nonlinear feature), discreteness in variables (vlines), or clustering (clumpy), we should be able to use scagnostics to identify each of these scatter plots.
+Once we have working functions that correctly calculate the scagnostics according to their definition, we can assess how well they identify the visual features of scatter plots. To test the packages ability to differentiate plots, we have creates a dataset called "features" (Figure \@ref(fig:features-plot)), that contains a series of interesting and unique scatter plots which we can run our scagnostics on. These scatter plots typify certain visual features we want to look for in scatter plots, be it deterministic relationships (such as that shown in the nonlinear feature), discreteness in variables (vlines), or clustering (clumpy), we should be able to use scagnostics to identify each of these scatter plots.
 
-```{r, features_plot, width = 150, height = 150, out.width = "100%", fig.cap = "The scatter plots of the features dataset. These scatter plots were designed to each represent a distinct visual feature, for example the ring scatter plot is a hollow version of disk. The scagnostics need to be able to differentiate these plots. "}
+```{r features-plot, width = 150, height = 150, out.width = "100%", fig.cap = "The scatter plots of the features dataset. These scatter plots were designed to each represent a distinct visual feature, for example the ring scatter plot is a hollow version of disk. The scagnostics need to be able to differentiate these plots."}
 mypal <- c("#b2182b", "#d53e4f","#FF4E50", "#FC913A", "#fdae61",
            "#F9D423", "#fee08b" , "#abdda4" , "#a6d96a" , "#66c2a5" ,
            "#66bd63","#3B8183", "#3288bd", "#74add1",  "#abd9e9")
@@ -208,9 +211,9 @@ ggplot(features, aes(x,y,colour=feature))+
 
 ```
 
-Figure \@ref(fig:visual_table) shows scatter plots from the features data aligned on a 0 to 1 scale for each scagnostic. This visualisation displays a low, high, and moderate value for each scagnostic, and is useful to see how the scagnostics order data that typifies their visual feature. This plot gives a slight idea of the issues some of the scagnsotics face in their current state. The scagnostics are supposed to range from 0 to 1 however in some cases the values are so compressed that a moderate value would not fit, indicating that the scagnostics do not work quite as intended. The scagnostics based upon the convex hull (i.e. skinny and convex) work fine, as do the association measures such as montonic, dcor and splines. The main issue comes from the measures based on the MST. We suspect the reason for these warped distributions is the removal of binning as a preliminary step in calculating the scagnostics. We wanted the package to have binning as an optional method, considering choices in binning can lead to bias as noted in *Scagnostic Distributions* [@scagdist] or unreproducible results as noted in *Robustness of Scagnostics* [@robust]. Therefore the current scagnostics will be assessed without binning.
+Figure \@ref(fig:visual-table) shows scatter plots from the features data aligned on a 0 to 1 scale for each scagnostic. This visualisation displays a low, high, and moderate value for each scagnostic, and is useful to see how the scagnostics order data that typifies their visual feature. This plot gives a slight idea of the issues some of the scagnostics face in their current state. The scagnostics are supposed to range from 0 to 1 however in some cases the values are so compressed that a moderate value would not fit, indicating that the scagnostics do not work quite as intended. The scagnostics based upon the convex hull (i.e. skinny and convex) work fine, as do the association measures such as montonic, dcor and splines. The main issue comes from the measures based on the MST. We suspect the reason for these warped distributions is the removal of binning as a preliminary step in calculating the scagnostics. We wanted the package to have binning as an optional method, considering choices in binning can lead to bias as noted in @scagdist or unreproducible results as noted in @robust. Therefore the current scagnostics will be assessed without binning.
 
-```{r, Scatter Plots as images,  include=FALSE, eval=FALSE}
+```{r scatterplots_as_images,  include=FALSE, eval=FALSE}
 #set theme so all scatter plots in table match
 plot_theme <-  theme_classic() + #theme_minimal() + 
   theme(aspect.ratio=1, axis.title=element_blank(), axis.text = element_blank(), 
@@ -231,7 +234,7 @@ for (i in seq(length(plots))){
 
 ```
 
-```{r, visual_table, width = 150, height = 150, out.width = "100%", fig.cap = "The Features Scatterplots in a Visual Table. An example high, low, and mooderate (if the scagnostic distribution is spread out enough for it to fit) example scatter plot for each scagnostic. Some scagnostics, like clumpy, clearly need adjustment, while others, such as splines work well as they are."}
+```{r visual-table, width = 150, height = 200, out.width = "100%", fig.cap = "A visual table of a selection of scagnostics computed on the features data. The rows correspond to different scagnostics and the horizontal axis is the calculated value on a range of 0-1. Thumbnail plots of variable pairs are placed at their scagnostic value, and indicate the type of structure that would produce high or low or medium values. Some scagnostics, e.g. clumpy, clearly need adjustment, while others, such as splines work well as they are. XXX DC: not sure I see this", layout = "l-body-outset"}
 
 # Calculate Scagnostics
 features_scagnostics_long <- features %>%
@@ -306,9 +309,9 @@ visual_table <- ggplot(plot_data, aes(x=value , y=scagnostic))+
         legend.position="none") +
   xlim(-0.1,1.1) +
   scale_size_identity()+
-  xlab("Value") +
-  ylab("Scagnostic") +
-  ggtitle("Visual Table of Scagnostic Values")+
+  xlab("Scagnostic value") +
+  ylab("") +
+  #ggtitle("Visual Table of Scagnostic Values")+
   theme(
     axis.line = element_blank(),
     strip.background = element_blank(),
@@ -326,7 +329,7 @@ visual_table
   
 - **Skewed**: this measure can identify skewed edge lengths (such as the L shape in the visual table) however the values on real data rarely drop below 0.5 or rise above 0.8. Skewed seems to suffers from the same issue as sparse reguarding the binning issue and is also heavily influenced by the number of observations in the scatter plot.
 
-- **Outlying**: the disctinction of outlying points described in the scagnostic literature is certainly strange. By definition an outlier must have *all* its adjacent edges in the MST above this threshold, and the visual table displays three interesting cases of this. The first plot (outliers2) returns a 0 even though the handful of points in the top corner would likely be considered to be outliers by a human. This is because within that group the points are close enough that all of them have at least one edge that is below the outlying threshold. Even if we changed the measure such that only one edge needed to be above the outlying threshold, it would only remove a single point. The l-shape shows an increasing spread of the points as they move away from the bottom left corner, as such, the larger edge lengths make sense within the distribution. Outlying does not take this into account, and identifies a large number of the spread out points to be outliers and removes them before computing the other scagnsotics. The value that scores the highest on the outlying measure is, without question, a highly outlying distribution, however the outlying measure only returns a 0.5, this is again due to the removal of binning as a preprocessing step.
+- **Outlying**: the disctinction of outlying points described in the scagnostic literature is certainly strange. By definition an outlier must have *all* its adjacent edges in the MST above this threshold, and the visual table displays three interesting cases of this. The first plot (outliers2) returns a 0 even though the handful of points in the top corner would likely be considered to be outliers by a human. This is because within that group the points are close enough that all of them have at least one edge that is below the outlying threshold. Even if we changed the measure such that only one edge needed to be above the outlying threshold, it would only remove a single point. The l-shape shows an increasing spread of the points as they move away from the bottom left corner, as such, the larger edge lengths make sense within the distribution. Outlying does not take this into account, and identifies a large number of the spread out points to be outliers and removes them before computing the other scagnostics. The value that scores the highest on the outlying measure is, without question, a highly outlying distribution, however the outlying measure only returns a 0.5, this is again due to the removal of binning as a preprocessing step.
   
 - **Clumpy**: the clumpy scagnostic is probably the one that suffers the most with the removal of the binning step. Due to it being a ratio between an edge and its longest adjacent edge, it does not identify the largest edge, but rather an edge that is connected to an arbitrarily small edge. Because of this, this scagnsotic reliably returns an arbitrarily high value and scatter plots that actually contains clusters (such as clusters) scores low on this measure, while a continuous variable plotted against a discrete variable score arbitrarily high. 
   
@@ -345,9 +348,9 @@ The issues surrounding the striated scagnostic are:
   
 2. In order for the vertex to be counted, the angle between the edges needs to be approximately 135 to 220 degrees. The original idea seems to have been to give an allowance for the binning, data on a line might end up slightly to either side if the boundary for the bins is exactly on the line the data follows. With the removal of binning this leeway is unecessary and many plots that are not discrete are identified as such.
   
-To account for these two issues the striated adjusted measure considers all vertices (not just those with two adjacent edges), and makes the measure strict around the 180 and 90 degree angles. With this we can see the improvements on the measure in Figure \@ref(fig:striated_vtable).
+To account for these two issues the striated adjusted measure considers all vertices (not just those with two adjacent edges), and makes the measure strict around the 180 and 90 degree angles. With this we can see the improvements on the measure in Figure \@ref(fig:striated-vtable).
 
-```{r, striated_vtable, width = 150, height = 50, out.width = "100%", fig.cap = "A Visual Table Comparison of striated and striated2. This plot compares the scagnostic value of a select group of scatter plots for striated and striated2. While the functions may seem similar at a glance, striated2 has a stricter version of discreteness, hence why line and vlines have the same result and plots with no discreteness score a 0."}
+```{r striated-vtable, width = 150, height = 50, out.width = "100%", fig.cap = "Using a visual table to compare the striated and it's adjusted counterpart, striated2. This plot compares the scagnostic value of a select group of scatter plots for striated and striated2. While the functions may seem similar at a glance, striated2 has a stricter version of discreteness, hence why line and vlines have the same result and plots with no discreteness score a 0."}
 
 # Make Visual Table
 # Data
@@ -367,9 +370,9 @@ striated_visual_table <- ggplot(plot_data_striated, aes(x=value , y=scagnostic))
                  position=ggstance::position_dodgev(height=0.9)) +
   xlim(-0.05,1.05) +
   scale_size_identity()+
-  xlab("Value") +
-  ylab("Scagnostic") +
-  ggtitle("Striated Comparison") +
+  xlab("Scagnostic value") +
+  ylab("") +
+  #ggtitle("Striated Comparison") +
   theme_classic() +
   theme(
     panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -385,20 +388,19 @@ striated_visual_table
 
 ```
 
-Figure \@ref(fig:striated_vtable) shows that while these two measures may seem similar at a glace, there are a few minor things that make the striated2 scagnsotic an improvement on the stirated scagnsotic. First of all, the perfect 1 value on striated goes to the "line" scatter plot. While this does fulfil the definition, it is not what the measure is supposed to be looking for, rather supposed to be identifying the "vlines" scatter plot. Since striated does not count the right angles that go between the vertical lines, a truely striated plot will never get a full 1 on this measure, striated adjusted fixes this. After that there is a large gap in both measures because none of the other scatter plots have a strictly discrete measure on the x or y axis. The lower plots show that striated2 is also better at identifying discrete relationships with a rotation and noise added as shown in the "discrete" plot. In striated "discrete" is lower in the order than "outlying" which would indicate that striated has finished looking at discreteness. In striated2, after the plots with strict discreteness in "vlines" or strict rotated disceteness in "line", is the noisey and rotated "discrete" plot. Therefore in terms of ordering the plots in how well they represent the feature of discreteness, striated2 outperforms striated.
+Figure \@ref(fig:striated-vtable) shows that while these two measures may seem similar at a glace, there are a few minor things that make the striated2 scagnsotic an improvement on the stirated scagnsotic. First of all, the perfect 1 value on striated goes to the "line" scatter plot. While this does fulfil the definition, it is not what the measure is supposed to be looking for, rather supposed to be identifying the "vlines" scatter plot. Since striated does not count the right angles that go between the vertical lines, a truely striated plot will never get a full 1 on this measure, striated adjusted fixes this. After that there is a large gap in both measures because none of the other scatter plots have a strictly discrete measure on the x or y axis. The lower plots show that striated2 is also better at identifying discrete relationships with a rotation and noise added as shown in the "discrete" plot. In striated "discrete" is lower in the order than "outlying" which would indicate that striated has finished looking at discreteness. In striated2, after the plots with strict discreteness in "vlines" or strict rotated disceteness in "line", is the noisey and rotated "discrete" plot. Therefore in terms of ordering the plots in how well they represent the feature of discreteness, striated2 outperforms striated.
 
-The scagnsotics need to be used and interpreted with the type of dataset you are working with in mind. For  if we are looking at a dataset that is discrete, a very low value on striated2 would indicate some strange relationship in the scatter plot. Since the old striated measure is specifically trying to find a continuous variable against a discrete variable, its highest values are also identified by the striated2. The lowest values on striated simply identify a plot where all the variables are at right angles, once again a measure of disceteness but one that is not identified by striated. Striated2 encapsulates both versions of discreteness in the values that get exactly a 1.
+The scagnostics need to be used and interpreted with the type of dataset you are working with in mind. For  if we are looking at a dataset that is discrete, a very low value on striated2 would indicate some strange relationship in the scatter plot. Since the old striated measure is specifically trying to find a continuous variable against a discrete variable, its highest values are also identified by the striated2. The lowest values on striated simply identify a plot where all the variables are at right angles, once again a measure of disceteness but one that is not identified by striated. Striated2 encapsulates both versions of discreteness in the values that get exactly a 1.
 
 #### Clumpy adjusted
+
 The issues that need to be addressed with the new clumpy measure are:
 
 1. It needs to consider more than 1 edge in its final measure to make the measure more robust
-
 2. The impact of the ratio between the long and short edges need to be weighted by the size of their clusters so the measure does not simply identify outliers
-
 3. It should not consider vertices that's adjacent angles form a straight line (to avoid identifying the angles striated identifies)
 
-Before we calculated a new clumpy measure, we looked into applying a different adjustment defined in the *Improving the robustness of scagnsotics* that is a robust version of the original clumpy measure [@robust]. This version of clumpy has been included in the package as "clumpy_r" however it is not included as an option in the higher level functions such as calc_scags() because its computation time is too long. This measure tries to build multiple clusters, each having their own clumpy value, and then returns the weighted sum, where each value is weighted by the number of observations in that cluster. This version of clumpy spreads the scatter plots more evenly between 0 and 1 and is more robust to outliers, however it does a poor job of ordering plots generally considered to be clumpy without the assistance of binning. Since this scagnostic cannot be used in large scale scagnostic calculations (such as those done on every pairwise combination of variables as is intended by the package) and it maintains the ordering issue from the original measure, it is not discussed here.
+Before we calculated a new clumpy measure, we looked into applying a different adjustment defined in the *Improving the robustness of scagnostics* that is a robust version of the original clumpy measure [@robust]. This version of clumpy has been included in the package as ```clumpy_r``` however it is not included as an option in the higher level functions such as ```calc_scags()``` because its computation time is too long. This measure tries to build multiple clusters, each having their own clumpy value, and then returns the weighted sum, where each value is weighted by the number of observations in that cluster. This version of clumpy spreads the scatter plots more evenly between 0 and 1 and is more robust to outliers, however it does a poor job of ordering plots generally considered to be clumpy without the assistance of binning. Since this scagnostic cannot be used in large scale scagnostic calculations (such as those done on every pairwise combination of variables as is intended by the package) and it maintains the ordering issue from the original measure, it is not discussed here.
 
 Therefore in order to fix the issues in the clumpy measure described above, we designed an adjusted clumpy measure, called clumpy2 in the package, and it is calculated as follows:
   
@@ -409,9 +411,9 @@ Therefore in order to fix the issues in the clumpy measure described above, we d
 6. Take the mean clumpy value for each between cluster edge, if it is below 1 it is beneath the threshold that is consdiered clumpy, and the value is adjusted to 1.
 7. Clumpy 2 returns $1-\frac{1}{mean(clumpy_i)}$
 
-With this calculation, we generate the clumpy2 measure which is compared to the original clumpy measure in the Figure \@ref(fig:clumpy_vtable). Here we can see the improvements made on the clumpy measure in both distribution from 0 to 1 and ordering. The measure is more spread out, and so values range more accurately from 0 to 1. More importantly the measures do a better job of ordering the scatter plots. On the original clumpy measure the "clusters" scatter plot was next to last, on the clumpy2 measure "clusters" is is identified as the most clumpy scatter plot. Clumpy 2 also has a penalty for uneven clusters (to avoid being large due to a small colelction of outliers) and clusters created arbitrarily due to discreteness (such as vlines) in order to better aling with the human interpretation of clumpy. With these changes, the stronger performance of clumpy2 is apparent in this visual table.
+With this calculation, we generate the clumpy2 measure which is compared to the original clumpy measure in the Figure \@ref(fig:clumpy-vtable). Here we can see the improvements made on the clumpy measure in both distribution from 0 to 1 and ordering. The measure is more spread out, and so values range more accurately from 0 to 1. More importantly the measures do a better job of ordering the scatter plots. On the original clumpy measure the "clusters" scatter plot was next to last, on the clumpy2 measure "clusters" is is identified as the most clumpy scatter plot. Clumpy 2 also has a penalty for uneven clusters (to avoid being large due to a small colelction of outliers) and clusters created arbitrarily due to discreteness (such as vlines) in order to better aling with the human interpretation of clumpy. With these changes, the stronger performance of clumpy2 is apparent in this visual table.
 
-```{r, clumpy_vtable, width = 150, height = 50, out.width = "100%", fig.cap = "A visual table comparison of clumpy and clumpy2. This plot compares the scagnostic value of a select group of scatter plots for clumpy and clumpy2. It is clear that clumpy2 achieves a more ballanced distribution and more intuitive plot ordering."}
+```{r, clumpy-vtable, width = 150, height = 50, out.width = "100%", fig.cap = "A visual table comparison of clumpy and clumpy2. This plot compares the scagnostic value of a select group of scatter plots for clumpy and clumpy2. It is clear that clumpy2 achieves a more ballanced distribution and more intuitive plot ordering."}
 
 plot_data_clumpy <- plot_path_data %>%
   group_by(scagnostic, feature) %>%
@@ -450,19 +452,15 @@ clumpy_visual_table
 
 ## Installation
 
-The package can be installed using 
+The package can be installed from CRAN using 
 
-```
-install.packages("cassowaryr")
-```
+> ```install.packages("cassowaryr")```
 
-from CRAN and using 
+and from GitHub using 
 
-```
-remotes::install_github("numbats/cassowaryr")
-```
+> ```remotes::install_github("numbats/cassowaryr")```
 
-installs the development version.
+to install the development version.
 
 ## Web site
 
@@ -486,12 +484,12 @@ datasets_tb <- tibble(dt = c("features",
                                "Parkinsons data from UCI machine learning archive."))
 ```
 
-```{r datasets_tb_html, eval=is_html_output()}
+```{r datasets-tb-html, eval=is_html_output()}
 datasets_tb %>% 
   kable(col.names = c("data", "explanation")) 
 ```
 
-```{r datasets_tb_pdf, eval=is_latex_output()}
+```{r datasets-tb-pdf, eval=is_latex_output()}
 datasets_tb %>% 
   kable(format="latex", col.names = c("data", "explanation")) 
 ```
@@ -557,40 +555,42 @@ drawfuncs_tb <- tibble(funcname = c("draw_alphahull",
                                "Drawing the MST."))
 ```
 
-```{r drawfuncs_tb_html, eval=is_html_output()}
+```{r drawfuncs-tb-html, eval=is_html_output()}
 drawfuncs_tb %>% kable() 
 ```
 
-```{r drawfuncs_tb_pdf, eval=is_latex_output()}
+```{r drawfuncs-tb-pdf, eval=is_latex_output()}
 drawfuncs_tb %>% kable(format="latex") 
 ```
 
 
 ### Summary functions
-The summary functions are the perferred method for users to calculate scagnostics. The calc_scags function is supposed to be used on long data with the dplyr group_by and summarise functions. the calc_scags_wide functions is designed to take in a tibble of numerical variables and return the scagnostics on every possible pairwise scatter plot. Both functions return a tibble where each column is a scagnostics. These are the two main functions of the package. 
+The summary functions are the perferred method for users to calculate scagnostics. The ```calc_scags()``` function is supposed to be used on long data with the dplyr group_by and summarise functions. the ```calc_scags_wide()``` functions is designed to take in a tibble of numerical variables and return the scagnostics on every possible pairwise scatter plot. Both functions return a tibble where each column is a scagnostics. These are the two main functions of the package. 
 
 ```{r}
-sumfuncs_tb <- tibble(funcname = c("calc\\_scags",
-                             "calc_scags\\_wide"), 
+sumfuncs_tb <- tibble(funcname = c("calc_scags",
+                             "calc_scags_wide"), 
                       description = c("Compute selected scagnostics on subsets.",
                                "Compute scagnostics on all possible scatter plots for the given data."))
 ```
 
-```{r sumfuncs_tb_html, eval=is_html_output()}
-sumfuncs_tb %>% kable(caption = "Cassowaryr Summary Functions", booktabs = T)  %>%
-  kable_styling(bootstrap_options ="striped", position = "center") %>%
+```{r sumfuncs-tb-html, eval=is_html_output()}
+sumfuncs_tb %>% 
+  kable(caption = "Cassowaryr summary functions", booktabs = T)  %>%
+  kable_styling(bootstrap_options ="striped", 
+                position = "center") %>%
   column_spec(1, width = "2cm")
-
 ```
 
-```{r dsumfuncs_tb_pdf, eval=is_latex_output()}
-sumfuncs_tb %>% kable(format="latex", caption = "Cassowaryr Summary Functions", booktabs = T)  %>%
-  kable_styling(latex_options = "striped", position = "center") %>%
+```{r dsumfuncs-tb-pdf, eval=is_latex_output()}
+sumfuncs_tb %>% kable(format="latex", 
+  caption = "Cassowaryr summary functions", booktabs = T)  %>%
+  #kable_styling(latex_options = "striped", 
+  #             position = "center") %>%
   column_spec(1, width = "2cm")
-
 ```
 
-The main arguments of the calc_scags function are shown in Table `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(tab:calcfunc_tb_html)', '\\@ref(tab:calcfunc_tb_pdf)'))`.
+The main arguments of the ```calc_scags()``` function are shown in Table `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(tab:calcfunc-tb-html)', '\\@ref(tab:calcfunc-tb-pdf)'))`.
 
 ```{r calc-scags-args}
 calcfunc_tb <- tibble(argument = c("y", "x", "scags"), 
@@ -599,17 +599,17 @@ calcfunc_tb <- tibble(argument = c("y", "x", "scags"),
                                "collection of strings matching names of scagnostics to calculate: outlying, stringy, striated, striated2, striped, clumpy, clumpy2, sparse, skewed, convex, skinny, monotonic, splines, dcor. The default is to calculate all scagnostics."))
 ```
 
-```{r calcfunc_tb_html, eval=is_html_output()}
-calcfunc_tb %>% kable(caption="The main arguments for the calculate scagnostics function.") 
+```{r calcfunc-tb-html, eval=is_html_output()}
+calcfunc_tb %>% kable(caption="The main arguments for `calc_scags()`.") 
 ```
 
-```{r calcfunc_tb_pdf, eval=is_latex_output()}
-calcfunc_tb %>% kable(format="latex", caption="The main arguments for the calculate scagnostics function.") 
+```{r calcfunc-tb-pdf, eval=is_latex_output()}
+calcfunc_tb %>% kable(format="latex", caption="The main arguments for calc\\_scags().") 
 ```
 
-While the calc_scags function does not take in a tibble, it is designed to be seamlessly integrated into the tidy_data format. Currently if we specify the scagnostics in the summarise function it does not work correctly, however we can work around that with the filter option until it is fixed. Using the code below, we can calculate a specified list of scagnostics on the scatter plots from the features data, producing the output shown in **Table __**.
+While the ```calc_scags()``` function does not take in a tibble, it is designed to be seamlessly integrated into the tidy data work flow. Currently if we specify the scagnostics in the summarise function it does not work correctly, however we can work around that with the filter option until it is fixed. Using the code below, we can calculate a specified list of scagnostics on the scatter plots from the features data, producing the output shown in **Table __**.
 
-```{r calcscags example, echo=TRUE}
+```{r calcscags-example, echo=TRUE}
 features_scags <- features %>%
   group_by(feature) %>%
   summarise(calc_scags(x,y)) %>%
@@ -1218,4 +1218,4 @@ Scagnostics are a useful tool to identify the visual features in scatter plots. 
 
 The greatest limitation in this project was the 1 year time limit on the research. 
 
-There is a large amount of future work that could build upon this research. To start with, the distribution of the scagnsotics have been largely warped by the removal of binning as a preprocessing step. In the World Bank indicators example, we made the assumption that the scagnostics are all uniformly distributed from 0 to 1, however, looking at some of our results as well as well as the visual table of the features scatter plots (Figure \@ref(fig:visual_table)), shows this may not be the case. It would be a substantial task to identify the distributions of the scagnsotics, and make adjustments to rectify any irregularities. The scagnostics would need to be reassessed using large volumes of data to ensure the measures are not simply identifying the structures of that data set. Looking only at the outlying scagnostic on the features data may lead us to beleive that the maximum outlier value is 0.5 and its distribution is warped, however other data sets in this paper had scatter plots that measured a perfect 1 on outlying. Without this wide variety of data it is difficult for us to make comments on the spread of the scagnsotics. Scagnostics could also be expanded to be the basis of a classification technique that identifies shape differences in groups. While we showed in the time series example that scagnostics can identify shape differences between groups, expanding that observation to stand alone classification technique is outside the scope of this research. *Transforming Scagnostics to Reveal Hidden Features* showed that scagnostics can be used to identify useful structure in pairwise plots after transformations such as log or logit transformations. This paper showed a possible natural extension for the scagnostics in the original code, but could also be considered a natural extension of the cassowaryr package. Finally, there are a handful of scagnostics that are used in the projection persuit in the *tourr* package to find the best view of a large number of variables. The scagnostics described here could also be implemented into the package to improve the projection persuit. Previously scagnostics have has a large amount of noise (i.e. the tourr struggles to reliably move in the direction that will have the greatest increase in the scagnostic) and checking if these scagnostics maintain that issue, and developing them to negate this issue, is another possible area of future research. It is clear from this list that there is a significant amount of research that could be built upon this scagnostics.
+There is a large amount of future work that could build upon this research. To start with, the distribution of the scagnostics have been largely warped by the removal of binning as a preprocessing step. In the World Bank indicators example, we made the assumption that the scagnostics are all uniformly distributed from 0 to 1, however, looking at some of our results as well as well as the visual table of the features scatter plots (Figure \@ref(fig:visual_table)), shows this may not be the case. It would be a substantial task to identify the distributions of the scagnostics, and make adjustments to rectify any irregularities. The scagnostics would need to be reassessed using large volumes of data to ensure the measures are not simply identifying the structures of that data set. Looking only at the outlying scagnostic on the features data may lead us to beleive that the maximum outlier value is 0.5 and its distribution is warped, however other data sets in this paper had scatter plots that measured a perfect 1 on outlying. Without this wide variety of data it is difficult for us to make comments on the spread of the scagnostics. Scagnostics could also be expanded to be the basis of a classification technique that identifies shape differences in groups. While we showed in the time series example that scagnostics can identify shape differences between groups, expanding that observation to stand alone classification technique is outside the scope of this research. *Transforming Scagnostics to Reveal Hidden Features* (XXX needs citation) showed that scagnostics can be used to identify useful structure in pairwise plots after transformations such as log or logit transformations. This paper showed a possible natural extension for the scagnostics in the original code, but could also be considered a natural extension of the cassowaryr package. Finally, there are a handful of scagnostics that are used in the projection pursuit in the *tourr* package to find the best view of a large number of variables. The scagnostics described here could also be implemented into the package to improve the projection pursuit. Previously scagnostics have has a large amount of noise (i.e. the tourr struggles to reliably move in the direction that will have the greatest increase in the scagnostic) and checking if these scagnostics maintain that issue, and developing them to negate this issue, is another possible area of future research. It is clear from this list that there is a significant amount of research that could be built upon this scagnostics.
