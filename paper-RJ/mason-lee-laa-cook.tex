@@ -336,75 +336,58 @@ not work quite as intended. The scagnostics based upon the convex hull
 as montonic, dcor and splines. The main issue comes from the measures
 based on the MST. We can see in the figure that the sparse, stringy,
 skewed, and clumpy are each concentrated on a small portion of 0 to 1
-number line. We suspect the reason for these warped distributions is the
-removal of binning as a preliminary step in calculating the scagnostics.
-We wanted the package to have binning as an optional method, considering
-choices in binning can lead to bias as noted in \citet{scagdist} or
-unreproducible results as noted in \citet{robust}. Therefore the current
-scagnostics will be assessed without binning.
+number line. In addition to this, clumpy does not correctly order the
+scatter plots, and while it is not visible here, striated also struggles
+with a correct ordering. We suspect the reason for these warped
+distributions is the removal of binning as a preliminary step in
+calculating the scagnostics. The removal of binning allows for a large
+number of arbitrarily small edges, which upon testing was found to be
+the cause of a lot of these issues. Since many of these measures are
+based on the percentile edge lengths, or the ratio between two edge
+lengths, infintesimally small edges can warp the scagnsotics and
+redefines what they identify. A summary of how binning warped each MST
+scagnostic is provided in We wanted the package to have binning as an
+optional method, considering choices in binning can lead to bias as
+noted in \citet{scagdist} or unreproducible results as noted in
+\citet{robust}. Therefore the current scagnostics will be assessed
+without binning.
 
-\begin{itemize}
-\item
-  \textbf{Striated}: striated can identify the specific case of one
-  discrete variable and one continuous variable (which alone is not
-  particularly interesting) but will not identify two discrete
-  variables. Since by definition it is a subset of the stringy measure,
-  they are highly correlated, which means most variables that score
-  highly on striated already score highly on stringy, making the measure
-  less useful.
-\item
-  \textbf{Sparse}: While sparse does seem to identify spread out
-  distributions, it rarely returns a value higher than 0.1. As this
-  measure is the 90th percentile of MST edge lengths, and the removal of
-  binning allows for a large number of arbitrarily small edges. In
-  addiiton to this, a larger number of observations will arbitrarily
-  make this value smaller. The addition of new points will increase the
-  number of small edges and decrease the number of large edges, and it
-  is rare that a significantly large edge will be at or below the 90th
-  percentile.
-\item
-  \textbf{Skewed}: this measure can identify skewed edge lengths (such
-  as the L shape in the visual table) however the values on real data
-  rarely drop below 0.5 or rise above 0.8. Skewed seems to suffers from
-  the same issue as sparse reguarding the binning issue and is also
-  heavily influenced by the number of observations in the scatter plot.
-\item
-  \textbf{Outlying}: the disctinction of outlying points described in
-  the scagnostic literature is certainly strange. By definition an
-  outlier must have \emph{all} its adjacent edges in the MST above this
-  threshold, and the visual table displays three interesting cases of
-  this. The first plot (outliers2) returns a 0 even though the handful
-  of points in the top corner would likely be considered to be outliers
-  by a human. This is because within that group the points are close
-  enough that all of them have at least one edge that is below the
-  outlying threshold. Even if we changed the measure such that only one
-  edge needed to be above the outlying threshold, it would only remove a
-  single point. The l-shape shows an increasing spread of the points as
-  they move away from the bottom left corner, as such, the larger edge
-  lengths make sense within the distribution. Outlying does not take
-  this into account, and identifies a large number of the spread out
-  points to be outliers and removes them before computing the other
-  scagnostics. The value that scores the highest on the outlying measure
-  is, without question, a highly outlying distribution, however the
-  outlying measure only returns a 0.5, this is again due to the removal
-  of binning as a preprocessing step.
-\item
-  \textbf{Clumpy}: the clumpy scagnostic is probably the one that
-  suffers the most with the removal of the binning step. Due to it being
-  a ratio between an edge and its longest adjacent edge, it does not
-  identify the largest edge, but rather an edge that is connected to an
-  arbitrarily small edge. Because of this, this scagnsotic reliably
-  returns an arbitrarily high value and scatter plots that actually
-  contains clusters (such as clusters) scores low on this measure, while
-  a continuous variable plotted against a discrete variable score
-  arbitrarily high.
-\item
-  \textbf{Stringy}: This measure rarely drops below 0.5 even on data
-  generated from a random normal distribution (which should intuitively
-  return a 0). Unlike the other scagnostics on this list, stringy does
-  not depend upon the edge lengths of the MST, so it is hard to say if
-  this issue stems from binning.
-\end{itemize}
+\begin{Schunk}
+\begin{table}
+
+\caption{(\#tab:scagissues-tb-pdf)Summary of MST scagnostic issues.}
+\centering
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{3cm}l}
+\toprule
+Scagnostic & Issues\\
+\midrule
+Striated & The striated measure can identify the specific case of one discrete variable and one continuous variable (which alone is not particularly interesting) but will not identify two discrete variables. Since by definition it is a subset of the stringy measure, they are highly correlated, and often plot that score highly on striated already score highly on stringy, making the measure less useful.\\
+Sparse & While sparse does seem to identify spread out distributions, it rarely returns a value higher than 0.1. As this measure is the 90th percentile of MST edge lengths, and the removal of binning allows for a large number of arbitrarily small edges. In addiiton to this, a larger number of observations will arbitrarily make this value smaller. The addition of new points will increase the number of small edges and decrease the number of large edges, and it is rare that a significantly large edge will be at or below the 90th percentile.\\
+Skewed & This measure can identify skewed edge lengths (such as the L shape in the visual table) however the values on real data rarely drop below 0.5 or rise above 0.8. Skewed seems to suffers from the same issue as sparse reguarding the binning issue and is also heavily influenced by the number of observations in the scatter plot.\\
+Outlying & By definition an outlier must have all its adjacent edges in the MST above the outlying threshold. This means two or more observations that are close together but away from the main mass of data will not be identified as outliers because the points are close enough that all of them have at least one edge that is below the outlying threshold. Even if we changed the measure such that only one edge needed to be above the outlying threshold, it would only remove a single point. The measure also struggles to allow distributions with increasing variance due to the removal of binning. If the number of points close to the centre of the cluster is large enough, which is seen in the l-shape plot of features in the visual table, outlying identifies the spread out points to be outliers and returns a large value, despite human perception being unlikely to tag those points as outliers.\\
+Stringy & This measure rarely drops below 0.5 even on data generated from a random normal distribution (which should intuitively return a 0). Unlike the other scagnostics on this list, stringy does not depend upon the edge lengths of the MST, so it is hard to say if this issue stems from binning.\\
+\addlinespace
+Clumpy & With the removal of binning, clumpy does noth identify a long edge connected to a short edge, but rather identifies any edge connected to an arbitrarily small edge. This means the clumpy measure rarely drops below 0.9, and also does not correctly order the edges.\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{Schunk}
+
+The measures that do not seem to range uniformly from 0 to 1 still put
+the scatter plots in the correct order and so do not urgently need
+adjustments. In order to truely assess the distribution of these
+functions, we would need to check the scagnostics on a large range of
+data from muliple diciplines before claiming that the distribution is
+truely warped by the removal of binning. Intuition on a small simulated
+features data set is not enough. This is a large task that is beyond the
+scope of this research, and so we will assume that the scagnsotics range
+uniformly from 0 to 1. For some measures, removing the binning step
+completely changes the visual feature the measure is identifying, unlike
+the measures where the primary issue is their distribution, these
+scagnostics need to be redefined. Therefore, in the section below we
+will discuss the adjustments made to the striated and clumpy
+scagnostics.
 
 \begin{Schunk}
 \begin{figure}
@@ -412,33 +395,14 @@ scagnostics will be assessed without binning.
 \end{figure}
 \end{Schunk}
 
-Some of these measures primary issue is that they do not seem to range
-uniformly from 0 to 1. These measures still put the scatter plots in the
-correct order and so do not urgently need adjustments. In order to
-truely assess the distribution of these functions, we would need to
-check the scagnostics on a large range of data from muliple diciplines
-before claiming that the distribution is truely warped by the removal of
-binning. Intuition on a small simulated features data set is not enough.
-This is a large task that is beyond the scope of this research, and so
-we will assume that the scagnsotics range uniformly from 0 to 1. For
-some measures, removing the binning step completely changes the visual
-feature the measure is identifying, unlike the measures where the
-primary issue is their distribution, these scagnostics need to be
-redefined. Therefore, in the section below we will discuss the
-adjustments made to the striated and clumpy scagnostics.
-
 \hypertarget{the-adjusted-scagnostics-measures}{%
 \subsubsection{The Adjusted Scagnostics
 Measures}\label{the-adjusted-scagnostics-measures}}
 
-The measures that need an adjusted version are striated, and clumpy. The
-outlying and stringy measure could possibly be left as they are, as they
-are not as badly damaged by the removal of binning.
-
 \hypertarget{striated-adjusted}{%
 \paragraph{Striated adjusted}\label{striated-adjusted}}
 
-The issues surrounding the striated scagnostic are:
+The issues that need to be addressed with the new striated measure are:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -778,11 +742,7 @@ scagnostics, and then selecting just the ones of interest to display,
 using \texttt{select()}. The reason is that the argument for
 \texttt{calc\_scags()} is not currently recognised inside
 \texttt{summarise()}. The code below generates the summary data in Table
-<<<<<<< HEAD
 @ref(tab:featuresscags-pdf).
-=======
-\ref{tab:featuresscags-pdf}.
->>>>>>> 626a43c274222b53935d0a2850d3d7a0c5fa46e6
 
 \begin{Schunk}
 \begin{Sinput}
@@ -839,22 +799,13 @@ implemented into the package are \texttt{calc\_topscags()} and
 \begin{Schunk}
 \begin{table}
 
-<<<<<<< HEAD
 \caption{(\#tab:exsumfuncstb-pdf)Additional summary functions}
 \centering
 \begin{tabular}[t]{>{\raggedright\arraybackslash}p{3cm}l}
 \toprule
 Function & Explanation\\
 \midrule
-calc\textbackslash{}\_topscacs & Return the top scagnostic value for each pair of variables\\
-=======
-\begin{tabular}{l|l}
-\hline
-func\_name & description\\
-\hline
 calc\textbackslash{}\_topscags & Return the top scagnostic value for each pair of variables\\
-\hline
->>>>>>> 626a43c274222b53935d0a2850d3d7a0c5fa46e6
 calc\textbackslash{}\_toppairs & Return the top pair of variables for each scagnostic\\
 \bottomrule
 \end{tabular}
@@ -1214,11 +1165,11 @@ are 20 indicators (variables) and 79 countries.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/wbistatic-1} \caption[Most of the pairs of indicators exhibit outliersor are stringy]{Most of the pairs of indicators exhibit outliersor are stringy. There is one pair that has clumpy as the highest value. There are numerous pairs that have a highest value on convex.}(\#fig:wbistatic)
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/wbistatic-1} \caption[The range of scagnostics calculated on data with a large number of variables can help to inform the analyst about the types of relationships present]{The range of scagnostics calculated on data with a large number of variables can help to inform the analyst about the types of relationships present. The side-by-side dotplot (left) shows one point for each pair of variables, with its highest scagnostic value among all scagnostics calculated. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. There is one pair that has clumpy as the highest value. The plots middle and right show the pair of variables with highest value on clumpy2 and convex respectively.}(\#fig:wbistatic)
 \end{figure}
 \end{Schunk}
 
-Figure \ref{fig:wbistatic} (left plot) shows a summary of the top
+Figure @ref(fig:wbistatic) (left plot) shows a summary of the top
 scagnostic value for each pair of variables. That is, only the highest
 value on any scagnostic for each pair of variables is saved. This is
 displayed as a vertically-oriented side-by-side dotplot. For the WBI
@@ -1235,9 +1186,10 @@ reflected by skewned and stringy), and no relationship (convex).
 Scagnostics might be useful for obtaining alternative descriptive
 summaries of data with many variables.
 
-The middle and right plots of Figure \ref{fig:wbistatic} show the pair
+The middle and right plots of Figure @ref(fig:wbistatic) show the pair
 of variables where clumpy2 has the highest value, and where convex has
-the highest value, respectively.
+the highest value, respectively. This tells us that the data is not very
+clumpy.
 
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
