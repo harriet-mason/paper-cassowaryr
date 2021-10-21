@@ -353,17 +353,16 @@ visual_table
 ```
 
   
-### The Adjusted Scagnostics Measures
+### The adjusted scagnostics measures
 
 #### Striated adjusted
 
 The issues that need to be addressed with the new striated measure are:
   
 1. By only counting vertices with 2 edges, the set of vertices counted in this measure are a subset of those counted in stringy, thus the two meaures are highly correlated.
+2. In order for the vertex to be counted, the angle between the edges needs to be approximately 135 to 220 degrees. The original idea seemed to have been to give an allowance for the binning, data on a line might end up slightly to either side if the boundary for the bins is exactly on the line the data follows. With the removal of binning this leeway is unnecessary and many plots that are not discrete are identified as such.
   
-2. In order for the vertex to be counted, the angle between the edges needs to be approximately 135 to 220 degrees. The original idea seemed to have been to give an allowance for the binning, data on a line might end up slightly to either side if the boundary for the bins is exactly on the line the data follows. With the removal of binning this leeway is unecessary and many plots that are not discrete are identified as such.
-  
-To account for these two issues the striated adjusted measure considers all vertices (not just those with two adjacent edges), and makes the measure strict around the 180 and 90 degree angles. With this we can see the improvements on the measure in Figure `\@ref(fig:striated-vtable)`.
+To account for these two issues the striated adjusted measure considers all vertices (not just those with two adjacent edges), and makes the measure strict around the 180 and 90 degree angles. With this we can see the improvements on the measure in Figure \@ref(fig:striated-vtable).
 
 ```{r striated-vtable, width = 150, height = 50, out.width = "100%", fig.cap = "Using a visual table to compare the striated and it's adjusted counterpart, striated2. This plot compares the scagnostic value of a select group of scatter plots for striated and striated2. While the functions may seem similar at a glance, striated2 has a stricter version of discreteness, hence why line and vlines have the same result and plots with no discreteness score a 0."}
 
@@ -403,9 +402,9 @@ striated_visual_table
 
 ```
 
-Figure `\@ref(fig:striated-vtable)` shows that while these two measures may seem similar at a glace, there are a few minor things that make the striated2 scagnsotic an improvement on the stirated scagnsotic. First of all, the perfect 1 value on striated goes to the "line" scatter plot. While this does fulfil the definition, it is not what the measure is supposed to be looking for, rather supposed to be identifying the "vlines" scatter plot. Since striated does not count the right angles that go between the vertical lines, a truely striated plot will never get a full 1 on this measure, striated adjusted fixes this. After that there is a large gap in both measures because none of the other scatter plots have a strictly discrete measure on the x or y axis. The lower plots show that striated2 is also better at identifying discrete relationships with a rotation and noise added as shown in the "discrete" plot. In striated "discrete" is lower in the order than "outlying" which would indicate that striated has finished looking at discreteness. In striated2, after the plots with strict discreteness in "vlines" or strict rotated disceteness in "line", is the noisey and rotated "discrete" plot. Therefore in terms of ordering the plots in how well they represent the feature of discreteness, striated2 outperforms striated.
+Figure \@ref(fig:striated-vtable) shows that while these two measures may seem similar at a glace, there are a few minor things that make the striated2 scagnostic an improvement on the striated scagnostic. First of all, the perfect 1 value on striated goes to the "line" scatter plot. While this does fulfill the definition, it is not what the measure is supposed to be looking for, rather supposed to be identifying the "vlines" scatter plot. Since striated does not count the right angles that go between the vertical lines, a truly striated plot will never get a full 1 on this measure, striated adjusted fixes this. After that there is a large gap in both measures because none of the other scatter plots have a strictly discrete measure on the x or y axis. The lower plots show that striated2 is also better at identifying discrete relationships with a rotation and noise added as shown in the "discrete" plot. In striated "discrete" is lower in the order than "outlying" which would indicate that striated has finished looking at discreteness. In striated2, after the plots with strict discreteness in "vlines" or strict rotated disceteness in "line", is the noisy and rotated "discrete" plot. Therefore in terms of ordering the plots in how well they represent the feature of discreteness, striated2 outperforms striated.
 
-The scagnostics need to be used and interpreted with the type of dataset you are working with in mind. For  if we are looking at a dataset that is discrete, a very low value on striated2 would indicate some strange relationship in the scatter plot. Since the old striated measure is specifically trying to find a continuous variable against a discrete variable, its highest values are also identified by the striated2. The lowest values on striated simply identify a plot where all the variables are at right angles, once again a measure of disceteness but one that is not identified by striated. Striated2 encapsulates both versions of discreteness in the values that get exactly a 1.
+The scagnostics need to be used and interpreted with the type of dataset you are working with in mind. For  if we are looking at a dataset that is discrete, a very low value on striated2 would indicate some strange relationship in the scatter plot. Since the old striated measure is specifically trying to find a continuous variable against a discrete variable, its highest values are also identified by the striated2. The lowest values on striated simply identify a plot where all the variables are at right angles, once again a measure of discreteness but one that is not identified by striated. Striated2 encapsulates both versions of discreteness in the values that get exactly a 1.
 
 #### Clumpy adjusted
 
@@ -918,7 +917,7 @@ bbh4 + bbh5 + bbh6 + bbh7 + bbh8 + bbh9 + plot_layout(nrow=2)
 ```
 
 
-## Shape Differences Between Groups
+## Shape differences between groups
 A potential application of scagnostics is to detect shape differences between groups. Commonly, classification focuses on differences in the means, or separations between groups, there are few techniques that focus on difference in shape. This difference in shape occurs when the variance patters between groups are different, and quadratic discriminant analysis (QDA), is a classical example of a method that takes this difference in variance into consideration. QDA assumes the distribution of each group is normal, and then draws a curved boundary between them that is furthest from each groups mean, but also respects that one group might have a larger elliptical variance-covariance than another group. While this method is useful when groups have different shapes, the technique is still limited by an assumption of normality. Scagnostics could be utilised in a similar fashion to QDA to identify irregular shape differences between.
 
 This analysis compares the features of two large collections time series, and then tries to differentiate them using scagnostics. The goal of the comparison is to compare shapes, not necessarily centres of groups as might be done in LDA or other machine learning methods. The two groups chosen for comparison are macroeconomic and microeconomic series. The data is pulled from the self-organizing database of time-series data [@sots], using the compenginets R package [@compenginets]. Since the time series are different lengths, each is described by a set of time series features [chapter 4 of @fpp] using the feasts R package [@feasts].
