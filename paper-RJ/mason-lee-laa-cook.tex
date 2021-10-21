@@ -772,16 +772,15 @@ scags & collection of strings matching names of scagnostics to calculate: outlyi
 
 \end{Schunk}
 
-\hypertarget{making-summaries}{%
-\subsubsection{Making summaries}\label{making-summaries}}
-
 While the \texttt{calc\_scags()} function does not take in a tibble, it
 is designed to be seamlessly integrated into the tidy data work flow.
-Currently if we specify the scagnostics in the summarise function it
-does not work correctly, however we can work around that with the filter
-option until it is fixed. Using the code below, we can calculate a
-specified list of scagnostics on the scatter plots from the features
-data, producing the output shown in **Table \_\_**.
+Currently to specify the scagnostics on long form tidy data using
+\texttt{summarise()} requires \texttt{group\_by()}, computing all the
+scagnostics, and then selecting just the ones of interest to display,
+using \texttt{select()}. The reason is that the argument for
+\texttt{calc\_scags()} is not currently recognised inside
+\texttt{summarise()}. The code below generates the summary data in Table
+\ref{tab:featuresscags-pdf}
 
 \begin{Schunk}
 \begin{Sinput}
@@ -793,8 +792,11 @@ features_scags <- features %>%
 \end{Schunk}
 
 \begin{Schunk}
+\begin{table}
 
-\begin{tabular}{l|r|r|r}
+\caption{\label{tab:featuresscags-pdf}Summary of three scagnostics computed by calc\_scags() on the long form of the features data.}
+\centering
+\begin{tabular}[t]{l|r|r|r}
 \hline
 feature & outlying & clumpy2 & monotonic\\
 \hline
@@ -829,8 +831,12 @@ vlines & 0.00 & 0.17 & 0.08\\
 weak & 0.05 & 0.00 & 0.41\\
 \hline
 \end{tabular}
+\end{table}
 
 \end{Schunk}
+
+\hypertarget{making-summaries}{%
+\subsubsection{Making summaries}\label{making-summaries}}
 
 We are also considering an additional two summary functions that could
 be introduced to the package. While the code required to write them is

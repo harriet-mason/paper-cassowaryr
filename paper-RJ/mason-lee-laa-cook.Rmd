@@ -608,9 +608,8 @@ calcfunc_tb %>% kable(caption="The main arguments for `calc_scags()`.")
 calcfunc_tb %>% kable(format="latex", caption="The main arguments for calc\\_scags().", escape=FALSE) 
 ```
 
-### Making summaries
 
-While the ```calc_scags()``` function does not take in a tibble, it is designed to be seamlessly integrated into the tidy data work flow. Currently if we specify the scagnostics in the summarise function it does not work correctly, however we can work around that with the filter option until it is fixed. Using the code below, we can calculate a specified list of scagnostics on the scatter plots from the features data, producing the output shown in **Table __**.
+While the ```calc_scags()``` function does not take in a tibble, it is designed to be seamlessly integrated into the tidy data work flow. Currently to specify the scagnostics on long form tidy data using ```summarise()``` requires ```group_by()```, computing all the scagnostics, and then selecting just the ones of interest to display, using ```select()```. The reason is that the argument for ```calc_scags()``` is not currently recognised inside ```summarise()```. The code below generates the summary data in Table `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(tab:featuresscags-pdf)','\\@ref(tab:featuresscags-html)'))`.
 
 ```{r calcscags-example, echo=TRUE}
 features_scags <- features %>%
@@ -620,12 +619,14 @@ features_scags <- features %>%
 ```
 
 ```{r featuresscags-html, eval=is_html_output()}
-features_scags %>% kable() 
+features_scags %>% kable(caption = "Summary of three scagnostics computed by `calc_scags()` on the long form of the features data.") 
 ```
 
 ```{r featuresscags-pdf, eval=is_latex_output()}
-features_scags %>% kable(format="latex") 
+features_scags %>% kable(format="latex", caption = "Summary of three scagnostics computed by calc\\_scags() on the long form of the features data.", escape=FALSE) 
 ```
+
+### Making summaries
 
 We are also considering an additional two summary functions that could be introduced to the package. While the code required to write them is simple and easily performed by the user, having them as ready functions in the package would help guide users to use the package most effectively. The two additional functions that have not yet been implemented into the package are ```calc_topscacs()``` and ```calc_toppairs()``` which are described in **table**.
 
