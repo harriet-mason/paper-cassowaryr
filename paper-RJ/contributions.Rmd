@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The thesis is written in paper format, so that it will be ready to submit to the R Journal, after completion of the Honours degree. 
 
-This work has also been used as a test case for the new HTML format for the R Journal. The new format delivers the journal content natively in HTML, to accommodate interactive graphics, and in the traditional PDF format. As such, there may still be some small errors in the typesetting, in this thesis, that are beyond my control. However, this has been enormously useful for the journal's editorial staff to identify problems with the new styling and to fix them. 
+This work has also been used as a test case for the new HTML format for the R Journal. The new format delivers the journal content natively in HTML, to accommodate interactive graphics, and in the traditional PDF format. As such, there may still be some small errors in the typesetting and figure sizing, in this thesis, that are beyond my control. However, this has been enormously useful for the journal's editorial staff to identify problems with the new styling and to fix them. 
 
 The new format uses Rmarkdown as the source file, which includes all the code needs to produce the results reported in the paper. The full set of files can be found at https://github.com/harriet-mason/paper-cassowaryr/tree/main/paper-RJ.
 
