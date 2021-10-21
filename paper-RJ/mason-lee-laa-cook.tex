@@ -400,6 +400,7 @@ The issues that need to be addressed with the new striated measure are:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
+\tightlist
 \item
   By only counting vertices with 2 edges, the set of vertices counted in
   this measure are a subset of those counted in stringy, thus the two
@@ -410,7 +411,7 @@ The issues that need to be addressed with the new striated measure are:
   to have been to give an allowance for the binning, data on a line
   might end up slightly to either side if the boundary for the bins is
   exactly on the line the data follows. With the removal of binning this
-  leeway is unecessary and many plots that are not discrete are
+  leeway is unnecessary and many plots that are not discrete are
   identified as such.
 \end{enumerate}
 
@@ -976,30 +977,34 @@ analysis.
 \end{figure}
 \end{Schunk}
 
-\hypertarget{black-hole-mergers}{%
-\subsection{Black hole mergers}\label{black-hole-mergers}}
+\hypertarget{non-linear-shapes-in-black-hole-mergers}{%
+\subsection{Non-linear Shapes in Black hole
+mergers}\label{non-linear-shapes-in-black-hole-mergers}}
 
-Physics data often contains multiple variables with highly non-linear
-pairwise relationships that often also have a large amount of
-clustering, which makes this type of data ideal for investigating the
-capability of the splines and clumpy2 scagnostics. Two scagnostics
-that's uses were not particularly visible in the AFLW example. Here we
-will use scagnostics to study a simulated dataset that contains
-posterior samples describing a gravitational waves signal from a black
-hole merger. The data contains 13 variables that describe (what event),
-the explanation of each can be found in the appendix. In this example
-looking at the complete SPLOM is still feasible, and could be used to
-identify several interesting scatterplots and the corresponding
-combination of variables. Most notably we can see non-linear and
-non-functional relations between pairs of variables, and we expect that
-these should stand out on the scagnostics measures as well. The full
-data file contains 9998 posterior samples, without binning it is too
-long to compute the scagnostics on such a large number of observations.
-For our purpose a much smaller sample is sufficient, and we randomly
-sample 200 observations before computing the scagnostics. We will focus
-on the structures we know exist by looking at which scatter plots
-significant difference in their splines and dcor values, as well as
-which plots stand out on the clumpy2 measure.
+Physics data often contains multiple variables with highly non-linear or
+clustered pairwise relationships, which makes this type of data ideal
+for displaying splines and clumpy2, two scagnostics that's uses were not
+particularly visible in the AFLW example. Here we will use scagnostics
+to explore data that comes from a simulation of a model describing a
+binary blck hole (BBH) merger event. The data contains 13 variables that
+describe the BBH event. As the variables describe complicated physics
+phenomena, details of the variables will be left to the appendix and the
+analysis in this paper will ignore their meaning. Since the size of the
+dataset is small enough, looking at the complete SPLOM is still
+feasible, and could be used to identify several interesting
+scatterplots. We will omit the SPLOM here, however it allows us to see
+the presence of non-linear and non-functional relations between pairs of
+variables that we except the scagnostics to pick out.
+
+The full data file contains 9998 posterior samples, and with such a
+large number of observations, the scagnostics cannot be computed within
+a reasonable timeframe without the assistance of binning. For our
+purpose a much smaller sample is sufficient, and we randomly sample 200
+observations before computing the scagnostics. We will focus on the
+structures we know exist (i.e.~non-linear and clustered relationships)
+by looking at which scatter plots have a significant difference in their
+splines and dcor values, as well as which plots stand out on the clumpy2
+measure.
 
 \begin{Schunk}
 \begin{figure}
