@@ -1100,6 +1100,12 @@ The World Bank delivers a lot of development indicators (WBI) [@WBI], for many c
 
 The example uses indicators from 2018 for a number of countries. The downloaded data needs some pre-processing, to remove variables which have mostly missing values, and countries which have mostly missing values. The scagnostics will be calculated on the pairwise complete data, allowing for a few sporadic missings.  After pre-processing, there are 20 indicators (variables) and 79 countries.
 
+Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:wbistatic)','\\@ref(fig:wbiinteractive)'))` (left plot) shows a summary of the top scagnostic value for each pair of variables. That is, only the highest value on any scagnostic for each pair of variables is saved. This is displayed as a vertically-oriented side-by-side dotplot. For the WBI data, the pairs of variables are producing mostly high values on stringy, skewed, convex and outlying. The scagnostics clumpy2, striated2, and skinny are only the highest for a single pair of variables. In addition, missing from the plot but not the calculations is that splines and striped were not highest for any pair of variables in the data set. 
+
+This tells us that in the WBI data, the relationships between variables is dominated by outliers (outlying scagnostic, and to some extent also reflected by skewned and stringy), and no relationship (convex). Scagnostics might be useful for obtaining alternative descriptive summaries of data with many variables.
+
+The middle and right plots of Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:wbistatic)','\\@ref(fig:wbiinteractive)'))` show the pair of variables where clumpy2 has the highest value, and where convex has the highest value, respectively. This tells us that the data is not very clumpy.
+
 
 ```{r eval=FALSE}
 # Pre-processing code
@@ -1229,22 +1235,19 @@ w6 <- ggplot(wbi_scags_topvars,
   geom_point() + coord_flip()
 ```
 
-```{r wbiinteractive, fig.cap="Most of the pairs of indicators exhibit outliersor are stringy. There is one pair that has clumpy as the highest value. There are numerous pairs that have a highest value on convex.",  include=knitr::is_html_output(), eval=knitr::is_html_output(), layout = "l-body"}
+```{r wbiinteractive, fig.cap="The range of scagnostics calculated on data with a large number of variables can help to inform the analyst about the types of relationships present. The side-by-side dotplot (left) shows one point for each pair of variables, with its highest scagnostic value among all scagnostics calculated. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. There is one pair that has clumpy as the highest value. The plots middle and right show the pair of variables with highest value on clumpy2 and convex respectively. (Mouseover allows identification of variable pairs, and countries.)",  include=knitr::is_html_output(), eval=knitr::is_html_output(), layout = "l-body"}
 ws1 <- ggplotly(w6)
 ws2 <- ggplotly(w3a)
 ws3 <- ggplotly(w3b)
 subplot(ws1, ws2, ws3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.6)
 ```
 
-```{r wbistatic, fig.cap="The range of scagnostics calculated on data with a large number of variables can help to inform the analyst about the types of relationships present. The side-by-side dotplot (left) shows one point for each pair of variables, with its highest scagnostic value among all scagnostics calculated. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. There is one pair that has clumpy as the highest value. The plots middle and right show the pair of variables with highest value on clumpy2 and convex respectively.", fig.height=4, fig.width=12, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
+```{r wbistatic, fig.cap="The range of scagnostics calculated on data with a large number of variables can help to inform the analyst about the types of relationships present. The side-by-side dotplot (left) shows one point for each pair of variables, with its highest scagnostic value among all scagnostics calculated. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. There is one pair that has clumpy as the highest value. The plots middle and right show the pair of variables with highest value on clumpy2 and convex respectively.", fig.height=3.5, fig.width=9, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
+w6 <- w6 + ggtitle("Top scagnostic for each pair")
+w3a <- w3a + ggtitle("Top clumpy2")
+w3b <- w3b + ggtitle("Top convex")
 w6 + w3a + w3b
 ```
-
-Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:wbistatic)','\\@ref(fig:wbiinteractive)'))` (left plot) shows a summary of the top scagnostic value for each pair of variables. That is, only the highest value on any scagnostic for each pair of variables is saved. This is displayed as a vertically-oriented side-by-side dotplot. For the WBI data, the pairs of variables are producing mostly high values on stringy, skewed, convex and outlying. The scagnostics clumpy2, striated2, and skinny are only the highest for a single pair of variables. In addition, missing from the plot but not the calculations is that splines and striped were not highest for any pair of variables in the data set. 
-
-This tells us that in the WBI data, the relationships between variables is dominated by outliers (outlying scagnostic, and to some extent also reflected by skewned and stringy), and no relationship (convex). Scagnostics might be useful for obtaining alternative descriptive summaries of data with many variables.
-
-The middle and right plots of Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:wbistatic)','\\@ref(fig:wbiinteractive)'))` show the pair of variables where clumpy2 has the highest value, and where convex has the highest value, respectively. This tells us that the data is not very clumpy.
 
 # Conclusion
 
