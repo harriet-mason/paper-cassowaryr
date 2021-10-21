@@ -1212,12 +1212,6 @@ values. The scagnostics will be calculated on the pairwise complete
 data, allowing for a few sporadic missings. After pre-processing, there
 are 20 indicators (variables) and 79 countries.
 
-\begin{Schunk}
-\begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/wbistatic-1} \caption[Most of the pairs of indicators exhibit outliersor are stringy]{Most of the pairs of indicators exhibit outliersor are stringy. There is one pair that has clumpy as the highest value. There are numerous pairs that have a highest value on convex.}\label{fig:wbistatic}
-\end{figure}
-\end{Schunk}
-
 Figure \ref{fig:wbistatic} (left plot) shows a summary of the top
 scagnostic value for each pair of variables. That is, only the highest
 value on any scagnostic for each pair of variables is saved. This is
@@ -1237,7 +1231,14 @@ summaries of data with many variables.
 
 The middle and right plots of Figure \ref{fig:wbistatic} show the pair
 of variables where clumpy2 has the highest value, and where convex has
-the highest value, respectively.
+the highest value, respectively. This tells us that the data is not very
+clumpy.
+
+\begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/wbistatic-1} \caption[The range of scagnostics calculated on data with a large number of variables can help to inform the analyst about the types of relationships present]{The range of scagnostics calculated on data with a large number of variables can help to inform the analyst about the types of relationships present. The side-by-side dotplot (left) shows one point for each pair of variables, with its highest scagnostic value among all scagnostics calculated. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. There is one pair that has clumpy as the highest value. The plots middle and right show the pair of variables with highest value on clumpy2 and convex respectively.}\label{fig:wbistatic}
+\end{figure}
+\end{Schunk}
 
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
