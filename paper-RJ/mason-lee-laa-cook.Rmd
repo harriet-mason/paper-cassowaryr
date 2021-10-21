@@ -230,12 +230,13 @@ scagissues_tb <- tibble(Scagnostic = c("Striated",
 
 ```{r scagissues-tb-html, eval=is_html_output()}
 scagissues_tb %>% 
-  kable() 
+  kbl() 
+
 ```
 
 ```{r scagissues-tb-pdf, eval=is_latex_output()}
 scagissues_tb %>% 
-  kable(caption = "Summary of MST scagnostic issues.", format="latex", booktabs = T)  %>%
+  kbl(caption = "Summary of MST scagnostic issues.", format="latex", booktabs = T)  %>%
   column_spec(1, width = "3cm")
 ```
 
