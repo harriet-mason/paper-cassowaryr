@@ -628,10 +628,10 @@ features_scags %>% kable(format="latex", caption = "Summary of three scagnostics
 
 ### Making summaries
 
-We are also considering an additional two summary functions that could be introduced to the package. While the code required to write them is simple and easily performed by the user, having them as ready functions in the package would help guide users to use the package most effectively. The two additional functions that have not yet been implemented into the package are ```calc_topscacs()``` and ```calc_toppairs()``` which are described in **table**.
+We are also considering an additional two summary functions that could be introduced to the package. While the code required to write them is simple and easily performed by the user, having them as ready functions in the package would help guide users to use the package most effectively. The two additional functions that have not yet been implemented into the package are ```calc_topscags()``` and ```calc_toppairs()``` which are described in **table**.
 
 ```{r}
-exsumfuncstb <- tibble(func_name = c("calc\\_topscacs",
+exsumfuncstb <- tibble(func_name = c("calc\\_topscags",
                              "calc\\_toppairs"), 
                       description = c("Return the top scagnostic value for each pair of variables",
                                "Return the top pair of variables for each scagnostic"))
