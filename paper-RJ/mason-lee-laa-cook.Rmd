@@ -237,7 +237,7 @@ scagissues_tb %>%
 ```{r scagissues-tb-pdf, eval=is_latex_output()}
 scagissues_tb %>% 
   kbl(caption = "Summary of MST scagnostic issues.", format="latex", booktabs = T)  %>%
-  column_spec(1, width = "3cm")
+  column_spec(2, width = "12cm")
 ```
 
 Several of the measures that do not have a uniform distrubution from 0 to 1 still correctly order the scatter plots. In order to truely assess the distribution of these functions, we would need to check the scagnostics on a large range of data from muliple diciplines before claiming that the distribution is truely warped by the removal of binning. Intuition on a small simulated features data set is not enough. This is a large task that is beyond the scope of this research, and so we will assume that the scagnsotics range uniformly from 0 to 1 and only adjust those measures that provide an incorrect ordering. Therefore, in the section below we will discuss the adjustments made to the striated and clumpy scagnostics.
@@ -506,7 +506,8 @@ datasets_tb %>%
 ```{r datasets-tb-pdf, eval=is_latex_output()}
 datasets_tb %>% 
   kable(caption = "Cassowaryr data sets", format="latex", col.names = c("data", "explanation"), booktabs = T)  %>%
-  column_spec(1, width = "3cm")
+  column_spec(1, width = "4cm") %>%
+  column_spec(2, width = "8cm")
 ```
 
 
@@ -555,7 +556,8 @@ scagfuncs_tb %>% kable()
 
 ```{r scagfuncs-tb-pdf, eval=is_latex_output()}
 scagfuncs_tb %>% kable(caption = "Cassowaryr Scagnostic functions", col.names = c("Function", "Explanation"), format="latex", booktabs = T)  %>%
-  column_spec(1, width = "3cm") 
+  column_spec(1, width = "3cm") %>%
+  column_spec(2, width = "10cm")
 ```
 
 
@@ -621,7 +623,7 @@ calcfunc_tb %>% kable(caption="The main arguments for `calc_scags()`.")
 
 ```{r calcfunc-tb-pdf, eval=is_latex_output()}
 calcfunc_tb %>% kable(format="latex", caption="The main arguments for calc\\_scags().", col.names = c("Argument", "Explanation"), escape=FALSE, booktabs = T)  %>%
-  column_spec(1, width = "3cm")
+  column_spec(2, width = "12cm")
 ```
 
 
@@ -839,7 +841,7 @@ subplot(ggplotly(s1), ggplotly(s2), ggplotly(s5), ggplotly(p1), ggplotly(p2), gg
  s1 + s2 + s5 + p1 + p2 + p5 + plot_layout(nrow=2)
 ```
 
-## Non-linear Shapes in Black hole mergers
+## Non-linear shapes in black hole mergers
 Physics data often contains multiple variables with highly non-linear or clustered pairwise relationships, which makes this type of data ideal for displaying splines and clumpy2, two scagnostics that's uses were not particularly visible in the AFLW example. Here we will use scagnostics to explore data that comes from a simulation of a model describing a binary blck hole (BBH) merger event. The data contains 13 variables that describe the BBH event. As the variables describe complicated physics phenomena, details of the variables will be left to the appendix and the analysis in this paper will ignore their meaning. Since the size of the dataset is small enough, looking at the complete SPLOM is still feasible, and could be used to identify several interesting scatterplots. We will omit the SPLOM here, however it allows us to see the presence of non-linear and non-functional relations between pairs of variables that we except the scagnostics to pick out. 
   
 The full data file contains 9998 posterior samples, and with such a large number of observations, the scagnostics cannot be computed within a reasonable timeframe without the assistance of binning. For our purpose a much smaller sample is sufficient, and we randomly sample 200 observations before computing the scagnostics. We will focus on the structures we know exist (i.e. non-linear and clustered relationships) by looking at which scatter plots have a significant difference in their splines and dcor values, as well as which plots stand out on the clumpy2 measure.
