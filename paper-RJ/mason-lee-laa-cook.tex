@@ -778,7 +778,11 @@ scagnostics, and then selecting just the ones of interest to display,
 using \texttt{select()}. The reason is that the argument for
 \texttt{calc\_scags()} is not currently recognised inside
 \texttt{summarise()}. The code below generates the summary data in Table
+<<<<<<< HEAD
 @ref(tab:featuresscags-pdf).
+=======
+\ref{tab:featuresscags-pdf}.
+>>>>>>> 626a43c274222b53935d0a2850d3d7a0c5fa46e6
 
 \begin{Schunk}
 \begin{Sinput}
@@ -829,12 +833,13 @@ be introduced to the package. While the code required to write them is
 simple and easily performed by the user, having them as ready functions
 in the package would help guide users to use the package most
 effectively. The two additional functions that have not yet been
-implemented into the package are \texttt{calc\_topscacs()} and
+implemented into the package are \texttt{calc\_topscags()} and
 \texttt{calc\_toppairs()} which are described in \textbf{table}.
 
 \begin{Schunk}
 \begin{table}
 
+<<<<<<< HEAD
 \caption{(\#tab:exsumfuncstb-pdf)Additional summary functions}
 \centering
 \begin{tabular}[t]{>{\raggedright\arraybackslash}p{3cm}l}
@@ -842,6 +847,14 @@ implemented into the package are \texttt{calc\_topscacs()} and
 Function & Explanation\\
 \midrule
 calc\textbackslash{}\_topscacs & Return the top scagnostic value for each pair of variables\\
+=======
+\begin{tabular}{l|l}
+\hline
+func\_name & description\\
+\hline
+calc\textbackslash{}\_topscags & Return the top scagnostic value for each pair of variables\\
+\hline
+>>>>>>> 626a43c274222b53935d0a2850d3d7a0c5fa46e6
 calc\textbackslash{}\_toppairs & Return the top pair of variables for each scagnostic\\
 \bottomrule
 \end{tabular}
@@ -1180,28 +1193,51 @@ diff1\_acf1 & trend\_strength & stringy & 0.84 & 0.73 & 0.11\\
 \end{figure}
 \end{Schunk}
 
-\hypertarget{world-bank-development-indicators}{%
-\subsection{World bank development
-indicators}\label{world-bank-development-indicators}}
+\hypertarget{processing-and-describing-data-with-many-variables}{%
+\subsection{Processing and describing data with many
+variables}\label{processing-and-describing-data-with-many-variables}}
 
-The World Bank delivers a lot of development indicators \citep{WBI}, for
-many countries and multiple years. The sheer volume of indicators, in
-addition to substantial missing values, makes a barrier to analysis.
-This is a good example to where scagnostics can be used to identify
-pairs of indicators with interesting relationships.
+The World Bank delivers a lot of development indicators (WBI)
+\citep{WBI}, for many countries and multiple years. The sheer volume of
+indicators, in addition to the substantial number of missing values,
+presents a barrier to analysis. This is a good example to where
+scagnostics can be used to identify pairs of indicators with interesting
+relationships, and efficiently handle missing values on a pairwise
+basis.
 
-Here we have downloaded indicators from 2018 for a number of countries.
-First, the data needs some pre-processing, to remove variables which
+The example uses indicators from 2018 for a number of countries. The
+downloaded data needs some pre-processing, to remove variables which
 have mostly missing values, and countries which have mostly missing
 values. The scagnostics will be calculated on the pairwise complete
-data, so it is ok to leave a few sporadic missings. At the end of the
-pre-processing, there are 20 indicators for 79 countries.
+data, allowing for a few sporadic missings. After pre-processing, there
+are 20 indicators (variables) and 79 countries.
 
 \begin{Schunk}
 \begin{figure}
 \includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/wbistatic-1} \caption[Most of the pairs of indicators exhibit outliersor are stringy]{Most of the pairs of indicators exhibit outliersor are stringy. There is one pair that has clumpy as the highest value. There are numerous pairs that have a highest value on convex.}(\#fig:wbistatic)
 \end{figure}
 \end{Schunk}
+
+Figure \ref{fig:wbistatic} (left plot) shows a summary of the top
+scagnostic value for each pair of variables. That is, only the highest
+value on any scagnostic for each pair of variables is saved. This is
+displayed as a vertically-oriented side-by-side dotplot. For the WBI
+data, the pairs of variables are producing mostly high values on
+stringy, skewed, convex and outlying. The scagnostics clumpy2,
+striated2, and skinny are only the highest for a single pair of
+variables. In addition, missing from the plot but not the calculations
+is that splines and striped were not highest for any pair of variables
+in the data set.
+
+This tells us that in the WBI data, the relationships between variables
+is dominated by outliers (outlying scagnostic, and to some extent also
+reflected by skewned and stringy), and no relationship (convex).
+Scagnostics might be useful for obtaining alternative descriptive
+summaries of data with many variables.
+
+The middle and right plots of Figure \ref{fig:wbistatic} show the pair
+of variables where clumpy2 has the highest value, and where convex has
+the highest value, respectively.
 
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
