@@ -75,7 +75,7 @@ There is a large amount of research into visualising high dimensional data, most
 
 Scagnostics have found a reasonably large number of applications since their initial introduction by Tukey. @tourrpp used them in the `tourr` projection persuit to find interesting low level projections of linear combinations of variables. @hidscags showed scagnostics to be a valuable tool in finding hidden structures in biplots by combinging them with variable transformations (such as a log transform). @timeseer used scagnostics to identify atypical sub-sequences from multivariate time series data for further analysis. These are only a small handful of examples of the ways in which scagnostics have been used to assist in th visualisation of high dimensional data. 
   
-Advancing Tukey's work, @scag defined computationally efficient measures that were later refined by @scagdist which make up the foundations of measures considered to be scagnostics. They were all constructed to range [0,1], and later scagnostics have maintained this scale.  In addition to these foundational scagnostics, @Grimm discussed the benefit of using two additional association scagnostics. These two association measures are also used in the `tourr` projection pursuit [@tourrpp]. 
+Advancing Tukey's work, @scag defined computationally efficient measures that were later refined by @scagdist which make up the foundations of the measures considered to be scagnostics. They were all constructed to range [0,1], and later scagnostics have maintained this scale.  In addition to these foundational scagnostics, @Grimm discussed the benefit of using two additional association scagnostics. These two association measures are also used in the `tourr` projection pursuit [@tourrpp]. 
 
 There are two existing scagnostics packages, *scagnostics* [@scagdist] and the archived package *binostics* [@binostics]. Both packages are based on the original C++ code written by @scagdist, which is difficult to read and difficult to debug. Thus there is a need for a new implementation that enables better diagnosis of the scagnostics, and better graphical tools for examining the results. 
 
@@ -116,7 +116,6 @@ d1 + d2 + d3
 ```
   
 Before any of the scagnostics are calculated, outlying points are removed. Outerliers are defined as any point whose adjacent edges in the MST have edges larger than $\omega$:
-
 $$ \omega = q_{75} + 1.5(q_{75} - q_{25})$$
 Where $q_i$ refers to the ith percentile of the sorted edge lengths of the MST.
 
@@ -366,7 +365,7 @@ The issues that need to be addressed with the new striated measure are:
   
 To account for these two issues the striated adjusted measure considers all vertices (not just those with two adjacent edges), and makes the measure strict around the 180 and 90 degree angles. With this we can see the improvements on the measure in Figure \@ref(fig:striated-vtable).
 
-```{r striated-vtable, width = 150, height = 50, out.width = "100%", fig.cap = "Using a visual table to compare the striated and it's adjusted counterpart, striated2. This plot compares the scagnostic value of a select group of scatter plots for striated and striated2. While the functions may seem similar at a glance, striated2 has a stricter version of discreteness, hence why line and vlines have the same result and plots with no discreteness score a 0."}
+```{r striated-vtable, width = 150, height = 50, out.width = "100%", fig.cap = "Using a visual table to compare the striated and it's adjusted counterpart, striated2 allows us to visualise the difference in the measures. While the functions may seem similar at a glance, striated2 has a stricter version of discreteness, hence why line and vlines have the same result and plots with no discreteness score a 0."}
 
 # Make Visual Table
 # Data
@@ -404,32 +403,30 @@ striated_visual_table
 
 ```
 
-Figure \@ref(fig:striated-vtable) shows that while these two measures may seem similar at a glace, there are a few minor things that make the striated2 scagnostic an improvement on the striated scagnostic. First of all, the perfect 1 value on striated goes to the "line" scatter plot. While this does fulfill the definition, it is not what the measure is supposed to be looking for, rather supposed to be identifying the "vlines" scatter plot. Since striated does not count the right angles that go between the vertical lines, a truly striated plot will never get a full 1 on this measure, striated adjusted fixes this. After that there is a large gap in both measures because none of the other scatter plots have a strictly discrete measure on the x or y axis. The lower plots show that striated2 is also better at identifying discrete relationships with a rotation and noise added as shown in the "discrete" plot. In striated "discrete" is lower in the order than "outlying" which would indicate that striated has finished looking at discreteness. In striated2, after the plots with strict discreteness in "vlines" or strict rotated disceteness in "line", is the noisy and rotated "discrete" plot. Therefore in terms of ordering the plots in how well they represent the feature of discreteness, striated2 outperforms striated.
-
-The scagnostics need to be used and interpreted with the type of dataset you are working with in mind. For  if we are looking at a dataset that is discrete, a very low value on striated2 would indicate some strange relationship in the scatter plot. Since the old striated measure is specifically trying to find a continuous variable against a discrete variable, its highest values are also identified by the striated2. The lowest values on striated simply identify a plot where all the variables are at right angles, once again a measure of discreteness but one that is not identified by striated. Striated2 encapsulates both versions of discreteness in the values that get exactly a 1.
-
+Figure \@ref(fig:striated-vtable) shows that while these two measures may seem similar at a glace, there are a few minor differences that make striated2 an improvement upon the original striated scagnostic. First of all, the perfect 1 value on striated goes to the *line* scatter plot. While this does fulfill the definition, it is not what the measure is supposed to be looking for, rather, itis supposed to be identifying the *vlines* scatter plot. Since striated does not count the right angles that go between the vertical lines, a truly striated plot will never get a full 1 on this measure, striated2 fixes this. After that there is a large gap in both measures because none of the other scatter plots have a strictly discrete measure on the x or y axis. Additionally, while it is not visible in Figure \@ref(fig:striated-vtable), striated2 can identify discreteness when it appears in both axis with a small number of observation, an additional version of discreteness that the original striated struggles to identify. Both version of striated are unable to recognise the *discrete* plot, which is a noisy and rotated version of discreteness, so there is still room for improvement on this measure.
+  
 #### Clumpy adjusted
 
 The issues that need to be addressed with the new clumpy measure are:
 
-1. It needs to consider more than 1 edge in its final measure to make the measure more robust
+1. It needs to consider more than 1 edge in its final measure to make it more robust
 2. The impact of the ratio between the long and short edges need to be weighted by the size of their clusters so the measure does not simply identify outliers
-3. It should not consider vertices that's adjacent angles form a straight line (to avoid identifying the angles striated identifies)
+3. It should not consider vertices that's adjacent angles form a straight line (to avoid identifying plots already identifies as interesting by striated)
 
-Before we calculated a new clumpy measure, we looked into applying a different adjustment defined in the *Improving the robustness of scagnostics* that is a robust version of the original clumpy measure [@robust]. This version of clumpy has been included in the package as ```clumpy_r``` however it is not included as an option in the higher level functions such as ```calc_scags()``` because its computation time is too long. This measure tries to build multiple clusters, each having their own clumpy value, and then returns the weighted sum, where each value is weighted by the number of observations in that cluster. This version of clumpy spreads the scatter plots more evenly between 0 and 1 and is more robust to outliers, however it does a poor job of ordering plots generally considered to be clumpy without the assistance of binning. Since this scagnostic cannot be used in large scale scagnostic calculations (such as those done on every pairwise combination of variables as is intended by the package) and it maintains the ordering issue from the original measure, it is not discussed here.
+Before creating a new clumpy measure, we looked into applying a different adjustment defined by @robust that is a robust version of the original clumpy measure. This version of clumpy has been included in the package as ```clumpy_r``` however it is not included as an option in the higher level functions such as ```calc_scags()``` because its computation time is too long. The robust clumpy measure builds multiple clusters, each having their own clumpy value, and then returns the weighted sum, where each value is weighted by the number of observations in that cluster. This version of clumpy has a more uniform distribution between 0 and 1 and is more robust to outliers, however it still does a poor job of ordering plots without the assistance of binning. Since this scagnostic cannot be used in large scale scagnostic calculations (such as those done on every pairwise combination of variables as is intended by the package) and it maintains the ordering issue from the original measure, it is not discussed here.
 
-Therefore in order to fix the issues in the clumpy measure described above, we designed an adjusted clumpy measure, called clumpy2 in the package, and it is calculated as follows:
+Therefore in order to fix the issues in the clumpy measure described above, we designed an adjusted clumpy measure, called clumpy2, and it is calculated as follows:
   
 1. Sort the edges in the MST 
-2. Calculate the difference of adjacent vectors in this ordering, and find the index of the maximum. This maximum difference should indicate the jump from between cluster edges and inter-cluster edges.
+2. Calculate the difference between adjacent edges in this ordering, and find the index of the maximum. This maximum difference should indicate the jump from between cluster edges and inter-cluster edges.
 3. Remove the between cluster edges from the MST and build clusters using the remaining edges
-4. For each between cluster edge, take the smaller cluster (in number of observations) and take its median edge length. The clumpy value for that edge is the ratio between the large and small edge lengths $\frac{edge_{small}}{edge_{large}}$, with a two multiplicative penaltys, one for uneven clusters $\frac{2\times n_{small}}{n_{small}+n_{big}}$, and one for "stringy" scatter plots that is only applied if the stringy value is higher than 0.95, to reduce the arbitrarily large clumpy scores that come from striated plots $1-s_{stringy}$.
+4. For each between cluster edge, take the smaller of the two clusters it is connected to and take its median edge length. The clumpy value for that edge is the ratio between the large and small edge lengths $\frac{edge_{small}}{edge_{large}}$, with a two multiplicative penaltys, one for uneven clusters ($\sqrt\frac{2\times n_{small}}{n_{small}+n_{big}}$) and one for "stringy" scatter plots ($1-s_{stringy}$) that is only applied if the stringy value is higher than 0.95, to reduce the arbitrarily large clumpy scores that come from striated plots.
 6. Take the mean clumpy value for each between cluster edge, if it is below 1 it is beneath the threshold that is consdiered clumpy, and the value is adjusted to 1.
-7. Clumpy 2 returns $1-\frac{1}{mean(clumpy_i)}$
+7. clumpy2 returns $1-\frac{1}{mean(clumpy_i)}$
 
-With this calculation, we generate the clumpy2 measure which is compared to the original clumpy measure in the Figure \@ref(fig:clumpy-vtable). Here we can see the improvements made on the clumpy measure in both distribution from 0 to 1 and ordering. The measure is more spread out, and so values range more accurately from 0 to 1. More importantly the measures do a better job of ordering the scatter plots. On the original clumpy measure the "clusters" scatter plot was next to last, on the clumpy2 measure "clusters" is is identified as the most clumpy scatter plot. Clumpy 2 also has a penalty for uneven clusters (to avoid being large due to a small colelction of outliers) and clusters created arbitrarily due to discreteness (such as vlines) in order to better aling with the human interpretation of clumpy. With these changes, the stronger performance of clumpy2 is apparent in this visual table.
+With this calculation, we generate the clumpy2 measure which is compared to the original clumpy measure in the Figure \@ref(fig:clumpy-vtable). Here we can see the improvements made on the clumpy measure in both distribution from 0 to 1 and ordering. The measure is more spread out, and so values range more accurately from 0 to 1. More importantly the measure does a better job of ordering the scatter plots. On the original clumpy measure the *clusters* scatter plot was next to last, on the clumpy2 measure *clusters* is is identified as the most clumpy scatter plot. Clumpy2 also has a penalty for uneven clusters (to avoid being large due to a small colelction of outliers) and clusters created arbitrarily due to discreteness (such as *vlines*) in order to better align with the human interpretation of clumpy. With these changes, the stronger performance of clumpy2 is apparent in this visual table.
 
-```{r, clumpy-vtable, width = 150, height = 50, out.width = "100%", fig.cap = "A visual table comparison of clumpy and clumpy2. This plot compares the scagnostic value of a select group of scatter plots for clumpy and clumpy2. It is clear that clumpy2 achieves a more ballanced distribution and more intuitive plot ordering."}
+```{r, clumpy-vtable, width = 150, height = 50, out.width = "100%", fig.cap = "A visual table comparing the scagnostic values of clumpy and clumpy2. We can see the clusters plot is next to last in the ordering of the original clumpy measure, but first in clumpy2. It is clear that clumpy2 achieves a more ballanced distribution and more intuitive plot ordering."}
 
 plot_data_clumpy <- plot_path_data %>%
   group_by(scagnostic, feature) %>%
@@ -447,9 +444,9 @@ clumpy_visual_table <- ggplot(plot_data_clumpy, aes(x=value , y=scagnostic))+
                  position=ggstance::position_dodgev(height=0.9)) +
   xlim(-0.05,1.05) +
   scale_size_identity()+
-  xlab("Value") +
-  ylab("Scagnostic") +
-  ggtitle("Clumpy Comparison") +
+  xlab("Scagnostic Value") +
+  ylab("") +
+  #ggtitle("Clumpy Comparison") +
   theme_classic() +
   theme(
     panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -483,7 +480,7 @@ to install the development version.
 More documentation of the package can be found at the web site https://numbats.github.io/cassowaryr/. 
 
 ## Data sets
-The cassowaryr package comes with several data sets that load with the package, they are described here.
+The `cassowaryr` package comes with several data sets that load with the package, they are described in Table `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(tab:datasets-tb-html)', '\\@ref(tab:datasets-tb-pdf)'))`.
 
 ```{r}
 datasets_tb <- tibble(dt = c("features", 
@@ -515,7 +512,7 @@ datasets_tb %>%
 
 ## Functions
 ### Scagnostics functions
-The scagnostics functions functions either calculate each scagnostic measure, or are involved in the process of calcuating a scanostic measure (such as making the hull objects). These functions are low level functions, and while they are exported and can be used, they are not the intended method of calcuating scagnostics as they perform no outlier removal, however they are still an option for users if they wish. In some cases, such as sc_clumpy_r for clumpy robust, they are the only method to calculate that scagnostic. the The functions in this group are:
+The scagnostics functions functions either directly calculate each scagnostic measure, or are involved in the process of calcuating a scanostic measure (such as making the hull objects). These functions are low level functions, and while they are exported by the package, they are not the intended method of calcuating scagnostics as they perform no outlier removal, however they are still an option for users if they wish. In some cases, such as sc_clumpy_r for clumpy robust, they are the only method to calculate that scagnostic. Table `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(tab:scagfuncs-tb-html)', '\\@ref(tab:scagfuncs-tb-pdf)'))` outlines these functions.
 
 ```{r}
 scagfuncs_tb <- tibble(dt = c("scree", 
@@ -564,7 +561,7 @@ scagfuncs_tb %>% kable(caption = "Cassowaryr Scagnostic functions", col.names = 
 
 
 ### Drawing functions
-The drawing functions are intended to be used my the user so they can better understand the results of the scagnostic functions. The input is two numeric vectors and the output is a ggplot object that draws the graph based object in question. The functions that belong to this group are:  
+The drawing functions are intended to be used to better understand the results of the scagnostic functions. The input is two numeric vectors and the output is a ggplot object that draws one of the graph based objects. Table `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(tab:drawfuncs-tb-html)', '\\@ref(tab:drawfuncs-tb-pdf)'))` details these functions  
 
 ```{r}
 drawfuncs_tb <- tibble(funcname = c("draw_alphahull", 
@@ -587,28 +584,7 @@ drawfuncs_tb %>% kable(caption = "Cassowaryr drawing functions", col.names = c("
 
 ### Calculate functions
 
-The summary functions are the perferred method for users to calculate scagnostics. The ```calc_scags()``` function is supposed to be used on long data with the dplyr group_by and summarise functions. the ```calc_scags_wide()``` functions is designed to take in a tibble of numerical variables and return the scagnostics on every possible pairwise scatter plot. Both functions return a tibble where each column is a scagnostics. These are the two main functions of the package. 
-
-```{r}
-sumfuncs_tb <- tibble(funcname = c("calc_scags",
-                             "calc_scags_wide"), 
-                      description = c("Compute selected scagnostics on subsets.",
-                               "Compute scagnostics on all possible scatter plots for the given data."))
-```
-
-```{r sumfuncs-tb-html, eval=is_html_output()}
-sumfuncs_tb %>% 
-  kable(caption = "Cassowaryr summary functions", booktabs = T)  %>%
-  kable_styling(bootstrap_options ="striped", 
-                position = "center") %>%
-  column_spec(1, width = "2cm")
-```
-
-```{r dsumfuncs-tb-pdf, eval=is_latex_output()}
-sumfuncs_tb %>% kable(format="latex", 
-  caption = "Cassowaryr summary functions", col.names = c("Function", "Explanation"), booktabs = T)  %>%
-  column_spec(1, width = "3cm")
-```
+The summary functions are the perferred method for users to calculate scagnostics. The ```calc_scags()``` function is supposed to be used on long data and takes two numerical vectors as inputs. The ```calc_scags_wide()``` function is designed to take in a tibble of numerical variables and return the scagnostics on every possible pairwise scatter plot. Both functions return a tibble where each column is a scagnostics. These are the two main functions of the package. 
 
 The main arguments of the ```calc_scags()``` function are shown in Table `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(tab:calcfunc-tb-html)', '\\@ref(tab:calcfunc-tb-pdf)'))`.
 
@@ -629,7 +605,7 @@ calcfunc_tb %>% kable(format="latex", caption="The main arguments for calc\\_sca
 ```
 
 
-While the ```calc_scags()``` function does not take in a tibble, it is designed to be seamlessly integrated into the tidy data work flow. Currently to specify the scagnostics on long form tidy data using ```summarise()``` requires ```group_by()```, computing all the scagnostics, and then selecting just the ones of interest to display, using ```select()```. The reason is that the argument for ```calc_scags()``` is not currently recognised inside ```summarise()```. The code below generates the summary data in Table `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(tab:featuresscags-pdf)','\\@ref(tab:featuresscags-html)'))`.
+While the ```calc_scags()``` function does not take in a tibble, it is designed to be seamlessly integrated into the tidy data work flow. Currently to specify the scagnostics on long form tidy data the function needs to be used in conjunction with ```summarise()``` and ```group_by()```. The function computes all the scagnostics, and the usercan choose those of interest, using ```select()```. The reason we need to use select is that the *scags* argument for ```calc_scags()``` is not currently recognised inside ```summarise()```. The code below generates the summary data in Table `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(tab:featuresscags-pdf)','\\@ref(tab:featuresscags-html)'))`.
 
 ```{r calcscags-example, echo=TRUE}
 features_scags <- features %>%
@@ -648,46 +624,32 @@ features_scags %>% kable(format="latex", caption = "Summary of three scagnostics
 ```
 
 ### Making summaries
+There are two important summarise that should be made when calculating the scagnostics on a data set, the top pair of variables for each scagnostic, and the top scagnostic for each pair of variables. The code for both are simple, but an example of how to calculate them on the long features data, alongside their output will be shown here.
 
-We are also considering an additional two summary functions that could be introduced to the package. While the code required to write them is simple and easily performed by the user, having them as ready functions in the package would help guide users to use the package most effectively. The two additional functions that have not yet been implemented into the package are ```calc_topscags()``` and ```calc_toppairs()``` which are described in **table**.
+To calculate the top pair of variables for each scagnostic, we would use the code below.
 
-```{r}
-exsumfuncstb <- tibble(func_name = c("calc\\_topscags",
-                             "calc\\_toppairs"), 
-                      description = c("Return the top scagnostic value for each pair of variables",
-                               "Return the top pair of variables for each scagnostic"))
-```
-
-```{r exsumfuncstb-html, eval=is_html_output()}
-exsumfuncstb %>% kable() 
-```
-
-```{r exsumfuncstb-pdf, eval=is_latex_output()}
-exsumfuncstb %>% kable(caption = "Additional summary functions", col.names = c("Function", "Explanation"), format="latex", booktabs = T)  %>%
-  column_spec(1, width = "3cm") 
-```
-
-The code for both are simple, but an example of how to calculate ```calc_toppairs()``` with its output will be shown here. In this case it is the top groups, but the main idea is the same as if we had used ```calc_scags()``` wide to generate pairs of variables.
-
-```{r, echo=TRUE}
-features_toppairs <- features_scags %>% 
+```{r, echo=TRUE, include=TRUE}
+features_scags %>% 
   pivot_longer(!feature, names_to = "scag", values_to = "value") %>%
   arrange(desc(value)) %>% 
   group_by(scag) %>%
   slice_head(n=1)
 ```
 
-```{r features-toppairs-html, eval=is_html_output()}
-features_toppairs %>% kable() 
+To calculate the top scagnostic for each pair of variables, we would use the code below.
+
+```{r, echo=TRUE, include=TRUE}
+features_scags %>% 
+  pivot_longer(!feature, names_to = "scag", values_to = "value") %>%
+  arrange(desc(value)) %>% 
+  group_by(feature) %>%
+  slice_head(n=1)
 ```
 
-```{r features-toppairs-pdf, eval=is_latex_output()}
-features_toppairs %>% kable(format="latex", booktabs = T)  %>%
-  column_spec(1, width = "3cm") 
-```
+While the code required to write them is simple and easily performed by the user, having them as ready functions in the package would help guide users to use the package most effectively. These functions would be called ```top_scags()``` and ```top_pairs()``` .
 
 ## Tests
-All the functions that calculate the scagnostic measures (all the measures that start with "sc") have tests written and implemented using the testthat package. They have all been compared to calculations completed by hand to ensure the difference in results from previous literature are due to other steps in the process, such as binning, and not a mistake in the write up of the code. These tests also illuminated some issues that allowed us to make meaningful changes to the definitions of the scagnostics and the implementation of the package. For example, several tests to check the outying scagnostic was working correctly illustrated some issues in the process of outlier removal, which is illustrated in Figure \@ref(fig:outlying-test-plot). 
+All the scagnostic functions have tests written and implemented using the `testthat` package. They have all been compared to calculations completed by hand to ensure the difference in results from previous literature is due to pre-processing steps such as binning, and not mistakes in the code. These tests illuminated the issues that allowed us to make meaningful changes to the definitions of clumpy and striated and understand some pitfalls of the package. For example, several tests to check the outying scagnostic was working correctly illustrated some issues in the process of outlier removal, which is illustrated in Figure \@ref(fig:outlying-test-plot). 
 
 Figure \@ref(fig:outlying-test-plot) shows the an example of a simulated test set, combined with the associated MST. When creating this test data set, we assumed the MST would connect via the red line, but instead the MST connected via the long black line. The difference between these choices is essentially random, they are the exact same length, but it has significant implications for the value returned by the outlying scagnostic. This test was designed to check the outlier removal process for internal outliers, point 1 should have been identified as an internal outlier which means both its edges were considered in the calculation of outlying, and points 2 and 3 are too close to each other for either to fulfill the outlying definition, so they are left alone. Using the ```draw_mst()``` function when the test failled showed the issue was an esentially random desicionin the MST construction. If the red line was used to construct the MST, both the red dashed line, and the line connecting point 1 to point 2 would be included in the outlying scagnostic calcuation, in the actual calculation it was only the edge between points 1 and 2, giving a significantly smaller value on the the outlying scagnostic. This shows that even the scagnostics that work reliably well and did not need significant adjustments are still succeptible to arbitrarily large changes resulting from seemingly small changes in the visual structure of the scatter plot. 
 
