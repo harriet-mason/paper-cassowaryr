@@ -85,13 +85,13 @@ This paper describes the R package, `cassowaryr` that computes the currently exi
 
 ## Building blocks for the graph-based metrics
 
-In order to capture the visual structure of the data, graph theory is used to calculate most of the scagnostics. The pairwise scatter plot is re-constructed as a graph with the data points as vertices and the edges are calculated using Delaunay triangulation. In the package, this calculation is done using the alphahull package [@alphahull] to construct an object called a `scree`. This is the basis for all the other objects that are used to calculate the scagnostics (except for monotonic, dcor and splines which use the raw data). The graph (screen object) is then used to construct the three key structures on which the scagnostics are based; the convex hull, alpha hull and minimum-spanning tree (MST) (Figure \@ref(fig:building-blocks2)).
+In order to capture the visual structure of the data, graph theory is used to calculate most of the scagnostics. The pairwise scatter plot is re-constructed as a graph with the data points as vertices and the edges are calculated using Delaunay triangulation. In the package, this calculation is done using the alphahull package [@alphahull] to construct an object called a `scree`. All the graph based scagnostics use the scree in their calculations, the association based scagnostics only use the raw data. The `scree` object is then used to construct the three key structures on which the scagnostics are based; the convex hull, alpha hull and minimum-spanning tree (MST) (Figure \@ref(fig:building-blocks2)).
 
-- **Convex hull:** The outside vertices of the graph, connected to make a convex polygon that contains all points. It is constructed usnig the tripack package.
+- **Convex hull:** The outside vertices of the graph, connected to make a convex polygon that contains all points. It is constructed using the tripack package [@tripack].
 
 - **Alpha hull:** A collection of boundaries that contain all the points in the graph. Unlike the convex hull, it does not need to be convex. It is calculated using the alphahull package [@alphahull].
 
-- **MST:** the minimum spanning tree, i.e the smallest distance of branches that can be used to connect all the points. In the package it is calculated from the graph using the igraph package [@igraph].  
+- **MST:** The minimum spanning tree (MST) is the shortest distance of branches that can be used to connect all the points. It is calculated from using the igraph package [@igraph].  
 
 ```{r building-blocks2, width = 15, height = 5, out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics: (a) convex hull, (b) alpha hull and (c) minimal spanning tree. The convex hull is a convex shell around all the data points. The alphahull contains all the points but allows concavities better capturing some shapes, but it needs tuning. The minimal spanning tree connects all points once, and has a single chain connecting central points.", layout = "l-body"}
 library(alphahull)
@@ -115,10 +115,13 @@ d3 <- draw_mst(nl$x, nl$y) +
 d1 + d2 + d3
 ```
 
-## Graph-based scagnostics
+The nine scagnostics defined by @scagdist are detailed below with an explanation and a formula. To give further understanding in how these measures work, the scagnostics *skinny*, *outlying*, and *clumpy* are given an additional visual explanation in Figure \@ref(fig:scagdrawn). We will let $A=$ alpha Hull, $C=$ convex hull, $M$ = minimum spanning tree, and $s=$ the scagnostic measure. Since some of the measures have a sample size dependence, $w$ is a parameter used to adjust for the sample size.  
 
-The nine scagnostics defined in *Scagnostic Distributions* are detailed below with an explanation, formula, and visualisation.  We will let $A=$ alpha Hull, $C=$ convex hull, $M$ = minimum spanning tree, and $s=$ the scagnostic measure. 
-Since some of the measures have a sample size dependence, $w$ is a parameter used to adjust for the sample size.  
+```{r scagdrawn, out.width = "100%", fig.cap = " An visualisation of the calculation used compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics. The measure definitions are all distinct, and each illustrates a unique method of capturing a visual feature of a scatter plot."}
+knitr::include_graphics("figures/drawnmeasures.png")
+```
+
+## Graph-based scagnostics
 
 - **Convex:** Measure of how convex the shape of the data is. Computed as the ratio between the area of the alpha hull ($A$) and convex hull ($C$). Unlike the other scagnostic measures, a high value on convex does not correlate to an interesting scatter plot, rather it usually indicates a lack of relationship between the two variables.  
 
@@ -139,7 +142,7 @@ $$s_{outlying}=\frac{length(M_{outliers})}{length(M)}$$
 $$s_{stringy} = \frac{|V^{(2)}|}{|V|-|V^{(1)}|}$$  
 
 
-- **Skewed:** A measure of skewness in the edge lengths of the MST (not in the distribution of the data). It is calculated as the ratio between the 40% IQR and the 80% IQR, adjusted for sample size dependence.  
+- **Skewed:** A measure of skewness in the edge lengths of the MST (not in the distribution of the data). It is calculated as the ratio between the central 80th interpercentile range and the central 40th interpercentile range.  
 
 $$s_{skewed} = 1-w(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}})$$  
 
@@ -154,8 +157,8 @@ $$s_{sparse}= wq_{90}$$
 $$\max_{j}[1-\frac{\max_{k}[length(e_k)]}{length(e_j)}]$$  
 
 
-- **Striated:** This measure identifies features such as discreteness by finding parallel lines, or smooth algebraic functions. Calculated by counting the proportion of acute (0 to 40 degree) angles between the adjacent edges of vertices with only two edges.  
-
+- **Striated:** This measure identifies features such as discreteness by finding parallel lines. Calculated by counting the proportion of vertices with only two edges that have an inner angle approximately between 135 and 220 degrees.
+  
 $$\frac1{|V|}\sum_{v \in V^{2}}I(cos\theta_{e(v,a)e(v,b)}<-0.75)$$  
 
 
@@ -166,7 +169,7 @@ $$\frac1{|V|}\sum_{v \in V^{2}}I(cos\theta_{e(v,a)e(v,b)}<-0.75)$$
 
 $$s_{monotonic} = r^2_{spearman}$$
   
-The two additional scagnostics discussed by Katrin Grimm are described below.
+The are two additional association scagnostics discussed by @Grimm which are also impleneted into the `cassowaryr` package.
 
 - **Splines:** Measures the functional non-linear dependence by fitting a penalised splines model on $X$ using $Y$, and on $Y$ using $X$. The variance of the residuals are scaled down by the axis so they are comparable, and finally the maximum is taken. Therefore the value will be closer to 1 if either relationship can be decently explained by a splines model.
 
@@ -184,13 +187,8 @@ where
 $$A_{kl}=a_{kl}-\bar{a}_{k.}-\bar{a}_{.j}-\bar{a}_{..}$$
 $$B_{kl}=b_{kl}-\bar{b}_{k.}-\bar{b}_{.j}-\bar{b}_{..}$$
 
-```{r scagdrawn, eval=FALSE, out.height = "20%", out.width = "100%", fig.cap = "Illustration of the calculation made to compuet the outlying scagnostic."}
-knitr::include_graphics("figures/drawoutlying.png")
-```
-
 ## Checking the scagnostics calculations 
-
-Once we have working functions that correctly calculate the scagnostics according to their definition, we can assess how well they identify the visual features of scatter plots. To test the packages ability to differentiate plots, we have creates a dataset called "features" (Figure \@ref(fig:features-plot)), that contains a series of interesting and unique scatter plots which we can run our scagnostics on. These scatter plots typify certain visual features we want to look for in scatter plots, be it deterministic relationships (such as that shown in the nonlinear feature), discreteness in variables (vlines), or clustering (clumpy), we should be able to use scagnostics to identify each of these scatter plots.
+To test the packages ability to differentiate plots, we have creates a dataset called *features* (Figure \@ref(fig:features-plot)), that contains a series of interesting and unique scatter plots. These scatter plots each typify a certain visual feature. Be it a deterministic relationship, discreteness in variables, or clustering, we should be able to use scagnostics to order these scatter plots based on the prevalence of these visual features.
 
 ```{r features-plot, width = 150, height = 150, out.width = "100%", fig.cap = "The scatter plots of the features dataset. These scatter plots were designed to each represent a distinct visual feature, for example the ring scatter plot is a hollow version of disk. The scagnostics need to be able to differentiate these plots."}
 mypal <- c("#b2182b", "#d53e4f","#FF4E50", "#FC913A", "#fdae61",
