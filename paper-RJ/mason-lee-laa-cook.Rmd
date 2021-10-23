@@ -121,7 +121,7 @@ Where $q_i$ refers to the ith percentile of the sorted edge lengths of the MST.
 
 The nine scagnostics defined by @scagdist are detailed below with an explanation and a formula. To give further understanding in how these measures work, the scagnostics *skinny*, *outlying*, and *clumpy* are given an additional visual explanation in Figure \@ref(fig:scagdrawn). We will let $A=$ alpha Hull, $C=$ convex hull, $M$ = minimum spanning tree, and $s=$ the scagnostic measure. Since some of the measures have a sample size dependence, $w$ is a parameter used to adjust for the sample size.  
 
-```{r scagdrawn, out.width = "100%", fig.cap = " An visualisation of the calculation used compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics. The measure definitions are all distinct, and each illustrates a unique method of capturing a visual feature of a scatter plot."}
+```{r scagdrawn, out.width = "100%", fig.cap = " An visualisation of the calculation used compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics. The measure definitions are all distinct, and each illustrates a unique method of capturing a visual feature of a scatter plot.", eval=FALSE}
 knitr::include_graphics("figures/drawnmeasures.png")
 ```
 
@@ -480,7 +480,8 @@ to install the development version.
 More documentation of the package can be found at the web site https://numbats.github.io/cassowaryr/. 
 
 ## Data sets
-The `cassowaryr` package comes with several data sets that load with the package, they are described in Table `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(tab:datasets-tb-html)', '\\@ref(tab:datasets-tb-pdf)'))`.
+
+The `cassowaryr` package comes with several data sets that load with the package. These are described in Table `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(tab:datasets-tb-html)', '\\@ref(tab:datasets-tb-pdf)'))`.
 
 ```{r}
 datasets_tb <- tibble(dt = c("features", 
@@ -994,7 +995,7 @@ scags_mac_mic %>% kable(format="latex", caption = "Variable pairs that maximise 
 ```
 
 
-```{r timeseries, fig.cap="Interesting differences in the visual features of two groups of time series can be detected by scagnostics. The three plots represent the variable pairs that maximised the differences between outlying (left), skewed (middle) and convex (right). While these distributions may have overlapping means, their differencs in shape have been identified by the scagnostics.", fig.width = 12, fig.height = 4, out.width="100%", layout = "l-body"}
+```{r timeseries, fig.cap="Interesting differences in the visual features of two groups of time series can be detected by scagnostics. The three plots represent the variable pairs that maximised the differences between outlying (left), skewed (middle) and convex (right). While these distributions may have overlapping means, their differencs in shape have been identified by the scagnostics.", fig.width = 10, fig.height = 4, out.width="100%", layout = "l-body"}
 feats_mac_mic <- bind_rows(
   mutate(feats_macro, type = "macro"),
   mutate(feats_micro, type = "micro")
@@ -1026,14 +1027,14 @@ p3 <- ggplot(feats_mac_mic,
   ggtitle("Top difference on convex") +
   scale_colour_brewer("", palette="Dark2") +
   #scale_colour_manual(values=c(mypal[1], mypal[5]))+
-  theme_classic()+
+  theme_classic() +
   theme(aspect.ratio=1, axis.text = element_blank())  
   #facet_wrap(~type, nrow=2)
 
 p1 + p2 + p3 + plot_layout(guides = "collect") & theme(legend.position = "bottom")
 ```
 
-```{r tsplots, eval=FALSE, fig.cap="Selection of series from the two groups, macroeconomics and microeconomics. The difference is in the jagginess of the two series.", fig.width = 12, fig.height = 8, out.width="100%", layout = "l-body"}
+```{r tsplots, fig.cap="Selection of series from the two groups, macroeconomics and microeconomics. The difference between the groups primarily is in the jagginess of the two series, which a little surprisingly, is captured by the time series features curvature and trend strength.", fig.width = 12, fig.height = 8, out.width="100%", layout = "l-body"}
 load("data/cets_macro.rda")
 load("data/cets_micro.rda")
 
@@ -1059,6 +1060,7 @@ mac <- ggplot(macro_s_ts, aes(x=t, y=x)) +
   geom_line() + 
   facet_wrap(~name, ncol=1, scales = "free") +
   ggtitle("Macroeconomics") +
+  theme_classic() +
   theme(axis.text = element_blank())
 
 micro_s_ts1 <- cets_micro[[1]] %>%
@@ -1083,6 +1085,7 @@ mic <- ggplot(micro_s_ts, aes(x=t, y=x)) +
   geom_line() + 
   facet_wrap(~name, ncol=1, scales = "free") +
   ggtitle("Microeconomics") +
+  theme_classic() +
   theme(axis.text = element_blank())
 
 mac + mic
@@ -1184,6 +1187,7 @@ w3a <- ggplot(wbi_wide,
                   y=as.character(wbi_scags_top$Var2[1]))) +
   geom_point(aes(label = `Country Code`)) +
   #ggtitle(wbi_scags_top$scag[1]) +
+  theme_classic() +
   theme(axis.text = element_blank())
 
 w3b <- ggplot(wbi_wide, 
@@ -1191,6 +1195,7 @@ w3b <- ggplot(wbi_wide,
                   y=as.character(wbi_scags_top$Var2[2]))) +
   geom_point(aes(label = `Country Code`)) +
   #ggtitle(wbi_scags_top$scag[2]) +
+  theme_classic() +
   theme(axis.text = element_blank())
 # Most tend to be vars with too many 0's
 
@@ -1234,25 +1239,25 @@ w6 <- ggplot(wbi_scags_topvars,
   theme_minimal()
 ```
 
-```{r wbiinteractive, fig.cap="The range of scagnostics calculated on data with a large number of variables can help to inform the analyst about the types of relationships present. The side-by-side dotplot (left) shows one point for each pair of variables, with its highest scagnostic value among all scagnostics calculated. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. There is one pair that has clumpy as the highest value. The plots middle and right show the pair of variables with highest value on clumpy2 and convex respectively. (Mouseover allows identification of variable pairs, and countries.)",  include=knitr::is_html_output(), eval=knitr::is_html_output(), layout = "l-body"}
+```{r wbiinteractive, fig.cap="Using scagnostics to explore the variety of relationships present in the WBI data. The side-by-side dotplot (left) shows one point for each pair of variables, with its highest scagnostic value among all scagnostics calculated. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. There is one pair that has clumpy as the highest value. The plots, middle and right, show the pair of variables with highest value on clumpy2 and convex, respectively. (Mouseover allows identification of variable pairs, and countries.)",  include=knitr::is_html_output(), eval=knitr::is_html_output(), fig.height=3.5, fig.width=9, layout = "l-body"}
 ws1 <- ggplotly(w6)
 ws2 <- ggplotly(w3a)
 ws3 <- ggplotly(w3b)
 subplot(ws1, ws2, ws3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.6)
 ```
 
-```{r wbistatic, fig.cap="The range of scagnostics calculated on data with a large number of variables can help to inform the analyst about the types of relationships present. The side-by-side dotplot (left) shows one point for each pair of variables, with its highest scagnostic value among all scagnostics calculated. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. There is one pair that has clumpy as the highest value. The plots middle and right show the pair of variables with highest value on clumpy2 and convex respectively.", fig.height=3.5, fig.width=9, out.width="50%", , layout = "l-body", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
+```{r wbistatic, fig.cap="Using scagnostics to explore the variety of relationships present in the WBI data. The side-by-side dotplot (left) shows one point for each pair of variables, with its highest scagnostic value among all scagnostics calculated. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. There is one pair that has clumpy as the highest value. The plots, middle and right, show the pair of variables with highest value on clumpy2 and convex, respectively.", fig.height=3.5, fig.width=9, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
 w6 <- w6 + ggtitle("Top scagnostic for each pair") 
 w3a <- w3a + ggtitle("Top clumpy2")
 w3b <- w3b + ggtitle("Top convex")
-w6 #+ w3a + w3b
+w6 + w3a + w3b
 ```
 
 # Conclusion
 
-Scagnostics are a useful tool to identify the visual features in scatter plots, and by building upon previous work, we have implemented working scagnostics calculations into the *cassowaryr* package, without a pre-processing binning step. We showed that the package works according to definitions before presenting four possible applications of the package. The first, AFLW was designed to show the general use of the *cassowaryr* package, and show how to best use scagnostics to find unique scatter plots. In this example we also showed that looking at specific pairwise scatter plots can give us valuable information about our dataset, namely by interpreting the *hitouts vs bounces* scatter plot in Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:threeplot-static)','\\@ref(fig:threeplot-interactive)'))` . Using simulated data of a black hole merger event, we then displayed the packages ability to identify pairwise non-linear relationships with convex, skinny, splines, and dcor, as well as the improvement clumpy2 made in identifying clustering. The time series example displayed the packages value as a precursor to a new method of classification, where it successfully identified scatter plots where the macro and micro economic time series had different shape. Finally the scagnostics were applied to the World Bank indicators to show how the scagnostics can be used to product an overall "shape summary" of a data set.
+Scagnostics are a useful tool to identify the visual features in scatter plots. Building upon previous work, a new set of scagnostics has been implemented and made available in the *cassowaryr* R package. Explanations of the scagnostics and the packages are described along with four examples of use: AFLW, black hole mergers, time series and WBI. AFLW shows the general use of the *cassowaryr* package, and how to use scagnostics to find unique scatter plots. In this example, we also showed that looking at specific pairwise scatter plots can give us valuable information about the dataset, namely by interpreting the *hitouts vs bounces* scatter plot in Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:threeplot-static)','\\@ref(fig:threeplot-interactive)'))`. Using simulated data of a black hole merger event, we then displayed the packages ability to identify pairwise non-linear relationships with convex, skinny, splines, and dcor, as well as the improvement clumpy2 made in identifying clustering. The time series example displayed the scagnostics used as different type  of classification, illustrating how macro and micro economic time series can be distinguished by different shapes in feature sets. In the last example, the scagnostics applied to the WBI data to show how the scagnostics can be used to produce an overall "shape summary" of a data set.
   
-There is a large amount of future work that could build upon this research. To start with, the distribution of the scagnostics have been largely warped by the removal of binning as a preprocessing step. In the World Bank indicators example, we made the assumption that the scagnostics are all uniformly distributed from 0 to 1, however, looking at some of our results as well as well as the visual table of the features scatter plots (Figure \@ref(fig:visual-table)), shows this may not be the case. It would be a substantial task to identify the distributions of the scagnostics, and make adjustments to rectify any irregularities. The scagnostics would need to be reassessed using large volumes of data to ensure the measures are not simply identifying the structures of that data set. Looking only at the outlying scagnostic on the features data may lead us to believe that the maximum outlying value is 0.5 and its distribution is warped, however other data sets in this paper had scatter plots that measured a perfect 1 on outlying. Without this wide variety of data it is difficult for us to make comments on the spread of the scagnostics. Scagnostics could also be expanded to be the basis of a classification technique that identifies shape differences in groups. While we showed in the time series example that scagnostics can identify shape differences between groups, expanding that observation to stand alone classification technique is outside the scope of this research. @hidscags showed that scagnostics can be used to identify hidden structure in pairwise plots after transformations such as a log of the original data. This offers natural extension for the scagnostics in the original code, but could also be considered a natural extension of the *cassowaryr* package. Finally, there are a handful of scagnostics that are used to optimise the projection pursuit in the `tourr` package and the scagnostics described here could also be utilised there. Previously scagnostics used in projection pursuit had has a large amount of noise, so the `tourr` struggles to consistently move in a direction that will have a reliable increase in the scagnostics. Checking if the adjusted scagnostic measures maintain that issue, and further developing them if they arise, is another possible area of future research. It is clear from this list that there is a significant amount of research that could be built upon scagnostics.
+There are a number of different directions to build upon this research. The original scagnostics used binning as a pre-processing step. This will be useful to include to improve speed of calculations with larger sample sizes. The scale of the scagnostics is the same, ranging from 0 through 1, which allows comparison across scagnostics. However, the distribution may be different. In the WBI example describing the overall shape of the data, requires an assumption that the scagnostics are all uniformly distributed from 0 to 1. However, as some of our results suggest, and also the visual table of the features scatter plots (Figure \@ref(fig:visual-table)), this may not be the case. It would be a substantial task to identify the distributions of the scagnostics, and make adjustments to transform to a uniform. The scagnostics would need to be studied using large volumes of data to capture their performance over all possible data shapes. <!--Looking only at the outlying scagnostic on the features data may lead us to believe that the maximum outlying value is 0.5 and its distribution is warped, however other data sets in this paper had scatter plots that measured a perfect 1 on outlying. Without this wide variety of data it is difficult for us to make comments on the spread of the scagnostics.--> Scagnostics could developed further into a classification technique that identifies shape differences between groups. While the time series example shows that scagnostics can identify shape differences between groups. Extending this observation to stand alone classification technique is outside the scope of this paper. @hidscags showed that scagnostics can be used to identify hidden structure in pairwise plots after transformations such as a log of the original data. This offers a natural extension for the scagnostics that could be added to the *cassowaryr* package. Finally, scagnostics could be used to examine scatterplots generated by a 2D projection of multiple variables, as in the projection pursuit guided tour in the `tourr` package.  The primary barrier in past use has been to optimisation, because the scagnostics values over smooth sequences of projections can be noisy. This would need to be checked for the new scagnostic measures is order to use them for projection pursuit. 
 
 ```{r, include=FALSE, eval=FALSE}
 library(spelling)
