@@ -651,21 +651,21 @@ While the code required to write them is simple and easily performed by the user
 ## Tests
 All the scagnostic functions have tests written and implemented using the `testthat` package. They have all been compared to calculations completed by hand to ensure the difference in results from previous literature is due to pre-processing steps such as binning, and not mistakes in the code. These tests illuminated the issues that allowed us to make meaningful changes to the definitions of clumpy and striated and understand some pitfalls of the package. For example, several tests to check the outying scagnostic was working correctly illustrated some issues in the process of outlier removal, which is illustrated in Figure \@ref(fig:outlying-test-plot). 
 
-Figure \@ref(fig:outlying-test-plot) shows the an example of a simulated test set, combined with the associated MST. When creating this test data set, we assumed the MST would connect via the red line, but instead the MST connected via the long black line. The difference between these choices is essentially random, they are the exact same length, but it has significant implications for the value returned by the outlying scagnostic. This test was designed to check the outlier removal process for internal outliers, point 1 should have been identified as an internal outlier which means both its edges were considered in the calculation of outlying, and points 2 and 3 are too close to each other for either to fulfill the outlying definition, so they are left alone. Using the ```draw_mst()``` function when the test failled showed the issue was an esentially random desicionin the MST construction. If the red line was used to construct the MST, both the red dashed line, and the line connecting point 1 to point 2 would be included in the outlying scagnostic calcuation, in the actual calculation it was only the edge between points 1 and 2, giving a significantly smaller value on the the outlying scagnostic. This shows that even the scagnostics that work reliably well and did not need significant adjustments are still succeptible to arbitrarily large changes resulting from seemingly small changes in the visual structure of the scatter plot. 
+Figure \@ref(fig:outlying-test-plot) shows the an example of a simulated test set, combined with the associated MST. When creating this test data set, we assumed the MST would connect via the dashed red line, but instead the MST connected via the long black line between points 3 and 4. The difference between these choices is essentially random, they are the exact same length, but it has significant implications for the value returned by the outlying scagnostic. This test was designed to check the outlier removal process for internal outliers.  If the red dashed line was used to construct the MST, point 1 would have been identified as an internal outlier, which means both the red dashed line, and the line connecting points 1 and 2 would be included in the outlying scagnostic calculation. In the actual calculation it was only the edge between points 1 and 2, resulting in a significantly smaller value on the the outlying scagnostic. This shows that even the scagnostics that work reliably well and do not need significant adjustment due to incorrect orderings are still susceptible to arbitrarily large changes resulting from seemingly small changes in the visual structure of the scatter plot. 
 
-```{r outlying-test-plot, width = 100, height = 50, out.width = "80%", fig.cap = "Plot of simulated data used for testing the 'outlying' scagnostic. The left plot shows the raw data, while the right plot presents the MST generated on that data. The edges that make it into the MST can be random and also have serious implications for outlier scagnostic. If the red edge is in the MST rather than the black edge that connects to 3, the outlying value on this plot is much higher."}
+```{r outlying-test-plot, width = 100, height = 50, out.width = "100%", fig.cap = "Plot of simulated data used for testing the outlying scagnostic. The left plot shows the raw data, while the right plot presents the MST generated on that data. When we created the test we expected the red dashed line to be in the MST, but instead the black line that connects points 3 and 4 is. If the red edge is in the MST rather than the black edge, the outlying value on this plot is much higher."}
 x1<- c(0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1, 10, 10, 10)
 y1 <- c(0,0,1,2,2,3,4,4,5,6,6,7,8,8,9,10, 10, 7, 5)
 
 t1 <- ggplot(tibble(x1, y1), aes(x1, y1)) + geom_point() +
-  geom_text(data=tibble(x1= c(10,10,10), y1 = c(10, 7, 5), lab=c(1,2,3)), 
+  geom_text(data=tibble(x1= c(10,10,10,1), y1 = c(10, 7, 5,5), lab=c(1,2,3,4)), 
             aes(x=x1, y=y1, label=lab), 
-            colour="blue", nudge_x=-0.3, nudge_y=0.3) +
+            colour="#3288bd", nudge_x=0.3, nudge_y=0.3) +
   theme_classic() + ggtitle("Simlulated Data for Outlying Test")
 t2 <- draw_mst(x1, y1) + theme_classic() + 
   ggtitle("MST of Simulated Data") +
   geom_segment(aes(x=0.1, y=1, xend=1, yend=1, colour="#fb8072"), linetype=2)+
-  geom_text(data=tibble(x1= c(1,1,1), y1 = c(1, 0.7, 0.5), lab=c(1,2,3)), 
+  geom_text(data=tibble(x1= c(1,1,1,0.1), y1 = c(1, 0.7, 0.5,0.5), lab=c(1,2,3,4)), 
             aes(x=x1, y=y1, label=lab), 
             colour="#3288bd", nudge_x=-0.03, nudge_y=0.03) +
   theme(legend.position="none", aspect.ratio=1)
@@ -677,9 +677,9 @@ t1 + t2 + plot_layout(nrow=1)
 
 ## AFL player statistics
 
-The Australian Football League Women's (AFLW) is the national semi-profesisonal Australia Rules football league for female players. Here we will analyse data sourced from the official AFL website with information on the 2020 season, in which the league had 14 teams and 1932 players. These variables are recorded per player per game, so the stats are averaged for each player over the course of the season. The description of each statistic data set can be found in the Appendix. There are 68 variables, 33 of which are numeric, the others are categorical, e.g. players names or match ids, and they would not be used in scagnostic calculations. This means there are 528 possible scatterplots, significantly more than a single person could view and analyse themselves and so we use scagnostics to identify which pairwise plots might be interesting to examine. 
+The Australian Football League Women's (AFLW) is the national semi-profesisonal Australia Rules football league for female players. Here we will analyse data sourced from the official AFL website with information on the 2020 season, in which the league had 14 teams and 1932 players. These variables are recorded per player per game, so the stats are averaged for each player over the course of the season. The description of each statistic in the data set can be found in the supplementary material. There are 68 variables, 33 of which are numeric. The the others are categorical, e.g. players names or match ids, and they would not be used in scagnostic calculations. This means there are 528 possible scatterplots, significantly more than a single person could view and analyse themselves and so we use scagnostics to identify which pairwise plots might be interesting to examine. 
   
-Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:AFLW-scatters-static)','\\@ref(fig:AFLW-scatters-interactive)'))`  displays 5 scatter plots (Plots 1 to 5 in the figure) that were identified as having a particularly high or low value on a scagnostic, or an unusual combination of two or more scagnostics. In addition to these 5, there is a 6th plot (Plot 6 in the figure) that is included to display what a middling value on almost all of the scagnostics looks like. Most scatter plots score middling values on the scagnostics, so Plot 6 is a good indication of what we would look at if we picked variables to plot ourselves with no intuition. The visual structure that changes significantly between Plots 1 to 5, and the lack of interesting visual features in Plot 6, shows the benefit of using scagnostics in early stages of exploratory data analysis. Extreme values on the scagnostic measurements identify atypical scatter plots. 
+Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:AFLW-scatters-static)','\\@ref(fig:AFLW-scatters-interactive)'))`  displays five scatter plots (Plots 1 to 5 in the figure) that were identified as interesting due to having a particularly high or low value on a scagnostic, or some unusual combination of two or more scagnostics. In addition to these five, there is a 6th plot (Plot 6 in the figure) that is included to display what a middling value on almost all of the scagnostics looks like. Most scatter plots score middling values on the scagnostics, so Plot 6 is also a good indication of what we would look at if we picked variables to plot ourselves with no intuition. The visual structure that changes significantly between Plots 1 to 5, and the lack of interesting visual features in Plot 6, shows the benefit of using scagnostics in the early stages of exploratory data analysis. 
 
 ```{r, AFL DATA, include=FALSE, eval=FALSE}
 library(fitzRoy)
@@ -706,7 +706,7 @@ load("data/aflw.rda")
 load("data/aflw_num.rda")
 load("data/aflw_scags.rda")
 
-mypal <- c("#FF4E50", "#fdae61","#fee08b", "#66c2a5", "#3288bd", "#abd9e9")
+mypal <- c("#66c2a5", "#fc8d62","#8da0cb", "#e78ac3", "#a6d854", "#ffd92f")
 
 #standounts from splom
 #outlying and Skewed + highest skinny not 1
@@ -746,17 +746,17 @@ p6 <- ggplot(aflw_num, aes(x=kicks, y=handballs)) +
   geom_point(colour=mypal[6])
 ```
 
-```{r, AFLW-scatters-interactive, out.width="80%", include=knitr::is_html_output(), eval=knitr::is_html_output(), fig.cap="Six AFLW sport statistic scatter plots that were identified as identified as interesting by the scagnostics. Plots 1 to 5 had unique values an individual or pair of scagnostics, Plot 6 had middling values on all measures. There is a clear difference in structure between these plots that was identified by the scagnostics."}
+```{r, AFLW-scatters-interactive, out.width="100%", include=knitr::is_html_output(), eval=knitr::is_html_output(), fig.cap="Six AFLW sport statistic scatter plots that were identified as identified as interesting by the scagnostics. Plots 1 to 5 had unique values on some combination of the scagnostics, Plot 6 had middling values on all measures. There is a clear difference in structure between these plots indicating the scagnostics ability to identify interesting visual features."}
 
 subplot(ggplotly(p1), ggplotly(p2), ggplotly(p3), ggplotly(p4), ggplotly(p5), ggplotly(p6),
         nrows=2, widths = c(0.33, 0.33, 0.33), heights = c(0.5,0.5))
 ```
 
-```{r AFLW-scatters-static, out.width="80%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center', fig.cap="Six AFLW sport statistic scatter plots that were identified as identified as interesting by the scagnostics. Plots 1 to 5 had unique values an individual or pair of scagnostics, Plot 6 had middling values on all measures. There is a clear difference in structure between these plots that was identified by the scagnostics."}
+```{r AFLW-scatters-static, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center', fig.cap="Six AFLW sport statistic scatter plots that were identified as identified as interesting by the scagnostics. Plots 1 to 5 had unique values on some combination of the scagnostics, Plot 6 had middling values on all measures. There is a clear difference in structure between these plots indicating the scagnostics ability to identify interesting visual features."}
 p1 + p2 + p3 + p4 + p5 + p6 + plot_layout(nrow=2)
 ```
 
-The best way to identify interesting scatter plots using scagnostics is to construct a large interactive SPLOM. This is how Plots 1 to 5 were identified, but for the sake of space, we are only going to show the specific scatter plots of the SPLOM that led to the selection of Plots 1, 2, and 5.
+The best way to identify interesting scatter plots is to construct a large interactive SPLOM of the scagnostic values,each point representing a scatter plot in the data set. This is how Plots 1 to 5 were identified, but for the sake of space, we are only going to show the scatter plots of the SPLOM that led to the selection of Plots 1, 2, and 5.
 
 ```{r, AFL relevent SPLOMS, include= FALSE, echo=FALSE}
 load("data/aflw_scags.rda")
@@ -775,7 +775,7 @@ s1 <- ggplot(test, aes(x=outlying, skewed, colour=plot1, label=lab)) +
   theme_classic() +
   theme(legend.position ="none")+
   scale_colour_manual(values=c("grey", mypal[1]))+
-  ggtitle("Outliying vs Skewed")
+  ggtitle("Outlying vs Skewed")
 
 s2 <- ggplot(test, aes(x=splines, dcor, colour=plot2, label=lab)) + 
   geom_point() +
@@ -793,23 +793,22 @@ s5 <- ggplot(test, aes(x=outlying, y = striated2, colour=plot5, label=lab)) +
 
 ```
 
-Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:threeplot-static)','\\@ref(fig:threeplot-interactive)'))`  displays Plot 1, Plot2 and Plot 5 beneath the specific scatter plot of the scagnostics SPLOM that was used to identify the plot as interesting. Plot 1 was identifies as interesting as it returned high values  on both outlying and skewed. Intuitively, this would indicate that even after removing outliers, the data was still disproportionately spread out, a visual feature that we can see very clearly in Plot 1. Plot 2 scored very highly on all the association measures, which indicates a strong relationship between the two variables. The three association measures typically have strong correlation and scatter plots that stay within the large mass in the center have a linear relation, those that don't often have a non-linear relationship. The splines vs dcor plot tells us that there is a strong linear relationship between total posessions and disposals.  Total possessions is the number of times the player has the ball and disposals is the number of times the player gets rid of the ball legally, so the strong linear relation indicates the level of play, i.e. few mistakes are made in a professional league. Plot 5 an excellent example in what new information we can learn from a unique plot identified with scagnostics. This plot is high on striated2 and moderate to low on outlying, telling us most of the points will be at straight or right angles and a little spread out. If a specific sports statistic is related to position, we would see a relationship have a lower triangular structure similar to that of Plot 4, however this plot does not have a lower triangular structure, is has an L-shape. This means these statistics are not about position, but rather the physical abilities of the players. Hitouts measure the number of times the player punches the ball after the referee throws it back into play, bounces have to be done while running, and are typically done by fast players. The L-shape tells us that players who do one very rarely perform the other. The moderate spread along both of the statistics tells us these are both somewhat specialised skills, and the players who specialise in one do not specialise in the other, i.e. in AFL the tallest player in the team is rarely the fastest. These plots provide a clear example in the unique information gained using scagnostics as a tool in exploratory data analysis.
+Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:threeplot-static)','\\@ref(fig:threeplot-interactive)'))`  displays Plot 1, Plot2 and Plot 5 beneath the scatter plot of the scagnostics SPLOM that was used to identify it as interesting. Plot 1 was identified as interesting as it returned high values  on both outlying and skewed. Intuitively, this would indicate that even after removing outliers, the data was still disproportionately spread out. This visual feature can be seen very clearly in Plot 1. Plot 2 scored very highly on all the association measures, which indicates a strong relationship between the two variables. The three association measures typically have strong correlation and scatter plots that stay within the large mass in the center have a linear relation, those that don't often have a non-linear relationship. The splines vs dcor plot tells us that there is a strong linear relationship between total posessions and disposals.  Total possessions is the number of times the player has the ball and disposals is the number of times the player gets rid of the ball legally, so the strong linear relation indicates the level of play, and tells us few mistakes are made in a professional league. Plot 5 is an excellent example in what new information we can learn from a unique plot identified with scagnostics. This plot is high on striated2 and moderate to low on outlying, telling us most of the points will be at straight or right angles and a little spread out. Hitouts measure the number of times the player punches the ball after the referee throws it back into play, and are typically done by tall players. Bounces have to be done while running, and are typically done by fast players. The L-shape of the plot tells us that players who do one very rarely perform the other, so the tallest player in AFL is rarely the fastest. The skewed spread along both of the statistics tells us these are both specialised skills. These plots provide a clear example of the unique information gained using scagnostics as a tool in exploratory data analysis.
 
-```{r, threeplot-interactive, out.width="80%", include=knitr::is_html_output(), fig.cap="Three plots that were identified as interesting with the scagnostic scatter plot used to identify it. Each scatter plot of AFLW data is displayed below a plot of the two scagnostic measures it stood out on. One of the most useful ways to identify plots is through scatter plots of the scagnostics.", eval=knitr::is_html_output()}
+```{r, threeplot-interactive, out.width="100%", include=knitr::is_html_output(), fig.cap="Three plots that were identified as interesting below the scagnostic scatter plot used to identify it. Each scatter plot of AFLW data is displayed below a plot of the two scagnostic measures it stood out on. One of the most useful ways to identify plots is through scatter plots of the scagnostics.", eval=knitr::is_html_output()}
 subplot(ggplotly(s1), ggplotly(s2), ggplotly(s5), ggplotly(p1), ggplotly(p2), ggplotly(p5),
         nrows=2, widths = c(0.3, 0.3, 0.3), heights = c(0.5, 0.5)) %>%
   config(displayModeBar = FALSE)
 ```
 
-```{r threeplot-static, out.width="80%", include=knitr::is_latex_output(), fig.cap="Three plots that were identified as interesting with the scagnostic scatter plot used to identify it. Each scatter plot of AFLW data is displayed below a plot of the two scagnostic measures it stood out on. One of the most useful ways to identify plots is through scatter plots of the scagnostics.", eval=knitr::is_latex_output(), fig.align='center'}
+```{r threeplot-static, out.width="100%", include=knitr::is_latex_output(), fig.cap="Three plots that were identified as interesting with the scagnostic scatter plot used to identify it. Each scatter plot of AFLW data is displayed below a plot of the two scagnostic measures it stood out on. One of the most useful ways to identify plots is through scatter plots of the scagnostics.", eval=knitr::is_latex_output(), fig.align='center'}
  s1 + s2 + s5 + p1 + p2 + p5 + plot_layout(nrow=2)
 ```
 
 ## Non-linear shapes in black hole mergers
-Physics data often contains multiple variables with highly non-linear or clustered pairwise relationships, which makes this type of data ideal for displaying splines and clumpy2, two scagnostics that's uses were not particularly visible in the AFLW example. Here we will use scagnostics to explore data that comes from a simulation of a model describing a binary black hole (BBH) merger event. The data contains 13 variables that describe the BBH event, and each point is a posterior sample that could describe the event. As the variables describe complicated physics phenomena, details of the variables will be left to the appendix and we will focus on the types of patterns observed. Since the size of the dataset is small enough, looking at the complete SPLOM is still feasible, and could be used to identify several interesting scatterplots. We will omit the SPLOM here, however it allows us to see the presence of non-linear and non-functional relations between pairs of variables that we except the scagnostics to pick out. 
-  
-The full data file contains 9998 posterior samples, and with such a large number of observations, the scagnostics cannot be computed within a reasonable timeframe without the assistance of binning. For our purpose a much smaller sample is sufficient, and we randomly sample 200 observations before computing the scagnostics. We will focus on the structures we know exist (i.e. non-linear and clustered relationships) by looking at which scatter plots have a significant difference in their splines and dcor values, as well as which plots stand out on the clumpy2 measure.
+Physics data often contains multiple variables with highly non-linear or clustered pairwise relationships, which makes this type of data ideal for displaying to applications of splines and clumpy2; two scagnostics that's uses were not particularly visible in the AFLW example. Here we will use scagnostics to explore data that comes from a simulation of a model describing a binary black hole (BBH) merger event. The data contains 13 variables that describe the BBH event, and each point is a posterior sample that could describe the event. As the data describes a complicated physics phenomena, breif details of the variables will be left to the supplementary materials as a deeper understanding requires a non-trivial amount of knowledge in physics. Therefore, we will focus on the types of patterns observed rather than an interpretation of these patterns. 
 
+The full data file contains 9998 posterior samples, and with such a large number of observations, the scagnostics cannot be computed within a reasonable timeframe without the assistance of binning. For our purpose a much smaller sample is sufficient, and we randomly sample 200 observations before computing the scagnostics. Since the size of the dataset is small enough, looking at the complete SPLOM of the data is still feasible, and could be used to identify several interesting scatterplots. We will omit the SPLOM here, however it allows us to see the presence of non-linear and non-functional relations between pairs of variables that we except the scagnostics to pick out. For this reason, we will focus on scatter plots that have low convex values and high skinny values, a significant difference in their splines and dcor values, or stand out on the clumpy2 measure, as these three qualities indicate the presence of non-linear or clustered relationship.
 
 ```{r eval=FALSE}
 set.seed(26)
@@ -829,14 +828,47 @@ bbh_scags <- mutate(bbh_scags, combination = paste0(Var1, ", ", Var2))
 bbh1 <- ggplot(bbh_scags, aes(x=convex, y=skinny, 
                       label = combination)) +
   geom_point() + 
+  theme_minimal() +
+  ggtitle("Convex vs Skinny") + 
   theme(aspect.ratio=1, axis.text = element_blank())
 bbh2 <- ggplot(bbh_scags, aes(x=dcor, y=splines, 
                       label = combination)) +
   geom_point() + 
+  theme_minimal() +
+  ggtitle("Splines vs Dcor") + 
   theme(aspect.ratio=1, axis.text = element_blank())
 bbh3 <- ggplot(bbh_scags, aes(x=clumpy, y=clumpy2, 
                       label = combination)) +
   geom_point() + 
+  theme_minimal() +
+  ggtitle("Clumpy vs Clumpy2") + 
+  theme(aspect.ratio=1, axis.text = element_blank())
+
+load("data/bbh_samples.rda")
+
+bbh4 <- ggplot(bbh, aes(x=time, y=ra)) +
+  geom_point() + 
+  theme_minimal() +
+  theme(aspect.ratio=1, axis.text = element_blank())
+bbh5 <- ggplot(bbh, aes(x=dec, y=ra)) +
+  geom_point() + 
+  theme_minimal() +
+  theme(aspect.ratio=1, axis.text = element_blank())
+bbh6 <- ggplot(bbh, aes(x=dec, y=time)) +
+  geom_point() + 
+  theme_minimal() +
+  theme(aspect.ratio=1, axis.text = element_blank())
+bbh7 <- ggplot(bbh, aes(x=m1, y=m2)) +
+  geom_point() + 
+  theme_minimal() +
+  theme(aspect.ratio=1, axis.text = element_blank())
+bbh8 <- ggplot(bbh, aes(x=chi_p, y=chi_tot)) +
+  geom_point() + 
+  theme_minimal() +
+  theme(aspect.ratio=1, axis.text = element_blank())
+bbh9 <- ggplot(bbh, aes(x=time, y=alpha)) +
+  geom_point() + 
+  theme_minimal() +
   theme(aspect.ratio=1, axis.text = element_blank())
 ```
 
@@ -848,35 +880,23 @@ subplot(gs1, gs2, gs3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.43)
 ```
 
 ```{r bbh-scags-static, fig.cap="Pairs of scagnostics computed for the black hole mergers data. XXX", fig.width = 12, fig.height = 4, out.width="100%", eval=knitr::is_latex_output()}
-bbh1 + bbh2 + bbh3
+#bbh1 + bbh2 + bbh3
+bbh1 + bbh2 + bbh4 + bbh5 + bbh6
 ```
 
-Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:bbh-scags-static)','\\@ref(fig:bbh-scags-interactive)'))` shows scatterplots of the computed scagnostics measures. On the left plot we see three points with very low values of the convex measure and high values of skinny. These are all possible combinations containing the variables time, ra and dec, and the corresponding scatterplots are shown in the upper row of Figure \@ref(fig:blackholes). This pattern arises because the location of an event observed from gravitational waves can only be localized when using a network of three detectors (as described in @gwtriang), and observations with one or two detectors will result in a degeneracy between the location in the sky (parametrized by ra and dec) and the time of the event (time). It will lead to the observed pattern of a broken ring in this three dimensional space, thus inducing both non-linear dependence and clustering in the posterior sample.
+Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:bbh-scags-static)','\\@ref(fig:bbh-scags-interactive)'))` shows scatter plots of the relevant scagnostics measures; outlying, skinny, splines, dcor clumpy, and clumpy2. On the left plot we see three points with very low values of the convex measure and high values of skinny. This combination of variables indicates some narrow shape and turns out to correspond to all the possible combinations containing the variables time, ra and dec. 
 
-These three variables also stand out in the middle plot of Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:bbh-scags-static)','\\@ref(fig:bbh-scags-interactive)'))`, where it is interesting to note that the combinations with non-linear but functional relation (time vs ra and dec vs ra) have somewhat higher values in the splines measure compared to dcor. On the other hand dec vs time does not exhibit a functional relation, and consequently gets a higher dcor score compared to splines (with both measures still taking large values). This also happens for two other combinations: m1 vs m2 and chi_p vs chi_tot, which are shown in the bottom row (left and middle) of Figure \@ref(fig:blackholes). We see that both these combinations show noisy linear relations.
+These three variables also stand out in the middle plot of Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:bbh-scags-static)','\\@ref(fig:bbh-scags-interactive)'))`, where it is interesting to note that the combinations with non-linear but functional relation (time vs ra and dec vs ra) have somewhat higher values in the splines measure compared to dcor. On the other hand dec vs time does not exhibit a functional relation, and consequently gets a higher dcor score compared to splines (with both measures still taking large values).
+
+The corresponding scatterplots are shown in the upper row of Figure \@ref(fig:blackholes). 
+
+This pattern arises because the location of an event observed from gravitational waves can only be localized when using a network of three detectors (as described in @gwtriang), and observations with one or two detectors will result in a degeneracy between the location in the sky (parametrized by ra and dec) and the time of the event (time). It will lead to the observed pattern of a broken ring in this three dimensional space, thus inducing both non-linear dependence and clustering in the posterior sample.
+
+ This also happens for two other combinations: m1 vs m2 and chi_p vs chi_tot, which are shown in the bottom row (left and middle) of Figure \@ref(fig:blackholes). We see that both these combinations show noisy linear relations.
 
 Another interesting aspect with this dataset is that there are several combinations that lead to visible separations between groups of points. It is thus an ideal testcase for our new implementation of clumpy2. The right plot in Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:bbh-scags-static)','\\@ref(fig:bbh-scags-interactive)'))` shows clumpy vs clumpy2, and reveals large differences between the two measures. In particular there are many combinations without visible clustering, that still score high on clumpy, but where clumpy2 is zero. On the other hand we can see that there are several combinations that do lead to visible separation between groups that stand out in terms of clumpy2, but not the original clumpy. One example is time vs alpha, shown in the bottom right plot of Figure \@ref(fig:blackholes).
 
 ```{r blackholes, fig.cap="Features in the BBH data that stand out on several of the scagnostics measures (convey, skinny, splines and dcor), showing strong relations between variables including non-linear and non-functional dependencies. The final example (time vs alpha) is expected to take high values in clumpy, but only stands out on the corrected clumpy2.", fig.width = 12, fig.height = 8, out.width="100%"}
-load("data/bbh_samples.rda")
-bbh4 <- ggplot(bbh, aes(x=time, y=ra)) +
-  geom_point() + 
-  theme(aspect.ratio=1, axis.text = element_blank())
-bbh5 <- ggplot(bbh, aes(x=dec, y=ra)) +
-  geom_point() + 
-  theme(aspect.ratio=1, axis.text = element_blank())
-bbh6 <- ggplot(bbh, aes(x=dec, y=time)) +
-  geom_point() + 
-  theme(aspect.ratio=1, axis.text = element_blank())
-bbh7 <- ggplot(bbh, aes(x=m1, y=m2)) +
-  geom_point() + 
-  theme(aspect.ratio=1, axis.text = element_blank())
-bbh8 <- ggplot(bbh, aes(x=chi_p, y=chi_tot)) +
-  geom_point() + 
-  theme(aspect.ratio=1, axis.text = element_blank())
-bbh9 <- ggplot(bbh, aes(x=time, y=alpha)) +
-  geom_point() + 
-  theme(aspect.ratio=1, axis.text = element_blank())
 
 #subplot(bbh1, bbh2, bbh3, bbh4, bbh5, bbh6,
 #        nrows=2, widths = c(0.33, 0.33, 0.33), heights = c(0.5, 0.5))
