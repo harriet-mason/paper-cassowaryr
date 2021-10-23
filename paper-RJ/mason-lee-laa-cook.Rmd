@@ -42,7 +42,7 @@ output:
     css: "rjournal.css"
 bibliography: mason-lee-laa-cook.bib
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
 ```{r setup, include=FALSE}
@@ -667,7 +667,7 @@ t2 <- draw_mst(x1, y1) + theme_classic() +
   geom_segment(aes(x=0.1, y=1, xend=1, yend=1, colour="#fb8072"), linetype=2)+
   geom_text(data=tibble(x1= c(1,1,1,0.1), y1 = c(1, 0.7, 0.5,0.5), lab=c(1,2,3,4)), 
             aes(x=x1, y=y1, label=lab), 
-            colour="#3288bd", nudge_x=-0.03, nudge_y=0.03) +
+            colour="#3288bd", nudge_x=0.03, nudge_y=0.03) +
   theme(legend.position="none", aspect.ratio=1)
 
 t1 + t2 + plot_layout(nrow=1)
@@ -746,13 +746,13 @@ p6 <- ggplot(aflw_num, aes(x=kicks, y=handballs)) +
   geom_point(colour=mypal[6])
 ```
 
-```{r, AFLW-scatters-interactive, out.width="100%", include=knitr::is_html_output(), eval=knitr::is_html_output(), fig.cap="Six AFLW sport statistic scatter plots that were identified as identified as interesting by the scagnostics. Plots 1 to 5 had unique values on some combination of the scagnostics, Plot 6 had middling values on all measures. There is a clear difference in structure between these plots indicating the scagnostics ability to identify interesting visual features."}
+```{r, AFLW-scatters-interactive, out.width="100%", include=knitr::is_html_output(), eval=knitr::is_html_output(), fig.cap="Six AFLW sport statistic scatter plots that were identified as identified as interesting by the scagnostics. Plots 1 to 5 had unique values on some combination of the scagnostics, Plot 6 had middling values on all measures. There is a clear difference in structure between these plots indicating the scagnostics ability to identify interesting visual features.", fig.width = 12, fig.height = 8}
 
 subplot(ggplotly(p1), ggplotly(p2), ggplotly(p3), ggplotly(p4), ggplotly(p5), ggplotly(p6),
         nrows=2, widths = c(0.33, 0.33, 0.33), heights = c(0.5,0.5))
 ```
 
-```{r AFLW-scatters-static, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center', fig.cap="Six AFLW sport statistic scatter plots that were identified as identified as interesting by the scagnostics. Plots 1 to 5 had unique values on some combination of the scagnostics, Plot 6 had middling values on all measures. There is a clear difference in structure between these plots indicating the scagnostics ability to identify interesting visual features."}
+```{r AFLW-scatters-static, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center', fig.cap="Six AFLW sport statistic scatter plots that were identified as identified as interesting by the scagnostics. Plots 1 to 5 had unique values on some combination of the scagnostics, Plot 6 had middling values on all measures. There is a clear difference in structure between these plots indicating the scagnostics ability to identify interesting visual features.", fig.width = 12, fig.height = 8}
 p1 + p2 + p3 + p4 + p5 + p6 + plot_layout(nrow=2)
 ```
 
@@ -795,13 +795,13 @@ s5 <- ggplot(test, aes(x=outlying, y = striated2, colour=plot5, label=lab)) +
 
 Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:threeplot-static)','\\@ref(fig:threeplot-interactive)'))`  displays Plot 1, Plot2 and Plot 5 beneath the scatter plot of the scagnostics SPLOM that was used to identify it as interesting. Plot 1 was identified as interesting as it returned high values  on both outlying and skewed. Intuitively, this would indicate that even after removing outliers, the data was still disproportionately spread out. This visual feature can be seen very clearly in Plot 1. Plot 2 scored very highly on all the association measures, which indicates a strong relationship between the two variables. The three association measures typically have strong correlation and scatter plots that stay within the large mass in the center have a linear relation, those that don't often have a non-linear relationship. The splines vs dcor plot tells us that there is a strong linear relationship between total posessions and disposals.  Total possessions is the number of times the player has the ball and disposals is the number of times the player gets rid of the ball legally, so the strong linear relation indicates the level of play, and tells us few mistakes are made in a professional league. Plot 5 is an excellent example in what new information we can learn from a unique plot identified with scagnostics. This plot is high on striated2 and moderate to low on outlying, telling us most of the points will be at straight or right angles and a little spread out. Hitouts measure the number of times the player punches the ball after the referee throws it back into play, and are typically done by tall players. Bounces have to be done while running, and are typically done by fast players. The L-shape of the plot tells us that players who do one very rarely perform the other, so the tallest player in AFL is rarely the fastest. The skewed spread along both of the statistics tells us these are both specialised skills. These plots provide a clear example of the unique information gained using scagnostics as a tool in exploratory data analysis.
 
-```{r, threeplot-interactive, out.width="100%", include=knitr::is_html_output(), fig.cap="Three plots that were identified as interesting below the scagnostic scatter plot used to identify it. Each scatter plot of AFLW data is displayed below a plot of the two scagnostic measures it stood out on. One of the most useful ways to identify plots is through scatter plots of the scagnostics.", eval=knitr::is_html_output()}
+```{r, threeplot-interactive, out.width="100%", include=knitr::is_html_output(), fig.cap="Three plots that were identified as interesting below the scagnostic scatter plot used to identify it. Each scatter plot of AFLW data is displayed below a plot of the two scagnostic measures it stood out on. One of the most useful ways to identify plots is through scatter plots of the scagnostics.", fig.width = 12, fig.height = 8, eval=knitr::is_html_output()}
 subplot(ggplotly(s1), ggplotly(s2), ggplotly(s5), ggplotly(p1), ggplotly(p2), ggplotly(p5),
         nrows=2, widths = c(0.3, 0.3, 0.3), heights = c(0.5, 0.5)) %>%
   config(displayModeBar = FALSE)
 ```
 
-```{r threeplot-static, out.width="100%", include=knitr::is_latex_output(), fig.cap="Three plots that were identified as interesting with the scagnostic scatter plot used to identify it. Each scatter plot of AFLW data is displayed below a plot of the two scagnostic measures it stood out on. One of the most useful ways to identify plots is through scatter plots of the scagnostics.", eval=knitr::is_latex_output(), fig.align='center'}
+```{r threeplot-static, out.width="100%", include=knitr::is_latex_output(), fig.cap="Three plots that were identified as interesting with the scagnostic scatter plot used to identify it. Each scatter plot of AFLW data is displayed below a plot of the two scagnostic measures it stood out on. One of the most useful ways to identify plots is through scatter plots of the scagnostics.", eval=knitr::is_latex_output(), fig.width = 12, fig.height = 8, fig.align='center'}
  s1 + s2 + s5 + p1 + p2 + p5 + plot_layout(nrow=2)
 ```
 
@@ -823,80 +823,88 @@ save(bbh, file="paper-RJ/data/bbh_samples.rda")
 ```{r bbh-scags-plots}
 load("data/bbh_scags.rda")
 
-bbh_scags <- mutate(bbh_scags, combination = paste0(Var1, ", ", Var2))
+newpal = c("#1f78b4", "#33a02c", "#e31a1c")
 
-bbh1 <- ggplot(bbh_scags, aes(x=convex, y=skinny, 
+bbh_scags <- mutate(bbh_scags, combination = paste0(Var1, ", ", Var2)) %>%
+  mutate(colours = ifelse(combination %in% c("time, ra", "dec, ra", "dec, time"), "a", "z")) %>%
+  mutate(colours = ifelse(combination=="alpha, time", "b", colours)) %>%
+  mutate(colours = ifelse(combination %in% c("m2, m1","chi_p, chi_tot"), "c", colours))
+
+bbh1 <- ggplot(bbh_scags, aes(x=convex, y=skinny, colour= colours,
                       label = combination)) +
   geom_point() + 
-  theme_minimal() +
+  theme_classic() +
+  scale_colour_manual(values=c(newpal, "grey")) +
   ggtitle("Convex vs Skinny") + 
-  theme(aspect.ratio=1, axis.text = element_blank())
-bbh2 <- ggplot(bbh_scags, aes(x=dcor, y=splines, 
+  theme(aspect.ratio=1, axis.text = element_blank(), legend.position = "none")
+
+bbh2 <- ggplot(bbh_scags, aes(x=dcor, y=splines, colour= colours,
                       label = combination)) +
   geom_point() + 
-  theme_minimal() +
+  theme_classic() +
+  scale_colour_manual(values=c(newpal, "grey")) +
   ggtitle("Splines vs Dcor") + 
-  theme(aspect.ratio=1, axis.text = element_blank())
-bbh3 <- ggplot(bbh_scags, aes(x=clumpy, y=clumpy2, 
+  theme(aspect.ratio=1, axis.text = element_blank(), legend.position = "none")
+
+bbh3 <- ggplot(bbh_scags, aes(x=clumpy, y=clumpy2, colour= colours,
                       label = combination)) +
   geom_point() + 
-  theme_minimal() +
+  theme_classic() +
+  scale_colour_manual(values=c(newpal, "grey")) +
   ggtitle("Clumpy vs Clumpy2") + 
-  theme(aspect.ratio=1, axis.text = element_blank())
+  theme(aspect.ratio=1, axis.text = element_blank(), legend.position = "none")
 
 load("data/bbh_samples.rda")
 
 bbh4 <- ggplot(bbh, aes(x=time, y=ra)) +
-  geom_point() + 
-  theme_minimal() +
+  geom_point(colour=newpal[1]) + 
+  theme_classic() +
   theme(aspect.ratio=1, axis.text = element_blank())
+
 bbh5 <- ggplot(bbh, aes(x=dec, y=ra)) +
-  geom_point() + 
-  theme_minimal() +
+  geom_point(colour=newpal[1]) + 
+  theme_classic() +
   theme(aspect.ratio=1, axis.text = element_blank())
+
 bbh6 <- ggplot(bbh, aes(x=dec, y=time)) +
-  geom_point() + 
-  theme_minimal() +
+  geom_point(colour=newpal[1]) + 
+  theme_classic() +
   theme(aspect.ratio=1, axis.text = element_blank())
+
 bbh7 <- ggplot(bbh, aes(x=m1, y=m2)) +
-  geom_point() + 
-  theme_minimal() +
+  geom_point(colour=newpal[3]) + 
+  theme_classic() +
   theme(aspect.ratio=1, axis.text = element_blank())
+
 bbh8 <- ggplot(bbh, aes(x=chi_p, y=chi_tot)) +
-  geom_point() + 
-  theme_minimal() +
+  geom_point(colour=newpal[3]) + 
+  theme_classic() +
   theme(aspect.ratio=1, axis.text = element_blank())
+
 bbh9 <- ggplot(bbh, aes(x=time, y=alpha)) +
-  geom_point() + 
-  theme_minimal() +
+  geom_point(colour=newpal[2]) + 
+  theme_classic() +
   theme(aspect.ratio=1, axis.text = element_blank())
 ```
 
-```{r bbh-scags-interactive, fig.cap="Selected pairs of scagnostics computed for the black hole mergers data. Groups of parameter combinations can be seen to stand out in the left plot (high on skinny and low on convex) and in the middle plot (high on both dcor and splines). The plot on the right shows clumpy vs clumpy2, where we can see the big impact of the correction for this dataset.", layout = "l-body", out.width="100%", fig.width=12, fig.height=4, eval=knitr::is_html_output()}
+```{r bbh-scags-interactive, fig.cap="Selected pairs of scagnostics computed for the black hole mergers data. The coloured points in these plots align with the plot colours of Figure 11. Groups of parameter combinations can be seen to stand out in the left plot (high on skinny and low on convex) and in the middle plot (high on both dcor and splines). The plot on the right shows clumpy vs clumpy2, where we can see the big impact of the correction for this dataset.", layout = "l-body", out.width="100%", fig.width=12, fig.height=4, eval=knitr::is_html_output()}
 gs1 <- ggplotly(bbh1, width=600, height=500)
 gs2 <- ggplotly(bbh2, width=600, height=500)
 gs3 <- ggplotly(bbh3, width=600, height=500)
 subplot(gs1, gs2, gs3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.43)
 ```
 
-```{r bbh-scags-static, fig.cap="Pairs of scagnostics computed for the black hole mergers data. XXX", fig.width = 12, fig.height = 4, out.width="100%", eval=knitr::is_latex_output()}
-#bbh1 + bbh2 + bbh3
-bbh1 + bbh2 + bbh4 + bbh5 + bbh6
+```{r bbh-scags-static, fig.cap="Selected pairs of scagnostics computed for the black hole mergers data. The coloured points in these plots align with the plot colours of Figure 11. Groups of parameter combinations can be seen to stand out in the left plot (high on skinny and low on convex) and in the middle plot (high on both dcor and splines). The plot on the right shows clumpy vs clumpy2, where we can see a large impact of the correction. ", fig.width = 12, fig.height = 4, out.width="100%", eval=knitr::is_latex_output()}
+bbh1 + bbh2 + bbh3
 ```
 
-Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:bbh-scags-static)','\\@ref(fig:bbh-scags-interactive)'))` shows scatter plots of the relevant scagnostics measures; outlying, skinny, splines, dcor clumpy, and clumpy2. On the left plot we see three points with very low values of the convex measure and high values of skinny. This combination of variables indicates some narrow shape and turns out to correspond to all the possible combinations containing the variables time, ra and dec. 
+Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:bbh-scags-static)','\\@ref(fig:bbh-scags-interactive)'))` shows scatter plots of the relevant scagnostics measures; outlying, skinny, splines, dcor, clumpy, and clumpy2. On the left plot we see three points with very low values of the convex measure and high values of skinny. This combination of variables indicates some narrow shape and turns out to correspond to all the possible combinations containing the variables time, ra and dec. The corresponding scatterplots are shown in the upper row of Figure \@ref(fig:blackholes). This pattern in  arises because the location of an event observed from gravitational waves can only be localized when using a network of three detectors (as described in @gwtriang), and observations with one or two detectors will result in a degeneracy between the location in the sky (parametrized by ra and dec) and the time of the event (time). It will lead to the observed pattern of a broken ring in this three dimensional space, thus inducing both non-linear dependence and clustering in the posterior sample.
 
-These three variables also stand out in the middle plot of Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:bbh-scags-static)','\\@ref(fig:bbh-scags-interactive)'))`, where it is interesting to note that the combinations with non-linear but functional relation (time vs ra and dec vs ra) have somewhat higher values in the splines measure compared to dcor. On the other hand dec vs time does not exhibit a functional relation, and consequently gets a higher dcor score compared to splines (with both measures still taking large values).
+These three variables also stand out in the middle plot of Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:bbh-scags-static)','\\@ref(fig:bbh-scags-interactive)'))`, where the two plots involving ra that have a non-linear but functional relation have a somewhat higher values in the splines measure compared to dcor. On the other hand dec vs time does not exhibit a functional relation, and consequently gets a higher dcor score compared to splines (with both measures still taking large values). This also happens for two other combinations: m1 vs m2 and chi_p vs chi_tot, which are shown in the bottom row (left and middle) of Figure \@ref(fig:blackholes). We see that both these combinations show noisy linear relations.
 
-The corresponding scatterplots are shown in the upper row of Figure \@ref(fig:blackholes). 
+Another interesting aspect of this dataset is that there are several combinations that lead to visible separations between groups of points. This makes it an ideal testcase for our new implementation of clumpy2. The right plot in Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:bbh-scags-static)','\\@ref(fig:bbh-scags-interactive)'))` shows clumpy vs clumpy2, and reveals large differences between the two measures. In particular there are many combinations without visible clustering, that still score high on clumpy, but where clumpy2 is zero. On the other hand we can see that there are several combinations that do lead to visible separation between groups that stand out in terms of clumpy2, but not the original clumpy. One example is time vs alpha, shown in the bottom right plot of Figure \@ref(fig:blackholes).
 
-This pattern arises because the location of an event observed from gravitational waves can only be localized when using a network of three detectors (as described in @gwtriang), and observations with one or two detectors will result in a degeneracy between the location in the sky (parametrized by ra and dec) and the time of the event (time). It will lead to the observed pattern of a broken ring in this three dimensional space, thus inducing both non-linear dependence and clustering in the posterior sample.
-
- This also happens for two other combinations: m1 vs m2 and chi_p vs chi_tot, which are shown in the bottom row (left and middle) of Figure \@ref(fig:blackholes). We see that both these combinations show noisy linear relations.
-
-Another interesting aspect with this dataset is that there are several combinations that lead to visible separations between groups of points. It is thus an ideal testcase for our new implementation of clumpy2. The right plot in Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:bbh-scags-static)','\\@ref(fig:bbh-scags-interactive)'))` shows clumpy vs clumpy2, and reveals large differences between the two measures. In particular there are many combinations without visible clustering, that still score high on clumpy, but where clumpy2 is zero. On the other hand we can see that there are several combinations that do lead to visible separation between groups that stand out in terms of clumpy2, but not the original clumpy. One example is time vs alpha, shown in the bottom right plot of Figure \@ref(fig:blackholes).
-
-```{r blackholes, fig.cap="Features in the BBH data that stand out on several of the scagnostics measures (convey, skinny, splines and dcor), showing strong relations between variables including non-linear and non-functional dependencies. The final example (time vs alpha) is expected to take high values in clumpy, but only stands out on the corrected clumpy2.", fig.width = 12, fig.height = 8, out.width="100%"}
+```{r blackholes, fig.cap="Features in the BBH data that stand out on several of the scagnostics measures (convey, skinny, splines and dcor), showing strong relations between variables including non-linear and non-functional dependencies. The colour of these point align with the plots position in the plots of Figure 10. The final example (time vs alpha) is expected to take high values in clumpy, but only stands out on the corrected clumpy2.", fig.width = 12, fig.height = 8, out.width="100%"}
 
 #subplot(bbh1, bbh2, bbh3, bbh4, bbh5, bbh6,
 #        nrows=2, widths = c(0.33, 0.33, 0.33), heights = c(0.5, 0.5))
@@ -905,17 +913,13 @@ bbh4 + bbh5 + bbh6 + bbh7 + bbh8 + bbh9 + plot_layout(nrow=2)
 
 
 ## Shape differences between groups
-A potential application of scagnostics is to detect shape differences between groups. Commonly, classification focuses on differences in the means, or separations between groups, there are few techniques that focus on difference in shape. This difference in shape occurs when the variance patters between groups are different, and quadratic discriminant analysis (QDA), is a classical example of a method that takes this difference in variance into consideration. QDA assumes the distribution of each group is normal, and then draws a curved boundary between them that is furthest from each groups mean, but also respects that one group might have a larger elliptical variance-covariance than another group. While this method is useful when groups have different shapes, the technique is still limited by an assumption of normality. Scagnostics could be utilised in a similar fashion to QDA to identify irregular shape differences between.
+Another potential application of scagnostics is to detect shape differences between groups. Commonly, classification focuses on separations between groups or differences in the means, there are few techniques that focus on difference in shape. This difference in shape occurs when the variance patterns between groups are different. Linear discriminant analysis (LDA) is an example of a method that does not take this difference in variation into considering, quadratic discriminant analysis (QDA), is an example of a method that does. LDA assumes the distribution of each group is normal with the same variance, it then draws a straight boundary that is at a maximal distance from each groups mean. QDA assumes the distribution of each group is normal, and then draws a curved boundary between them that is furthest from each groups mean, but also respects that one group might have a larger elliptical variance-covariance than another group. So from this, we can see that QDA is more flexible than LDA as it allows for this difference in shape, however the technique is still limited by an assumption of normality. Scagnostics could be utilised in a similar fashion to QDA to identify irregular shape differences between groups.
 
 This analysis compares the features of two large collections time series, and then tries to differentiate them using scagnostics. The goal of the comparison is to compare shapes, not necessarily centres of groups as might be done in LDA or other machine learning methods. The two groups chosen for comparison are macroeconomic and microeconomic series. The data is pulled from the self-organizing database of time-series data [@sots], using the compenginets R package [@compenginets]. Since the time series are different lengths, each is described by a set of time series features [chapter 4 of @fpp] using the feasts R package [@feasts].
 
-For illustration, just a small set of features is examined, but still enough that the list of scatter plots identified by the scagnostics is significantly smaller than the list of all possible scatter plots. **Table** shows the pair of features that maximises the difference between groups for each scagnostic. Plotting a handful of these in (Figure \@ref(fig:timeseries)), we can see the difference in shape that the scagnostics have identified. For example, the difference between the curvature and trend strength features shows both types of time series have, on average, strong trends and moderate curvature, however the former varies more in the macroeconomic series and the later in the microeconomic series. We can see from this example, and the other comparisons in the plot, that the scagnostics have identified a difference in shape that is not apparent in the mean of the data. Similar comments can be made about the other two plots in Figure \@ref(fig:timeseries).
+For illustration, just a small set of features is examined, but still enough that the list of scatter plots identified by the scagnostics is significantly smaller than the list of all possible scatter plots. Table `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(tab:scagsmacmic-pdf)','\\@ref(tab:scagsmacmic-html)'))` shows the pair of features that maximises the difference between groups for each scagnostic. Plotting a handful of these in (Figure \@ref(fig:timeseries)), we can see the difference in shape that the scagnostics have identified. For example, the middle plot of the figure shows the shape difference between the curvature and trend strength between macroeconomic and microeconomic time series. Both types of time series have, on average, strong trends and moderate curvature, however the former varies more in the macroeconomic series and the later in the microeconomic series. We can see from this example, and the other comparisons in the plot, that the scagnostics have identified a difference in shape that is not apparent in the mean of the data. Similar comments can be made about the other two plots in Figure \@ref(fig:timeseries).
 
-While we have shown that the scagnostics succeed in identifying difference in shapes between groups, this does not automatically transfer to a classification technique. Utilising the scagnostics ability to identify between group shape differences is an early step in using them for classification. It is not uncommon for surpervised learning methods to be born from unsupervised learning methods. For example, principal component analysis transforms a dataset by making linear combinations of the old variables in the direction of most variance, and using these transformed variables in a linear regression can improve results. However, despite its promise, developing a classification technique is beyond the scope of this research. 
-
-<!--
-Plotting a few series actually suggests that the microeconomic series contain lots of micro structure, which might be what we should expect (Figure \@ref(fig:tsplots)). Interestingly the trend strength seems to pick up the jaggies!
--->
+While we have shown that the scagnostics succeed in identifying difference in shapes between groups, this does not automatically transfer to a classification technique. Utilising the scagnostics ability to identify between group shape differences is an early step in using them for classification. It is not uncommon for surpervised learning methods to be born from unsupervised learning methods. For example, principal component analysis  (PCA), an unsupervised larning method, transforms a dataset by making linear combinations of the variables in the direction of most variance. Performing this linear transformation wile also trying to explain the variance in a response variable is a supervised version of PCA known as principal component regression. However, despite its promise, developing a classification technique based on scagnostics is beyond the scope of this research. 
 
 ```{r eval=FALSE}
 # Getting the data
@@ -975,19 +979,22 @@ scags_mac_mic <- scags_mac_mic %>%
   group_by(scags) %>%
   arrange(desc(scag_dif))%>%
   slice_head(n=1)
+
+scags_mac_mic$Var1 <- str_replace_all(scags_mac_mic$Var1, "_", ' ') 
+scags_mac_mic$Var2 <- str_replace_all(scags_mac_mic$Var2, "_", ' ') 
+  
 ```
 
 ```{r scagsmacmic-html, eval=is_html_output()}
-scags_mac_mic %>% kable() 
+scags_mac_mic %>% kable(caption = "Variable pairs that maximise between group difference of each scagnostic", escape=FALSE, booktabs = T, col.names = c("Variable 1", "Variable 2", "Scagnostic", "Macro Value", "Micro Value", "Difference"))  
 ```
 
 ```{r scagsmacmic-pdf, eval=is_latex_output()}
-scags_mac_mic %>% kable(format="latex") #, caption = "Variable pairs that maximise between group difference of each scagnostic", escape=FALSE, booktabs = T, col.names = c("Variable 1", "Variable 2", "Scagnostic", "Macro Value", "Micro Value", "Difference"),)  %>%
-  #column_spec(1, width = "3cm")
+scags_mac_mic %>% kable(format="latex", caption = "Variable pairs that maximise between group difference of each scagnostic", escape=FALSE, booktabs = T, col.names = c("Variable 1", "Variable 2", "Scagnostic", "Macro Value", "Micro Value", "Difference")) 
 ```
 
 
-```{r timeseries, fig.cap="Interesting differences between two groups of time series detected by scagnostics. The time series are described by time series features, in order to handle different length series. Scagnostics are computed on these features separately for each set to explore for shape differences.", fig.width = 12, fig.height = 4, out.width="100%", layout = "l-body"}
+```{r timeseries, fig.cap="Interesting differences in the visual features of two groups of time series can be detected by scagnostics. The three plots represent the variable pairs that maximised the differences between outlying (left), skewed (middle) and convex (right). While these distributions may have overlapping means, their differencs in shape have been identified by the scagnostics.", fig.width = 12, fig.height = 4, out.width="100%", layout = "l-body"}
 feats_mac_mic <- bind_rows(
   mutate(feats_macro, type = "macro"),
   mutate(feats_micro, type = "micro")
@@ -996,26 +1003,29 @@ feats_mac_mic <- bind_rows(
 p1 <- ggplot(feats_mac_mic, 
        aes(pacf5 , y=diff1_acf1, colour = type)) + 
   geom_point(alpha = 0.5) +
-  #scale_colour_brewer("", palette="Dark2") +
-  scale_colour_manual(values=c(mypal[1], mypal[5]))+
+  scale_colour_brewer("", palette="Dark2") +
+  #scale_colour_manual(values=c(mypal[1], mypal[5]))+
   theme_classic()+
+  ggtitle("Top difference on outlying") + 
   theme(aspect.ratio=1, axis.text = element_blank())
   #facet_wrap(~type, nrow=2) 
 
 p2 <- ggplot(feats_mac_mic, 
        aes(x=curvature, y= trend_strength, colour = type)) + 
   geom_point(alpha = 0.5) +
-  #scale_colour_brewer("", palette="Dark2") +
-  scale_colour_manual(values=c(mypal[1], mypal[5]))+
+  scale_colour_brewer("", palette="Dark2") +
+  #scale_colour_manual(values=c(mypal[1], mypal[5]))+
   theme_classic()+
+  ggtitle("Top difference on skewed") +
   theme(aspect.ratio=1, axis.text = element_blank()) 
   #facet_wrap(~type, nrow=2)
 
 p3 <- ggplot(feats_mac_mic, 
        aes(x=longest_flat_spot, y=trend_strength, colour = type)) + 
   geom_point(alpha = 0.5) +
-  #scale_colour_brewer("", palette="Dark2") +
-  scale_colour_manual(values=c(mypal[1], mypal[5]))+
+  ggtitle("Top difference on convex") +
+  scale_colour_brewer("", palette="Dark2") +
+  #scale_colour_manual(values=c(mypal[1], mypal[5]))+
   theme_classic()+
   theme(aspect.ratio=1, axis.text = element_blank())  
   #facet_wrap(~type, nrow=2)
@@ -1078,7 +1088,6 @@ mic <- ggplot(micro_s_ts, aes(x=t, y=x)) +
 mac + mic
 
 ```
-
 
 
 ## Processing and describing data with many variables
