@@ -511,7 +511,7 @@ datasets_tb %>%
 
 ## Functions
 ### Scagnostics functions
-The scagnostics functions functions either directly calculate each scagnostic measure, or are involved in the process of calculating a scagnostic measure (such as making the hull objects). These functions are low level functions, and while they are exported by the package, they are not the intended method of calculating scagnostics as they perform no outlier removal, however they are still an option for users if they wish. In some cases, such as sc_clumpy_r for clumpy robust, they are the only method to calculate that scagnostic. Table `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(tab:scagfuncs-tb-html)', '\\@ref(tab:scagfuncs-tb-pdf)'))` outlines these functions.
+The scagnostics functions functions either directly calculate each scagnostic measure, or are involved in the process of calculating a scagnostic measure (such as making the hull objects). These functions are low level functions, and while they are exported by the package, they are not the intended method of calculating scagnostics as they perform no outlier removal, however they are still an option for users if they wish. In some cases, such as ```sc_clumpy_r``` for clumpy robust, they are the only method to calculate that scagnostic. Table `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(tab:scagfuncs-tb-html)', '\\@ref(tab:scagfuncs-tb-pdf)'))` outlines these functions.
 
 ```{r}
 scagfuncs_tb <- tibble(dt = c("scree", 
