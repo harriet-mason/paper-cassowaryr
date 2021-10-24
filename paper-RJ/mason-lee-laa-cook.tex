@@ -164,24 +164,23 @@ based; the convex hull, alpha hull and minimum-spanning tree (MST)
 \end{figure}
 \end{Schunk}
 
-Before any of the scagnostics are calculated, outlying points are
-removed. Outliers are defined as any point whose adjacent edges in the
-MST have edges larger than \(\omega\):
-\[ \omega = q_{75} + 1.5(q_{75} - q_{25})\] Where \(q_i\) refers to the
-ith percentile of the sorted edge lengths of the MST.
-
 The nine scagnostics defined by \citet{scagdist} are detailed below with
 an explanation and a formula. To give further understanding in how these
 measures work, the scagnostics \emph{skinny}, \emph{outlying}, and
 \emph{clumpy} are given an additional visual explanation in Figure
-\ref{fig:scagdrawn}. We will let \(A=\) alpha Hull, \(C=\) convex hull,
+\ref{fig:scagdrawn}. We will let \(A=\) alpha hull, \(C=\) convex hull,
 \(M\) = minimum spanning tree, and \(s=\) the scagnostic measure. Since
 some of the measures have a sample size dependence, \(w\) is a parameter
 used to adjust for the sample size.
 
+Before any of the scagnostics are calculated, outlying points are
+removed. Outliers are defined as any point whose adjacent edges in the
+MST have edges larger \(q_{75} + 1.5(q_{75} - q_{25})\), where \(q_i\)
+refers to the ith percentile of the sorted edge lengths of the MST.
+
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{figures/drawnmeasures} \caption[ An visualisation of the calculation used compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics]{ An visualisation of the calculation used compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics. The measure definitions are all distinct, and each illustrates a unique method of capturing a visual feature of a scatter plot.}\label{fig:scagdrawn}
+\includegraphics[width=1\linewidth]{figures/drawnmeasures} \caption[ An visualisation of the calculation used to compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics]{ An visualisation of the calculation used to compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics. These three measure definitions are quite distinct, and each illustrates a unique method of capturing a visual feature in a scatter plot.}\label{fig:scagdrawn}
 \end{figure}
 \end{Schunk}
 
@@ -217,7 +216,8 @@ used to adjust for the sample size.
 \item
   \textbf{Outlying:} A measure of proportion and severity of outliers in
   dataset. Calculated by comparing the edge lengths of the outlying
-  points in the MST with the length of the entire MST.
+  points in the MST (\(M_{outliers}\)) with the length of the entire MST
+  (\(M\)).
 \end{itemize}
 
 \[s_{outlying}=\frac{\mbox{length}(M_{outliers})}{\mbox{length}(M)}\]
