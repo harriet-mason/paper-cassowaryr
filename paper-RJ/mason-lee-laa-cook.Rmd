@@ -760,14 +760,14 @@ subplot(pp1, pp2, pp3, pp4, pp5, pp6,
 ```{r AFLW-scatters-static, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center', fig.cap="Six AFLW sport statistic scatter plots that were identified as identified as interesting by the scagnostics. Plots 1 to 5 had unique values on some combination of the scagnostics, Plot 6 had middling values on all measures. There is a clear difference in structure between these plots indicating the scagnostics ability to identify interesting visual features.", fig.width = 12, fig.height = 8}
 
 #titles
-p1 <- p1 + ggtitle("Plot 1")
-p2 <- p2 + ggtitle("Plot 2")
-p3 <- p3 + ggtitle("Plot 3")
-p4 <- p4 + ggtitle("Plot 4")
-p5 <- p5 + ggtitle("Plot 5")
-p6 <- p6 + ggtitle("Plot 6")
+p1a <- p1 + ggtitle("Plot 1")
+p2a <- p2 + ggtitle("Plot 2")
+p3a <- p3 + ggtitle("Plot 3")
+p4a <- p4 + ggtitle("Plot 4")
+p5a <- p5 + ggtitle("Plot 5")
+p6a <- p6 + ggtitle("Plot 6")
 
-p1 + p2 + p3 + p4 + p5 + p6 + plot_layout(nrow=2)
+p1a + p2a + p3a + p4a + p5a + p6a + plot_layout(nrow=2)
 ```
 
 The best way to identify interesting scatter plots is to construct a large interactive SPLOM of the scagnostic values,each point representing a scatter plot in the data set. This is how Plots 1 to 5 were identified, but for the sake of space, we are only going to show the scatter plots of the SPLOM that led to the selection of Plots 1, 2, and 5.
@@ -788,22 +788,22 @@ s1 <- ggplot(test, aes(x=outlying, skewed, colour=plot1, label=lab)) +
   geom_point() +
   theme_classic() +
   theme(legend.position ="none")+
-  scale_colour_manual(values=c("grey", mypal[1]))+
-  ggtitle("Outlying vs Skewed")
+  scale_colour_manual(values=c("grey", mypal[1]))
+  #ggtitle("Outlying vs Skewed")
 
 s2 <- ggplot(test, aes(x=splines, dcor, colour=plot2, label=lab)) + 
   geom_point() +
   theme_classic() +
   theme(legend.position ="none")+
   scale_colour_manual(values=c("grey", mypal[2]))+
-  ggtitle("Splines vs Dcor")
+  #ggtitle("Splines vs Dcor")
 
 s5 <- ggplot(test, aes(x=outlying, y = striated2, colour=plot5, label=lab)) +
   geom_point() +
   theme_classic() +
   theme(legend.position ="none") +
   scale_colour_manual(values=c("grey", mypal[5])) +
-  ggtitle("Outlying vs Striated2")
+  #ggtitle("Outlying vs Striated2")
 
 ```
 
@@ -816,7 +816,12 @@ subplot(ggplotly(s1), ggplotly(s2), ggplotly(s5), ggplotly(p1), ggplotly(p2), gg
 ```
 
 ```{r threeplot-static, out.width="100%", include=knitr::is_latex_output(), fig.cap="Three plots that were identified as interesting with the scagnostic scatter plot used to identify it. Each scatter plot of AFLW data is displayed below a plot of the two scagnostic measures it stood out on. One of the most useful ways to identify plots is through scatter plots of the scagnostics.", eval=knitr::is_latex_output(), fig.width = 12, fig.height = 8, fig.align='center'}
- s1 + s2 + s5 + p1 + p2 + p5 + plot_layout(nrow=2)
+
+s1a <- s1 + ggtitle("Outlying vs Skewed")
+s2a <- s2 + ggtitle("Splines vs Dcor")
+s3a <- s3 + ggtitle("Outlying vs Striated2")
+
+s1a + s2a + s5a + p1a + p2a + p5a + plot_layout(nrow=2)
 ```
 
 ## Non-linear shapes in black hole mergers
