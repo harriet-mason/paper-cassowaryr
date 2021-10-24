@@ -678,7 +678,7 @@ t1 + t2 + plot_layout(nrow=1)
 
 ## AFL player statistics
 
-The Australian Football League Women's (AFLW) is the national semi-professional Australia Rules football league for female players. Here we will analyse data sourced from the official AFL website with information on the 2020 season, in which the league had 14 teams and 1932 players. These variables are recorded per player per game, so the stats are averaged for each player over the course of the season. The description of each statistic in the data set can be found in the supplementary material. There are 68 variables, 33 of which are numeric. The the others are categorical, e.g. players names or match ids, and they would not be used in scagnostic calculations. This means there are 528 possible scatterplots, significantly more than a single person could view and analyse themselves and so we use scagnostics to identify which pairwise plots might be interesting to examine. 
+The Australian Football League Women's (AFLW) is the national semi-professional Australia Rules football league for female players. Here we will analyse data sourced from the official AFL website with information on the 2020 season, in which the league had 14 teams and 1932 players. These variables are recorded per player per game, so the stats are averaged for each player over the course of the season. The description of each statistic in the data set can be found in the appendix A1. There are 68 variables, 33 of which are numeric. The the others are categorical, e.g. players names or match ids, and they would not be used in scagnostic calculations. This means there are 528 possible scatterplots, significantly more than a single person could view and analyse themselves and so we use scagnostics to identify which pairwise plots might be interesting to examine. 
   
 Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:AFLW-scatters-static)','\\@ref(fig:AFLW-scatters-interactive)'))`  displays five scatter plots (Plots 1 to 5 in the figure) that were identified as interesting due to having a particularly high or low value on a scagnostic, or some unusual combination of two or more scagnostics. In addition to these five, there is a 6th plot (Plot 6 in the figure) that is included to display what a middling value on almost all of the scagnostics looks like. Most scatter plots score middling values on the scagnostics, so Plot 6 is also a good indication of what we would look at if we picked variables to plot ourselves with no intuition. The visual structure that changes significantly between Plots 1 to 5, and the lack of interesting visual features in Plot 6, shows the benefit of using scagnostics in the early stages of exploratory data analysis. 
 
@@ -807,7 +807,7 @@ subplot(ggplotly(s1), ggplotly(s2), ggplotly(s5), ggplotly(p1), ggplotly(p2), gg
 ```
 
 ## Non-linear shapes in black hole mergers
-Physics data often contains multiple variables with highly non-linear or clustered pairwise relationships, which makes this type of data ideal for displaying to applications of splines and clumpy2; two scagnostics that's uses were not particularly visible in the AFLW example. Here we will use scagnostics to explore data that comes from a simulation of a model describing a binary black hole (BBH) merger event. The data contains 13 variables that describe the BBH event, and each point is a posterior sample that could describe the event. As the data describes a complicated physics phenomena, brief details of the variables will be left to the supplementary materials as a deeper understanding requires a non-trivial amount of knowledge in physics. Therefore, we will focus on the types of patterns observed rather than an interpretation of these patterns. 
+Physics data often contains multiple variables with highly non-linear or clustered pairwise relationships, which makes this type of data ideal for displaying to applications of splines and clumpy2; two scagnostics that's uses were not particularly visible in the AFLW example. Here we will use scagnostics to explore data that comes from a simulation of a model describing a binary black hole (BBH) merger event. The data contains 13 variables that describe the BBH event, and each point is a posterior sample that could describe the event. As the data describes a complicated physics phenomena, brief details of the variables will be left to appendix A2 as a deeper understanding requires a non-trivial amount of knowledge in physics. Therefore, we will focus on the types of patterns observed rather than an interpretation of these patterns. 
 
 The full data file contains 9998 posterior samples, and with such a large number of observations, the scagnostics cannot be computed within a reasonable time frame without the assistance of binning. For our purpose a much smaller sample is sufficient, and we randomly sample 200 observations before computing the scagnostics. Since the size of the dataset is small enough, looking at the complete SPLOM of the data is still feasible, and could be used to identify several interesting scatterplots. We will omit the SPLOM here, however it allows us to see the presence of non-linear and non-functional relations between pairs of variables that we except the scagnostics to pick out. For this reason, we will focus on scatter plots that have low convex values and high skinny values, a significant difference in their splines and dcor values, or stand out on the clumpy2 measure, as these three qualities indicate the presence of non-linear or clustered relationship.
 
@@ -1100,7 +1100,7 @@ mac + mic
 
 The World Bank delivers a lot of development indicators (WBI) [@WBI], for many countries and multiple years. The sheer volume of indicators, in addition to the substantial number of missing values, presents a barrier to analysis. This is a good example to where scagnostics can be used to identify pairs of indicators with interesting relationships, and efficiently handle missing values on a pairwise basis. 
 
-The downloaded data uses indicators from 2018 and after some pre-processing to remove variables or countries which have mostly missing values, there are 20 indicators (variables) and 79 countries in our data set. The scagnostics will be calculated on this pairwise complete data, allowing for a few sporadic missings.
+The downloaded data uses indicators from 2018 and after some pre-processing to remove variables or countries which have mostly missing values, there are 20 indicators (variables) and 79 countries in our data set. The variable names are somewhat cryptic, and their descriptions are left to the appendix A3. The scagnostics will be calculated on this pairwise complete data, allowing for a few sporadic missings.
 
 Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:wbistatic)','\\@ref(fig:wbiinteractive)'))` (left plot) shows a summary of the top scagnostic value for each pair of variables, that is, only the highest scagnostic value for each pair of variables is saved. This is displayed as a vertically-oriented side-by-side dotplot. For the WBI data, the pairs of variables are producing mostly high values on stringy, skewed, convex and outlying, while the scagnostics clumpy2, striated2, and skinny are only the highest for a single pair of variables. In addition, missing from the plot but not the calculations is that splines and striped were not highest for any pair of variables in the data set. 
 
@@ -1276,3 +1276,84 @@ if (nrow(check_spelling) > 0) {
   stop("Check spelling in Rmd files!")
 }
 ```
+
+# Appendix
+
+## A1: AFLW Data Dictionary
+
+- *timeOnGroundPercentage*: percentage of the game the player was on the field.  
+- *goals*: the 6 points a team gets when the kick the ball between the two big posts.  
+- *behinds*: the 1 point a team gets when they kick the ball between the big post and small post.  
+- *kicks*: number of kicks done by the player in this game.  
+- *handballs*: number of handballs does by the player in the game.  
+- *disposals*: the number kicks and handballs a player has.  
+- *marks*: total number of marks in the game (the ball travels more than 15m and the player catches it without another player touching it or it hitting the ground).  
+- *bounces*: the number of times a player bounced the ball in a game. A player must bounce the ball if they travel more than 15m and they can only bounce the ball once.  
+- *tackles*: Number of tackles performed by the player.  
+- *contestedPossessions*: the number of disposals a player has under pressure, i.e if a player is getting tackled and the get a handball or kick out of the scuffle.  
+- *uncontestedPossessions*: the number of disposals a player has under no pressure where they have space and time to get rid of the ball.  
+- *totalPossessions*: The total number of time the player has the ball. 
+- *inside50s*: the number of times the player has the ball within the 50m arc around the oponents goals.  
+- *marksInside50*: the number of marks a player gets within the 50m arc around the oponents goals.  
+- *contestedMarks*: the number of marks a player has under pressure.
+- *hitouts*: this is how many times a player or team taps or punching the ball from a stoppage.
+- *onePercenters*: all the things a player can do without registering a disposal. Eg. Spoils (punching the ball to stop someone from marking it), Shepparding (blocking for a teammate), smothering.  
+*disposalEfficiency*: a measure of how well a player disposes of the ball. E.g. if a player kicks or handballs to the opposition a lot, they will have a low disposal efficiency percentage.   
+- *clangers*: this is how many times a player or team dispose of the ball and it results in a turnover to the other team.  
+- *freesFor*: this player was awarded a free kick.  
+- *freesAgainst*:  this player caused a free kick to be awarded to the other team.  
+- *dreamTeamPoints*: this is fantasy football scoring points.  
+- *rebound50s*: how many times the player exits the ball out of their defence 50m arc.  
+- *goalAssists*: number of times the player gave the pass immediately before the player that scored a goal.
+- *goalAccuracy*: percentage ratio of the number of goals kicked to the number of goal attempts.  
+- *turnovers*: this players disposal caused a turnover (the ball touches the ground and the other team get it).  
+- *intercepts*: number of times this player intercepts the disposal of the other team.
+- *tacklesInside50*: number of tackles performed by this player within their defence 50m arc.  
+- *shotsAtGoal*: number of total shots at goal for this player (sum of goals, behinds and misses)
+- *scoreInvolvements*: number of times the player was involved in a passage of play leading up to a goal.
+- *metresGained*:  how far a player has been able to advance the ball without turning it over.  
+- *clearances.centreClearances*: this is the clearance from the centre bounce after a goal or at the start of a quarter
+- *clearances.stoppageClearances*: all the clearance from stoppages around the ground
+- *clearances.totalClearances*: how many time a player or team clears the ball from a stoppage or from the centre
+
+## A2: Black Hole Merger Data Dictionary
+
+- **position** in the sky is characterized by three variables: ra (right ascension), dec (declination) and distance
+- **time** of the event: time
+- **mass** of the two black holes: m1, m2 (with m1 > m2)
+- **spin** related properties: angles alpha, theta_jn, chi_tot, chi_eff, chi_p
+- **polarisation angle**: psi
+- **orbital phase**: phi_jl
+
+For a detailed description including a diagram explaining the different angles describing the spin we refer to @Smith:2016qas.
+
+## A3: World Bank Indicators Data Dictionary
+
+- NV.AGR.TOTL.ZS	Agriculture, value added (% of GDP)
+- EN.ATM.CO2E.PC	CO2 emissions (metric tons per capita)
+- NE.EXP.GNFS.ZS	Exports of goods and services (% of GDP)
+- DT.DOD.DECT.CD	External debt stocks, total (DOD, current US$)
+- SP.DYN.TFRT.IN	Fertility rate, total (births per woman)
+- NY.GDP.MKTP.CD	GDP (current US$)
+- NY.GNP.MKTP.PP.CD	GNI, PPP (current international $)
+TX.VAL.TECH.MF.ZS	High-technology exports (% of manufactured exports)
+- SH.IMM.MEAS	Immunization, measles (% of children ages 12-23 months)
+- NE.IMP.GNFS.ZS	Imports of goods and services (% of GDP)
+- NV.IND.TOTL.ZS	Industry, value added (% of GDP)
+- SP.DYN.LE00.IN	Life expectancy at birth, total (years)
+- TG.VAL.TOTL.GD.ZS	Merchandise trade (% of GDP)
+- MS.MIL.XPND.GD.ZS	Use and distribution of these data are subject to Stockholm International Peace Research Institute (SIPRI) terms and conditions.	Military expenditure (% of GDP)
+- IT.CEL.SETS.P2	Mobile cellular subscriptions (per 100 people)
+- SH.DYN.MORT	Mortality rate, under-5 (per 1,000 live births)
+- SP.POP.TOTL	Population, total
+- SH.DYN.AIDS.ZS	Prevalence of HIV, total (% of population ages 15-49)
+- GC.TAX.TOTL.GD.ZS	Tax revenue (% of GDP)
+- EG.ELC.ACCS.ZS	Access to electricity (% of population)
+- NY.ADJ.NNTY.CD	Adjusted net national income (current US$)
+- SH.HIV.INCD.TL	Adults (ages 15+) and children (ages 0-14) newly infected with HIV
+- AG.LND.AGRI.ZS	Agricultural land (% of land area)
+- ER.FSH.AQUA.MT	Aquaculture production (metric tons)
+- AG.LND.ARBL.HA.PC	Arable land (hectares per person)
+- MS.MIL.TOTL.TF.ZS	Armed forces personnel (% of total labor force)
+- FB.BNK.CAPA.ZS	Bank capital to assets ratio (%)
+- SE.COM.DURS	Compulsory education, duration (years)
