@@ -15,15 +15,7 @@ choose to visualise. Here, we will discuss the creation of the
 \emph{cassowaryr} R package that will provide a user-friendly method to
 calculate these scagnostics, by their original definition or with some
 adjustments. The scagnostics are shown to correctly order scatter plots
-with known interesting visual features. Following that the fine details
-of the package, including function explanations and tests are discussed.
-Finally the package is applied to data from the Australian Football
-League Women's (AFLW) and a simulated binary black hole (BBH) merger
-event to show its value as a tep in exploratory data analysis;
-macroeconomic and microeconomic data to show its ability to
-differentiate groups by shape; and finally the world bank indicators
-(WBI) to show how the package can be used to summarise the shape of an
-entire dataset.
+with known interesting visual features.
 }
 
 \hypertarget{introduction}{%
@@ -122,10 +114,14 @@ the results.
 This paper describes the R package, \texttt{cassowaryr} that computes
 the currently existing scagnostics, and adds several new measures. The
 paper is organised as follows. The next section explains the
-scagnostics; this is followed by a description of the implementation of
-the \texttt{cassowaryr} package; and finally several examples using
-sports, physics, time series, and world bank indicators data illustrate
-the usage of the package.
+scagnostics. Following that the fine details of the package, including
+function explanations and tests are discussed. Finally the package is
+applied to data from the Australian Football League Women's (AFLW) and a
+simulated binary black hole (BBH) merger event to show its value as a
+tep in exploratory data analysis; macroeconomic and microeconomic data
+to show its ability to differentiate groups by shape; and finally the
+world bank indicators (WBI) to show how the package can be used to
+summarise the shape of an entire dataset
 
 \hypertarget{scagnostics}{%
 \section{Scagnostics}\label{scagnostics}}
@@ -203,7 +199,7 @@ used to adjust for the sample size.
   variables.
 \end{itemize}
 
-\[s_{convex}=w\frac{area(A)}{area(C)}\]
+\[s_{convex}=w\frac{\mbox{area}(A)}{\mbox{area}(C)}\]
 
 \begin{itemize}
 \tightlist
@@ -214,7 +210,7 @@ used to adjust for the sample size.
   perfect circle and values close to 1 indicate a skinny polygon.
 \end{itemize}
 
-\[s_{skinny}= 1-\frac{\sqrt{4\pi area(A)}}{perimeter(A)}\]
+\[s_{skinny}= 1-\frac{\sqrt{4\pi \mbox{ area}(A)}}{\mbox{perimeter}(A)}\]
 
 \begin{itemize}
 \tightlist
@@ -224,7 +220,7 @@ used to adjust for the sample size.
   points in the MST with the length of the entire MST.
 \end{itemize}
 
-\[s_{outlying}=\frac{length(M_{outliers})}{length(M)}\]
+\[s_{outlying}=\frac{\mbox{length}(M_{outliers})}{\mbox{length}(M)}\]
 
 \begin{itemize}
 \tightlist
@@ -247,7 +243,7 @@ used to adjust for the sample size.
   interpercentile range.
 \end{itemize}
 
-\[s_{skewed} = 1-w(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}})\]
+\[s_{skewed} = 1-w\left(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}}\right)\]
 
 \begin{itemize}
 \tightlist
@@ -271,7 +267,7 @@ used to adjust for the sample size.
   maximum of this value over all edges.
 \end{itemize}
 
-\[\max_{j}[1-\frac{\max_{k}[length(e_k)]}{length(e_j)}]\]
+\[\max_{j}\left[ 1-\frac{\max_{k}[\mbox{length}(e_k)]}{\mbox{length}(e_j)}\right]\]
 
 \begin{itemize}
 \tightlist
@@ -282,7 +278,7 @@ used to adjust for the sample size.
   approximately between 135 and 220 degrees.
 \end{itemize}
 
-\[\frac1{|V|}\sum_{v \in V^{2}}I(cos\theta_{e(v,a)e(v,b)}<-0.75)\]
+\[\frac1{|V|}\sum_{v \in V^{2}}I(\cos\theta_{e(v,a)e(v,b)}<-0.75)\]
 
 \hypertarget{association-based-scagnostics}{%
 \subsection{Association-based
@@ -313,7 +309,7 @@ package.
   explained by a splines model.
 \end{itemize}
 
-\[s_{splines}=\max_{i\in x,y}[1-\frac{Var(Residuals_{model~i=.})}{Var(i)}]\]
+\[s_{splines}=\max_{i\in x,y}\left[ 1-\frac{\mbox{Var}(\mbox{Residuals}_{model~i=.})}{\mbox{Var}(i)}\right] \]
 
 \begin{itemize}
 \tightlist
@@ -852,15 +848,15 @@ called \texttt{top\_scags()} and \texttt{top\_pairs()} .
 \subsection{Tests}\label{tests}}
 
 All the scagnostic functions have tests written and implemented using
-the \texttt{testthat} package. They have all been compared to
-calculations completed by hand to ensure the difference in results from
-previous literature is due to pre-processing steps such as binning, and
-not mistakes in the code. These tests illuminated the issues that
-allowed us to make meaningful changes to the definitions of clumpy and
-striated and understand some pitfalls of the package. For example,
-several tests to check the outlying scagnostic was working correctly
-illustrated some issues in the process of outlier removal, which is
-illustrated in Figure \ref{fig:outlying-test-plot}.
+the \texttt{testthat} (\citet{testthat}) package. They have all been
+compared to calculations completed by hand to ensure the difference in
+results from previous literature is due to pre-processing steps such as
+binning, and not mistakes in the code. These tests illuminated the
+issues that allowed us to make meaningful changes to the definitions of
+clumpy and striated and understand some pitfalls of the package. For
+example, several tests to check the outlying scagnostic was working
+correctly illustrated some issues in the process of outlier removal,
+which is illustrated in Figure \ref{fig:outlying-test-plot}.
 
 Figure \ref{fig:outlying-test-plot} shows the an example of a simulated
 test set, combined with the associated MST. When creating this test data

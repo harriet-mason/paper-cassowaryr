@@ -129,16 +129,16 @@ knitr::include_graphics("figures/drawnmeasures.png")
 
 - **Convex:** Measure of how convex the shape of the data is. Computed as the ratio between the area of the alpha hull ($A$) and convex hull ($C$). Unlike the other scagnostic measures, a high value on convex does not correlate to an interesting scatter plot, rather it usually indicates a lack of relationship between the two variables.  
 
-$$s_{convex}=w\frac{area(A)}{area(C)}$$  
+$$s_{convex}=w\frac{\mbox{area}(A)}{\mbox{area}(C)}$$  
 
 
 - **Skinny:** A measure of how "thin" the shape of the data is. It is calculated as the ratio between the area and perimeter of the alpha hull ($A$) with some normalisation such that 0 correspond to a perfect circle and values close to 1 indicate a skinny polygon.  
 
-$$s_{skinny}= 1-\frac{\sqrt{4\pi area(A)}}{perimeter(A)}$$  
+$$s_{skinny}= 1-\frac{\sqrt{4\pi \mbox{ area}(A)}}{\mbox{perimeter}(A)}$$  
 
 - **Outlying:** A measure of proportion and severity of outliers in dataset. Calculated by comparing the edge lengths of the outlying points in the MST with the length of the entire MST.  
 
-$$s_{outlying}=\frac{length(M_{outliers})}{length(M)}$$  
+$$s_{outlying}=\frac{\mbox{length}(M_{outliers})}{\mbox{length}(M)}$$  
 
 
 - **Stringy:** This measure identifies a "stringy" shape with no branches, such as a thin line of data. It is calculated by comparing the number of vertices of degree two ($V^{(2)}$) with the total number of vertices ($V$), dropping those of degree one ($V^{(1)}$).  
@@ -148,7 +148,7 @@ $$s_{stringy} = \frac{|V^{(2)}|}{|V|-|V^{(1)}|}$$
 
 - **Skewed:** A measure of skewness in the edge lengths of the MST (not in the distribution of the data). It is calculated as the ratio between the central 80th interpercentile range and the central 40th interpercentile range.  
 
-$$s_{skewed} = 1-w(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}})$$  
+$$s_{skewed} = 1-w\left(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}}\right)$$  
 
 
 - **Sparse:**  Identifies if the data is sporadically located on the plane. Calculated as the 90th percentile of MST edge lengths.
@@ -158,12 +158,12 @@ $$s_{sparse}= wq_{90}$$
 
 - **Clumpy:** This measure is used to detect clustering and is calculated through an iterative process. First an edge J is selected and removed from the MST. From the two spanning trees that are created by this break, we select the largest edge from the smaller tree ($K$). The length of this edge ($K$) is compared to the removed edge ($J$) giving a clumpy measure for this edge. This process is repeated for every edge in the MST and the final clumpy measure is the maximum of this value over all edges.  
 
-$$\max_{j}[1-\frac{\max_{k}[length(e_k)]}{length(e_j)}]$$  
+$$\max_{j}\left[ 1-\frac{\max_{k}[\mbox{length}(e_k)]}{\mbox{length}(e_j)}\right]$$  
 
 
 - **Striated:** This measure identifies features such as discreteness by finding parallel lines. Calculated by counting the proportion of vertices with only two edges that have an inner angle approximately between 135 and 220 degrees.
   
-$$\frac1{|V|}\sum_{v \in V^{2}}I(cos\theta_{e(v,a)e(v,b)}<-0.75)$$  
+$$\frac1{|V|}\sum_{v \in V^{2}}I(\cos\theta_{e(v,a)e(v,b)}<-0.75)$$  
 
 
 ## Association-based scagnostics 
@@ -177,7 +177,7 @@ The are two additional association scagnostics discussed by @Grimm which are als
 
 - **Splines:** Measures the functional non-linear dependence by fitting a penalised splines model on $X$ using $Y$, and on $Y$ using $X$. The variance of the residuals are scaled down by the axis so they are comparable, and finally the maximum is taken. Therefore the value will be closer to 1 if either relationship can be decently explained by a splines model.
 
-$$s_{splines}=\max_{i\in x,y}[1-\frac{Var(Residuals_{model~i=.})}{Var(i)}]$$
+$$s_{splines}=\max_{i\in x,y}\left[ 1-\frac{\mbox{Var}(\mbox{Residuals}_{model~i=.})}{\mbox{Var}(i)}\right] $$
 
 
 
