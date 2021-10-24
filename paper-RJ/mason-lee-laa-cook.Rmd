@@ -645,7 +645,7 @@ features_scags %>%
   slice_head(n=1)
 ```
 
-While the code required to write them is simple and easily performed by the user, having them as ready functions in the package would help guide users to use the package most effectively. These functions would be called ```top_scags()``` and ```top_pairs()``` .
+While the code required to write them is simple and easily performed by the user, having them as ready functions in the package would help guide users to use the package most effectively. These functions would be called ```top_scags()``` and ```top_pairs()``` when included in *cassowaryr*.
 
 ## Tests
 All the scagnostic functions have tests written and implemented using the `testthat` (@testthat) package. They have all been compared to calculations completed by hand to ensure the difference in results from previous literature is due to pre-processing steps such as binning, and not mistakes in the code. These tests illuminated the issues that allowed us to make meaningful changes to the definitions of clumpy and striated and understand some pitfalls of the package. For example, several tests to check the outlying scagnostic was working correctly informed us of some issues in the process of outlier removal, which is illustrated in Figure \@ref(fig:outlying-test-plot). 
