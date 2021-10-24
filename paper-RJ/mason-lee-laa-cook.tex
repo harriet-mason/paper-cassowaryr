@@ -46,7 +46,7 @@ research into visualising high dimensional data, most of which focuses
 on some form of dimension reduction.
 
 Dimension reduction methods reduce the dimensionality by creating a
-hierarchy of the variables and taking a subset,or performing a
+hierarchy of the variables and taking a subset, or performing a
 transformation of the variables, or some combination of the two.
 Unfortunately none of these methods are without pitfalls. Linear
 transformations are subject to crowding, where low level projections
@@ -63,72 +63,70 @@ visualisation of than those of the outskirts \citep{burningsage}. To try
 and maintain a sense of global structure in a non-linear transformation,
 there are things like the \texttt{liminal} package which facilitates
 linked brushing between linear and non-linear transformations
-\citep{liminal}. Unfortunately these methods of dimension reduction
-still involve some transformation of the data, and thus will still
-somewhat warp perception. Scagnostics offer one possible solution to
-this issue.
+\citep{liminal}. These latter two methods of dimension reduction involve
+dynamic graphics, which is not always easy to manage or even publish.
 
-The term scagnostics was introduced by John Tukey in 1982 \citep{tukey}.
-Tukey's suggestion to deal with the curse of dimensionality was to
-filter out uninteresting visualisations using a cognostic. A cognostic
-is a diagnostic that should be interpreted by a computer rather than a
-human and those specific to scatter plots are called scagnostics.
-Instead of trying to view every possible variable combination, the
-workload is reduced by calculating a series of visual features, and only
-presenting the outlier scatter plots on these feature combinations. As
-scagnostics filter the plots, rather than transform the data, they offer
-the benefit of allowing the user to view relationships between the
-variables in their raw form. This means they are not subject to the
-linear transformation issue of crowding, or the non-linear
-transformation issue of misleading global structures. That being said,
-only viewing select pairwise plots can leave our variable
-interpretations without context. Visualising the pairwise plots in
-relation to their place in the data set's global scagnostic
-distribution, is one suggested solution \citep{scagexplorer}, but
-ultimately the lack of context remains one of the limitations of using
-scagnostics alone as a high dimensional visualisation technique.
+\emph{Scagnostics} offer one possible alternative, particularly for
+producing a hierarchy of importance of variables, and the ability to
+capture non-linear and unusual relationships between variables. The term
+scagnostics was introduced by John Tukey in 1982 \citep{tukey}. Tukey's
+suggestion to deal with the curse of dimensionality was to filter out
+uninteresting variables using a cognostic. A cognostic is a diagnostic
+that should be interpreted by a computer rather than a human and those
+specific to scatter plots are called scagnostics. Instead of trying to
+view every possible variable combination, the workload is reduced by
+calculating a series of visual features, and only presenting selected
+scatter plots chosen on these feature combinations. As scagnostics
+filter the plots, rather than transform the data, they offer the benefit
+of allowing the user to view relationships between the variables in
+their raw form. This means they are not subject to the linear
+transformation issue of crowding, or the non-linear transformation issue
+of misleading global structures. That being said, only viewing select
+pairwise plots can leave our variable interpretations without context.
+Visualising the pairwise plots in relation to their place in the data
+set's global scagnostic distribution, is one suggested solution
+\citep{scagexplorer}, but ultimately the lack of context remains one of
+the limitations of using scagnostics alone as a high dimensional
+visualisation technique.
 
 Scagnostics have found a reasonably large number of applications since
-their initial introduction by Tukey. \citet{tourrpp} used them in the
-\texttt{tourr} projection pursuit to find interesting low level
-projections of linear combinations of variables. \citet{hidscags} showed
-scagnostics to be a valuable tool in finding hidden structures in
-biplots by combining them with variable transformations (such as a log
-transform). \citet{timeseer} used scagnostics to identify atypical
-sub-sequences from multivariate time series data for further analysis.
-These are only a small handful of examples of the ways in which
-scagnostics have been used to assist in th visualisation of high
-dimensional data.
+their initial introduction by Tukey. \citet{hidscags} showed scagnostics
+to be a valuable tool in finding hidden structures in biplots by
+combining them with variable transformations (such as a log transform).
+\citet{timeseer} used scagnostics to identify atypical sub-sequences
+from multivariate time series data for further analysis. Also,
+\citet{tourrpp} used them in the \texttt{tourr} projection pursuit to
+find interesting low level projections of linear combinations of
+variables.
 
 Advancing Tukey's work, \citet{scag} defined computationally efficient
 measures that were later refined by \citet{scagdist} which make up the
 foundations of the measures considered to be scagnostics. In addition to
-these foundational scagnostics, \citet{Grimm} discussed the benefit of
-using two additional association scagnostics. These two association
-measures are also used in the \texttt{tourr} projection pursuit
-\citep{tourrpp}.
+these foundational scagnostics. \citet{Grimm} introduced two additional
+based on association. These two association measures are also used in
+the \texttt{tourr} projection pursuit \citep{tourrpp}.
 
 There are two existing scagnostics packages, \texttt{scagnostics}
 \citep{scagdist} and the archived package \texttt{binostics}
 \citep{binostics}. Both packages are based on the original C++ code
 written by \citet{scagdist}, which is difficult to read and difficult to
-debug. The package \texttt{mbgraphic} discussed by \citet{Grimm} that
-contained the two additional scagnostics has also been archived by CRAN.
-Thus there is a need for a new implementation that enables better
-diagnosis of the scagnostics, and better graphical tools for examining
-the results.
+debug or extend. The package \texttt{mbgraphic} discussed by
+\citet{Grimm} that contained the two additional scagnostics has also
+been archived by CRAN. Thus there is a need for a new implementation
+that enables better diagnosis of the scagnostics, and better graphical
+tools for examining the results.
 
-This paper describes the R package, \texttt{cassowaryr} that computes
-the currently existing scagnostics, and adds several new measures. The
-paper is organised as follows. The next section explains the
-scagnostics. Following that the fine details of the package, including
-function explanations and tests are discussed. Finally the package is
-applied to data from the Australian Football League Women's (AFLW) and a
-simulated binary black hole (BBH) merger event to show its value as a
-tep in exploratory data analysis; macroeconomic and microeconomic data
-to show its ability to differentiate groups by shape; and finally the
-world bank indicators (WBI) to show how the package can be used to
-summarise the shape of an entire dataset
+The paper is organised as follows. The next section introduces the
+scagnostics, explains how they are calculated, and develops several new
+measures. This is followed by a summary of the implementation in the R
+package, \texttt{cassowaryr}. The examples section applies the methods
+to four different data sets for three different tasks. The Australian
+Football League Women's (AFLW), and a simulated binary black hole (BBH)
+merger event to show their value for exploratory data analysis. The
+collection of time series examples, using macroeconomic and
+microeconomic data, illustrate the ability to differentiate groups by
+shape. The world bank indicators (WBI) shows how scagnostics can be used
+to summarise the shape of multivariate data.
 
 \hypertarget{scagnostics}{%
 \section{Scagnostics}\label{scagnostics}}
@@ -1103,19 +1101,19 @@ examined. Table \ref{tab:scagsmacmic-pdf} tabulates pairs of features
 that have the biggest difference between groups across a range of
 scagnostics. Plotting a handful of these in (Figure
 \ref{fig:timeseries}), we can see the differences in shape that the
-scagnostics have identified. For example, on the scagnostic
-\emph{Skewed} selects the pair of features, curvature and trend
-strength, and reveals a shape difference on these features between
-macroeconomic and microeconomic time series (middle plot). Macroeconomic
-series tend to have moderate curvature and varied trend, while
-microeconomic series tend to have strong trends and varied curvature.
-These feature differences that are identified in the scagnostic can be
-seen in the time series themselves in Figure \ref{fig:tsplots}. We can
-see from this example, and the other comparisons in the plot, that the
-scagnostics have identified a differences in shape that would not have
-been apparent from only examining mean differences between groups. Other
-shape differences can be read from the other pairs of features (left and
-right plots).
+scagnostics have identified. For example, the scagnostic \emph{skewed}
+selects the pair of features, curvature and trend strength, and reveals
+a shape difference in these features between macroeconomic and
+microeconomic time series (middle plot). Macroeconomic series tend to
+have moderate curvature and varied trend, while microeconomic series
+tend to have strong trends and varied curvature. These feature
+differences that are identified in the scagnostic can be seen in the
+time series themselves in Figure \ref{fig:tsplots}. We can see from this
+example, and the other comparisons in the plot, that the scagnostics
+have identified a differences in shape that would not have been apparent
+from only examining mean differences between groups. Other shape
+differences can be read from the other pairs of features (left and right
+plots).
 
 While we have shown that the scagnostics succeed in identifying
 difference in shapes between groups, this does not automatically
@@ -1124,7 +1122,7 @@ ability to identify between group shape differences is an early step in
 using them for classification. It is not uncommon for supervised
 learning methods to be born from unsupervised learning methods. For
 example, principal component analysis (PCA), an unsupervised learning
-method, transforms a dataset by making linear combinations of the
+method, transforms a data set by making linear combinations of the
 variables in the direction of most variance. Performing this linear
 transformation wile also trying to explain the variance in a response
 variable is a supervised version of PCA known as principal component
