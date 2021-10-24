@@ -529,8 +529,8 @@ calculated as follows:
   For each between cluster edge, take the smaller of the two clusters it
   is connected to and take its median edge length. The clumpy value for
   that edge is the ratio between the large and small edge lengths
-  \(\frac{edge_{small}}{edge_{large}}\), with a two multiplicative
-  penalties, one for uneven clusters
+  \(\frac{\mbox{edge}_{small}}{\mbox{edge}_{large}}\), with a two
+  multiplicative penalties, one for uneven clusters
   (\(\sqrt\frac{2\times n_{small}}{n_{small}+n_{big}}\)) and one for
   ``stringy'' scatter plots (\(1-s_{stringy}\)) that is only applied if
   the stringy value is higher than 0.95, to reduce the arbitrarily large
@@ -540,7 +540,7 @@ calculated as follows:
   below 1 it is beneath the threshold that is considered clumpy, and the
   value is adjusted to 1.
 \item
-  clumpy2 returns \(1-\frac{1}{mean(clumpy_i)}\)
+  clumpy2 returns \(1-\frac{1}{\mbox{mean}(clumpy_i)}\)
 \end{enumerate}
 
 With this calculation, we generate the clumpy2 measure which is compared
@@ -631,8 +631,8 @@ scagnostic measure (such as making the hull objects). These functions
 are low level functions, and while they are exported by the package,
 they are not the intended method of calculating scagnostics as they
 perform no outlier removal, however they are still an option for users
-if they wish. In some cases, such as sc\_clumpy\_r for clumpy robust,
-they are the only method to calculate that scagnostic. Table
+if they wish. In some cases, such as \texttt{sc\_clumpy\_r} for clumpy
+robust, they are the only method to calculate that scagnostic. Table
 \ref{tab:scagfuncs-tb-pdf} outlines these functions.
 
 \begin{Schunk}
