@@ -31,8 +31,8 @@ Visualising our data is an important step in understanding the
 underlying structure and cannot be ignored. Datasets like Anscombe's
 quartet \citep{anscombe} or the Datasaurus Dozen \citep{datasaurpkg}
 have been constructed such that each pairwise plot has the same summary
-statistics but strikingly different visual features. This design is to
-illustrate the pitfalls of numerical summaries and the importance of
+statistics but strikingly different visual features. These are designed
+to illustrate the pitfalls of numerical summaries and the importance of
 visualisation. Unfortunately visualising high dimensional data is often
 difficult and requires a trade-off between the usefulness of the plots
 and maintaining the structures of the original data. Due to limitations
@@ -1175,8 +1175,8 @@ variables}\label{processing-and-describing-data-with-many-variables}}
 The World Bank delivers a lot of development indicators (WBI)
 \citep{WBI}, for many countries and multiple years. The sheer volume of
 indicators, in addition to the substantial number of missing values,
-presents a barrier to analysis. This is a good example to where
-scagnostics can be used to identify pairs of indicators with interesting
+presents a barrier to analysis. This is a good example where scagnostics
+can be used to identify pairs of indicators with interesting
 relationships, and efficiently handle missing values on a pairwise
 basis.
 
@@ -1195,14 +1195,21 @@ as a vertically-oriented side-by-side dotplot. For the WBI data, the
 pairs of variables are producing mostly high values on stringy, skewed,
 convex and outlying, while the scagnostics clumpy2, striated2, and
 skinny are only the highest for a single pair of variables. In addition,
-missing from the plot but not the calculations is that splines and
-striped were not highest for any pair of variables in the data set.
+missing from the plot but not the calculations is that splines was not
+the highest for any pair of variables in the data set.
 
 This tells us that in the WBI data, the relationships between variables
-is dominated by outliers (outlying scagnostic, and to some extent also
-reflected by skewed and stringy), and no relationship (convex).
-Scagnostics might be useful for obtaining alternative descriptive
-summaries of data with many variables.
+is dominated by outliers (as noted by the high values on the outlying
+scagnostic, and to some extent also skewed and stringy), and no
+relationship (given bu the high values on convex). Scagnostics might be
+useful for obtaining alternative descriptive summaries of data with many
+variables. We can visualise some individual scatter plots to check this
+shape summary. The middle plot of Figure \ref{fig:wbistatic} show the
+pair of variables where clumpy2 has the highest value, a plot that does
+not stand out as ``clumpy''. The right plot in the figure is one of many
+in which convex has the highest value (a plot with no relationship).
+This helps us confirm what the shape summary tells us that the data,
+that most variable pairs have no relationships or clustering.
 
 \begin{Schunk}
 \begin{figure}
@@ -1214,25 +1221,24 @@ summaries of data with many variables.
 \section{Conclusion}\label{conclusion}}
 
 Scagnostics are a useful tool to identify the visual features in scatter
-plots. Building upon previous work, a new set of scagnostics has been
-implemented and made available in the \texttt{cassowaryr} R package.
-Explanations of the scagnostics and the packages are described along
-with four examples of use: AFLW, black hole mergers, time series and
-WBI. AFLW shows the general use of the \texttt{cassowaryr} package, and
-how to use scagnostics to find unique scatter plots. In this example, we
-also showed that looking at specific pairwise scatter plots can give us
-valuable information about the dataset, namely by interpreting the
-\emph{hitouts vs bounces} scatter plot in Figure
-\ref{fig:threeplot-static}. Using simulated data of a black hole merger
-event, we then displayed the packages ability to identify pairwise
-non-linear relationships with convex, skinny, splines, and dcor, as well
-as the improvement clumpy2 made in identifying clustering. The time
-series example displayed the scagnostics used as different type of
+plots. Building upon previous work, a new set of scagnostics, that do
+not require binning, have been implemented and made available in the
+\emph{cassowaryr} R package. Explanations of the scagnostics and the
+details of the package were provided, along with four examples of use;
+AFLW, black hole mergers, time series and WBI. AFLW shows the general
+use of the \emph{cassowaryr} package, and how to use scagnostics to find
+unique scatter plots. In this example, we also showed that looking at
+specific pairwise scatter plots can give us valuable information about a
+data set by interpreting the \emph{hitouts vs bounces} scatter plot in
+Figure \ref{fig:threeplot-static}. Using simulated data of a black hole
+merger event, we then displayed the packages ability to identify
+pairwise non-linear relationships with convex, skinny, splines, and
+dcor, as well as the improvement clumpy2 made in identifying clustering.
+The time series example displayed how the scagnostics could be used for
 classification, illustrating how macro and micro economic time series
 can be distinguished by different shapes in feature sets. In the last
-example, the scagnostics applied to the WBI data to show how the
-scagnostics can be used to produce an overall \emph{shape summary} of a
-data set.
+example, the scagnostics applied to the WBI show that they can be used
+to produce an overall \emph{shape summary} of a data set.
 
 There are a number of different directions to build upon this research.
 The original scagnostics used binning as a pre-processing step. This
