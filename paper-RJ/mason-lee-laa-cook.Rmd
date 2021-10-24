@@ -121,7 +121,7 @@ Where $q_i$ refers to the ith percentile of the sorted edge lengths of the MST.
 
 The nine scagnostics defined by @scagdist are detailed below with an explanation and a formula. To give further understanding in how these measures work, the scagnostics *skinny*, *outlying*, and *clumpy* are given an additional visual explanation in Figure \@ref(fig:scagdrawn). We will let $A=$ alpha Hull, $C=$ convex hull, $M$ = minimum spanning tree, and $s=$ the scagnostic measure. Since some of the measures have a sample size dependence, $w$ is a parameter used to adjust for the sample size.  
 
-```{r scagdrawn, out.width = "100%", fig.cap = " An visualisation of the calculation used compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics. The measure definitions are all distinct, and each illustrates a unique method of capturing a visual feature of a scatter plot.", eval=FALSE}
+```{r scagdrawn, out.width = "100%", fig.cap = " An visualisation of the calculation used compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics. The measure definitions are all distinct, and each illustrates a unique method of capturing a visual feature of a scatter plot."}
 knitr::include_graphics("figures/drawnmeasures.png")
 ```
 
