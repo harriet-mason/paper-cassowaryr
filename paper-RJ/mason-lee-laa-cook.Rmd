@@ -747,12 +747,12 @@ p6 <- ggplot(aflw_num, aes(x=kicks, y=handballs)) +
 
 ```{r, AFLW-scatters-interactive, out.width="100%", include=knitr::is_html_output(), eval=knitr::is_html_output(), fig.cap="Six AFLW sport statistic scatter plots that were identified as identified as interesting by the scagnostics. Plots 1 to 5 had unique values on some combination of the scagnostics, Plot 6 had middling values on all measures. There is a clear difference in structure between these plots indicating the scagnostics ability to identify interesting visual features.", fig.width = 12, fig.height = 8}
 
-pp1 <- ggplotly(p1, width=500, height=500)
-pp2 <- ggplotly(p2, width=500, height=500)
-pp3 <- ggplotly(p3, width=500, height=500)
-pp4 <- ggplotly(p4, width=500, height=500)
-pp5 <- ggplotly(p5, width=500, height=500)
-pp6 <- ggplotly(p6, width=500, height=500)
+pp1 <- ggplotly(p1, width=650, height=500)
+pp2 <- ggplotly(p2, width=650, height=500)
+pp3 <- ggplotly(p3, width=650, height=500)
+pp4 <- ggplotly(p4, width=650, height=500)
+pp5 <- ggplotly(p5, width=650, height=500)
+pp6 <- ggplotly(p6, width=650, height=500)
 subplot(pp1, pp2, pp3, pp4, pp5, pp6,
         nrows=2, widths = c(0.33, 0.33, 0.33), heights = c(0.5,0.5))
 ```
