@@ -1,7 +1,7 @@
 ---
 title: "Teaching Computers to See Patterns in Scatterplots with Scagnostics"
 abstract: >
-  As the number of dimensions in a data set increases, the process of visualising its structure and variable dependencies becomes more tedious. Scagnostics (scatterplot diagnostics) are a set of visual features that can be used to identify interesting and abnormal scatterplots, and thus give a sense of priority to the variables we choose to visualise. Here, we will discuss the creation of the *cassowaryr* R package that will provide a user-friendly method to calculate these scagnostics, by their original definition or with some adjustments. The scagnostics are shown to correctly order scatter plots with known interesting visual features.
+  As the number of dimensions in a data set increases, the process of visualising its structure and variable dependencies becomes more tedious. Scagnostics (scatterplot diagnostics) are a set of visual features that can be used to identify interesting and abnormal scatterplots, and thus give a sense of priority to the variables we choose to visualise. Here, we will discuss the creation of the *cassowaryr* R package that will provide a user-friendly method to calculate these scagnostics. We started with the original defnitions of the scagnostics but removed the pre-processing step of binning and found that some measures did not work as expected. Redefinining the scagnostics allowed us to implement versions that do not require binning into the package. Through a series of examples, *cassowaryr* is shown to be useful as a step in exploratory data analysis, as a tool to identify between group differences, and as a summary tool for the shape of a data set.
 draft: true
 author:  
   # see ?rjournal_article for more information
