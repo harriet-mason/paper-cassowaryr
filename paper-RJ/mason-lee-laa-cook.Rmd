@@ -143,7 +143,7 @@ $$s_{outlying}=\frac{\mbox{length}(M_{outliers})}{\mbox{length}(M)}$$
 $$s_{stringy} = \frac{|V^{(2)}|}{|V|-|V^{(1)}|}$$  
 
 
-- **Skewed:** A measure of skewness in the edge lengths of the MST (not in the distribution of the data). It is calculated as the ratio between the central 80th interpercentile range and the central 40th interpercentile range.  
+- **Skewed:** A measure of skewness in the edge lengths of the MST (not in the distribution of the data). It is calculated as the ratio between the 90th to 50th percentile range and the central 80th interpercentile range.  
 
 $$s_{skewed} = 1-w\left(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}}\right)$$  
 
@@ -795,14 +795,14 @@ s2 <- ggplot(test, aes(x=splines, dcor, colour=plot2, label=lab)) +
   geom_point() +
   theme_classic() +
   theme(legend.position ="none")+
-  scale_colour_manual(values=c("grey", mypal[2]))+
+  scale_colour_manual(values=c("grey", mypal[2]))
   #ggtitle("Splines vs Dcor")
 
 s5 <- ggplot(test, aes(x=outlying, y = striated2, colour=plot5, label=lab)) +
   geom_point() +
   theme_classic() +
   theme(legend.position ="none") +
-  scale_colour_manual(values=c("grey", mypal[5])) +
+  scale_colour_manual(values=c("grey", mypal[5])) 
   #ggtitle("Outlying vs Striated2")
 
 ```
@@ -819,7 +819,7 @@ subplot(ggplotly(s1), ggplotly(s2), ggplotly(s5), ggplotly(p1), ggplotly(p2), gg
 
 s1a <- s1 + ggtitle("Outlying vs Skewed")
 s2a <- s2 + ggtitle("Splines vs Dcor")
-s3a <- s3 + ggtitle("Outlying vs Striated2")
+s5a <- s5 + ggtitle("Outlying vs Striated2")
 
 s1a + s2a + s5a + p1a + p2a + p5a + plot_layout(nrow=2)
 ```
