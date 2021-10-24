@@ -116,7 +116,7 @@ d1 + d2 + d3
   
 The nine scagnostics defined by @scagdist are detailed below with an explanation and a formula. They were all constructed to range [0,1], and later scagnostics have maintained this scale. To give further understanding in how these measures work, the scagnostics *skinny*, *outlying*, and *clumpy* are given an additional visual explanation in Figure \@ref(fig:scagdrawn). We will let $A=$ alpha hull, $C=$ convex hull, $M$ = minimum spanning tree, and $s=$ the scagnostic measure. Since some of the measures have a sample size dependence, $w$ is a parameter used to adjust for the sample size to maintain consistency.  
 
-Before any of the scagnostics are calculated, outlying points are removed. Outliers are defined as any point whose adjacent edges in the MST have edges larger $q_{75} + 1.5(q_{75} - q_{25})$, where $q_i$ refers to the ith percentile of the sorted edge lengths of the MST.
+Before any of the scagnostics are calculated, outlying points are removed. Outliers are defined as any point whose adjacent edges in the MST have edges larger $q_{75} + 1.5(q_{75} - q_{25})$, where $q_i$ refers to the i$^{th}$ percentile of the sorted edge lengths of the MST.
 
 ```{r scagdrawn, out.width = "100%", fig.cap = " An visualisation of the calculation used to compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics. These three measure definitions are quite distinct, and each illustrates a unique method of capturing a visual feature in a scatter plot."}
 knitr::include_graphics("figures/drawnmeasures.png")
@@ -189,7 +189,8 @@ $$A_{kl}=a_{kl}-\bar{a}_{k.}-\bar{a}_{.j}-\bar{a}_{..}$$
 $$B_{kl}=b_{kl}-\bar{b}_{k.}-\bar{b}_{.j}-\bar{b}_{..}$$
 
 ## Checking the scagnostics calculations 
-To test the packages ability to differentiate plots, we have creates a dataset called *features* (Figure \@ref(fig:features-plot)), that contains a series of interesting and unique scatter plots. These scatter plots each typify a certain visual feature. Be it a deterministic relationship, discreteness in variables, or clustering, we should be able to use scagnostics to order these scatter plots based on the prevalence of these visual features.
+
+To test the packages ability to differentiate plots, we have created a dataset called *features* (Figure \@ref(fig:features-plot)), that contains a series of interesting and unique scatter plots. These scatter plots each typify a certain visual feature. These include a deterministic relationship, discreteness in variables, or clustering, and scagnostics are used to order these scatter plots based on the prevalence of these various visual features.
 
 ```{r features-plot, width = 150, height = 150, out.width = "100%", fig.cap = "The scatter plots of the features dataset. These scatter plots were designed to each represent a distinct visual feature, for example the ring scatter plot is a hollow version of disk. The scagnostics need to be able to differentiate these plots."}
 mypal <- c("#b2182b", "#d53e4f","#FF4E50", "#FC913A", "#fdae61",
@@ -238,7 +239,7 @@ scagissues_tb %>%
   column_spec(2, width = "12cm")
 ```
 
-While we mentioned some issues in the disributions of the scagnostics, in that they do not seem to range from 0 to 1, these measures will not be adjusted. Testing the distribution and consistency of the binned scagnostics was done previously by @scagdist, however it was completed as a separate research project to the creating of the original scagnostics. Assessing the scagnostic distributions is a considerable task, that would require checking the measures on a range of data from multiple disciplines to ensure we are finding the true "global" distributions. This task that is beyond the scope of this research, and we will assume that the scagnostics range uniformly from 0 to 1 and only adjust those measures that provide an incorrect ordering.
+While we mentioned some issues in the distributions of the scagnostics, in that they do not seem to range from 0 to 1, these measures will not be adjusted. Testing the distribution and consistency of the binned scagnostics was done previously by @scagdist, however it was completed as a separate research project to the creating of the original scagnostics. Assessing the scagnostic distributions is a considerable task, that would require checking the measures on a range of data from multiple disciplines to ensure we are finding the true "global" distributions. This task that is beyond the scope of this research, and we will assume that the scagnostics range uniformly from 0 to 1 and only adjust those measures that provide an incorrect ordering.
 
 
 ```{r scatterplots-as-images,  include=FALSE, eval=FALSE}
@@ -401,7 +402,7 @@ striated_visual_table
 
 ```
 
-Figure \@ref(fig:striated-vtable) shows that while these two measures may seem similar at a glance, there are a few minor differences that make striated2 an improvement upon the original striated scagnostic. First of all, the perfect 1 value on striated goes to the *line* scatter plot. While this does fulfil the definition, it is not what the measure is supposed to be looking for, rather, it is supposed to be identifying the *vlines* scatter plot. Since striated does not count the right angles that go between the vertical lines, a truly striated plot will never get a full 1 on this measure, striated2 fixes this. After that there is a large gap in both measures because none of the other scatter plots have a strictly discrete measure on the x or y axis. Additionally, while it is not visible in Figure \@ref(fig:striated-vtable), striated2 can identify discreteness when it appears in both axis with a small number of observation, an additional version of discreteness that the original striated struggles to identify. Both version of striated are unable to recognise the *discrete* plot, which is a noisy and rotated version of discreteness, so there is still room for improvement on this measure.
+Figure \@ref(fig:striated-vtable) shows that while these two measures may seem similar at a glance, there are a few minor differences that make striated2 an improvement upon the original striated scagnostic. First of all, the perfect 1 value on striated goes to the *line* scatter plot. While this does fulfill the definition, it is not what the measure is supposed to be looking for, rather, it is supposed to be identifying the *vlines* scatter plot. Since striated does not count the right angles that go between the vertical lines, a truly striated plot will never get a full 1 on this measure, striated2 fixes this. After that there is a large gap in both measures because none of the other scatter plots have a strictly discrete measure on the x or y axis. Additionally, while it is not visible in Figure \@ref(fig:striated-vtable), striated2 can identify discreteness when it appears in both axis with a small number of observation, an additional version of discreteness that the original striated struggles to identify. Both version of striated are unable to recognise the *discrete* plot, which is a noisy and rotated version of discreteness, so there is still room for improvement on this measure.
   
 #### Clumpy adjusted
 
@@ -418,9 +419,9 @@ Therefore in order to fix the issues in the clumpy measure described above, we d
 1. Sort the edges in the MST 
 2. Calculate the difference between adjacent edges in this ordering, and find the index of the maximum. This maximum difference should indicate the jump from between cluster edges and inter-cluster edges.
 3. Remove the between cluster edges from the MST and build clusters using the remaining edges
-4. For each between cluster edge, take the smaller of the two clusters it is connected to and take its median edge length. The clumpy value for that edge is the ratio between the large and small edge lengths $\frac{edge_{small}}{edge_{large}}$, with a two multiplicative penalties, one for uneven clusters ($\sqrt\frac{2\times n_{small}}{n_{small}+n_{big}}$) and one for "stringy" scatter plots ($1-s_{stringy}$) that is only applied if the stringy value is higher than 0.95, to reduce the arbitrarily large clumpy scores that come from striated plots.
+4. For each between cluster edge, take the smaller of the two clusters it is connected to and take its median edge length. The clumpy value for that edge is the ratio between the large and small edge lengths $\frac{\mbox{edge}_{small}}{\mbox{edge}_{large}}$, with a two multiplicative penalties, one for uneven clusters ($\sqrt\frac{2\times n_{small}}{n_{small}+n_{big}}$) and one for "stringy" scatter plots ($1-s_{stringy}$) that is only applied if the stringy value is higher than 0.95, to reduce the arbitrarily large clumpy scores that come from striated plots.
 6. Take the mean clumpy value for each between cluster edge, if it is below 1 it is beneath the threshold that is considered clumpy, and the value is adjusted to 1.
-7. clumpy2 returns $1-\frac{1}{mean(clumpy_i)}$
+7. clumpy2 returns $1-\frac{1}{\mbox{mean}(clumpy_i)}$
 
 With this calculation, we generate the clumpy2 measure which is compared to the original clumpy measure in the Figure \@ref(fig:clumpy-vtable). Here we can see the improvements made on the clumpy measure in both distribution from 0 to 1 and ordering. The measure is more spread out, and so values range more accurately from 0 to 1. More importantly the measure does a better job of ordering the scatter plots. On the original clumpy measure the *clusters* scatter plot was next to last, on the clumpy2 measure *clusters* is is identified as the most clumpy scatter plot. Clumpy2 also has a penalty for uneven clusters (to avoid being large due to a small collection of outliers) and clusters created arbitrarily due to discreteness (such as *vlines*) in order to better align with the human interpretation of clumpy. With these changes, the stronger performance of clumpy2 is apparent in this visual table.
 
@@ -945,7 +946,7 @@ bbh4 + bbh5 + bbh6 + bbh7 + bbh8 + bbh9 + plot_layout(nrow=2)
 
 A potential application of scagnostics is to detect shape differences between groups, in contrast to the more common classification by differences in means or gaps. A difference in shape corresponds to different covariance patterns between groups. A way to think about this is contrasting linear discriminant analysis (LDA) with quadratic discriminant analysis (QDA). LDA assumes the distribution of each group is multivariate normal with the same means and the same variance. The classification boundary is planar at a maximal distance from each groups mean, with orientation of the plane determined by the pooled variance-covariance matrix. QDA similarly assumes the distribution of each group is normal, but relaxes the assumption of equal variance-covariance. The boundary between groups has a quadratic form. So from this, it can be seen that QDA is more flexible than LDA as it accommodates shape differences. However shape differences are constrained to be elliptical based on the assumption of normality. Scagnostics could be utilised to broadly identify irregular shape differences between groups.
 
-To illustrate this analysis, we consider comparing two sets of time series, described by their features, such as trend, spikiness, acf, using scagnostics. The goal of the comparison is to compare shapes, not necessarily centres of groups as might be done in LDA or other machine learning methods. The two groups chosen for comparison are macroeconomic and microeconomic series. The data for 100 series of each type is pulled from the self-organizing database of time-series data [@sots], using the compenginets R package [@compenginets]. Since the time series are different lengths, each is described by a set of time series features [chapter 4 of @fpp] using the `feasts` R package [@feasts].
+To illustrate this analysis, we consider comparing two sets of time series, described by their features, such as trend, spikiness, acf, using scagnostics. The goal of the comparison is to compare shapes, not necessarily centres of groups as might be done in LDA or other machine learning methods. The two groups chosen for comparison are macroeconomic and microeconomic series. The data for 100 series of each type is pulled from the self-organizing database of time-series data [@sots], using the `compenginets` R package [@compenginets]. Since the time series are different lengths, each is described by a set of time series features [chapter 4 of @fpp] using the `feasts` R package [@feasts].
 
 To keep the illustration simple, a small set of seven features is examined. Table `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(tab:scagsmacmic-pdf)','\\@ref(tab:scagsmacmic-html)'))` tabulates pairs of features that have the biggest difference between groups across a range of scagnostics. Plotting a handful of these in (Figure \@ref(fig:timeseries)), we can see the differences in shape that the scagnostics have identified. For example, the scagnostic *skewed* selects the pair of features, curvature and trend strength, and reveals a shape difference in these features  between macroeconomic and microeconomic time series (middle plot). Macroeconomic series tend to have moderate curvature and varied trend, while microeconomic series tend to have strong trends and varied curvature. These feature differences that are identified in the scagnostic can be seen in the time series themselves in Figure \@ref(fig:tsplots). We can see from this example, and the other comparisons in the plot, that the scagnostics have identified a differences in shape that would not have been apparent from only examining mean differences between groups. Other shape differences can be read from the other pairs of features (left and right plots).
 
@@ -1309,49 +1310,49 @@ if (nrow(check_spelling) > 0) {
 
 ## A1: AFLW Data Dictionary
 
-- *timeOnGroundPercentage*: percentage of the game the player was on the field.  
-- *goals*: the 6 points a team gets when the kick the ball between the two big posts.  
-- *behinds*: the 1 point a team gets when they kick the ball between the big post and small post.  
-- *kicks*: number of kicks done by the player in this game.  
-- *handballs*: number of handballs does by the player in the game.  
-- *disposals*: the number kicks and handballs a player has.  
-- *marks*: total number of marks in the game (the ball travels more than 15m and the player catches it without another player touching it or it hitting the ground).  
-- *bounces*: the number of times a player bounced the ball in a game. A player must bounce the ball if they travel more than 15m and they can only bounce the ball once.  
-- *tackles*: Number of tackles performed by the player.  
-- *contestedPossessions*: the number of disposals a player has under pressure, i.e if a player is getting tackled and the get a handball or kick out of the scuffle.  
-- *uncontestedPossessions*: the number of disposals a player has under no pressure where they have space and time to get rid of the ball.  
-- *totalPossessions*: The total number of time the player has the ball. 
-- *inside50s*: the number of times the player has the ball within the 50m arc around the oponents goals.  
-- *marksInside50*: the number of marks a player gets within the 50m arc around the oponents goals.  
+- *timeOnGroundPercentage*: percentage of the game the player was on the field.
+- *goals*: the 6 points a team gets when the kick the ball between the two big posts.
+- *behinds*: the 1 point a team gets when they kick the ball between the big post and small post.
+- *kicks*: number of kicks done by the player in this game.
+- *handballs*: number of handballs does by the player in the game.
+- *disposals*: the number kicks and handballs a player has.
+- *marks*: total number of marks in the game (the ball travels more than 15m and the player catches it without another player touching it or it hitting the ground).
+- *bounces*: the number of times a player bounced the ball in a game. A player must bounce the ball if they travel more than 15m and they can only bounce the ball once.
+- *tackles*: Number of tackles performed by the player.
+- *contestedPossessions*: the number of disposals a player has under pressure, i.e if a player is getting tackled and the get a handball or kick out of the scuffle.
+- *uncontestedPossessions*: the number of disposals a player has under no pressure where they have space and time to get rid of the ball.
+- *totalPossessions*: The total number of time the player has the ball.
+- *inside50s*: the number of times the player has the ball within the 50m arc around the opponents goals.
+- *marksInside50*: the number of marks a player gets within the 50m arc around the opponents goals.
 - *contestedMarks*: the number of marks a player has under pressure.
 - *hitouts*: this is how many times a player or team taps or punching the ball from a stoppage.
-- *onePercenters*: all the things a player can do without registering a disposal. Eg. Spoils (punching the ball to stop someone from marking it), Shepparding (blocking for a teammate), smothering.  
-*disposalEfficiency*: a measure of how well a player disposes of the ball. E.g. if a player kicks or handballs to the opposition a lot, they will have a low disposal efficiency percentage.   
-- *clangers*: this is how many times a player or team dispose of the ball and it results in a turnover to the other team.  
-- *freesFor*: this player was awarded a free kick.  
-- *freesAgainst*:  this player caused a free kick to be awarded to the other team.  
-- *dreamTeamPoints*: this is fantasy football scoring points.  
-- *rebound50s*: how many times the player exits the ball out of their defence 50m arc.  
+- *onePercenters*: all the things a player can do without registering a disposal, e.g. Spoils (punching the ball to stop someone from marking it), Shepparding (blocking for a teammate), smothering.
+- *disposalEfficiency*: a measure of how well a player disposes of the ball. E.g. if a player kicks or handballs to the opposition a lot, they will have a low disposal efficiency percentage.
+- *clangers*: this is how many times a player or team dispose of the ball and it results in a turnover to the other team.
+- *freesFor*: this player was awarded a free kick.
+- *freesAgainst*:  this player caused a free kick to be awarded to the other team.
+- *dreamTeamPoints*: this is fantasy football scoring points.
+- *rebound50s*: how many times the player exits the ball out of their defence 50m arc.
 - *goalAssists*: number of times the player gave the pass immediately before the player that scored a goal.
-- *goalAccuracy*: percentage ratio of the number of goals kicked to the number of goal attempts.  
-- *turnovers*: this players disposal caused a turnover (the ball touches the ground and the other team get it).  
+- *goalAccuracy*: percentage ratio of the number of goals kicked to the number of goal attempts.
+- *turnovers*: this players disposal caused a turnover (the ball touches the ground and the other team get it).
 - *intercepts*: number of times this player intercepts the disposal of the other team.
-- *tacklesInside50*: number of tackles performed by this player within their defence 50m arc.  
-- *shotsAtGoal*: number of total shots at goal for this player (sum of goals, behinds and misses)
+- *tacklesInside50*: number of tackles performed by this player within their defence 50m arc.
+- *shotsAtGoal*: number of total shots at goal for this player (sum of goals, behinds and misses).
 - *scoreInvolvements*: number of times the player was involved in a passage of play leading up to a goal.
-- *metresGained*:  how far a player has been able to advance the ball without turning it over.  
-- *clearances.centreClearances*: this is the clearance from the centre bounce after a goal or at the start of a quarter
-- *clearances.stoppageClearances*: all the clearance from stoppages around the ground
+- *metresGained*:  how far a player has been able to advance the ball without turning it over.
+- *clearances.centreClearances*: this is the clearance from the centre bounce after a goal or at the start of a quarter.
+- *clearances.stoppageClearances*: all the clearance from stoppages around the ground.
 - *clearances.totalClearances*: how many time a player or team clears the ball from a stoppage or from the centre
 
 ## A2: Black Hole Merger Data Dictionary
 
-- **position** in the sky is characterized by three variables: ra (right ascension), dec (declination) and distance
-- **time** of the event: time
-- **mass** of the two black holes: m1, m2 (with m1 > m2)
-- **spin** related properties: angles alpha, theta_jn, chi_tot, chi_eff, chi_p
-- **polarisation angle**: psi
-- **orbital phase**: phi_jl
+- *position* in the sky is characterized by three variables: ra (right ascension), dec (declination) and distance
+- *time* of the event: time
+- *mass* of the two black holes: m1, m2 (with m1 > m2)
+- *spin* related properties: angles alpha, theta_jn, chi_tot, chi_eff, chi_p
+- *polarisation angle*: psi
+- *orbital phase*: phi_jl
 
 For a detailed description including a diagram explaining the different angles describing the spin we refer to @Smith:2016qas.
 
