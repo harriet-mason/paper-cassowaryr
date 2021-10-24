@@ -229,8 +229,7 @@ scagissues_tb <- tibble(Scagnostic = c("Striated",
 
 ```{r scagissues-tb-html, eval=is_html_output()}
 scagissues_tb %>% 
-  kbl() 
-
+  kbl(caption = "Summary of MST scagnostic issues.") 
 ```
 
 ```{r scagissues-tb-pdf, eval=is_latex_output()}
