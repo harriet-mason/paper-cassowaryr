@@ -26,46 +26,34 @@ of a data set.
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-Visualising high dimensional data is often difficult and requires a
-trade-off between the usefulness of the plots and maintaining the
-structures of the original data. Due to limitations in visualisation, it
-is often difficult to completely capture relationships that involve more
-than two dimensions. Therefore data sets that involve a large number of
-variables are difficult to visualise because the number of possible
-pairwise plots rises exponentially with the number of dimensions.
-Despite this difficulty, the visualisation process cannot be skipped.
-Datasets like Anscombe's quartet \citep{anscombe} or the Datasaurus
-Dozen \citep{datasaurpkg} have been constructed such that each pairwise
-plot has the same summary statistics but strikingly different visual
-features. This design is to illustrate the pitfalls of numerical
-summaries and the importance of visualisation. This means that despite
-the issues that come with increasing dimensionality, visualisation of
-the data cannot be ignored. Scagnostics offer one possible solution to
-this issue.
+Visualising our data is an important step in understanding the
+underlying structure and cannot be ignored. Datasets like Anscombe's
+quartet \citep{anscombe} or the Datasaurus Dozen \citep{datasaurpkg}
+have been constructed such that each pairwise plot has the same summary
+statistics but strikingly different visual features. This design is to
+illustrate the pitfalls of numerical summaries and the importance of
+visualisation. Unfortunately visualising high dimensional data is often
+difficult and requires a trade-off between the usefulness of the plots
+and maintaining the structures of the original data. Due to limitations
+in visualisation, it is often difficult to completely capture
+relationships that involve more than two dimensions. Up to a moderate
+number of variables, a scatter plot matrix (SPLOM) can be used to create
+pairwise biplots of all variables, however, this solution quickly
+becomes infeasible as the number of dimensions increases and the number
+of plots in the SPLOM rises exponentially. There is a large amount of
+research into visualising high dimensional data, most of which focuses
+on some form of dimension reduction.
 
-The term scagnostics was introduced by John Tukey in 1982 \citep{tukey}.
-Tukey's suggestion to deal with the curse of dimensionality is to filter
-out uninteresting visualisations using a cognostic. A cognostic is a
-diagnostic that should be interpreted by a computer rather than a human
-and those specific to scatter plots are called scagnostics. Up to a
-moderate number of variables, a scatter plot matrix (SPLOM) can be used
-to create pairwise biplots of all variables, however, this solution
-quickly becomes in feasible as the number of dimensions increases. Thus,
-instead of trying to view every possible variable combination, the
-workload is reduced by calculating a series of visual features, and only
-presenting the outlier scatter plots on these feature combinations.
-
-There is a large amount of research into visualising high dimensional
-data, most of which focuses on some form of dimension reduction rather
-than a filtering of plots as suggested by Tukey. These methods reduce
-the dimensionality by creating a hierarchy of the variables and taking a
-subset,or performing a transformation of the variables, or some
-combination of the two. Unfortunately none of these methods are without
-pitfalls. Linear transformations are subject to crowding, where low
-level projections concentrate data in the centre of the distribution,
-making it difficult to differentiate data points \citep{crowding}.
-Non-linear transformations often have complex parameterisations, and can
-break the underlying global structure of the data, creating misleading
+Dimension reduction methods reduce the dimensionality by creating a
+hierarchy of the variables and taking a subset,or performing a
+transformation of the variables, or some combination of the two.
+Unfortunately none of these methods are without pitfalls. Linear
+transformations are subject to crowding, where low level projections
+concentrate data in the centre of the distribution, making it difficult
+to differentiate data points \citep{crowding}. Non-linear
+transformations, such as t-distributed stochastic neighbour embedding
+(t-SNE) \citep{tsne} often have complex parameterisations, and can break
+the underlying global structure of the data, creating misleading
 visualisations. There are solutions within these methods that can
 somewhat mitigate these issues. To prevent crowding in a visualisation
 of a linear transformation, a burning sage tour from the \texttt{tourr}
@@ -76,13 +64,25 @@ there are things like the \texttt{liminal} package which facilitates
 linked brushing between linear and non-linear transformations
 \citep{liminal}. Unfortunately these methods of dimension reduction
 still involve some transformation of the data, and thus will still
-somewhat warp perception. Scagnostics gives the benefit of allowing the
-user to view relationships between the variables in their raw form. This
-means they are not subject to the linear transformation issue of
-crowding, or the non-linear transformation issue of misleading global
-structures. That being said, only viewing pairwise plots can leave our
-variable interpretations without context. Visualising the pairwise plots
-in relation to their place in the data set's global scagnostic
+somewhat warp perception. Scagnostics offer one possible solution to
+this issue.
+
+The term scagnostics was introduced by John Tukey in 1982 \citep{tukey}.
+Tukey's suggestion to deal with the curse of dimensionality was to
+filter out uninteresting visualisations using a cognostic. A cognostic
+is a diagnostic that should be interpreted by a computer rather than a
+human and those specific to scatter plots are called scagnostics.
+Instead of trying to view every possible variable combination, the
+workload is reduced by calculating a series of visual features, and only
+presenting the outlier scatter plots on these feature combinations. As
+scagnostics filter the plots, rather than transform the data, they offer
+the benefit of allowing the user to view relationships between the
+variables in their raw form. This means they are not subject to the
+linear transformation issue of crowding, or the non-linear
+transformation issue of misleading global structures. That being said,
+only viewing select pairwise plots can leave our variable
+interpretations without context. Visualising the pairwise plots in
+relation to their place in the data set's global scagnostic
 distribution, is one suggested solution \citep{scagexplorer}, but
 ultimately the lack of context remains one of the limitations of using
 scagnostics alone as a high dimensional visualisation technique.
@@ -101,18 +101,19 @@ dimensional data.
 
 Advancing Tukey's work, \citet{scag} defined computationally efficient
 measures that were later refined by \citet{scagdist} which make up the
-foundations of the measures considered to be scagnostics. They were all
-constructed to range {[}0,1{]}, and later scagnostics have maintained
-this scale. In addition to these foundational scagnostics, \citet{Grimm}
-discussed the benefit of using two additional association scagnostics.
-These two association measures are also used in the \texttt{tourr}
-projection pursuit \citep{tourrpp}.
+foundations of the measures considered to be scagnostics. In addition to
+these foundational scagnostics, \citet{Grimm} discussed the benefit of
+using two additional association scagnostics. These two association
+measures are also used in the \texttt{tourr} projection pursuit
+\citep{tourrpp}.
 
-There are two existing scagnostics packages, \emph{scagnostics}
-\citep{scagdist} and the archived package \emph{binostics}
+There are two existing scagnostics packages, \texttt{scagnostics}
+\citep{scagdist} and the archived package \texttt{binostics}
 \citep{binostics}. Both packages are based on the original C++ code
 written by \citet{scagdist}, which is difficult to read and difficult to
-debug. Thus there is a need for a new implementation that enables better
+debug. The package \texttt{mbgraphic} discussed by \citet{Grimm} that
+contained the two additional scagnostics has also been archived by CRAN.
+Thus there is a need for a new implementation that enables better
 diagnosis of the scagnostics, and better graphical tools for examining
 the results.
 
@@ -169,24 +170,25 @@ based; the convex hull, alpha hull and minimum-spanning tree (MST)
 \end{figure}
 \end{Schunk}
 
+The nine scagnostics defined by \citet{scagdist} are detailed below with
+an explanation and a formula. They were all constructed to range
+{[}0,1{]}, and later scagnostics have maintained this scale. To give
+further understanding in how these measures work, the scagnostics
+\emph{skinny}, \emph{outlying}, and \emph{clumpy} are given an
+additional visual explanation in Figure @ref(fig:scagdrawn). We will let
+\(A=\) alpha hull, \(C=\) convex hull, \(M\) = minimum spanning tree,
+and \(s=\) the scagnostic measure. Since some of the measures have a
+sample size dependence, \(w\) is a parameter used to adjust for the
+sample size to maintain consistency.
+
 Before any of the scagnostics are calculated, outlying points are
 removed. Outliers are defined as any point whose adjacent edges in the
-MST have edges larger than \(\omega\):
-\[ \omega = q_{75} + 1.5(q_{75} - q_{25})\] Where \(q_i\) refers to the
-ith percentile of the sorted edge lengths of the MST.
-
-The nine scagnostics defined by \citet{scagdist} are detailed below with
-an explanation and a formula. To give further understanding in how these
-measures work, the scagnostics \emph{skinny}, \emph{outlying}, and
-\emph{clumpy} are given an additional visual explanation in Figure
-@ref(fig:scagdrawn). We will let \(A=\) alpha Hull, \(C=\) convex hull,
-\(M\) = minimum spanning tree, and \(s=\) the scagnostic measure. Since
-some of the measures have a sample size dependence, \(w\) is a parameter
-used to adjust for the sample size.
+MST have edges larger \(q_{75} + 1.5(q_{75} - q_{25})\), where \(q_i\)
+refers to the ith percentile of the sorted edge lengths of the MST.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{figures/drawnmeasures} \caption[ An visualisation of the calculation used compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics]{ An visualisation of the calculation used compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics. The measure definitions are all distinct, and each illustrates a unique method of capturing a visual feature of a scatter plot.}(\#fig:scagdrawn)
+\includegraphics[width=1\linewidth]{figures/drawnmeasures} \caption[ An visualisation of the calculation used to compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics]{ An visualisation of the calculation used to compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics. These three measure definitions are quite distinct, and each illustrates a unique method of capturing a visual feature in a scatter plot.}(\#fig:scagdrawn)
 \end{figure}
 \end{Schunk}
 
@@ -222,7 +224,8 @@ used to adjust for the sample size.
 \item
   \textbf{Outlying:} A measure of proportion and severity of outliers in
   dataset. Calculated by comparing the edge lengths of the outlying
-  points in the MST with the length of the entire MST.
+  points in the MST (\(M_{outliers}\)) with the length of the entire MST
+  (\(M\)).
 \end{itemize}
 
 \[s_{outlying}=\frac{\mbox{length}(M_{outliers})}{\mbox{length}(M)}\]
@@ -396,20 +399,17 @@ Clumpy & With the removal of binning, clumpy does not identify a long edge conne
 
 \end{Schunk}
 
-Several of the measures that do not have a uniform distribution from 0
-to 1 still correctly order the scatter plots. In order to truly assess
-the distribution of these functions, we would need to check the
-scagnostics on a large range of data from multiple disciplines before
-claiming that the distribution is truly warped by the removal of
-binning. Intuition on a small simulated features data set is not enough.
-Testing on the distribution and consistency of the binned scagnostics
-was done previously by \citet{scagdist}, however it was completed as a
-separate research project to the creating of the original scagnostics.
-This task that is beyond the scope of this research, and so we will
-assume that the scagnostics range uniformly from 0 to 1 and only adjust
-those measures that provide an incorrect ordering. Therefore, in the
-section below we will discuss the adjustments made to the striated and
-clumpy scagnostics.
+While we mentioned some issues in the disributions of the scagnostics,
+in that they do not seem to range from 0 to 1, these measures will not
+be adjusted. Testing the distribution and consistency of the binned
+scagnostics was done previously by \citet{scagdist}, however it was
+completed as a separate research project to the creating of the original
+scagnostics. Assessing the scagnostic distributions is a considerable
+task, that would require checking the measures on a range of data from
+multiple disciplines to ensure we are finding the true ``global''
+distributions. This task that is beyond the scope of this research, and
+we will assume that the scagnostics range uniformly from 0 to 1 and only
+adjust those measures that provide an incorrect ordering.
 
 \begin{Schunk}
 \begin{figure}
@@ -1107,12 +1107,14 @@ scagnostics have identified. For example, on the scagnostic
 strength, and reveals a shape difference on these features between
 macroeconomic and microeconomic time series (middle plot). Macroeconomic
 series tend to have moderate curvature and varied trend, while
-microeconomic series tend to have strong trends and varied curvature. We
-can see from this example, and the other comparisons in the plot, that
-the scagnostics have identified a differences in shape that would not
-have been apparent from only examining mean differences between groups.
-Other shape differences can be read from the other pairs of features
-(left and right plots).
+microeconomic series tend to have strong trends and varied curvature.
+These feature differences that are identified in the scagnostic can be
+seen in the time series themselves in Figure @ref(fig:tsplots). We can
+see from this example, and the other comparisons in the plot, that the
+scagnostics have identified a differences in shape that would not have
+been apparent from only examining mean differences between groups. Other
+shape differences can be read from the other pairs of features (left and
+right plots).
 
 While we have shown that the scagnostics succeed in identifying
 difference in shapes between groups, this does not automatically
@@ -1234,36 +1236,42 @@ data set.
 There are a number of different directions to build upon this research.
 The original scagnostics used binning as a pre-processing step. This
 will be useful to include to improve speed of calculations with larger
-sample sizes. The scale of the scagnostics is the same, ranging from 0
-through 1, which allows comparison across scagnostics. However, the
-distribution may be different. In the WBI example describing the overall
-shape of the data, requires an assumption that the scagnostics are all
-uniformly distributed from 0 to 1. However, as some of our results
-suggest, and also as seen in the visual table of the features scatter
-plots (Figure @ref(fig:visual-table)), this may not be the case. It
-would be a substantial task to identify the distributions of the
-scagnostics, and make adjustments to transform to uniform distributions.
-The scagnostics would need to be studied using large volumes of data to
-capture their performance over all possible data shapes. Scagnostics
-could developed further into a classification technique that identifies
-shape differences between groups. While the time series example shows
-that scagnostics can identify shape differences between groups.
-Extending this observation to stand alone classification technique is
-outside the scope of this paper. \citet{hidscags} showed that
+sample sizes.
+
+The scale of the scagnostics is the same, ranging from 0 through 1,
+which allows comparison across scagnostics. However, the distribution
+may be different. In the WBI example describing the overall shape of the
+data, requires an assumption that the scagnostics are all uniformly
+distributed from 0 to 1. However, as some of our results suggest, and
+also as seen in the visual table of the features scatter plots (Figure
+@ref(fig:visual-table)), this may not be the case. It would be a
+substantial task to identify the distributions of the scagnostics, and
+make adjustments to transform to uniform distributions. The scagnostics
+would need to be studied using large volumes of data to capture their
+performance over all possible data shapes. Scagnostics could developed
+further into a classification technique that identifies shape
+differences between groups.
+
+While the time series example shows that scagnostics can identify shape
+differences between groups. Extending this observation to stand alone
+classification technique is outside the scope of this paper but is still
+a possible area of future research. \citet{hidscags} showed that
 scagnostics can be used to identify hidden structure in pairwise plots
 after transformations such as a log of the original data. This offers a
 natural extension for the scagnostics that could be added to the
 \emph{cassowaryr} package. Finally, scagnostics could be used to examine
 scatterplots generated by a 2D projection of multiple variables, as in
 the projection pursuit guided tour in the \texttt{tourr} package. The
-primary barrier in past use has been to optimisation, because the
+primary barrier in past use has been in optimisation, because the
 scagnostics values over smooth sequences of projections can be noisy.
 This would need to be checked for the new scagnostic measures is order
-to use them for projection pursuit. The implementation in R also makes
-it easy to expand the scagnostics collection and develop new measures.
-Other researchers can easily expand the package with new measures or
-enhance the current code because the software is openly available on
-GitHub, encouraging contributions from the broader community.
+to use them for projection pursuit.
+
+The implementation in R also makes it easy to expand the scagnostics
+collection and develop new measures. Other researchers can easily expand
+the package with new measures or enhance the current code because the
+software is openly available on GitHub, encouraging contributions from
+the broader community.
 
 \hypertarget{appendix}{%
 \section{Appendix}\label{appendix}}
