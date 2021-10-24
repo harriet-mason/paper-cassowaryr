@@ -238,7 +238,8 @@ scagissues_tb %>%
   column_spec(2, width = "12cm")
 ```
 
-Several of the measures that do not have a uniform distribution from 0 to 1 still correctly order the scatter plots. In order to truly assess the distribution of these functions, we would need to check the scagnostics on a large range of data from multiple disciplines before claiming that the distribution is truly warped by the removal of binning. Intuition on a small simulated features data set is not enough. Testing on the distribution and consistency of the binned scagnostics was done previously by @scagdist, however it was completed as a separate research project to the creating of the original scagnostics. This task that is beyond the scope of this research, and so we will assume that the scagnostics range uniformly from 0 to 1 and only adjust those measures that provide an incorrect ordering. Therefore, in the section below we will discuss the adjustments made to the striated and clumpy scagnostics.
+While we mentioned some issues in the disributions of the scagnostics, in that they do not seem to range from 0 to 1, these measures will not be adjusted. Testing the distribution and consistency of the binned scagnostics was done previously by @scagdist, however it was completed as a separate research project to the creating of the original scagnostics. Assessing the scagnostic distributions is a considerable task, that would require checking the measures on a range of data from multiple disciplines to ensure we are finding the true "global" distributions. This task that is beyond the scope of this research, and we will assume that the scagnostics range uniformly from 0 to 1 and only adjust those measures that provide an incorrect ordering.
+
 
 ```{r scatterplots-as-images,  include=FALSE, eval=FALSE}
 #set theme so all scatter plots in table match
