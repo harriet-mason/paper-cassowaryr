@@ -145,7 +145,7 @@ scagnostics use the scree in their calculations, the association based
 scagnostics only use the raw data. The \texttt{scree} object is then
 used to construct the three key structures on which the scagnostics are
 based; the convex hull, alpha hull and minimum-spanning tree (MST)
-(Figure \ref{fig:building-blocks2}).
+(Figure @ref(fig:building-blocks2)).
 
 \begin{itemize}
 \item
@@ -165,27 +165,28 @@ based; the convex hull, alpha hull and minimum-spanning tree (MST)
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/building-blocks2-1} \caption[The building blocks for graph-based scagnostics]{The building blocks for graph-based scagnostics: (a) convex hull, (b) alpha hull and (c) minimal spanning tree. The convex hull is a convex shell around all the data points. The alpha hull contains all the points but allows concavities better capturing some shapes, but it needs tuning. The minimal spanning tree connects all points once, and has a single chain connecting central points.}\label{fig:building-blocks2}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/building-blocks2-1} \caption[The building blocks for graph-based scagnostics]{The building blocks for graph-based scagnostics: (a) convex hull, (b) alpha hull and (c) minimal spanning tree. The convex hull is a convex shell around all the data points. The alpha hull contains all the points but allows concavities better capturing some shapes, but it needs tuning. The minimal spanning tree connects all points once, and has a single chain connecting central points.}(\#fig:building-blocks2)
 \end{figure}
 \end{Schunk}
+
+Before any of the scagnostics are calculated, outlying points are
+removed. Outliers are defined as any point whose adjacent edges in the
+MST have edges larger than \(\omega\):
+\[ \omega = q_{75} + 1.5(q_{75} - q_{25})\] Where \(q_i\) refers to the
+ith percentile of the sorted edge lengths of the MST.
 
 The nine scagnostics defined by \citet{scagdist} are detailed below with
 an explanation and a formula. To give further understanding in how these
 measures work, the scagnostics \emph{skinny}, \emph{outlying}, and
 \emph{clumpy} are given an additional visual explanation in Figure
-\ref{fig:scagdrawn}. We will let \(A=\) alpha hull, \(C=\) convex hull,
+@ref(fig:scagdrawn). We will let \(A=\) alpha Hull, \(C=\) convex hull,
 \(M\) = minimum spanning tree, and \(s=\) the scagnostic measure. Since
 some of the measures have a sample size dependence, \(w\) is a parameter
 used to adjust for the sample size.
 
-Before any of the scagnostics are calculated, outlying points are
-removed. Outliers are defined as any point whose adjacent edges in the
-MST have edges larger \(q_{75} + 1.5(q_{75} - q_{25})\), where \(q_i\)
-refers to the ith percentile of the sorted edge lengths of the MST.
-
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{figures/drawnmeasures} \caption[ An visualisation of the calculation used to compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics]{ An visualisation of the calculation used to compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics. These three measure definitions are quite distinct, and each illustrates a unique method of capturing a visual feature in a scatter plot.}\label{fig:scagdrawn}
+\includegraphics[width=1\linewidth]{figures/drawnmeasures} \caption[ An visualisation of the calculation used compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics]{ An visualisation of the calculation used compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics. The measure definitions are all distinct, and each illustrates a unique method of capturing a visual feature of a scatter plot.}(\#fig:scagdrawn)
 \end{figure}
 \end{Schunk}
 
@@ -221,8 +222,7 @@ refers to the ith percentile of the sorted edge lengths of the MST.
 \item
   \textbf{Outlying:} A measure of proportion and severity of outliers in
   dataset. Calculated by comparing the edge lengths of the outlying
-  points in the MST (\(M_{outliers}\)) with the length of the entire MST
-  (\(M\)).
+  points in the MST with the length of the entire MST.
 \end{itemize}
 
 \[s_{outlying}=\frac{\mbox{length}(M_{outliers})}{\mbox{length}(M)}\]
@@ -335,7 +335,7 @@ where \[A_{kl}=a_{kl}-\bar{a}_{k.}-\bar{a}_{.j}-\bar{a}_{..}\]
 calculations}\label{checking-the-scagnostics-calculations}}
 
 To test the packages ability to differentiate plots, we have creates a
-dataset called \emph{features} (Figure \ref{fig:features-plot}), that
+dataset called \emph{features} (Figure @ref(fig:features-plot)), that
 contains a series of interesting and unique scatter plots. These scatter
 plots each typify a certain visual feature. Be it a deterministic
 relationship, discreteness in variables, or clustering, we should be
@@ -344,11 +344,11 @@ prevalence of these visual features.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/features-plot-1} \caption[The scatter plots of the features dataset]{The scatter plots of the features dataset. These scatter plots were designed to each represent a distinct visual feature, for example the ring scatter plot is a hollow version of disk. The scagnostics need to be able to differentiate these plots.}\label{fig:features-plot}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/features-plot-1} \caption[The scatter plots of the features dataset]{The scatter plots of the features dataset. These scatter plots were designed to each represent a distinct visual feature, for example the ring scatter plot is a hollow version of disk. The scagnostics need to be able to differentiate these plots.}(\#fig:features-plot)
 \end{figure}
 \end{Schunk}
 
-Figure \ref{fig:visual-table} shows scatter plots from the features data
+Figure @ref(fig:visual-table) shows scatter plots from the features data
 aligned on a 0 to 1 scale for each scagnostic. This visualisation
 displays a low, high, and moderate value for each scagnostic, and is
 useful to see how the scagnostics order data that typifies their visual
@@ -369,7 +369,7 @@ preliminary step in calculating the scagnostics. The removal of binning
 allows for a large number of arbitrarily small edges, which upon testing
 was found to be the cause of a lot of these issues. A summary of how
 binning warped each MST scagnostic is provided in Table
-\ref{tab:scagissues-tb-pdf}. We wanted the package to have binning as an
+@ref(tab:scagissues-tb-pdf). We wanted the package to have binning as an
 optional method, considering choices in binning can lead to bias as
 noted in \citet{scagdist} or unreproducible results as noted in
 \citet{robust}. Therefore the scagnostics were assessed without binning.
@@ -377,7 +377,7 @@ noted in \citet{scagdist} or unreproducible results as noted in
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:scagissues-tb-pdf}Summary of MST scagnostic issues.}
+\caption{(\#tab:scagissues-tb-pdf)Summary of MST scagnostic issues.}
 \centering
 \begin{tabular}[t]{l>{\raggedright\arraybackslash}p{12cm}}
 \toprule
@@ -413,7 +413,7 @@ clumpy scagnostics.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/visual-table-1} \caption[A visual table that displays a selection of scagnostics computed on the features data]{A visual table that displays a selection of scagnostics computed on the features data. The rows correspond to different scagnostics and the horizontal axis is the calculated value on a range of 0-1. Thumbnail plots of variable pairs are placed at their scagnostic value, and indicate the type of structure that would produce high or low or medium values. Some scagnostics, e.g. clumpy, need adjustment as they do not correctly order the scagnostics, or range from 0 to 1. Other measures, such as splines work without any changes to their definition.}\label{fig:visual-table}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/visual-table-1} \caption[A visual table that displays a selection of scagnostics computed on the features data]{A visual table that displays a selection of scagnostics computed on the features data. The rows correspond to different scagnostics and the horizontal axis is the calculated value on a range of 0-1. Thumbnail plots of variable pairs are placed at their scagnostic value, and indicate the type of structure that would produce high or low or medium values. Some scagnostics, e.g. clumpy, need adjustment as they do not correctly order the scagnostics, or range from 0 to 1. Other measures, such as splines work without any changes to their definition.}(\#fig:visual-table)
 \end{figure}
 \end{Schunk}
 
@@ -445,15 +445,15 @@ The issues that need to be addressed with the new striated measure are:
 To account for these two issues the striated adjusted measure considers
 all vertices (not just those with two adjacent edges), and makes the
 measure strict around the 180 and 90 degree angles. With this we can see
-the improvements on the measure in Figure \ref{fig:striated-vtable}.
+the improvements on the measure in Figure @ref(fig:striated-vtable).
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/striated-vtable-1} \caption[Using a visual table to compare the striated and it's adjusted counterpart, striated2 allows us to visualise the difference in the measures]{Using a visual table to compare the striated and it's adjusted counterpart, striated2 allows us to visualise the difference in the measures. While the functions may seem similar at a glance, striated2 has a stricter version of discreteness, hence why line and vlines have the same result and plots with no discreteness score a 0.}\label{fig:striated-vtable}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/striated-vtable-1} \caption[Using a visual table to compare the striated and it's adjusted counterpart, striated2 allows us to visualise the difference in the measures]{Using a visual table to compare the striated and it's adjusted counterpart, striated2 allows us to visualise the difference in the measures. While the functions may seem similar at a glance, striated2 has a stricter version of discreteness, hence why line and vlines have the same result and plots with no discreteness score a 0.}(\#fig:striated-vtable)
 \end{figure}
 \end{Schunk}
 
-Figure \ref{fig:striated-vtable} shows that while these two measures may
+Figure @ref(fig:striated-vtable) shows that while these two measures may
 seem similar at a glance, there are a few minor differences that make
 striated2 an improvement upon the original striated scagnostic. First of
 all, the perfect 1 value on striated goes to the \emph{line} scatter
@@ -464,7 +464,7 @@ angles that go between the vertical lines, a truly striated plot will
 never get a full 1 on this measure, striated2 fixes this. After that
 there is a large gap in both measures because none of the other scatter
 plots have a strictly discrete measure on the x or y axis. Additionally,
-while it is not visible in Figure \ref{fig:striated-vtable}, striated2
+while it is not visible in Figure @ref(fig:striated-vtable), striated2
 can identify discreteness when it appears in both axis with a small
 number of observation, an additional version of discreteness that the
 original striated struggles to identify. Both version of striated are
@@ -544,7 +544,7 @@ calculated as follows:
 \end{enumerate}
 
 With this calculation, we generate the clumpy2 measure which is compared
-to the original clumpy measure in the Figure \ref{fig:clumpy-vtable}.
+to the original clumpy measure in the Figure @ref(fig:clumpy-vtable).
 Here we can see the improvements made on the clumpy measure in both
 distribution from 0 to 1 and ordering. The measure is more spread out,
 and so values range more accurately from 0 to 1. More importantly the
@@ -560,7 +560,7 @@ table.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/clumpy-vtable-1} \caption[A visual table comparing the scagnostic values of clumpy and clumpy2]{A visual table comparing the scagnostic values of clumpy and clumpy2. We can see the clusters plot is next to last in the ordering of the original clumpy measure, but first in clumpy2. It is clear that clumpy2 achieves a more ballanced distribution and more intuitive plot ordering.}\label{fig:clumpy-vtable}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/clumpy-vtable-1} \caption[A visual table comparing the scagnostic values of clumpy and clumpy2]{A visual table comparing the scagnostic values of clumpy and clumpy2. We can see the clusters plot is next to last in the ordering of the original clumpy measure, but first in clumpy2. It is clear that clumpy2 achieves a more ballanced distribution and more intuitive plot ordering.}(\#fig:clumpy-vtable)
 \end{figure}
 \end{Schunk}
 
@@ -595,12 +595,12 @@ More documentation of the package can be found at the web site
 
 The \texttt{cassowaryr} package comes with several data sets that load
 with the package. These are described in Table
-\ref{tab:datasets-tb-pdf}.
+@ref(tab:datasets-tb-pdf).
 
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:datasets-tb-pdf}Cassowaryr data sets}
+\caption{(\#tab:datasets-tb-pdf)Cassowaryr data sets}
 \centering
 \begin{tabular}[t]{>{\raggedright\arraybackslash}p{4cm}>{\raggedright\arraybackslash}p{8cm}}
 \toprule
@@ -633,12 +633,12 @@ they are not the intended method of calculating scagnostics as they
 perform no outlier removal, however they are still an option for users
 if they wish. In some cases, such as sc\_clumpy\_r for clumpy robust,
 they are the only method to calculate that scagnostic. Table
-\ref{tab:scagfuncs-tb-pdf} outlines these functions.
+@ref(tab:scagfuncs-tb-pdf) outlines these functions.
 
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:scagfuncs-tb-pdf}Cassowaryr Scagnostic functions}
+\caption{(\#tab:scagfuncs-tb-pdf)Cassowaryr Scagnostic functions}
 \centering
 \begin{tabular}[t]{>{\raggedright\arraybackslash}p{3cm}>{\raggedright\arraybackslash}p{10cm}}
 \toprule
@@ -675,12 +675,12 @@ sc\_stringy & Compute stringy scagnostic measure.\\
 The drawing functions are intended to be used to better understand the
 results of the scagnostic functions. The input is two numeric vectors
 and the output is a ggplot object that draws one of the graph based
-objects. Table \ref{tab:drawfuncs-tb-pdf} details these functions
+objects. Table @ref(tab:drawfuncs-tb-pdf) details these functions
 
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:drawfuncs-tb-pdf}Cassowaryr drawing functions}
+\caption{(\#tab:drawfuncs-tb-pdf)Cassowaryr drawing functions}
 \centering
 \begin{tabular}[t]{>{\raggedright\arraybackslash}p{3cm}l}
 \toprule
@@ -707,12 +707,12 @@ pairwise scatter plot. Both functions return a tibble where each column
 is a scagnostics. These are the two main functions of the package.
 
 The main arguments of the \texttt{calc\_scags()} function are shown in
-Table \ref{tab:calcfunc-tb-pdf}.
+Table @ref(tab:calcfunc-tb-pdf).
 
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:calcfunc-tb-pdf}The main arguments for calc\_scags().}
+\caption{(\#tab:calcfunc-tb-pdf)The main arguments for calc\_scags().}
 \centering
 \begin{tabular}[t]{l>{\raggedright\arraybackslash}p{12cm}}
 \toprule
@@ -736,7 +736,7 @@ user can choose those of interest, using \texttt{select()}. The reason
 we need to use select is that the \emph{scags} argument for
 \texttt{calc\_scags()} is not currently recognised inside
 \texttt{summarise()}. The code below generates the summary data in Table
-\ref{tab:featuresscags-pdf}.
+@ref(tab:featuresscags-pdf).
 
 \begin{Schunk}
 \begin{Sinput}
@@ -750,7 +750,7 @@ features_scags <- features %>%
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:featuresscags-pdf}Summary of three scagnostics computed by calc\_scags() on the long form of the features data.}
+\caption{(\#tab:featuresscags-pdf)Summary of three scagnostics computed by calc\_scags() on the long form of the features data.}
 \centering
 \begin{tabular}[t]{>{\raggedright\arraybackslash}p{3cm}rrr}
 \toprule
@@ -861,9 +861,9 @@ issues that allowed us to make meaningful changes to the definitions of
 clumpy and striated and understand some pitfalls of the package. For
 example, several tests to check the outlying scagnostic was working
 correctly illustrated some issues in the process of outlier removal,
-which is illustrated in Figure \ref{fig:outlying-test-plot}.
+which is illustrated in Figure @ref(fig:outlying-test-plot).
 
-Figure \ref{fig:outlying-test-plot} shows the an example of a simulated
+Figure @ref(fig:outlying-test-plot) shows the an example of a simulated
 test set, combined with the associated MST. When creating this test data
 set, we assumed the MST would connect via the dashed red line, but
 instead the MST connected via the long black line between points 3 and
@@ -884,7 +884,7 @@ plot.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/outlying-test-plot-1} \caption[Plot of simulated data used for testing the outlying scagnostic]{Plot of simulated data used for testing the outlying scagnostic. The left plot shows the raw data, while the right plot presents the MST generated on that data. When we created the test we expected the red dashed line to be in the MST, but instead the black line that connects points 3 and 4 is. If the red edge is in the MST rather than the black edge, the outlying value on this plot is much higher.}\label{fig:outlying-test-plot}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/outlying-test-plot-1} \caption[Plot of simulated data used for testing the outlying scagnostic]{Plot of simulated data used for testing the outlying scagnostic. The left plot shows the raw data, while the right plot presents the MST generated on that data. When we created the test we expected the red dashed line to be in the MST, but instead the black line that connects points 3 and 4 is. If the red edge is in the MST rather than the black edge, the outlying value on this plot is much higher.}(\#fig:outlying-test-plot)
 \end{figure}
 \end{Schunk}
 
@@ -908,7 +908,7 @@ possible scatterplots, significantly more than a single person could
 view and analyse themselves and so we use scagnostics to identify which
 pairwise plots might be interesting to examine.
 
-Figure \ref{fig:AFLW-scatters-static} displays five scatter plots (Plots
+Figure @ref(fig:AFLW-scatters-static) displays five scatter plots (Plots
 1 to 5 in the figure) that were identified as interesting due to having
 a particularly high or low value on a scagnostic, or some unusual
 combination of two or more scagnostics. In addition to these five, there
@@ -928,7 +928,7 @@ stages of exploratory data analysis.
 
 }
 
-\caption[Six AFLW sport statistic scatter plots that were identified as identified as interesting by the scagnostics]{Six AFLW sport statistic scatter plots that were identified as identified as interesting by the scagnostics. Plots 1 to 5 had unique values on some combination of the scagnostics, Plot 6 had middling values on all measures. There is a clear difference in structure between these plots indicating the scagnostics ability to identify interesting visual features.}\label{fig:AFLW-scatters-static}
+\caption[Six AFLW sport statistic scatter plots that were identified as identified as interesting by the scagnostics]{Six AFLW sport statistic scatter plots that were identified as identified as interesting by the scagnostics. Plots 1 to 5 had unique values on some combination of the scagnostics, Plot 6 had middling values on all measures. There is a clear difference in structure between these plots indicating the scagnostics ability to identify interesting visual features.}(\#fig:AFLW-scatters-static)
 \end{figure}
 \end{Schunk}
 
@@ -939,7 +939,7 @@ identified, but for the sake of space, we are only going to show the
 scatter plots of the SPLOM that led to the selection of Plots 1, 2, and
 5.
 
-Figure \ref{fig:threeplot-static} displays Plot 1, Plot2 and Plot 5
+Figure @ref(fig:threeplot-static) displays Plot 1, Plot2 and Plot 5
 beneath the scatter plot of the scagnostics SPLOM that was used to
 identify it as interesting. Plot 1 was identified as interesting as it
 returned high values on both outlying and skewed. Intuitively, this
@@ -976,7 +976,7 @@ using scagnostics as a tool in exploratory data analysis.
 
 }
 
-\caption[Three plots that were identified as interesting with the scagnostic scatter plot used to identify it]{Three plots that were identified as interesting with the scagnostic scatter plot used to identify it. Each scatter plot of AFLW data is displayed below a plot of the two scagnostic measures it stood out on. One of the most useful ways to identify plots is through scatter plots of the scagnostics.}\label{fig:threeplot-static}
+\caption[Three plots that were identified as interesting with the scagnostic scatter plot used to identify it]{Three plots that were identified as interesting with the scagnostic scatter plot used to identify it. Each scatter plot of AFLW data is displayed below a plot of the two scagnostic measures it stood out on. One of the most useful ways to identify plots is through scatter plots of the scagnostics.}(\#fig:threeplot-static)
 \end{figure}
 \end{Schunk}
 
@@ -1014,18 +1014,18 @@ indicate the presence of non-linear or clustered relationship.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/bbh-scags-static-1} \caption[Selected pairs of scagnostics computed for the black hole mergers data]{Selected pairs of scagnostics computed for the black hole mergers data. The coloured points in these plots align with the plot colours of Figure 11. Groups of parameter combinations can be seen to stand out in the left plot (high on skinny and low on convex) and in the middle plot (high on both dcor and splines). The plot on the right shows clumpy vs clumpy2, where we can see a large impact of the correction. }\label{fig:bbh-scags-static}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/bbh-scags-static-1} \caption[Selected pairs of scagnostics computed for the black hole mergers data]{Selected pairs of scagnostics computed for the black hole mergers data. The coloured points in these plots align with the plot colours of Figure 11. Groups of parameter combinations can be seen to stand out in the left plot (high on skinny and low on convex) and in the middle plot (high on both dcor and splines). The plot on the right shows clumpy vs clumpy2, where we can see a large impact of the correction. }(\#fig:bbh-scags-static)
 \end{figure}
 \end{Schunk}
 
-Figure \ref{fig:bbh-scags-static} shows scatter plots of the relevant
+Figure @ref(fig:bbh-scags-static) shows scatter plots of the relevant
 scagnostics measures; outlying, skinny, splines, dcor, clumpy, and
 clumpy2. On the left plot we see three points with very low values of
 the convex measure and high values of skinny. This combination of
 variables indicates some narrow shape and turns out to correspond to all
 the possible combinations containing the variables time, ra and dec. The
 corresponding scatterplots are shown in the upper row of Figure
-\ref{fig:blackholes}. This pattern in arises because the location of an
+@ref(fig:blackholes). This pattern in arises because the location of an
 event observed from gravitational waves can only be localized when using
 a network of three detectors (as described in \citet{gwtriang}), and
 observations with one or two detectors will result in a degeneracy
@@ -1035,31 +1035,31 @@ broken ring in this three dimensional space, thus inducing both
 non-linear dependence and clustering in the posterior sample.
 
 These three variables also stand out in the middle plot of Figure
-\ref{fig:bbh-scags-static}, where the two plots involving ra that have a
+@ref(fig:bbh-scags-static), where the two plots involving ra that have a
 non-linear but functional relation have a somewhat higher values in the
 splines measure compared to dcor. On the other hand dec vs time does not
 exhibit a functional relation, and consequently gets a higher dcor score
 compared to splines (with both measures still taking large values). This
 also happens for two other combinations: m1 vs m2 and chi\_p vs
 chi\_tot, which are shown in the bottom row (left and middle) of Figure
-\ref{fig:blackholes}. We see that both these combinations show noisy
+@ref(fig:blackholes). We see that both these combinations show noisy
 linear relations.
 
 Another interesting aspect of this dataset is that there are several
 combinations that lead to visible separations between groups of points.
 This makes it an ideal test case for our new implementation of clumpy2.
-The right plot in Figure \ref{fig:bbh-scags-static} shows clumpy vs
+The right plot in Figure @ref(fig:bbh-scags-static) shows clumpy vs
 clumpy2, and reveals large differences between the two measures. In
 particular there are many combinations without visible clustering, that
 still score high on clumpy, but where clumpy2 is zero. On the other hand
 we can see that there are several combinations that do lead to visible
 separation between groups that stand out in terms of clumpy2, but not
 the original clumpy. One example is time vs alpha, shown in the bottom
-right plot of Figure \ref{fig:blackholes}.
+right plot of Figure @ref(fig:blackholes).
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/blackholes-1} \caption[Features in the BBH data that stand out on several of the scagnostics measures (convey, skinny, splines and dcor), showing strong relations between variables including non-linear and non-functional dependencies]{Features in the BBH data that stand out on several of the scagnostics measures (convey, skinny, splines and dcor), showing strong relations between variables including non-linear and non-functional dependencies. The colour of these point align with the plots position in the plots of Figure 10. The final example (time vs alpha) is expected to take high values in clumpy, but only stands out on the corrected clumpy2.}\label{fig:blackholes}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/blackholes-1} \caption[Features in the BBH data that stand out on several of the scagnostics measures (convey, skinny, splines and dcor), showing strong relations between variables including non-linear and non-functional dependencies]{Features in the BBH data that stand out on several of the scagnostics measures (convey, skinny, splines and dcor), showing strong relations between variables including non-linear and non-functional dependencies. The colour of these point align with the plots position in the plots of Figure 10. The final example (time vs alpha) is expected to take high values in clumpy, but only stands out on the corrected clumpy2.}(\#fig:blackholes)
 \end{figure}
 \end{Schunk}
 
@@ -1098,10 +1098,10 @@ features \citep[chapter 4 of][]{fpp} using the \texttt{feasts} R package
 \citep{feasts}.
 
 To keep the illustration simple, a small set of seven features is
-examined. Table \ref{tab:scagsmacmic-pdf} tabulates pairs of features
+examined. Table @ref(tab:scagsmacmic-pdf) tabulates pairs of features
 that have the biggest difference between groups across a range of
 scagnostics. Plotting a handful of these in (Figure
-\ref{fig:timeseries}), we can see the differences in shape that the
+@ref(fig:timeseries)), we can see the differences in shape that the
 scagnostics have identified. For example, on the scagnostic
 \emph{Skewed} selects the pair of features, curvature and trend
 strength, and reveals a shape difference on these features between
@@ -1131,7 +1131,7 @@ technique based on scagnostics is beyond the scope of this paper.
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:scagsmacmic-pdf}Pairs of time series features that have large differences between macroeconomic and microeconomic series on a range of scagnostics.}
+\caption{(\#tab:scagsmacmic-pdf)Pairs of time series features that have large differences between macroeconomic and microeconomic series on a range of scagnostics.}
 \centering
 \begin{tabular}[t]{lllrrr}
 \toprule
@@ -1155,13 +1155,13 @@ diff1 acf1 & trend strength & stringy & 0.84 & 0.73 & 0.11\\
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/timeseries-1} \caption[Interesting differences in the visual features of two groups of time series can be detected by scagnostics]{Interesting differences in the visual features of two groups of time series can be detected by scagnostics. The three plots represent the variable pairs that maximised the differences between outlying (left), skewed (middle) and convex (right). While these distributions may have overlapping means, their differencs in shape have been identified by the scagnostics.}\label{fig:timeseries}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/timeseries-1} \caption[Interesting differences in the visual features of two groups of time series can be detected by scagnostics]{Interesting differences in the visual features of two groups of time series can be detected by scagnostics. The three plots represent the variable pairs that maximised the differences between outlying (left), skewed (middle) and convex (right). While these distributions may have overlapping means, their differencs in shape have been identified by the scagnostics.}(\#fig:timeseries)
 \end{figure}
 \end{Schunk}
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/tsplots-1} \caption[Selection of three series from the 100 of each of two groups, macroeconomics and microeconomics]{Selection of three series from the 100 of each of two groups, macroeconomics and microeconomics. The difference between the groups appears to be primarily in the jagginess of the two series, which a little surprisingly, is captured by the time series features curvature and trend strength. The way that trend strength is calculated, on closer inspection, could lead to describing jagginess.}\label{fig:tsplots}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/tsplots-1} \caption[Selection of three series from the 100 of each of two groups, macroeconomics and microeconomics]{Selection of three series from the 100 of each of two groups, macroeconomics and microeconomics. The difference between the groups appears to be primarily in the jagginess of the two series, which a little surprisingly, is captured by the time series features curvature and trend strength. The way that trend strength is calculated, on closer inspection, could lead to describing jagginess.}(\#fig:tsplots)
 \end{figure}
 \end{Schunk}
 
@@ -1185,7 +1185,7 @@ descriptions are left to the appendix A3. The scagnostics will be
 calculated on this pairwise complete data, allowing for a few sporadic
 missings.
 
-Figure \ref{fig:wbistatic} (left plot) shows a summary of the top
+Figure @ref(fig:wbistatic) (left plot) shows a summary of the top
 scagnostic value for each pair of variables, that is, only the highest
 scagnostic value for each pair of variables is saved. This is displayed
 as a vertically-oriented side-by-side dotplot. For the WBI data, the
@@ -1203,7 +1203,7 @@ summaries of data with many variables.
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/wbistatic-1} \caption[Using scagnostics to explore the variety of relationships present in the WBI data]{Using scagnostics to explore the variety of relationships present in the WBI data. The side-by-side dotplot (left) shows one point for each pair of variables, with its highest scagnostic value among all scagnostics calculated. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. There is one pair that has clumpy as the highest value. The plots, middle and right, show the pair of variables with highest value on clumpy2 and convex, respectively.}\label{fig:wbistatic}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/wbistatic-1} \caption[Using scagnostics to explore the variety of relationships present in the WBI data]{Using scagnostics to explore the variety of relationships present in the WBI data. The side-by-side dotplot (left) shows one point for each pair of variables, with its highest scagnostic value among all scagnostics calculated. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. There is one pair that has clumpy as the highest value. The plots, middle and right, show the pair of variables with highest value on clumpy2 and convex, respectively.}(\#fig:wbistatic)
 \end{figure}
 \end{Schunk}
 
@@ -1220,7 +1220,7 @@ how to use scagnostics to find unique scatter plots. In this example, we
 also showed that looking at specific pairwise scatter plots can give us
 valuable information about the dataset, namely by interpreting the
 \emph{hitouts vs bounces} scatter plot in Figure
-\ref{fig:threeplot-static}. Using simulated data of a black hole merger
+@ref(fig:threeplot-static). Using simulated data of a black hole merger
 event, we then displayed the packages ability to identify pairwise
 non-linear relationships with convex, skinny, splines, and dcor, as well
 as the improvement clumpy2 made in identifying clustering. The time
@@ -1240,7 +1240,7 @@ distribution may be different. In the WBI example describing the overall
 shape of the data, requires an assumption that the scagnostics are all
 uniformly distributed from 0 to 1. However, as some of our results
 suggest, and also as seen in the visual table of the features scatter
-plots (Figure \ref{fig:visual-table}), this may not be the case. It
+plots (Figure @ref(fig:visual-table)), this may not be the case. It
 would be a substantial task to identify the distributions of the
 scagnostics, and make adjustments to transform to uniform distributions.
 The scagnostics would need to be studied using large volumes of data to
@@ -1468,6 +1468,9 @@ Dictionary}\label{a3-world-bank-indicators-data-dictionary}}
 \item
   SE.COM.DURS Compulsory education, duration (years)
 \end{itemize}
+
+\begin{verbatim}
+\end{verbatim}
 
 \bibliography{mason-lee-laa-cook.bib}
 
