@@ -74,7 +74,7 @@ The term scagnostics was introduced by John Tukey in 1982 [@tukey]. Tukey's sugg
 
 Scagnostics have found a reasonably large number of applications since their initial introduction by Tukey. @tourrpp used them in the `tourr` projection pursuit to find interesting low level projections of linear combinations of variables. @hidscags showed scagnostics to be a valuable tool in finding hidden structures in biplots by combining them with variable transformations (such as a log transform). @timeseer used scagnostics to identify atypical sub-sequences from multivariate time series data for further analysis. These are only a small handful of examples of the ways in which scagnostics have been used to assist in th visualisation of high dimensional data. 
   
-Advancing Tukey's work, @scag defined computationally efficient measures that were later refined by @scagdist which make up the foundations of the measures considered to be scagnostics. They were all constructed to range [0,1], and later scagnostics have maintained this scale.  In addition to these foundational scagnostics, @Grimm discussed the benefit of using two additional association scagnostics. These two association measures are also used in the `tourr` projection pursuit [@tourrpp]. 
+Advancing Tukey's work, @scag defined computationally efficient measures that were later refined by @scagdist which make up the foundations of the measures considered to be scagnostics.  In addition to these foundational scagnostics, @Grimm discussed the benefit of using two additional association scagnostics. These two association measures are also used in the `tourr` projection pursuit [@tourrpp]. 
 
 There are two existing scagnostics packages, *scagnostics* [@scagdist] and the archived package *binostics* [@binostics]. Both packages are based on the original C++ code written by @scagdist, which is difficult to read and difficult to debug. Thus there is a need for a new implementation that enables better diagnosis of the scagnostics, and better graphical tools for examining the results. 
 
@@ -114,7 +114,7 @@ d3 <- draw_mst(nl$x, nl$y) +
 d1 + d2 + d3
 ```
   
-The nine scagnostics defined by @scagdist are detailed below with an explanation and a formula. To give further understanding in how these measures work, the scagnostics *skinny*, *outlying*, and *clumpy* are given an additional visual explanation in Figure \@ref(fig:scagdrawn). We will let $A=$ alpha hull, $C=$ convex hull, $M$ = minimum spanning tree, and $s=$ the scagnostic measure. Since some of the measures have a sample size dependence, $w$ is a parameter used to adjust for the sample size.  
+The nine scagnostics defined by @scagdist are detailed below with an explanation and a formula. They were all constructed to range [0,1], and later scagnostics have maintained this scale. To give further understanding in how these measures work, the scagnostics *skinny*, *outlying*, and *clumpy* are given an additional visual explanation in Figure \@ref(fig:scagdrawn). We will let $A=$ alpha hull, $C=$ convex hull, $M$ = minimum spanning tree, and $s=$ the scagnostic measure. Since some of the measures have a sample size dependence, $w$ is a parameter used to adjust for the sample size to maintain consistency.  
 
 Before any of the scagnostics are calculated, outlying points are removed. Outliers are defined as any point whose adjacent edges in the MST have edges larger $q_{75} + 1.5(q_{75} - q_{25})$, where $q_i$ refers to the ith percentile of the sorted edge lengths of the MST.
 
