@@ -1061,52 +1061,52 @@ right plot of Figure \ref{fig:blackholes}.
 \subsection{Shape differences between
 groups}\label{shape-differences-between-groups}}
 
-Another potential application of scagnostics is to detect shape
-differences between groups. Commonly, classification focuses on
-separations between groups or differences in the means, there are few
-techniques that focus on difference in shape. This difference in shape
-occurs when the variance patterns between groups are different. Linear
-discriminant analysis (LDA) is an example of a method that does not take
-this difference in variation into considering, quadratic discriminant
-analysis (QDA), is an example of a method that does. LDA assumes the
-distribution of each group is normal with the same variance, it then
-draws a straight boundary that is at a maximal distance from each groups
-mean. QDA assumes the distribution of each group is normal, and then
-draws a curved boundary between them that is furthest from each groups
-mean, but also respects that one group might have a larger elliptical
-variance-covariance than another group. So from this, we can see that
-QDA is more flexible than LDA as it allows for this difference in shape,
-however the technique is still limited by an assumption of normality.
-Scagnostics could be utilised in a similar fashion to QDA to identify
-irregular shape differences between groups.
+A potential application of scagnostics is to detect shape differences
+between groups, in contrast to the more common classification by
+differences in means or gaps. A difference in shape corresponds to
+different covariance patterns between groups. A way to think about this
+is contrasting linear discriminant analysis (LDA) with quadratic
+discriminant analysis (QDA). LDA assumes the distribution of each group
+is multivariate normal with the same means and the same variance. The
+classification boundary is planar at a maximal distance from each groups
+mean, with orientation of the plane determined by the pooled
+variance-covariance matrix. QDA similarly assumes the distribution of
+each group is normal, but relaxes the assumption of equal
+variance-covariance. The boundary between groups has a quadratic form.
+So from this, it can be seen that QDA is more flexible than LDA as it
+accommodates shape differences. However shape differences are
+constrained to be elliptical based on the assumption of normality.
+Scagnostics could be utilised to broadly identify irregular shape
+differences between groups.
 
-This analysis compares the features of two large collections time
-series, and then tries to differentiate them using scagnostics. The goal
-of the comparison is to compare shapes, not necessarily centres of
-groups as might be done in LDA or other machine learning methods. The
-two groups chosen for comparison are macroeconomic and microeconomic
-series. The data is pulled from the self-organizing database of
-time-series data \citep{sots}, using the compenginets R package
-\citep{compenginets}. Since the time series are different lengths, each
-is described by a set of time series features \citep[chapter 4
-of][]{fpp} using the feasts R package \citep{feasts}.
+To illustrate this analysis, we consider comparing two sets of time
+series, described by their features, such as trend, spikiness, acf,
+using scagnostics. The goal of the comparison is to compare shapes, not
+necessarily centres of groups as might be done in LDA or other machine
+learning methods. The two groups chosen for comparison are macroeconomic
+and microeconomic series. The data for 100 series of each type is pulled
+from the self-organizing database of time-series data \citep{sots},
+using the compenginets R package \citep{compenginets}. Since the time
+series are different lengths, each is described by a set of time series
+features \citep[chapter 4 of][]{fpp} using the \texttt{feasts} R package
+\citep{feasts}.
 
-For illustration, just a small set of features is examined, but still
-enough that the list of scatter plots identified by the scagnostics is
-significantly smaller than the list of all possible scatter plots. Table
-\ref{tab:scagsmacmic-pdf} shows the pair of features that maximises the
-difference between groups for each scagnostic. Plotting a handful of
-these in (Figure \ref{fig:timeseries}), we can see the difference in
-shape that the scagnostics have identified. For example, the middle plot
-of the figure shows the shape difference between the curvature and trend
-strength between macroeconomic and microeconomic time series. Both types
-of time series have, on average, strong trends and moderate curvature,
-however the former varies more in the macroeconomic series and the later
-in the microeconomic series. We can see from this example, and the other
-comparisons in the plot, that the scagnostics have identified a
-difference in shape that is not apparent in the mean of the data.
-Similar comments can be made about the other two plots in Figure
-\ref{fig:timeseries}.
+To keep the illustration simple, a small set of seven features is
+examined. Table \ref{tab:scagsmacmic-pdf} tabulates pairs of features
+that have the biggest difference between groups across a range of
+scagnostics. Plotting a handful of these in (Figure
+\ref{fig:timeseries}), we can see the differences in shape that the
+scagnostics have identified. For example, on the scagnostic
+\emph{Skewed} selects the pair of features, curvature and trend
+strength, and reveals a shape difference on these features between
+macroeconomic and microeconomic time series (middle plot). Macroeconomic
+series tend to have moderate curvature and varied trend, while
+microeconomic series tend to have strong trends and varied curvature. We
+can see from this example, and the other comparisons in the plot, that
+the scagnostics have identified a differences in shape that would not
+have been apparent from only examining mean differences between groups.
+Other shape differences can be read from the other pairs of features
+(left and right plots).
 
 While we have shown that the scagnostics succeed in identifying
 difference in shapes between groups, this does not automatically
@@ -1120,12 +1120,12 @@ variables in the direction of most variance. Performing this linear
 transformation wile also trying to explain the variance in a response
 variable is a supervised version of PCA known as principal component
 regression. However, despite its promise, developing a classification
-technique based on scagnostics is beyond the scope of this research.
+technique based on scagnostics is beyond the scope of this paper.
 
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:scagsmacmic-pdf}Variable pairs that maximise between group difference of each scagnostic}
+\caption{\label{tab:scagsmacmic-pdf}Pairs of time series features that have large differences between macroeconomic and microeconomic series on a range of scagnostics.}
 \centering
 \begin{tabular}[t]{lllrrr}
 \toprule
@@ -1155,7 +1155,7 @@ diff1 acf1 & trend strength & stringy & 0.84 & 0.73 & 0.11\\
 
 \begin{Schunk}
 \begin{figure}
-\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/tsplots-1} \caption[Selection of series from the two groups, macroeconomics and microeconomics]{Selection of series from the two groups, macroeconomics and microeconomics. The difference between the groups primarily is in the jagginess of the two series, which a little surprisingly, is captured by the time series features curvature and trend strength.}\label{fig:tsplots}
+\includegraphics[width=1\linewidth]{mason-lee-laa-cook_files/figure-latex/tsplots-1} \caption[Selection of three series from the 100 of each of two groups, macroeconomics and microeconomics]{Selection of three series from the 100 of each of two groups, macroeconomics and microeconomics. The difference between the groups appears to be primarily in the jagginess of the two series, which a little surprisingly, is captured by the time series features curvature and trend strength. The way that trend strength is calculated, on closer inspection, could lead to describing jagginess.}\label{fig:tsplots}
 \end{figure}
 \end{Schunk}
 
