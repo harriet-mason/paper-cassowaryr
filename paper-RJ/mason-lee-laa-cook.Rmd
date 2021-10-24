@@ -498,7 +498,7 @@ datasets_tb <- tibble(dt = c("features",
 
 ```{r datasets-tb-html, eval=is_html_output()}
 datasets_tb %>% 
-  kable(col.names = c("data", "explanation")) 
+  kable(caption = "Cassowaryr data sets", col.names = c("data", "explanation")) 
 ```
 
 ```{r datasets-tb-pdf, eval=is_latex_output()}
@@ -549,7 +549,7 @@ scagfuncs_tb <- tibble(dt = c("scree",
 ```
 
 ```{r scagfuncs-tb-html, eval=is_html_output()}
-scagfuncs_tb %>% kable() 
+scagfuncs_tb %>% kable(caption = "Cassowaryr Scagnostic functions") 
 ```
 
 ```{r scagfuncs-tb-pdf, eval=is_latex_output()}
@@ -572,7 +572,7 @@ drawfuncs_tb <- tibble(funcname = c("draw_alphahull",
 ```
 
 ```{r drawfuncs-tb-html, eval=is_html_output()}
-drawfuncs_tb %>% kable() 
+drawfuncs_tb %>% kable(caption = "Cassowaryr drawing functions") 
 ```
 
 ```{r drawfuncs-tb-pdf, eval=is_latex_output()}
@@ -1304,6 +1304,10 @@ if (nrow(check_spelling) > 0) {
   stop("Check spelling in Rmd files!")
 }
 ```
+
+# Acknowledgements
+
+This article is created using \CRANpkg{knitr} [@knitr] and \CRANpkg{rmarkdown} [@rmarkdown] in R. The source code for reproducing this paper can be found at: [https://github.com/harriet-mason/paper-cassowaryr](https://github.com/harriet-mason/paper-cassowaryr).
 
 # Appendix
 
