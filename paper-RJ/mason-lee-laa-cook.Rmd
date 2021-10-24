@@ -1061,7 +1061,7 @@ mac <- ggplot(macro_s_ts, aes(x=t, y=x)) +
   geom_line() + 
   facet_wrap(~name, ncol=1, scales = "free") +
   ggtitle("Macroeconomics") +
-  theme_classic() +
+  theme_minimal() +
   xlab("") + ylab("") +
   theme(axis.text = element_blank())
 
@@ -1088,7 +1088,7 @@ mic <- ggplot(micro_s_ts, aes(x=t, y=x)) +
   facet_wrap(~name, ncol=1, scales = "free") +
   ggtitle("Microeconomics") +
   xlab("") + ylab("") +
-  theme_classic() +
+  theme_minimal() +
   theme(axis.text = element_blank())
 
 mac + mic
@@ -1239,7 +1239,7 @@ w6 <- ggplot(wbi_scags_topvars,
   xlab("") + ylab("") +
   geom_point(alpha=0.7) + coord_flip()+ 
   theme(aspect.ratio = 1) +
-  theme_minimal()
+  theme_classic()
 ```
 
 ```{r wbiinteractive, fig.cap="Using scagnostics to explore the variety of relationships present in the WBI data. The side-by-side dotplot (left) shows one point for each pair of variables, with its highest scagnostic value among all scagnostics calculated. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. There is one pair that has clumpy as the highest value. The plots, middle and right, show the pair of variables with highest value on clumpy2 and convex, respectively. (Mouseover allows identification of variable pairs, and countries.)",  include=knitr::is_html_output(), eval=knitr::is_html_output(), fig.height=3.5, fig.width=9, layout = "l-body"}
