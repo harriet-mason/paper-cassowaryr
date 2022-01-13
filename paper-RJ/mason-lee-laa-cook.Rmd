@@ -76,9 +76,9 @@ Scagnostics have found a reasonably large number of applications since their ini
   
 Advancing Tukey's work, @scag defined computationally efficient measures that were later refined by @scagdist which make up the foundations of the measures considered to be scagnostics.  In addition to these foundational scagnostics. @Grimm introduced two additional based on association. These two association measures are also used in the `tourr` projection pursuit [@tourrpp]. 
 
-There are two existing scagnostics packages, `scagnostics` [@scagdist] and the archived package `binostics` [@binostics]. Both packages are based on the original C++ code written by @scagdist, which is difficult to read and difficult to debug or extend. The package `mbgraphic` discussed by @Grimm that contained the two additional scagnostics has also been archived by CRAN. Thus there is a need for a new implementation that enables better diagnosis of the scagnostics, and better graphical tools for examining the results. 
+There are two scagnostics packages that compute the measures defined by @scag, `scagnostics` [@scagdist] and the archived package `binostics` [@binostics]. Both packages are based on the original C++ code written by @scagdist and since it is written in C++ the work difficult to read, debug or extend upon. The two additional association measures discussed by @Grimm were in the package `mbgraphic`, but that has also been archived by CRAN. Thus there is a need for a new implementation that enables better diagnosis of the scagnostics, and better graphical tools for examining the results. 
 
-The paper is organised as follows. The next section introduces the scagnostics, explains how they are calculated, and develops several new measures. This is followed by a summary of the implementation in the R package, `cassowaryr`.   The examples section applies the methods to four different data sets for three different tasks. The Australian Football League Women's (AFLW), and a simulated binary black hole (BBH) merger event to show their value for exploratory data analysis. The collection of time series examples, using macroeconomic and microeconomic data, illustrate the ability to differentiate groups by shape.  The world bank indicators (WBI) shows how scagnostics can be used to summarise the shape of multivariate data.
+The paper is organised as follows. The next section introduces the scagnostics, explains how they are calculated, and develops several new measures. This is followed by a summary of the implementation in the R package, `cassowaryr`. Finally, the examples section applies scagnostics to four different data sets to illustrate their use in three different tasks. The Australian Football League Women's (AFLW) data, and a simulated binary black hole (BBH) merger event show the scagnostics value as a tool in exploratory data analysis. The collection of time series examples, using macroeconomic and microeconomic data, illustrate the scagnostics ability to differentiate groups by shape.  The world bank indicators (WBI) shows how scagnostics can be used to summarise the shape of multivariate data.
 
 # Scagnostics
 
@@ -114,7 +114,7 @@ d3 <- draw_mst(nl$x, nl$y) +
 d1 + d2 + d3
 ```
   
-The nine scagnostics defined by @scagdist are detailed below with an explanation and a formula. They were all constructed to range [0,1], and later scagnostics have maintained this scale. To give further understanding in how these measures work, the scagnostics *skinny*, *outlying*, and *clumpy* are given an additional visual explanation in Figure \@ref(fig:scagdrawn). We will let $A=$ alpha hull, $C=$ convex hull, $M$ = minimum spanning tree, and $s=$ the scagnostic measure. Since some of the measures have a sample size dependence, $w$ is a parameter used to adjust for the sample size to maintain consistency.  
+The nine scagnostics defined by @scagdist are detailed below with an explanation and a formula. They were all constructed to range [0,1], and later scagnostics have maintained this scale. To give further understanding in how these measures work, the scagnostics *skinny*, *outlying*, and *clumpy* are given an additional visual explanation in Figure \@ref(fig:scagdrawn). We will let $A=$ alpha hull, $C=$ convex hull, $M$ = minimum spanning tree, and $s=$ the scagnostic measure. Since some of the measures have a sample size dependence, $\omega=0.7 + \frac{0.3}{1 + \frac{n}{500}}$ is a parameter used to mitigate sample size bias where $n$ is the number of points [@scagdist].  
 
 Before any of the scagnostics are calculated, outlying points are removed. Outliers are defined as any point whose adjacent edges in the MST have edges larger $q_{75} + 1.5(q_{75} - q_{25})$, where $q_i$ refers to the i$^{th}$ percentile of the sorted edge lengths of the MST.
 
@@ -126,7 +126,7 @@ knitr::include_graphics("figures/drawnmeasures.png")
 
 - **Convex:** Measure of how convex the shape of the data is. Computed as the ratio between the area of the alpha hull ($A$) and convex hull ($C$). Unlike the other scagnostic measures, a high value on convex does not correlate to an interesting scatter plot, rather it usually indicates a lack of relationship between the two variables.  
 
-$$s_{convex}=w\frac{\mbox{area}(A)}{\mbox{area}(C)}$$  
+$$s_{convex}=\frac{\mbox{area}(A)}{\mbox{area}(C)}$$  
 
 
 - **Skinny:** A measure of how "thin" the shape of the data is. It is calculated as the ratio between the area and perimeter of the alpha hull ($A$) with some normalisation such that 0 correspond to a perfect circle and values close to 1 indicate a skinny polygon.  
@@ -145,12 +145,12 @@ $$s_{stringy} = \frac{|V^{(2)}|}{|V|-|V^{(1)}|}$$
 
 - **Skewed:** A measure of skewness in the edge lengths of the MST (not in the distribution of the data). It is calculated as the ratio between the 90th to 50th percentile range and the central 80th interpercentile range.  
 
-$$s_{skewed} = 1-w\left(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}}\right)$$  
+$$s_{skewed} = 1-\omega\left(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}}\right)$$  
 
 
 - **Sparse:**  Identifies if the data is sporadically located on the plane. Calculated as the 90th percentile of MST edge lengths.
 
-$$s_{sparse}= wq_{90}$$
+$$s_{sparse}= \omega q_{90}$$
 
 
 - **Clumpy:** This measure is used to detect clustering and is calculated through an iterative process. First an edge J is selected and removed from the MST. From the two spanning trees that are created by this break, we select the largest edge from the smaller tree ($K$). The length of this edge ($K$) is compared to the removed edge ($J$) giving a clumpy measure for this edge. This process is repeated for every edge in the MST and the final clumpy measure is the maximum of this value over all edges.  
