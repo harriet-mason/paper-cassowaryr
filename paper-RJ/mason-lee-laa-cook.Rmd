@@ -622,29 +622,11 @@ features_scags %>% kable(format="latex", caption = "Summary of three scagnostics
 ```
 
 ### Making summaries
-There are two important summarise that should be made when calculating the scagnostics on a data set, the top pair of variables for each scagnostic, and the top scagnostic for each pair of variables. The code for both are simple, but an example of how to calculate them on the long features data, alongside their output will be shown here.
-
-To calculate the top pair of variables for each scagnostic, we would use the code below.
+There are two important summarise that should be made when calculating the scagnostics on a data set, the top pair of variables for each scagnostic, and the top scagnostic for each pair of variables. While the code required to write them is simple and easily performed by the user, having them as ready functions in the package helps guide users to use the package most effectively. The functions that perform these summaries are called ```top_scags()``` and ```top_pairs()``` respectively. The code below uses ```top_scags()``` to find the top pair of variables for each scagnostic. 
 
 ```{r, echo=TRUE, include=TRUE}
-features_scags %>% 
-  pivot_longer(!feature, names_to = "scag", values_to = "value") %>%
-  arrange(desc(value)) %>% 
-  group_by(scag) %>%
-  slice_head(n=1)
+top_scags(features_scags)
 ```
-
-To calculate the top scagnostic for each pair of variables, we would use the code below.
-
-```{r, echo=TRUE, include=TRUE}
-features_scags %>% 
-  pivot_longer(!feature, names_to = "scag", values_to = "value") %>%
-  arrange(desc(value)) %>% 
-  group_by(feature) %>%
-  slice_head(n=1)
-```
-
-While the code required to write them is simple and easily performed by the user, having them as ready functions in the package would help guide users to use the package most effectively. These functions would be called ```top_scags()``` and ```top_pairs()``` when included in *cassowaryr*.
 
 ## Tests
 All the scagnostic functions have tests written and implemented using the `testthat` (@testthat) package. They have all been compared to calculations completed by hand to ensure the difference in results from previous literature is due to pre-processing steps such as binning, and not mistakes in the code. These tests illuminated the issues that allowed us to make meaningful changes to the definitions of clumpy and striated and understand some pitfalls of the package. For example, several tests to check the outlying scagnostic was working correctly informed us of some issues in the process of outlier removal, which is illustrated in Figure \@ref(fig:outlying-test-plot). 
