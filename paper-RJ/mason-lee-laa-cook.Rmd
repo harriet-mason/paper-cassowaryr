@@ -603,13 +603,12 @@ calcfunc_tb %>% kable(format="latex", caption="The main arguments for calc\\_sca
 ```
 
 
-While the ```calc_scags()``` function does not take in a tibble, it is designed to be seamlessly integrated into the tidy data work flow. Currently to specify the scagnostics on long form tidy data the function needs to be used in conjunction with ```summarise()``` and ```group_by()```. The function computes all the scagnostics, and the user can choose those of interest, using ```select()```. The reason we need to use select is that the *scags* argument for ```calc_scags()``` is not currently recognised inside ```summarise()```. The code below generates the summary data in Table `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(tab:featuresscags-pdf)','\\@ref(tab:featuresscags-html)'))`.
+While the ```calc_scags()``` function does not take in a tibble, it is designed to be seamlessly integrated into the tidy data work flow. Currently to specify the scagnostics on long form tidy data the function needs to be used in conjunction with ```summarise()``` and ```group_by()```. The code below generates the summary data in Table `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(tab:featuresscags-pdf)','\\@ref(tab:featuresscags-html)'))`.
 
 ```{r calcscags-example, echo=TRUE}
 features_scags <- features %>%
-  group_by(feature) %>%
-  summarise(calc_scags(x,y)) %>%
-  select(c(feature, outlying, clumpy2, monotonic))
+    group_by(feature) %>%
+    summarise(calc_scags(x,y, c("outlying", "clumpy2", "monotonic")))
 ```
 
 ```{r featuresscags-html, eval=is_html_output()}
