@@ -10,18 +10,18 @@ As the number of dimensions in a data set increases, the process of
 visualising its structure and variable dependencies becomes more
 tedious. Scagnostics (scatterplot diagnostics) are a set of numerical
 measures describing visual features that can be used to identify
-interesting and abnormal scatterplots, and thus give a sense of priority
-to the variables we choose to visualise. A new set of scagnostics,
+interesting and abnormal scatterplots, and give a sense of priority to
+the variables we choose to visualise. A new set of scagnostics,
 containing previously defined measures and newly created measures, are
-implemented in the new \texttt{cassowaryr} R package, which provides a
-user-friendly method to apply to data. After implementing the
-scagnostics from the original defnitions we found that some measures did
-not work as expected, and variations were developed. The application of
-scagnostics is illustrated with four examples, sport statistics,
-astrophysics, collections of time series and economic indcators, that
-show they can be useful for exploratory data analysis, identifying shape
-differences between groups, and as a summary tool for the shape of
-multivariate data.
+implemented in the \texttt{cassowaryr} R package, which provides a
+user-friendly method to apply scagnostics to data in R. After
+implementing the scagnostics from the original defnitions we found that
+some measures did not work as expected, and variations were developed.
+The application of scagnostics is illustrated with four examples, sport
+statistics, astrophysics, collections of time series and economic
+indcators, that show they can be useful for exploratory data analysis,
+identifying shape differences between groups, and as a summary tool for
+the shape of multivariate data.
 }
 
 \hypertarget{introduction}{%
@@ -43,14 +43,13 @@ pairwise biplots of all variables, however, this solution quickly
 becomes infeasible as the number of dimensions increases and the number
 of plots in the SPLOM rises exponentially. There is a large amount of
 research into visualising high dimensional data, most of which focuses
-on some form of dimension reduction.
-
-Dimension reduction methods reduce the dimensionality by creating a
-hierarchy of the variables and taking a subset, or performing a
-transformation of the variables, or some combination of the two.
-Unfortunately none of these methods are without pitfalls. Linear
-transformations are subject to crowding, where low level projections
-concentrate data in the centre of the distribution, making it difficult
+on some form of dimension reduction. Dimension reduction allows us to
+manage high dimensional data, usually by selecting a subset of important
+variables or performing a linear or non-linear transformation on the
+variables in a way that captures the relevant information.
+Unfortunately, these methods are not without their pitfalls. Linear
+transformations are subject to crowding, that is, projections
+concentrate data in the centre of the distribution making it difficult
 to differentiate data points \citep{crowding}. Non-linear
 transformations, such as t-distributed stochastic neighbour embedding
 (t-SNE) \citep{tsne} often have complex parameterisations, and can break
@@ -66,33 +65,35 @@ linked brushing between linear and non-linear transformations
 \citep{liminal}. These latter two methods of dimension reduction involve
 dynamic graphics, which is not always easy to manage or even publish.
 
-\emph{Scagnostics} offer one possible alternative, particularly for
-producing a hierarchy of importance of variables, and the ability to
-capture non-linear and unusual relationships between variables. The term
-scagnostics was introduced by John Tukey in 1982 \citep{tukey}. Tukey's
-suggestion to deal with the curse of dimensionality was to filter out
-uninteresting variables using a cognostic. A cognostic is a diagnostic
-that should be interpreted by a computer rather than a human and those
-specific to scatter plots are called scagnostics. Instead of trying to
-view every possible variable combination, the workload is reduced by
-calculating a series of visual features, and only presenting selected
-scatter plots chosen on these feature combinations. As scagnostics
-filter the plots, rather than transform the data, they offer the benefit
-of allowing the user to view relationships between the variables in
-their raw form. This means they are not subject to the linear
-transformation issue of crowding, or the non-linear transformation issue
-of misleading global structures. That being said, only viewing select
-pairwise plots can leave our variable interpretations without context.
-Visualising the pairwise plots in relation to their place in the data
-set's global scagnostic distribution, is one suggested solution
-\citep{scagexplorer}, but ultimately the lack of context remains one of
-the limitations of using scagnostics alone as a high dimensional
-visualisation technique.
+\emph{Scagnostics} are one possible alternative to variable
+transformations, and can be particularly useful for producing a
+hierarchy of variables, and capturing non-linear and unusual
+relationships between variables. The term scagnostics was introduced by
+John Tukey in 1982 (see pages 411, 427 and 433 of \citet{tukey}).
+Tukey's suggestion to deal with the curse of dimensionality was to
+filter out uninteresting variables using a cognostic. A cognostic is a
+diagnostic that should be interpreted by a computer rather than a human
+and those specific to scatter plots are called scagnostics. Instead of
+trying to view every possible variable combination, the workload is
+reduced by calculating a series of visual features, and only presenting
+scatter plots that have interesting results on these feature
+combinations. As scagnostics filter the plots, rather than transform the
+data, they offer the benefit of allowing the user to view relationships
+between the variables in their raw form. This means they are not subject
+to the linear transformation issue of crowding, or the non-linear
+transformation issue of misleading global structures. That being said,
+only viewing select pairwise plots can leave our variable
+interpretations without context. Viewing pairwise plots of the data with
+another chart indicating their relative position in the scagnostic
+distributions (found by computing scagnostics on every possible pairwise
+plot in the data set), is one suggested solution \citep{scagexplorer},
+but ultimately the lack of context remains a limitation in using
+scagnostics alone as a high dimensional visualisation technique.
 
-Scagnostics have found a reasonably large number of applications since
-their initial introduction by Tukey. \citet{hidscags} showed scagnostics
-to be a valuable tool in finding hidden structures in biplots by
-combining them with variable transformations (such as a log transform).
+Scagnostics have found several applications since their initial
+introduction by Tukey. \citet{hidscags} showed scagnostics to be a
+valuable tool in finding hidden structures in biplots by combining them
+with variable transformations (such as a log transform).
 \citet{timeseer} used scagnostics to identify atypical sub-sequences
 from multivariate time series data for further analysis. Also,
 \citet{tourrpp} used them in the \texttt{tourr} projection pursuit to
@@ -101,32 +102,34 @@ variables.
 
 Advancing Tukey's work, \citet{scag} defined computationally efficient
 measures that were later refined by \citet{scagdist} which make up the
-foundations of the measures considered to be scagnostics. In addition to
-these foundational scagnostics. \citet{Grimm} introduced two additional
-based on association. These two association measures are also used in
-the \texttt{tourr} projection pursuit \citep{tourrpp}.
+foundations of current scagnostics. In addition to these foundational
+scagnostics, \citet{Grimm} introduced two additional association
+scagnostics. These two association measures are also used in the
+\texttt{tourr} projection pursuit \citep{tourrpp}.
 
-There are two existing scagnostics packages, \texttt{scagnostics}
-\citep{scagdist} and the archived package \texttt{binostics}
-\citep{binostics}. Both packages are based on the original C++ code
-written by \citet{scagdist}, which is difficult to read and difficult to
-debug or extend. The package \texttt{mbgraphic} discussed by
-\citet{Grimm} that contained the two additional scagnostics has also
-been archived by CRAN. Thus there is a need for a new implementation
-that enables better diagnosis of the scagnostics, and better graphical
-tools for examining the results.
+There are two scagnostics packages that compute the measures defined by
+\citet{scag}, \texttt{scagnostics} \citep{scagdist} and the archived
+package \texttt{binostics} \citep{binostics}. Both packages are based on
+the original C++ code written by \citet{scagdist} which is difficult to
+read, debug, and extend upon. The two additional association measures
+discussed by \citet{Grimm} were in the package \texttt{mbgraphic}, but
+that has also been archived by CRAN. These gaps in accessibility
+indicate that there is a need for a new implementation of scagnostics,
+one that enables a better diagnosis of results and provides graphical
+tools for examining these results.
 
 The paper is organised as follows. The next section introduces the
 scagnostics, explains how they are calculated, and develops several new
 measures. This is followed by a summary of the implementation in the R
-package, \texttt{cassowaryr}. The examples section applies the methods
-to four different data sets for three different tasks. The Australian
-Football League Women's (AFLW), and a simulated binary black hole (BBH)
-merger event to show their value for exploratory data analysis. The
-collection of time series examples, using macroeconomic and
-microeconomic data, illustrate the ability to differentiate groups by
-shape. The world bank indicators (WBI) shows how scagnostics can be used
-to summarise the shape of multivariate data.
+package, \texttt{cassowaryr}. Finally, the example section applies
+scagnostics to four different data sets to illustrate their use in three
+different tasks. The Australian Football League Women's (AFLW) data, and
+a simulated binary black hole (BBH) merger event show the scagnostics
+value as a tool in exploratory data analysis. The collection of time
+series example, using macroeconomic and microeconomic data, illustrates
+the scagnostics ability to differentiate groups by shape. The world bank
+indicators (WBI) shows how scagnostics can be used to summarise the
+shape of multivariate data.
 
 \hypertarget{scagnostics}{%
 \section{Scagnostics}\label{scagnostics}}
@@ -145,7 +148,7 @@ scagnostics use the scree in their calculations, the association based
 scagnostics only use the raw data. The \texttt{scree} object is then
 used to construct the three key structures on which the scagnostics are
 based; the convex hull, alpha hull and minimum-spanning tree (MST)
-(Figure @ref(fig:building-blocks2)).
+(Figure \ref{fig:building-blocks2}).
 
 \begin{itemize}
 \item
@@ -174,11 +177,12 @@ an explanation and a formula. They were all constructed to range
 {[}0,1{]}, and later scagnostics have maintained this scale. To give
 further understanding in how these measures work, the scagnostics
 \emph{skinny}, \emph{outlying}, and \emph{clumpy} are given an
-additional visual explanation in Figure @ref(fig:scagdrawn). We will let
+additional visual explanation in Figure \ref{fig:scagdrawn}. We will let
 \(A=\) alpha hull, \(C=\) convex hull, \(M\) = minimum spanning tree,
 and \(s=\) the scagnostic measure. Since some of the measures have a
-sample size dependence, \(w\) is a parameter used to adjust for the
-sample size to maintain consistency.
+sample size dependence, \(\omega=0.7 + \frac{0.3}{1 + \frac{n}{500}}\)
+is a parameter used to mitigate sample size bias where \(n\) is the
+number of points \citep{scagdist}.
 
 Before any of the scagnostics are calculated, outlying points are
 removed. Outliers are defined as any point whose adjacent edges in the
@@ -206,7 +210,7 @@ MST.
   variables.
 \end{itemize}
 
-\[s_{convex}=w\frac{\mbox{area}(A)}{\mbox{area}(C)}\]
+\[s_{convex}=\frac{\mbox{area}(A)}{\mbox{area}(C)}\]
 
 \begin{itemize}
 \tightlist
@@ -251,7 +255,7 @@ MST.
   interpercentile range.
 \end{itemize}
 
-\[s_{skewed} = 1-w\left(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}}\right)\]
+\[s_{skewed} = 1-\omega\left(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}}\right)\]
 
 \begin{itemize}
 \tightlist
@@ -260,7 +264,7 @@ MST.
   plane. Calculated as the 90th percentile of MST edge lengths.
 \end{itemize}
 
-\[s_{sparse}= wq_{90}\]
+\[s_{sparse}= \omega q_{90}\]
 
 \begin{itemize}
 \tightlist
@@ -338,7 +342,7 @@ where \[A_{kl}=a_{kl}-\bar{a}_{k.}-\bar{a}_{.j}-\bar{a}_{..}\]
 calculations}\label{checking-the-scagnostics-calculations}}
 
 To test the packages ability to differentiate plots, we have created a
-dataset called \emph{features} (Figure @ref(fig:features-plot)), that
+dataset called \emph{features} (Figure \ref{fig:features-plot}), that
 contains a series of interesting and unique scatter plots. These scatter
 plots each typify a certain visual feature. These include a
 deterministic relationship, discreteness in variables, or clustering,
@@ -351,7 +355,7 @@ prevalence of these various visual features.
 \end{figure}
 \end{Schunk}
 
-Figure @ref(fig:visual-table) shows scatter plots from the features data
+Figure \ref{fig:visual-table} shows scatter plots from the features data
 aligned on a 0 to 1 scale for each scagnostic. This visualisation
 displays a low, high, and moderate value for each scagnostic, and is
 useful to see how the scagnostics order data that typifies their visual
@@ -372,7 +376,7 @@ preliminary step in calculating the scagnostics. The removal of binning
 allows for a large number of arbitrarily small edges, which upon testing
 was found to be the cause of a lot of these issues. A summary of how
 binning warped each MST scagnostic is provided in Table
-@ref(tab:scagissues-tb-pdf). We wanted the package to have binning as an
+\ref{tab:scagissues-tb-pdf}. We wanted the package to have binning as an
 optional method, considering choices in binning can lead to bias as
 noted in \citet{scagdist} or unreproducible results as noted in
 \citet{robust}. Therefore the scagnostics were assessed without binning.
@@ -445,7 +449,7 @@ The issues that need to be addressed with the new striated measure are:
 To account for these two issues the striated adjusted measure considers
 all vertices (not just those with two adjacent edges), and makes the
 measure strict around the 180 and 90 degree angles. With this we can see
-the improvements on the measure in Figure @ref(fig:striated-vtable).
+the improvements on the measure in Figure \ref{fig:striated-vtable}.
 
 \begin{Schunk}
 \begin{figure}
@@ -453,7 +457,7 @@ the improvements on the measure in Figure @ref(fig:striated-vtable).
 \end{figure}
 \end{Schunk}
 
-Figure @ref(fig:striated-vtable) shows that while these two measures may
+Figure \ref{fig:striated-vtable} shows that while these two measures may
 seem similar at a glance, there are a few minor differences that make
 striated2 an improvement upon the original striated scagnostic. First of
 all, the perfect 1 value on striated goes to the \emph{line} scatter
@@ -464,7 +468,7 @@ angles that go between the vertical lines, a truly striated plot will
 never get a full 1 on this measure, striated2 fixes this. After that
 there is a large gap in both measures because none of the other scatter
 plots have a strictly discrete measure on the x or y axis. Additionally,
-while it is not visible in Figure @ref(fig:striated-vtable), striated2
+while it is not visible in Figure \ref{fig:striated-vtable}, striated2
 can identify discreteness when it appears in both axis with a small
 number of observation, an additional version of discreteness that the
 original striated struggles to identify. Both version of striated are
@@ -544,7 +548,7 @@ calculated as follows:
 \end{enumerate}
 
 With this calculation, we generate the clumpy2 measure which is compared
-to the original clumpy measure in the Figure @ref(fig:clumpy-vtable).
+to the original clumpy measure in the Figure \ref{fig:clumpy-vtable}.
 Here we can see the improvements made on the clumpy measure in both
 distribution from 0 to 1 and ordering. The measure is more spread out,
 and so values range more accurately from 0 to 1. More importantly the
@@ -595,7 +599,7 @@ More documentation of the package can be found at the web site
 
 The \texttt{cassowaryr} package comes with several data sets that load
 with the package. These are described in Table
-@ref(tab:datasets-tb-pdf).
+\ref{tab:datasets-tb-pdf}.
 
 \begin{Schunk}
 \begin{table}
@@ -633,7 +637,7 @@ they are not the intended method of calculating scagnostics as they
 perform no outlier removal, however they are still an option for users
 if they wish. In some cases, such as \texttt{sc\_clumpy\_r} for clumpy
 robust, they are the only method to calculate that scagnostic. Table
-@ref(tab:scagfuncs-tb-pdf) outlines these functions.
+\ref{tab:scagfuncs-tb-pdf} outlines these functions.
 
 \begin{Schunk}
 \begin{table}
@@ -675,7 +679,7 @@ sc\_stringy & Compute stringy scagnostic measure.\\
 The drawing functions are intended to be used to better understand the
 results of the scagnostic functions. The input is two numeric vectors
 and the output is a ggplot object that draws one of the graph based
-objects. Table @ref(tab:drawfuncs-tb-pdf) details these functions
+objects. Table \ref{tab:drawfuncs-tb-pdf} details these functions
 
 \begin{Schunk}
 \begin{table}
@@ -707,7 +711,7 @@ pairwise scatter plot. Both functions return a tibble where each column
 is a scagnostics. These are the two main functions of the package.
 
 The main arguments of the \texttt{calc\_scags()} function are shown in
-Table @ref(tab:calcfunc-tb-pdf).
+Table \ref{tab:calcfunc-tb-pdf}.
 
 \begin{Schunk}
 \begin{table}
@@ -731,19 +735,14 @@ While the \texttt{calc\_scags()} function does not take in a tibble, it
 is designed to be seamlessly integrated into the tidy data work flow.
 Currently to specify the scagnostics on long form tidy data the function
 needs to be used in conjunction with \texttt{summarise()} and
-\texttt{group\_by()}. The function computes all the scagnostics, and the
-user can choose those of interest, using \texttt{select()}. The reason
-we need to use select is that the \emph{scags} argument for
-\texttt{calc\_scags()} is not currently recognised inside
-\texttt{summarise()}. The code below generates the summary data in Table
-@ref(tab:featuresscags-pdf).
+\texttt{group\_by()}. The code below generates the summary data in Table
+\ref{tab:featuresscags-pdf}.
 
 \begin{Schunk}
 \begin{Sinput}
 features_scags <- features %>%
-  group_by(feature) %>%
-  summarise(calc_scags(x,y)) %>%
-  select(c(feature, outlying, clumpy2, monotonic))
+    group_by(feature) %>%
+    summarise(calc_scags(x,y, c("outlying", "clumpy2", "monotonic")))
 \end{Sinput}
 \end{Schunk}
 
@@ -784,24 +783,20 @@ weak & 0.05 & 0.00 & 0.41\\
 
 There are two important summarise that should be made when calculating
 the scagnostics on a data set, the top pair of variables for each
-scagnostic, and the top scagnostic for each pair of variables. The code
-for both are simple, but an example of how to calculate them on the long
-features data, alongside their output will be shown here.
-
-To calculate the top pair of variables for each scagnostic, we would use
-the code below.
+scagnostic, and the top scagnostic for each pair of variables. While the
+code required to write them is simple and easily performed by the user,
+having them as ready functions in the package helps guide users to use
+the package most effectively. The functions that perform these summaries
+are called \texttt{top\_scags()} and \texttt{top\_pairs()} respectively.
+The code below uses \texttt{top\_scags()} to find the top pair of
+variables for each scagnostic.
 
 \begin{Schunk}
 \begin{Sinput}
-features_scags %>% 
-  pivot_longer(!feature, names_to = "scag", values_to = "value") %>%
-  arrange(desc(value)) %>% 
-  group_by(scag) %>%
-  slice_head(n=1)
+top_scags(features_scags)
 \end{Sinput}
 \begin{Soutput}
 #> # A tibble: 3 x 3
-#> # Groups:   scag [3]
 #>   feature   scag      value
 #>   <chr>     <chr>     <dbl>
 #> 1 clusters  clumpy2   0.835
@@ -809,46 +804,6 @@ features_scags %>%
 #> 3 outliers2 outlying  0.591
 \end{Soutput}
 \end{Schunk}
-
-To calculate the top scagnostic for each pair of variables, we would use
-the code below.
-
-\begin{Schunk}
-\begin{Sinput}
-features_scags %>% 
-  pivot_longer(!feature, names_to = "scag", values_to = "value") %>%
-  arrange(desc(value)) %>% 
-  group_by(feature) %>%
-  slice_head(n=1)
-\end{Sinput}
-\begin{Soutput}
-#> # A tibble: 15 x 3
-#> # Groups:   feature [15]
-#>    feature    scag        value
-#>    <chr>      <chr>       <dbl>
-#>  1 barrier    monotonic 0.348  
-#>  2 clusters   clumpy2   0.835  
-#>  3 discrete   monotonic 0.00820
-#>  4 disk       clumpy2   0.405  
-#>  5 gaps       clumpy2   0.752  
-#>  6 l-shape    monotonic 0.480  
-#>  7 line       monotonic 1      
-#>  8 nonlinear1 outlying  0.272  
-#>  9 nonlinear2 monotonic 0.809  
-#> 10 outliers   monotonic 0.705  
-#> 11 outliers2  outlying  0.591  
-#> 12 positive   monotonic 0.921  
-#> 13 ring       clumpy2   0.449  
-#> 14 vlines     clumpy2   0.171  
-#> 15 weak       monotonic 0.408
-\end{Soutput}
-\end{Schunk}
-
-While the code required to write them is simple and easily performed by
-the user, having them as ready functions in the package would help guide
-users to use the package most effectively. These functions would be
-called \texttt{top\_scags()} and \texttt{top\_pairs()} when included in
-\emph{cassowaryr}.
 
 \hypertarget{tests}{%
 \subsection{Tests}\label{tests}}
@@ -862,9 +817,9 @@ issues that allowed us to make meaningful changes to the definitions of
 clumpy and striated and understand some pitfalls of the package. For
 example, several tests to check the outlying scagnostic was working
 correctly informed us of some issues in the process of outlier removal,
-which is illustrated in Figure @ref(fig:outlying-test-plot).
+which is illustrated in Figure \ref{fig:outlying-test-plot}.
 
-Figure @ref(fig:outlying-test-plot) shows the an example of a simulated
+Figure \ref{fig:outlying-test-plot} shows the an example of a simulated
 test set, combined with the associated MST. When creating this test data
 set, we assumed the MST would connect via the dashed red line, but
 instead the MST connected via the long black line between points 3 and
@@ -909,7 +864,7 @@ possible scatterplots, significantly more than a single person could
 view and analyse themselves and so we use scagnostics to identify which
 pairwise plots might be interesting to examine.
 
-Figure @ref(fig:AFLW-scatters-static) displays five scatter plots (Plots
+Figure \ref{fig:AFLW-scatters-static} displays five scatter plots (Plots
 1 to 5 in the figure) that were identified as interesting due to having
 a particularly high or low value on a scagnostic, or some unusual
 combination of two or more scagnostics. In addition to these five, there
@@ -940,7 +895,7 @@ identified, but for the sake of space, we are only going to show the
 scatter plots of the SPLOM that led to the selection of Plots 1, 2, and
 5.
 
-Figure @ref(fig:threeplot-static) displays Plot 1, Plot2 and Plot 5
+Figure \ref{fig:threeplot-static} displays Plot 1, Plot2 and Plot 5
 beneath the scatter plot of the scagnostics SPLOM that was used to
 identify it as interesting. Plot 1 was identified as interesting as it
 returned high values on both outlying and skewed. Intuitively, this
@@ -1019,14 +974,14 @@ indicate the presence of non-linear or clustered relationship.
 \end{figure}
 \end{Schunk}
 
-Figure @ref(fig:bbh-scags-static) shows scatter plots of the relevant
+Figure \ref{fig:bbh-scags-static} shows scatter plots of the relevant
 scagnostics measures; outlying, skinny, splines, dcor, clumpy, and
 clumpy2. On the left plot we see three points with very low values of
 the convex measure and high values of skinny. This combination of
 variables indicates some narrow shape and turns out to correspond to all
 the possible combinations containing the variables time, ra and dec. The
 corresponding scatterplots are shown in the upper row of Figure
-@ref(fig:blackholes). This pattern arises because the location of an
+\ref{fig:blackholes}. This pattern arises because the location of an
 event observed from gravitational waves can only be localized when using
 a network of three detectors (as described in \citet{gwtriang}), and
 observations with one or two detectors will result in a degeneracy
@@ -1036,27 +991,27 @@ broken ring in this three dimensional space, thus inducing both
 non-linear dependence and clustering in the posterior sample.
 
 These three variables also stand out in the middle plot of Figure
-@ref(fig:bbh-scags-static), where the two plots involving ra that have a
+\ref{fig:bbh-scags-static}, where the two plots involving ra that have a
 non-linear but functional relation have a somewhat higher values in the
 splines measure compared to dcor. On the other hand dec vs time does not
 exhibit a functional relation, and consequently gets a higher dcor score
 compared to splines (with both measures still taking large values). This
 also happens for two other combinations: m1 vs m2 and chi\_p vs
 chi\_tot, which are shown in the bottom row (left and middle) of Figure
-@ref(fig:blackholes). We see that both these combinations show noisy
+\ref{fig:blackholes}. We see that both these combinations show noisy
 linear relations.
 
 Another interesting aspect of this dataset is that there are several
 combinations that lead to visible separations between groups of points.
 This makes it an ideal test case for our new implementation of clumpy2.
-The right plot in Figure @ref(fig:bbh-scags-static) shows clumpy vs
+The right plot in Figure \ref{fig:bbh-scags-static} shows clumpy vs
 clumpy2, and reveals large differences between the two measures. In
 particular there are many combinations without visible clustering, that
 still score high on clumpy, but where clumpy2 is zero. On the other hand
 we can see that there are several combinations that do lead to visible
 separation between groups that stand out in terms of clumpy2, but not
 the original clumpy. One example is time vs alpha, shown in the bottom
-right plot of Figure @ref(fig:blackholes).
+right plot of Figure \ref{fig:blackholes}.
 
 \begin{Schunk}
 \begin{figure}
@@ -1099,10 +1054,10 @@ time series features \citep[chapter 4 of][]{fpp} using the
 \texttt{feasts} R package \citep{feasts}.
 
 To keep the illustration simple, a small set of seven features is
-examined. Table @ref(tab:scagsmacmic-pdf) tabulates pairs of features
+examined. Table \ref{tab:scagsmacmic-pdf} tabulates pairs of features
 that have the biggest difference between groups across a range of
 scagnostics. Plotting a handful of these in (Figure
-@ref(fig:timeseries)), we can see the differences in shape that the
+\ref{fig:timeseries}), we can see the differences in shape that the
 scagnostics have identified. For example, the scagnostic \emph{skewed}
 selects the pair of features, curvature and trend strength, and reveals
 a shape difference in these features between macroeconomic and
@@ -1110,7 +1065,7 @@ microeconomic time series (middle plot). Macroeconomic series tend to
 have moderate curvature and varied trend, while microeconomic series
 tend to have strong trends and varied curvature. These feature
 differences that are identified in the scagnostic can be seen in the
-time series themselves in Figure @ref(fig:tsplots). We can see from this
+time series themselves in Figure \ref{fig:tsplots}. We can see from this
 example, and the other comparisons in the plot, that the scagnostics
 have identified a differences in shape that would not have been apparent
 from only examining mean differences between groups. Other shape
@@ -1188,7 +1143,7 @@ descriptions are left to the appendix A3. The scagnostics will be
 calculated on this pairwise complete data, allowing for a few sporadic
 missings.
 
-Figure @ref(fig:wbistatic) (left plot) shows a summary of the top
+Figure \ref{fig:wbistatic} (left plot) shows a summary of the top
 scagnostic value for each pair of variables, that is, only the highest
 scagnostic value for each pair of variables is saved. This is displayed
 as a vertically-oriented side-by-side dotplot. For the WBI data, the
@@ -1204,7 +1159,7 @@ scagnostic, and to some extent also skewed and stringy), and no
 relationship (given bu the high values on convex). Scagnostics might be
 useful for obtaining alternative descriptive summaries of data with many
 variables. We can visualise some individual scatter plots to check this
-shape summary. The middle plot of Figure @ref(fig:wbistatic) show the
+shape summary. The middle plot of Figure \ref{fig:wbistatic} show the
 pair of variables where clumpy2 has the highest value, a plot that does
 not stand out as ``clumpy''. The right plot in the figure is one of many
 in which convex has the highest value (a plot with no relationship).
@@ -1230,7 +1185,7 @@ use of the \emph{cassowaryr} package, and how to use scagnostics to find
 unique scatter plots. In this example, we also showed that looking at
 specific pairwise scatter plots can give us valuable information about a
 data set by interpreting the \emph{hitouts vs bounces} scatter plot in
-Figure @ref(fig:threeplot-static). Using simulated data of a black hole
+Figure \ref{fig:threeplot-static}. Using simulated data of a black hole
 merger event, we then displayed the packages ability to identify
 pairwise non-linear relationships with convex, skinny, splines, and
 dcor, as well as the improvement clumpy2 made in identifying clustering.
@@ -1249,7 +1204,7 @@ distribution may be different. In the WBI example, describing the
 overall shape of the data requires the assumption that the scagnostics
 are all uniformly distributed from 0 to 1. However, as some of our
 results suggest, and also as seen in the visual table of the features
-scatter plots (Figure @ref(fig:visual-table)), this may not be the case.
+scatter plots (Figure \ref{fig:visual-table}), this may not be the case.
 It would be a substantial task to identify the distributions of the
 scagnostics, and make adjustments to transform to uniform distributions.
 The scagnostics would need to be studied using large volumes of data to
