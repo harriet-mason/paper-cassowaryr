@@ -119,7 +119,7 @@ Before any of the scagnostics are calculated, outlying points are removed. Outli
 knitr::include_graphics("figures/drawnmeasures.png")
 ```
 
-## Graph-based scagnostics
+## Graph-based scagnostics 
 
 - **Convex:** Measure of how convex the shape of the data is. Computed as the ratio between the area of the alpha hull ($A$) and convex hull ($C$). Unlike the other scagnostic measures, a high value on convex does not correlate to an interesting scatter plot, rather it usually indicates a lack of relationship between the two variables.  
 
