@@ -667,7 +667,9 @@ aflw_num <- aflw %>%
 
 aflw_num <- aggregate(aflw_num[,5:37], 
   list(aflw$player.player.player.surname),
-  mean)
+  mean) 
+aflw_num <- aflw_num %>%
+  ungroup()
 
 aflw_scags <- calc_scags_wide(aflw_num[,2:34])
 
