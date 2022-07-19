@@ -83,7 +83,7 @@ The paper is organised as follows. The next section introduces the scagnostics, 
 
 In order to capture the visual structure of the data, graph theory is used to calculate most of the scagnostics. The pairwise scatter plot is re-constructed as a graph with the data points as vertices and the edges are calculated using Delaunay triangulation. In the package, this calculation is done using the alphahull package [@alphahull] to construct an object called a `scree`. All the graph based scagnostics use the scree in their calculations, the association based scagnostics only use the raw data. The `scree` object is then used to construct the three key structures on which the scagnostics are based; the convex hull, alpha hull and minimum-spanning tree (MST) (Figure \@ref(fig:building-blocks2)).
 
-- **Convex hull:** The outside vertices of the graph, connected to make a convex polygon that contains all points. It is constructed using the tripack package [@tripack].
+- **Convex hull:** The outside vertices of the graph, connected to make a convex polygon that contains all points. It is constructed using the interp package [@interp].
 
 - **Alpha hull:** A collection of boundaries that contain all the points in the graph. Unlike the convex hull, it does not need to be convex. It is calculated using the alpha hull package [@alphahull].
 
