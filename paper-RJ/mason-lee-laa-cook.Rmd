@@ -111,8 +111,8 @@ d3 <- draw_mst(nl$x, nl$y) +
 d1 + d2 + d3
 ```
   
-The nine scagnostics defined by @scagdist are detailed below with an explanation and a formula. They were all constructed to range [0,1], and later scagnostics have maintained this scale. To give further understanding in how these measures work, the scagnostics *skinny*, *outlying*, and *clumpy* are given an additional visual explanation in Figure \@ref(fig:scagdrawn). We will let $A=$ alpha hull, $C=$ convex hull, $M$ = minimum spanning tree, and $s=$ the scagnostic measure. Since some of the measures have a sample size dependence, $\omega=0.7 + \frac{0.3}{1 + \frac{n}{500}}$ is a parameter used to mitigate sample size bias where $n$ is the number of points [@scagdist].  
-
+The nine scagnostics defined by @scagdist are detailed below with an explanation and a formula. They were all constructed to range [0,1], and later scagnostics have maintained this scale. To give further understanding in how these measures work, the scagnostics *skinny*, *outlying*, and *clumpy* are given an additional visual explanation in Figure \@ref(fig:scagdrawn). We will let $A=$ alpha hull, $C=$ convex hull, $M$ = minimum spanning tree, and $s=$ the scagnostic measure.
+  
 Before any of the scagnostics are calculated, outlying points are removed. Outliers are defined as any point whose adjacent edges in the MST have edges larger $q_{75} + 1.5(q_{75} - q_{25})$, where $q_i$ refers to the i$^{th}$ percentile of the sorted edge lengths of the MST.
 
 ```{r scagdrawn, out.width = "100%", fig.cap = " An visualisation of the calculation used to compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics. These three measure definitions are quite distinct, and each illustrates a unique method of capturing a visual feature in a scatter plot."}
@@ -142,12 +142,12 @@ $$s_{stringy} = \frac{|V^{(2)}|}{|V|-|V^{(1)}|}$$
 
 - **Skewed:** A measure of skewness in the edge lengths of the MST (not in the distribution of the data). It is calculated as the ratio between the 90th to 50th percentile range and the central 80th interpercentile range.  
 
-$$s_{skewed} = 1-\omega\left(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}}\right)$$  
+$$s_{skewed} = \frac{q_{90}-{q_{50}}}{q_{90}-q_{10}}$$  
 
 
 - **Sparse:**  Identifies if the data is sporadically located on the plane. Calculated as the 90th percentile of MST edge lengths.
 
-$$s_{sparse}= \omega q_{90}$$
+$$s_{sparse}= q_{90}$$
 
 
 - **Clumpy:** This measure is used to detect clustering and is calculated through an iterative process. First an edge J is selected and removed from the MST. From the two spanning trees that are created by this break, we select the largest edge from the smaller tree ($K$). The length of this edge ($K$) is compared to the removed edge ($J$) giving a clumpy measure for this edge. This process is repeated for every edge in the MST and the final clumpy measure is the maximum of this value over all edges.  

@@ -179,10 +179,7 @@ further understanding in how these measures work, the scagnostics
 \emph{skinny}, \emph{outlying}, and \emph{clumpy} are given an
 additional visual explanation in Figure \ref{fig:scagdrawn}. We will let
 \(A=\) alpha hull, \(C=\) convex hull, \(M\) = minimum spanning tree,
-and \(s=\) the scagnostic measure. Since some of the measures have a
-sample size dependence, \(\omega=0.7 + \frac{0.3}{1 + \frac{n}{500}}\)
-is a parameter used to mitigate sample size bias where \(n\) is the
-number of points \citep{scagdist}.
+and \(s=\) the scagnostic measure.
 
 Before any of the scagnostics are calculated, outlying points are
 removed. Outliers are defined as any point whose adjacent edges in the
@@ -255,7 +252,7 @@ MST.
   interpercentile range.
 \end{itemize}
 
-\[s_{skewed} = 1-\omega\left(1-\frac{q_{90}-{q_{50}}}{q_{90}-q_{10}}\right)\]
+\[s_{skewed} = \frac{q_{90}-{q_{50}}}{q_{90}-q_{10}}\]
 
 \begin{itemize}
 \tightlist
@@ -264,7 +261,7 @@ MST.
   plane. Calculated as the 90th percentile of MST edge lengths.
 \end{itemize}
 
-\[s_{sparse}= \omega q_{90}\]
+\[s_{sparse}= q_{90}\]
 
 \begin{itemize}
 \tightlist
