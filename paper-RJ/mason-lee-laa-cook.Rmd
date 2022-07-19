@@ -92,7 +92,7 @@ In order to capture the visual structure of the data, graph theory is used to ca
 ```{r building-blocks2, width = 15, height = 5, out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics: (a) convex hull, (b) alpha hull and (c) minimal spanning tree. The convex hull is a convex shell around all the data points. The alpha hull contains all the points but allows concavities better capturing some shapes, but it needs tuning. The minimal spanning tree connects all points once, and has a single chain connecting central points.", layout = "l-body"}
 library(alphahull)
 data("features")
-nl <- features %>% filter(feature == "nonlinear2")
+nl <- features %>% filter(feature == "ring")
 d1 <- draw_convexhull(nl$x, nl$y, clr="#FFD700", fill=TRUE) +
   ggtitle("a. Convex hull") +
   xlab("") + ylab("") +
