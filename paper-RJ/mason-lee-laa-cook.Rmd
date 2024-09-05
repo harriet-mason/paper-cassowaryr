@@ -1112,7 +1112,7 @@ The World Bank delivers a lot of development indicators (WBI) [@WBI], for many c
 
 The downloaded data uses indicators from 2018 and after some pre-processing to remove variables or countries which have mostly missing values, there are 20 indicators (variables) and 79 countries in our data set. The variable names are somewhat cryptic, and their descriptions are left to the appendix A3. The scagnostics will be calculated on this pairwise complete data, allowing for a few sporadic missings.
 
-Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:wbistatic)','\\@ref(fig:wbiinteractive)'))` (left plot) shows a summary of the top scagnostic value for each pair of variables, that is, only the highest scagnostic value for each pair of variables is saved. This is displayed as a vertically-oriented side-by-side dotplot. For the WBI data, the pairs of variables are producing mostly high values on stringy, skewed, convex and outlying, while the scagnostics clumpy2, striated2, and skinny are only the highest for a single pair of variables. In addition, missing from the plot but not the calculations is that splines was not the highest for any pair of variables in the data set.
+Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:wbistatic)','\\@ref(fig:wbiinteractive)'))` (left plot) shows a summary of the top scagnostic value for each pair of variables, that is, only the highest scagnostic value for each pair of variables is saved. This is displayed as a vertically-oriented side-by-side dotplot. For the WBI data, the pairs of variables are producing mostly high values on stringy, skewed, convex outlying, and clumpy2, while the scagnostics striated2, and skinny are only the highest for a single pair of variables. In addition, missing from the plot but not the calculations is that splines was not the highest for any pair of variables in the data set.
 <!-- and striped were not highest for any pair of variables in the data set. -->
 
 This tells us that in the WBI data, the relationships between variables is dominated by outliers (as noted by the high values on the outlying scagnostic, and to some extent also skewed and stringy), and no relationship (given bu the high values on convex). Scagnostics might be useful for obtaining alternative descriptive summaries of data with many variables. We can visualise some individual scatter plots to check this shape summary. The middle plot of Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:wbistatic)','\\@ref(fig:wbiinteractive)'))` show the pair of variables where clumpy2 has the highest value, a plot that does not stand out as "clumpy". The right plot in the figure is one of many in which convex has the highest value (a plot with no relationship). This helps us confirm what the shape summary tells us that the data, that most variable pairs have no relationships or clustering.
@@ -1167,13 +1167,15 @@ wbi_scags <- calc_scags_wide(wbi_wide[,-1],
     scags = c("outlying", "stringy",
               "striated2", "clumpy2", "skewed",
               "convex", "skinny",
-              "splines", "striped"))
+              "splines", "striped"), out.rm=FALSE)
 save(wbi_scags, file="data/wbi_scags.rda")
 ```
 
 ```{r wbi}
 load("data/wbi_wide.rda")
 load("data/wbi_scags.rda")
+
+
 wbi_scags_long <- wbi_scags %>% 
   pivot_longer(!c(Var1, Var2), names_to = "scag", values_to = "value") %>%
   arrange(desc(value))
@@ -1201,9 +1203,9 @@ w3a <- ggplot(wbi_wide,
   theme_classic() +
   theme(axis.text = element_blank())
 
-w3b <- ggplot(wbi_wide, 
-       aes_string(x=as.character(wbi_scags_top$Var1[2]),
-                  y=as.character(wbi_scags_top$Var2[2]))) +
+w3b <- ggplot(filter(wbi_wide, AG.LND.AGRI.ZS<10), #remove outlier so it is the scatter plot it used for calc
+              aes_string(x=as.character(wbi_scags_top$Var1[2]),
+                         y=as.character(wbi_scags_top$Var2[2]))) +
   geom_point(aes(label = `Country Code`)) +
   #ggtitle(wbi_scags_top$scag[2]) +
   theme_classic() +
