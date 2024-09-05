@@ -1217,21 +1217,21 @@ wbi_scags_topvars <- wbi_scags_long %>%
 
 pair1 <- wbi_scags_topvars %>% filter(scag == "clumpy2")
 
-w4 <- ggplot(wbi_wide, 
-         aes_string(x=as.character(pair1$Var1),
-                    y=as.character(pair1$Var2))) +
-  geom_point(aes(label = `Country Code`)) +
-  theme(aspect.ratio=1) +
-  ggtitle(pair1$scag)
+#w4 <- ggplot(wbi_wide, 
+#         aes_string(x=as.character(pair1$Var1),
+#                    y=as.character(pair1$Var2))) +
+#  geom_point(aes(label = `Country Code`)) +
+#  theme(aspect.ratio=1) +
+#  ggtitle(pair1$scag)
 
 pair2 <- wbi_scags_topvars %>% filter(scag == "striated2")
 
-w5 <- wbi_wide  %>%
-  ggplot(aes_string(x=as.character(pair2$Var1),
-                    y=as.character(pair2$Var2))) +
-  geom_point(aes(label = `Country Code`)) +
-  theme(aspect.ratio=1) +
-  ggtitle(pair2$scag)
+#w5 <- wbi_wide  %>%
+#  ggplot(aes_string(x=as.character(pair2$Var1),
+#                    y=as.character(pair2$Var2))) +
+#  geom_point(aes(label = `Country Code`)) +
+#  theme(aspect.ratio=1) +
+#  ggtitle(pair2$scag)
 
 wbi_scags_topvars <- wbi_scags_topvars %>%
   mutate(scag = factor(scag, 
