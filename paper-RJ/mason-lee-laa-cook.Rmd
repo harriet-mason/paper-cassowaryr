@@ -628,21 +628,25 @@ top_scags(features_scags)
 ## Tests
 All the scagnostic functions have tests written and implemented using the `testthat` (@testthat) package. They have all been compared to calculations completed by hand to ensure the difference in results from previous literature is due to pre-processing steps such as binning, and not mistakes in the code. These tests illuminated the issues that allowed us to make meaningful changes to the definitions of clumpy and striated and understand some pitfalls of the package. For example, several tests to check the outlying scagnostic was working correctly informed us of some issues in the process of outlier removal, which is illustrated in Figure \@ref(fig:outlying-test-plot). 
 
-Figure \@ref(fig:outlying-test-plot) shows the an example of a simulated test set, combined with the associated MST. When creating this test data set, we assumed the MST would connect via the dashed red line, but instead the MST connected via the long black line between points 3 and 4. The difference between these choices is essentially random, they are the exact same length, but it has significant implications for the value returned by the outlying scagnostic. This test was designed to check the outlier removal process for internal outliers.  If the red dashed line was used to construct the MST, point 1 would have been identified as an internal outlier, which means both the red dashed line, and the line connecting points 1 and 2 would be included in the outlying scagnostic calculation. In the actual calculation it was only the edge between points 1 and 2, resulting in a significantly smaller value on the the outlying scagnostic. This shows that even the scagnostics that work reliably well and do not need significant adjustment due to incorrect orderings are still susceptible to arbitrarily large changes resulting from seemingly small changes in the visual structure of the scatter plot. 
+Figure \@ref(fig:outlying-test-plot) shows the an example of a simulated test set, combined with the associated MST. When creating this test data set, we assumed the MST would connect via the dashed red line between points 1 and 2, but instead the MST connected via the solid green line between points 4 and 5. The difference between these choices is essentially random, both edges are the exact same length, but it has significant implications for the value returned by the outlying scagnostic.  When the MST contains the red dashed line between points 1 and 2, point 2 is identified as an internal outlier. This means both the red dashed edge, and the edge between points 1 and 2 are included in the outlying scagnostic calculation which evalutates to be $\frac{13}{29}=0.45$. When we use the actual MST (with the green edge) then point is still identified as an outlier, but the edge between points 2 and 3 is the only edge that goes into the outlying calculation. This results in a significantly smaller value on the the outlying scagnostic, which evaluates to be $\frac{4}{29}=0.14$. This shows that even scagnostics that work well without binning are susceptible to surprisingly large changes due to arbitrary decisions made by the algorithms that construct the graph objects.
 
 ```{r outlying-test-plot, width = 100, height = 50, out.width = "100%", fig.cap = "Plot of simulated data used for testing the outlying scagnostic. The left plot shows the raw data, while the right plot presents the MST generated on that data. When we created the test we expected the red dashed line to be in the MST, but instead the black line that connects points 3 and 4 is. If the red edge is in the MST rather than the black edge, the outlying value on this plot is much higher."}
 x1<- c(0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1, 10, 10, 10)
-y1 <- c(0,0,1,2,2,3,4,4,5,6,6,7,8,8,9,10, 10, 7, 5)
+y1 <- c(0,0,1,2,2,3,4,4,5,6,6,7,8,8,9,10, 10, 6, 5)
+draw_mst(x1, y1, out.rm = FALSE)
+sc_outlying(x1, y1)
 
 t1 <- ggplot(tibble(x1, y1), aes(x1, y1)) + geom_point() +
-  geom_text(data=tibble(x1= c(10,10,10,1), y1 = c(10, 7, 5,5), lab=c(1,2,3,4)), 
+  geom_text(data=tibble(x1= c(1,10,1,10,10), y1 = c(10, 10, 6,5,6), lab=c(1,2,4,5,3)), 
             aes(x=x1, y=y1, label=lab), 
             colour="#3288bd", nudge_x=0.3, nudge_y=0.3) +
   theme_classic() + ggtitle("Simlulated Data for Outlying Test")
-t2 <- draw_mst(x1, y1) + theme_classic() + 
+t2 <- draw_mst(x1, y1, out.rm = FALSE) + theme_classic() + 
   ggtitle("MST of Simulated Data") +
-  geom_segment(aes(x=0.1, y=1, xend=1, yend=1, colour="#fb8072"), linetype=2)+
-  geom_text(data=tibble(x1= c(1,1,1,0.1), y1 = c(1, 0.7, 0.5,0.5), lab=c(1,2,3,4)), 
+  geom_segment(aes(x=0.1, y=0.6, xend=1, yend=0.6), colour="#00a800")+
+  geom_segment(aes(x=0.1, y=1, xend=1, yend=1), colour="#fb8072", linetype=2)+
+  #geom_segment(aes(x=1, y=1, xend=1, yend=0.7), colour="#FFD700")+
+  geom_text(data=tibble(x1= c(0.1,1,0.1,1,1), y1 = c(1, 1, 0.6,0.5,0.6), lab=c(1,2,4,5,3)), 
             aes(x=x1, y=y1, label=lab), 
             colour="#3288bd", nudge_x=0.03, nudge_y=0.03) +
   theme(legend.position="none", aspect.ratio=1)
