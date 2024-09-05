@@ -10,8 +10,8 @@ author:
     address:
     - Department of Econometrics and Business Statistics
     - Melbourne, Australia
-    url: https://www.britannica.com/animal/quokka
-    orcid: 0000-1721-1511-1101
+    url: https://harrietmason.netlify.app/
+    orcid: 0009-0007-4568-8215
     email:  hmas0003@student.monash.edu
   - name: Stuart Lee
     url: https://stuartlee.org
