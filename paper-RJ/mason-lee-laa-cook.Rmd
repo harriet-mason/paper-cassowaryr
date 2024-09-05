@@ -674,9 +674,9 @@ aflw_num <- aflw_num %>%
 aflw_scags <- calc_scags_wide(aflw_num[,2:34])
 
 #AFLW DATA SAVE
-save(aflw, file="paper-RJ/data/aflw.rda")
-save(aflw_num, file="paper-RJ/data/aflw_num.rda")
-save(aflw_scags, file="paper-RJ/data/aflw_scags.rda")
+save(aflw, file="data/aflw.rda")
+save(aflw_num, file="data/aflw_num.rda")
+save(aflw_scags, file="data/aflw_scags.rda")
 ```
 
 ```{r, AFLW Scatter Plots , echo=FALSE}
@@ -820,8 +820,8 @@ set.seed(26)
 bbh <- read_csv("data/bbh_posterior_samples.csv") %>%
   sample_n(200)
 bbh_scags <- calc_scags_wide(bbh)
-save(bbh_scags, file="paper-RJ/data/bbh_scags.rda")
-save(bbh, file="paper-RJ/data/bbh_samples.rda")
+save(bbh_scags, file="data/bbh_scags.rda")
+save(bbh, file="data/bbh_samples.rda")
 ```
 
 
