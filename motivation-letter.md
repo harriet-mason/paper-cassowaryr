@@ -10,32 +10,40 @@ Editor
 The R Journal  
 \bigskip
 
-Dear Professor Cook,
+Dear Dr Mark van der Loo,
 \bigskip
 
-Please consider our article titled "ToOoOlTiPs: An R Package for Customizable Tooltips in Interactive Graphics" for publication in the R Journal.
+Please consider our article titled "Teaching Computers to See Patterns in Scatterplots with Scagnostics" for publication in the R Journal.
 
-The manuscript introduces the new package called `ToOoOlTiPs` which provides examples on how to use interactive graphics in journal articles, and general tips for making an interesting contribution.
+The manuscript introduces the new package called `cassowaryr` which provides a user-friendly method to apply scagnostics to data in R and examples on how one can use these scagnostics to explore data. Scagnostics are a metric used to describe the shapes in scatter plots, and can be a useful dimension reduction technique. This package calculates the scagnostics in R and without binning, which makes the package more accessible compared to existing scagnostics packages that are simply wrappers for C++ code.
 
-We believe the readers of the R Journal will find this article helpful for their work because it provides generally useful instructions that will work for many purposes. 
+We believe the readers of the R Journal will find this article helpful because scanogstics are commonly used in data analysis, and are required for other popular packages such as `tourr` and `ggobi`. This paper provides details on an actively maintained package and discusses potential pitfalls that may arrise in their use.
 
 \bigskip
 \bigskip
 
 Regards,
     
+Harriet Mason  
+Department of Econometrics and Business Statistics  
+University of Monash  
+Clayton, VIC, Australia  
+harriet.mason1@monash.edu  
     
-    
-    
-Quietest Quokka  
-Department of Letter Q  
-University of Little Mates  
-Somewhere, Australia  
-qquo@ulm.edu
+Dianne Cook
+Department of Econometrics and Business Statistics  
+University of Monash  
+Clayton, VIC, Australia  
+dicook@monash.edu  
+
+Ursula Laa
+Institute of Statistics
+University of Natural Resources and Life Sciences Vienna. 
+Vienna, Austria
+ursula.laa@boku.ac.at  
+
+Stuart Lee  
+stuart.andrew.lee@gmail.com  
 
 \bigskip
 
-NOTES: Modify this file with information about your article. 
-
-1. It may be invisible to you, so be aware that after each address line there are two spaces, this makes the line break correctly.
-2. It is also reasonable to submit an .md format of your motivating letter instead of a pdf. 
