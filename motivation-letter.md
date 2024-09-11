@@ -15,9 +15,9 @@ Dear Dr Mark van der Loo,
 
 Please consider our article titled "Teaching Computers to See Patterns in Scatterplots with Scagnostics" for publication in the R Journal.
 
-The manuscript introduces the new package called `cassowaryr` which provides a user-friendly method to apply scagnostics to data in R and examples on how one can use these scagnostics to explore data. Scagnostics are a metric used to describe the shapes in scatter plots, and can be a useful dimension reduction technique. This package calculates the scagnostics in R and without binning, which makes the package more accessible compared to existing scagnostics packages that are simply wrappers for C++ code.
+The manuscript introduces the new package called `cassowaryr` which provides a user-friendly method to calculate scagnostics in R and examples that illustrate howthese scagnostics can be used to explore data. Scagnostics are a set of metrics that describe the shapes in scatter plots, and can be useful as a dimension reduction technique. This package calculates the scagnostics in R, which makes the package more accessible compared to previous scagnostics packages that are simply wrappers for C++ code.
 
-We believe the readers of the R Journal will find this article helpful because scanogstics are commonly used in data analysis, and are required for other popular packages such as `tourr` and `ggobi`. This paper provides details on an actively maintained package and discusses potential pitfalls that may arrise in their use.
+We believe the readers of the R Journal will find this article helpful because scanogstics are commonly used in data analysis, and are required for other popular packages such as `tourr` and `ggobi`. This paper provides details on an actively maintained scagnostics package and highlights potential pitfalls that should be avoided when using them. 
 
 \bigskip
 \bigskip
