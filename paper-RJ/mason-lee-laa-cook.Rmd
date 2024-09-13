@@ -37,7 +37,11 @@ author:
 type: package
 creative_commons: CC BY
 output: 
-  rjtools::rjournal_web_article
+  rjtools::rjournal_pdf_article:
+    toc: no
+  rjtools::rjournal_web_article:
+    self_contained: yes
+    toc: no
 bibliography: mason-lee-laa-cook.bib
 editor_options: 
   chunk_output_type: inline
@@ -962,8 +966,8 @@ save(feats_micro, file = "data/feats_micro.rda")
 ```
 
 ```{r}
-load(here::here("data/feats_macro.rda"))
-load(here::here("data/feats_micro.rda"))
+load("data/feats_macro.rda")
+load("data/feats_micro.rda")
 
 
 scags_macro <- calc_scags_wide(feats_macro[,c(1,3,4,7,9,13,41)], 
