@@ -96,7 +96,7 @@ In order to capture the visual structure of the data, graph theory is used to ca
 
 - **MST:** The minimum spanning tree (MST) is the shortest distance of branches that can be used to connect all the points. It is calculated from using the igraph package [@igraph].  
 
-```{r building-blocks2, width = 15, height = 5, out.width = "100%", fig.cap = "The building blocks for graph-based scagnostics: (a) convex hull, (b) alpha hull and (c) minimal spanning tree. The convex hull is a convex shell around all the data points. The alpha hull contains all the points but allows concavities better capturing some shapes, but it needs tuning. The minimal spanning tree connects all points once, and has a single chain connecting central points.", layout = "l-body"}
+```{r building-blocks2, width = 15, height = 5, out.width = "100%", fig.alt = "A hand drawn illustration of a scatter plot with its respective convex hull, alpha hull, and minimum spanning tree.", fig.cap = "The building blocks for graph-based scagnostics: (a) convex hull, (b) alpha hull and (c) minimal spanning tree. The convex hull is a convex shell around all the data points. The alpha hull contains all the points but allows concavities better capturing some shapes, but it needs tuning. The minimal spanning tree connects all points once, and has a single chain connecting central points.", layout = "l-body"}
 library(alphahull)
 data("features")
 nl <- features %>% filter(feature == "ring")
@@ -122,7 +122,7 @@ The nine scagnostics defined by @scagdist are detailed below with an explanation
   
 Before any of the scagnostics are calculated, outlying points are removed. Outliers are defined as any point whose adjacent edges in the MST have edges larger $q_{75} + 1.5(q_{75} - q_{25})$, where $q_i$ refers to the i$^{th}$ percentile of the sorted edge lengths of the MST.
 
-```{r scagdrawn, out.width = "100%", fig.cap = " An visualisation of the calculation used to compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics. These three measure definitions are quite distinct, and each illustrates a unique method of capturing a visual feature in a scatter plot."}
+```{r scagdrawn, out.width = "100%", fig.alt = "A hand drawn illustration showing the algorithm of the skinny, outlying and clumpy calculations. In each drawing the edges used in the calculation are highlighted in both the mathematical formula and in the illustration of the scatter plot.", fig.cap = " An visualisation of the calculation used to compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics. These three measure definitions are quite distinct, and each illustrates a unique method of capturing a visual feature in a scatter plot."}
 knitr::include_graphics("figures/drawnmeasures.png")
 ```
 
@@ -196,7 +196,7 @@ $$B_{kl}=b_{kl}-\bar{b}_{k.}-\bar{b}_{.j}-\bar{b}_{..}$$
 
 To test the packages ability to differentiate plots, we have created a dataset called *features* (Figure \@ref(fig:features-plot)), that contains a series of interesting and unique scatter plots. These scatter plots each typify a certain visual feature. These include a deterministic relationship, discreteness in variables, or clustering, and scagnostics are used to order these scatter plots based on the prevalence of these various visual features.
 
-```{r features-plot, width = 150, height = 150, out.width = "100%", fig.cap = "The scatter plots of the features dataset. These scatter plots were designed to each represent a distinct visual feature, for example the ring scatter plot is a hollow version of disk. The scagnostics need to be able to differentiate these plots."}
+```{r features-plot, width = 150, height = 150, out.width = "100%", fig.alt = "Fifteen scatter plots of the features data where each scatter plot has a distinct visual shape.", fig.cap = "The scatter plots of the features dataset. These scatter plots were designed to each represent a distinct visual feature, for example the ring scatter plot is a hollow version of disk. The scagnostics need to be able to differentiate these plots."}
 mypal <- c("#b2182b", "#d53e4f","#FF4E50", "#FC913A", "#fdae61",
            "#F9D423", "#fee08b" , "#abdda4" , "#a6d96a" , "#66c2a5" ,
            "#66bd63","#3B8183", "#3288bd", "#74add1",  "#abd9e9")
@@ -266,7 +266,7 @@ for (i in seq(length(plots))){
 
 ```
 
-```{r visual-table, width = 150, height = 200, out.width = "100%", fig.cap = "A visual table that displays a selection of scagnostics computed on the features data. The rows correspond to different scagnostics and the horizontal axis is the calculated value on a range of 0-1. Thumbnail plots of variable pairs are placed at their scagnostic value, and indicate the type of structure that would produce high or low or medium values. Some scagnostics, e.g. clumpy, need adjustment as they do not correctly order the scagnostics, or range from 0 to 1. Other measures, such as splines work without any changes to their definition.", layout = "l-body-outset"}
+```{r visual-table, width = 150, height = 200, out.width = "100%", fig.alt = "A visual table of the scagnostic values of each of the feature scatter plots where each scagnostic is identifying different features as important.", fig.cap = "A visual table that displays a selection of scagnostics computed on the features data. The rows correspond to different scagnostics and the horizontal axis is the calculated value on a range of 0-1. Thumbnail plots of variable pairs are placed at their scagnostic value, and indicate the type of structure that would produce high or low or medium values. Some scagnostics, e.g. clumpy, need adjustment as they do not correctly order the scagnostics, or range from 0 to 1. Other measures, such as splines work without any changes to their definition.", layout = "l-body-outset"}
 
 # Calculate Scagnostics
 features_scagnostics_long <- features %>%
@@ -369,7 +369,7 @@ The issues that need to be addressed with the new striated measure are:
   
 To account for these two issues the striated adjusted measure considers all vertices (not just those with two adjacent edges), and makes the measure strict around the 180 and 90 degree angles. With this we can see the improvements on the measure in Figure \@ref(fig:striated-vtable).
 
-```{r striated-vtable, width = 150, height = 50, out.width = "100%", fig.cap = "Using a visual table to compare the striated and it's adjusted counterpart, striated2 allows us to visualise the difference in the measures. While the functions may seem similar at a glance, striated2 has a stricter version of discreteness, hence why line and vlines have the same result and plots with no discreteness score a 0."}
+```{r striated-vtable, width = 150, height = 50, out.width = "100%", fig.alt = "A visual table of the feature scatter plots on the striated and striated 2 measures where striated 2, unlike striated, gives a value of 1 to a plots that is continuous in one axis and discrete on the other.", fig.cap = "Using a visual table to compare the striated and it's adjusted counterpart, striated2 allows us to visualise the difference in the measures. While the functions may seem similar at a glance, striated2 has a stricter version of discreteness, hence why line and vlines have the same result and plots with no discreteness score a 0."}
 
 # Make Visual Table
 # Data
@@ -430,7 +430,7 @@ In order to fix the issues in the clumpy measure described above we designed an 
 
 With this calculation, we generate the clumpy2 measure which is compared to the original clumpy measure in the Figure \@ref(fig:clumpy-vtable). Here we can see the improvements made on the clumpy measure in both distribution from 0 to 1 and ordering. The measure is more spread out, and so values range more accurately from 0 to 1. More importantly the measure does a better job of ordering the scatter plots. On the original clumpy measure the *clusters* scatter plot was next to last, on the clumpy2 measure *clusters* is is identified as the most clumpy scatter plot. Clumpy2 also has a penalty for uneven clusters (to avoid being large due to a small collection of outliers) and clusters created arbitrarily due to discreteness (such as *vlines*) in order to better align with the human interpretation of clumpy. With these changes, the stronger performance of clumpy2 is apparent in this visual table.
 
-```{r, clumpy-vtable, width = 150, height = 50, out.width = "100%", fig.cap = "A visual table comparing the scagnostic values of clumpy and clumpy2. We can see the clusters plot is next to last in the ordering of the original clumpy measure, but first in clumpy2. It is clear that clumpy2 achieves a more ballanced distribution and more intuitive plot ordering."}
+```{r, clumpy-vtable, width = 150, height = 50, out.width = "100%", fig.alt = "A visual table of the feature scatter plots on the cluump and clumpy 2 measures where clumpy 2, unlike clumpy, orders the features plots according to how 'clustered' they are and actually ranges from 0 to 1.", fig.cap = "A visual table comparing the scagnostic values of clumpy and clumpy2. We can see the clusters plot is next to last in the ordering of the original clumpy measure, but first in clumpy2. It is clear that clumpy2 achieves a more ballanced distribution and more intuitive plot ordering."}
 
 plot_data_clumpy <- plot_path_data %>%
   group_by(scagnostic, feature) %>%
@@ -639,7 +639,7 @@ All the scagnostic functions have tests written and implemented using the `testt
 
 Figure \@ref(fig:outlying-test-plot) shows the an example of a simulated test set, combined with the associated MST. When creating this test data set, we assumed the MST would connect via the dashed red line between points 1 and 2, but instead the MST connected via the solid green line between points 3 and 4. The difference between these choices is essentially random, both edges are the exact same length, but it has significant implications for the value returned by the outlying scagnostic.  When the MST contains the red dashed line between points 1 and 2, point 2 is identified as an internal outlier. This means both the red dashed edge, and the edge between points 2 and 4 are included in the outlying scagnostic calculation which evalutates to be $\frac{13}{29}=0.45$. When we use the actual MST (with the green edge) then point 2 is still identified as an outlier, but the edge between points 2 and 4 is the only edge that goes into the outlying calculation. This results in a significantly smaller value on the the outlying scagnostic, which evaluates to be $\frac{4}{29}=0.14$. This shows that the scagnostics are susceptible to surprisingly large changes due to arbitrary decisions made by the algorithms that construct the graph objects.
 
-```{r outlying-test-plot, width = 100, height = 50, out.width = "100%", fig.cap = "Plot of simulated data used for testing the outlying scagnostic. The left plot shows the raw data, while the right plot presents the MST generated on that data. When we created the test we expected the red dashed line to be in the MST, but instead the green line that connects points 3 and 4 is. If the red edge is in the MST rather than the black edge, the outlying value on this plot is much higher."}
+```{r outlying-test-plot, width = 100, height = 50, out.width = "100%", fig.alt = "A scatter plot of simulated organised data where there are multiple ways of drawing the minimum spanning tree.", fig.cap = "Plot of simulated data used for testing the outlying scagnostic. The left plot shows the raw data, while the right plot presents the MST generated on that data. When we created the test we expected the red dashed line to be in the MST, but instead the green line that connects points 3 and 4 is. If the red edge is in the MST rather than the black edge, the outlying value on this plot is much higher."}
 x1<- c(0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1, 10, 10, 10)
 y1 <- c(0,0,1,2,2,3,4,4,5,6,6,7,8,8,9,10, 10, 6, 5)
 
@@ -736,7 +736,7 @@ p6 <- ggplot(aflw_num, aes(x=kicks, y=handballs)) +
   geom_point(colour=mypal[6])
 ```
 
-```{r, AFLW-scatters-interactive, out.width="100%", include=knitr::is_html_output(), eval=knitr::is_html_output(), fig.cap="Six AFLW sport statistics scatter plots that were identified as identified as interesting by the scagnostics. Plots 1 to 5 had unique values on some combination of the scagnostics, Plot 6 had middling values on all measures. There is a clear difference in structure between these plots indicating the scagnostics ability to identify interesting visual features.", fig.width = 12, fig.height = 8}
+```{r, AFLW-scatters-interactive, out.width="100%", include=knitr::is_html_output(), eval=knitr::is_html_output(), fig.alt = "Six scatter plots of AFL sports statistics where all six scatter plots are clearly visually distinct from one another.",  fig.cap="Six AFLW sport statistics scatter plots that were identified as identified as interesting by the scagnostics. Plots 1 to 5 had unique values on some combination of the scagnostics, Plot 6 had middling values on all measures. There is a clear difference in structure between these plots indicating the scagnostics ability to identify interesting visual features.", fig.width = 12, fig.height = 8}
 
 pp1 <- ggplotly(p1, width=650, height=450)
 pp2 <- ggplotly(p2, width=650, height=450)
@@ -748,7 +748,7 @@ subplot(pp1, pp2, pp3, pp4, pp5, pp6,
         nrows=2, widths = c(0.33, 0.33, 0.33), heights = c(0.5,0.5))
 ```
 
-```{r AFLW-scatters-static, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center', fig.cap="Six AFLW sport statistics scatter plots that were identified as identified as interesting by the scagnostics. Plots 1 to 5 had unique values on some combination of the scagnostics, Plot 6 had middling values on all measures. There is a clear difference in structure between these plots indicating the scagnostics ability to identify interesting visual features.", fig.width = 12, fig.height = 8}
+```{r AFLW-scatters-static, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output(), fig.align='center', fig.alt = "Six scatter plots of AFL sports statistics where all six scatter plots are clearly visually distinct from one another.", fig.cap="Six AFLW sport statistics scatter plots that were identified as identified as interesting by the scagnostics. Plots 1 to 5 had unique values on some combination of the scagnostics, Plot 6 had middling values on all measures. There is a clear difference in structure between these plots indicating the scagnostics ability to identify interesting visual features.", fig.width = 12, fig.height = 8}
 
 #titles
 p1a <- p1 + ggtitle("Plot 1")
@@ -800,7 +800,7 @@ s5 <- ggplot(test, aes(x=outlying, y = striated2, colour=plot5, label=lab)) +
 
 Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:threeplot-static)','\\@ref(fig:threeplot-interactive)'))`  displays Plot 1, Plot2 and Plot 5 beneath the scatter plot of the scagnostics SPLOM that was used to identify it as interesting. Plot 1 was identified as interesting as it returned high values  on both outlying and skewed. Intuitively, this would indicate that even after removing outliers, the data was still disproportionately spread out. This visual feature can be seen very clearly in Plot 1. Plot 2 scored very highly on all the association measures, which indicates a strong relationship between the two variables. The three association measures typically have strong correlation and scatter plots that stay within the large mass in the center have a linear relation, those that don't often have a non-linear relationship. The splines vs dcor plot tells us that there is a strong linear relationship between total possessions and disposals. Total possessions is the number of times the player has the ball and disposals is the number of times the player gets rid of the ball legally, so the strong linear relation indicates the level of play, and tells us few mistakes are made in a professional league. Plot 5 is an excellent example in what new information we can learn from a unique plot identified with scagnostics. This plot is high on striated2 and moderate to low on outlying, telling us most of the points will be at straight or right angles and a little spread out. Hitouts measure the number of times the player punches the ball after the referee throws it back into play, and are typically done by tall players. Bounces have to be done while running, and are typically done by fast players. The L-shape of the plot tells us that players who do one very rarely perform the other, so the tallest player in AFL is rarely the fastest. The skewed spread along both of the statistics tells us these are both specialised skills. These plots provide a clear example of the unique information gained using scagnostics as a tool in exploratory data analysis.
 
-```{r, threeplot-interactive, out.width="100%", include=knitr::is_html_output(), fig.cap="Three plots that were identified as interesting below the scagnostic scatter plot used to identify it. Each scatter plot of AFLW data is displayed below a plot of the two scagnostic measures it stood out on. One of the most useful ways to identify plots is through scatter plots of the scagnostics.", fig.width = 12, fig.height = 8, eval=knitr::is_html_output(), layout = "l-body"}
+```{r, threeplot-interactive, out.width="100%", include=knitr::is_html_output(), fig.alt = "Three scatter plots of scagnostic data calculated on the AFLW data with the scatter plot each identified as interesting displayed below it.", fig.cap="Three plots that were identified as interesting below the scagnostic scatter plot used to identify it. Each scatter plot of AFLW data is displayed below a plot of the two scagnostic measures it stood out on. One of the most useful ways to identify plots is through scatter plots of the scagnostics.", fig.width = 12, fig.height = 8, eval=knitr::is_html_output(), layout = "l-body"}
 subplot(ggplotly(s1, width=650, height=450), 
         ggplotly(s2, width=650, height=450), 
         ggplotly(s5, width=650, height=450), 
@@ -811,7 +811,7 @@ subplot(ggplotly(s1, width=650, height=450),
   config(displayModeBar = FALSE)
 ```
 
-```{r threeplot-static, out.width="100%", include=knitr::is_latex_output(), fig.cap="Three plots that were identified as interesting with the scagnostic scatter plot used to identify it. Each scatter plot of AFLW data is displayed below a plot of the two scagnostic measures it stood out on. One of the most useful ways to identify plots is through scatter plots of the scagnostics.", eval=knitr::is_latex_output(), fig.width = 12, fig.height = 8, fig.align='center'}
+```{r threeplot-static, out.width="100%", include=knitr::is_latex_output(), fig.alt = "Three scatter plots of scagnostic data calculated on the AFLW data with the scatter plot each identified as interesting displayed below it.", fig.cap="Three plots that were identified as interesting with the scagnostic scatter plot used to identify it. Each scatter plot of AFLW data is displayed below a plot of the two scagnostic measures it stood out on. One of the most useful ways to identify plots is through scatter plots of the scagnostics.", eval=knitr::is_latex_output(), fig.width = 12, fig.height = 8, fig.align='center'}
 
 s1a <- s1 + ggtitle("Outlying vs Skewed")
 s2a <- s2 + ggtitle("Splines vs Dcor")
@@ -903,14 +903,14 @@ bbh9 <- ggplot(bbh, aes(x=time, y=alpha)) +
   theme(aspect.ratio=1, axis.text = element_blank())
 ```
 
-```{r bbh-scags-interactive, fig.cap="Selected pairs of scagnostics computed for the black hole mergers data. The coloured points in these plots align with the plot colours of Figure 11. Groups of parameter combinations can be seen to stand out in the left plot (high on skinny and low on convex) and in the middle plot (high on both dcor and splines). The plot on the right shows clumpy vs clumpy2, where we can see the big impact of the correction for this dataset.", layout = "l-body", out.width="100%", fig.width=9, fig.height=3, eval=knitr::is_html_output()}
+```{r bbh-scags-interactive, fig.alt = "Three scatter plots of scagnostic data calculated on black hole mergers data, where scatter plots of interest are highlighted in blue, green or red.", fig.cap="Selected pairs of scagnostics computed for the black hole mergers data. The coloured points in these plots align with the plot colours of Figure 11. Groups of parameter combinations can be seen to stand out in the left plot (high on skinny and low on convex) and in the middle plot (high on both dcor and splines). The plot on the right shows clumpy vs clumpy2, where we can see the big impact of the correction for this dataset.", layout = "l-body", out.width="100%", fig.width=9, fig.height=3, eval=knitr::is_html_output()}
 gs1 <- ggplotly(bbh1, width=600, height=500)
 gs2 <- ggplotly(bbh2, width=600, height=500)
 gs3 <- ggplotly(bbh3, width=600, height=500)
 subplot(gs1, gs2, gs3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.43)
 ```
 
-```{r bbh-scags-static, fig.cap="Selected pairs of scagnostics computed for the black hole mergers data. The coloured points in these plots align with the plot colours of Figure 11. Groups of parameter combinations can be seen to stand out in the left plot (high on skinny and low on convex) and in the middle plot (high on both dcor and splines). The plot on the right shows clumpy vs clumpy2, where we can see a large impact of the correction. ", fig.width = 12, fig.height = 4, out.width="100%", eval=knitr::is_latex_output()}
+```{r bbh-scags-static, fig.alt = "Three scatter plots of scagnostic data calculated on black hole mergers data, where scatter plots of interest are highlighted in blue, green or red.", fig.cap="Selected pairs of scagnostics computed for the black hole mergers data. The coloured points in these plots align with the plot colours of Figure 11. Groups of parameter combinations can be seen to stand out in the left plot (high on skinny and low on convex) and in the middle plot (high on both dcor and splines). The plot on the right shows clumpy vs clumpy2, where we can see a large impact of the correction. ", fig.width = 12, fig.height = 4, out.width="100%", eval=knitr::is_latex_output()}
 bbh1 <- bbh1 + ggtitle("Convex vs Skinny")
 bbh2 <- bbh2 + ggtitle("Splines vs Dcor")
 bbh3 <- bbh3 + ggtitle("Clumpy vs Clumpy2")
@@ -924,7 +924,7 @@ These three variables also stand out in the middle plot of Figure `r knitr::asis
 
 Another interesting aspect of this dataset is that there are several combinations that lead to visible separations between groups of points. This makes it an ideal test case for our new implementation of clumpy2. The right plot in Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:bbh-scags-static)','\\@ref(fig:bbh-scags-interactive)'))` shows clumpy vs clumpy2, and reveals large differences between the two measures. In particular there are many combinations without visible clustering, that still score high on clumpy, but where clumpy2 is zero. On the other hand we can see that there are several combinations that do lead to visible separation between groups that stand out in terms of clumpy2, but not the original clumpy. One example is time vs alpha, shown in the bottom right plot of Figure \@ref(fig:blackholes).
 
-```{r blackholes, fig.cap="Features in the BBH data that stand out on several of the scagnostics measures (convey, skinny, splines and dcor), showing strong relations between variables including non-linear and non-functional dependencies. The colour of these point align with the plots position in the plots of Figure 10. The final example (time vs alpha) is expected to take high values in clumpy, but only stands out on the corrected clumpy2.", fig.width = 12, fig.height = 8, out.width="100%"}
+```{r blackholes, fig.alt = "The Six scatter plots of the black hole mergers data identified in the scagnostics as having interesting visual features where all the scatter plots have an interesting visual shape.", fig.cap="Features in the BBH data that stand out on several of the scagnostics measures (convey, skinny, splines and dcor), showing strong relations between variables including non-linear and non-functional dependencies. The colour of these point align with the plots position in the plots of Figure 10. The final example (time vs alpha) is expected to take high values in clumpy, but only stands out on the corrected clumpy2.", fig.width = 12, fig.height = 8, out.width="100%"}
 
 #subplot(bbh1, bbh2, bbh3, bbh4, bbh5, bbh6,
 #        nrows=2, widths = c(0.33, 0.33, 0.33), heights = c(0.5, 0.5))
@@ -1015,7 +1015,7 @@ scags_mac_mic %>% kable(format="latex", caption = "Pairs of time series features
 ```
 
 
-```{r timeseries, fig.cap="Interesting differences in the visual features of two groups of time series can be detected by scagnostics. The three plots represent the variable pairs that maximised the differences between outlying (left), skewed (middle) and convex (right). While these distributions may have overlapping means, their differencs in shape have been identified by the scagnostics.", fig.width = 10, fig.height = 4, out.width="100%", layout = "l-body"}
+```{r timeseries, fig.alt = "Three scatter plots of time series feautes calcuated on microeconomic and macro economic series where the plots were identified due to having the biggest difference in a particular scagnostic value.",fig.cap="Interesting differences in the visual features of two groups of time series can be detected by scagnostics. The three plots represent the variable pairs that maximised the differences between outlying (left), skewed (middle) and convex (right). While these distributions may have overlapping means, their differencs in shape have been identified by the scagnostics.", fig.width = 10, fig.height = 4, out.width="100%", layout = "l-body"}
 feats_mac_mic <- bind_rows(
   mutate(feats_macro, type = "macro"),
   mutate(feats_micro, type = "micro")
@@ -1054,7 +1054,7 @@ p3 <- ggplot(feats_mac_mic,
 p1 + p2 + p3 + plot_layout(guides = "collect") & theme(legend.position = "bottom")
 ```
 
-```{r tsplots, fig.cap="Selection of three series from the 100 of each of two groups, macroeconomics and microeconomics. The difference between the groups appears to be primarily in the jagginess of the two series, which a little surprisingly, is captured by the time series features curvature and trend strength. The way that trend strength is calculated, on closer inspection, could lead to describing jagginess.", fig.width = 12, fig.height = 8, out.width="100%", layout = "l-body"}
+```{r tsplots, fig.alt =  "Six line plots, three of macroeconomic time series data and three of microeconomic time series data, where the difference between the two series is in how jaggard they are.", fig.cap="Selection of three series from the 100 of each of two groups, macroeconomics and microeconomics. The difference between the groups appears to be primarily in the jagginess of the two series, which a little surprisingly, is captured by the time series features curvature and trend strength. The way that trend strength is calculated, on closer inspection, could lead to describing jagginess.", fig.width = 12, fig.height = 8, out.width="100%", layout = "l-body"}
 load("data/cets_macro.rda")
 load("data/cets_micro.rda")
 
@@ -1261,14 +1261,14 @@ w6 <- ggplot(wbi_scags_topvars,
   theme_classic()
 ```
 
-```{r wbiinteractive, fig.cap="Using scagnostics to explore the variety of relationships present in the WBI data. The side-by-side dotplot (left) shows one point for each pair of variables, with its highest scagnostic value among all scagnostics calculated. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. There is one pair that has clumpy as the highest value. The plots, middle and right, show the pair of variables with highest value on clumpy2 and convex, respectively. (Mouseover allows identification of variable pairs, and countries.)",  include=knitr::is_html_output(), eval=knitr::is_html_output(), fig.height=3.5, fig.width=9, layout = "l-body"}
+```{r wbiinteractive, fig.alt = "Three scatter plots, the first shows the top scagnostic for each scatter plot in the world bank data, the second is the scatter plot that returned the highest clumpy 2 value, while the third is the one that returned the highest convext value. The first plot gives a summary of the overall shape of the data, neither the second or third plot have any interesting visual features.", fig.cap = "Using scagnostics to explore the variety of relationships present in the WBI data. The side-by-side dotplot (left) shows one point for each pair of variables, with its highest scagnostic value among all scagnostics calculated. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. There is one pair that has clumpy as the highest value. The plots, middle and right, show the pair of variables with highest value on clumpy2 and convex, respectively. (Mouseover allows identification of variable pairs, and countries.)",  include=knitr::is_html_output(), eval=knitr::is_html_output(), fig.height=3.5, fig.width=9, layout = "l-body"}
 ws1 <- ggplotly(w6)
 ws2 <- ggplotly(w3a)
 ws3 <- ggplotly(w3b)
 subplot(ws1, ws2, ws3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.6)
 ```
 
-```{r wbistatic, fig.cap="Using scagnostics to explore the variety of relationships present in the WBI data. The side-by-side dotplot (left) shows one point for each pair of variables, with its highest scagnostic value among all scagnostics calculated. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. There is one pair that has clumpy as the highest value. The plots, middle and right, show the pair of variables with highest value on clumpy2 and convex, respectively.", fig.height=3.5, fig.width=9, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
+```{r wbistatic, fig.alt = "Three scatter plots, the first shows the top scagnostic for each scatter plot in the world bank data, the second is the scatter plot that returned the highest clumpy 2 value, while the third is the one that returned the highest convext value. The first plot gives a summary of the overall shape of the data, neither the second or third plot have any interesting visual features.", fig.cap="Using scagnostics to explore the variety of relationships present in the WBI data. The side-by-side dotplot (left) shows one point for each pair of variables, with its highest scagnostic value among all scagnostics calculated. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. There is one pair that has clumpy as the highest value. The plots, middle and right, show the pair of variables with highest value on clumpy2 and convex, respectively.", fig.height=3.5, fig.width=9, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
 w6 <- w6 + ggtitle("Top scagnostic for each pair") 
 w3a <- w3a + ggtitle("Top clumpy2")
 w3b <- w3b + ggtitle("Top convex")
