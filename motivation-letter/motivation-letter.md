@@ -19,6 +19,9 @@ The manuscript introduces the new package called `cassowaryr` which provides a u
 
 We believe the readers of the R Journal will find this article helpful because scanogstics are commonly used in data analysis, and are required for other popular packages such as `tourr` and `ggobi`. This paper provides details on an actively maintained scagnostics package and highlights potential pitfalls that should be avoided when using them. This paper also discusses several different ways that scagnostics can be used, some of which are quite novel and have not been discussed previously in the literature. We illustrate these applications with handful of detailed examples. These examples would be invaluable to those who are unaware of the usefulness of scagnostics as a data exploration tool.
 
+There are some errors returned by `initial_checks.log()`. The nested subdirectories error seems to be caused by mason-lee-laa-cook_files which was made automatically by `rjtools`. The intial_checks.log files is made when we run  `initial_checks.log()`, so it does not seem possible to fix this error. There are the only errors returned by the function.
+
+
 \bigskip
 \bigskip
 
