@@ -1304,6 +1304,8 @@ This article is created using \CRANpkg{knitr} [@knitr] and \CRANpkg{rmarkdown} [
 
 # Appendix
 
+The data used in this paper is available at [https://github.com/harriet-mason/paper-cassowaryr/tree/main/data](https://github.com/harriet-mason/paper-cassowaryr/tree/main/data)
+
 ## A1: AFLW Data Dictionary
 
 - *timeOnGroundPercentage*: percentage of the game the player was on the field.
