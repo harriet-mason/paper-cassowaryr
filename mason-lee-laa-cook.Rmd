@@ -61,7 +61,9 @@ knitr::opts_chunk$set(
 library(cassowaryr)
 library(GGally)
 library(plotly)
-library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(stringr)
 library(patchwork)
 library(knitr)
 library(kableExtra)
@@ -99,7 +101,7 @@ In order to capture the visual structure of the data, graph theory is used to ca
 ```{r building-blocks2, width = 15, height = 5, out.width = "100%", fig.alt = "A hand drawn illustration of a scatter plot with its respective convex hull, alpha hull, and minimum spanning tree.", fig.cap = "The building blocks for graph-based scagnostics: (a) convex hull, (b) alpha hull and (c) minimal spanning tree. The convex hull is a convex shell around all the data points. The alpha hull contains all the points but allows concavities better capturing some shapes, but it needs tuning. The minimal spanning tree connects all points once, and has a single chain connecting central points.", layout = "l-body"}
 library(alphahull)
 data("features")
-nl <- features %>% filter(feature == "ring")
+nl <- features |> filter(feature == "ring")
 d1 <- draw_convexhull(nl$x, nl$y, clr="#FFD700", fill=TRUE) +
   ggtitle("a. Convex hull") +
   xlab("") + ylab("") +
@@ -232,13 +234,13 @@ scagissues_tb <- tibble(Scagnostic = c("Striated",
 ```
 
 ```{r scagissues-tb-html, eval=is_html_output()}
-scagissues_tb %>% 
+scagissues_tb |> 
   kbl(caption = "Summary of MST scagnostic issues.") 
 ```
 
 ```{r scagissues-tb-pdf, eval=is_latex_output()}
-scagissues_tb %>% 
-  kbl(caption = "Summary of MST scagnostic issues.", format="latex", booktabs = T)  %>%
+scagissues_tb |> 
+  kbl(caption = "Summary of MST scagnostic issues.", format="latex", booktabs = T)  |>
   column_spec(2, width = "12cm")
 ```
 
@@ -258,8 +260,8 @@ plot_theme <-  theme_classic() + #theme_minimal() +
 plots <- sort(unique(features$feature))
 
 for (i in seq(length(plots))){
-  holdplot <- features %>% 
-    filter(feature==plots[i]) %>% 
+  holdplot <- features |> 
+    filter(feature==plots[i]) |> 
     ggplot(aes(x,y, size=2))+ geom_point(colour=mypal[i]) + plot_theme
   ggsave(paste0("paper-RJ/figures/", plots[i], ".png"),holdplot) #files already in /figure/
 }
@@ -269,13 +271,13 @@ for (i in seq(length(plots))){
 ```{r visual-table, width = 150, height = 200, out.width = "100%", fig.alt = "A visual table of the scagnostic values of each of the feature scatter plots where each scagnostic is identifying different features as important.", fig.cap = "A visual table that displays a selection of scagnostics computed on the features data. The rows correspond to different scagnostics and the horizontal axis is the calculated value on a range of 0-1. Thumbnail plots of variable pairs are placed at their scagnostic value, and indicate the type of structure that would produce high or low or medium values. Some scagnostics, e.g. clumpy, need adjustment as they do not correctly order the scagnostics, or range from 0 to 1. Other measures, such as splines work without any changes to their definition.", layout = "l-body-outset"}
 
 # Calculate Scagnostics
-features_scagnostics_long <- features %>%
-  group_by(feature) %>%
-  summarise(calc_scags(x,y)) %>%
+features_scagnostics_long <- features |>
+  group_by(feature) |>
+  summarise(calc_scags(x,y)) |>
   pivot_longer(cols=outlying:dcor, names_to = "scagnostic")
 
 # edit data frame
-plot_path_data <- features_scagnostics_long %>%
+plot_path_data <- features_scagnostics_long |>
   mutate(plotad = paste0("figures/", feature, ".png"))
 
 # which plots to include in visual table
@@ -324,10 +326,10 @@ whichplots <- function(scag, feature){
 
 # Make Visual Table
 # Data
-plot_data <- plot_path_data %>%
-  group_by(scagnostic, feature) %>%
-  mutate(doplot = whichplots(scagnostic, feature)) %>%
-  ungroup() %>%
+plot_data <- plot_path_data |>
+  group_by(scagnostic, feature) |>
+  mutate(doplot = whichplots(scagnostic, feature)) |>
+  ungroup() |>
   filter(doplot==TRUE)
 
 # so i dont have to keep adjusting the image size
@@ -373,13 +375,13 @@ To account for these two issues the striated adjusted measure considers all vert
 
 # Make Visual Table
 # Data
-plot_data_striated <- plot_path_data %>%
-  group_by(scagnostic, feature) %>%
+plot_data_striated <- plot_path_data |>
+  group_by(scagnostic, feature) |>
   mutate(doplot = ifelse(all(scagnostic %in% c("striated","striated2"), 
                              feature %in% c("vlines", "discrete","line", "disk", "outliers2")),
                          TRUE,
-                         FALSE)) %>% 
-  ungroup() %>%
+                         FALSE)) |> 
+  ungroup() |>
   filter(doplot==TRUE)
 
 
@@ -432,13 +434,13 @@ With this calculation, we generate the clumpy2 measure which is compared to the 
 
 ```{r, clumpy-vtable, width = 150, height = 50, out.width = "100%", fig.alt = "A visual table of the feature scatter plots on the cluump and clumpy 2 measures where clumpy 2, unlike clumpy, orders the features plots according to how 'clustered' they are and actually ranges from 0 to 1.", fig.cap = "A visual table comparing the scagnostic values of clumpy and clumpy2. We can see the clusters plot is next to last in the ordering of the original clumpy measure, but first in clumpy2. It is clear that clumpy2 achieves a more ballanced distribution and more intuitive plot ordering."}
 
-plot_data_clumpy <- plot_path_data %>%
-  group_by(scagnostic, feature) %>%
+plot_data_clumpy <- plot_path_data |>
+  group_by(scagnostic, feature) |>
   mutate(doplot = ifelse(all(scagnostic %in% c("clumpy","clumpy2"), 
                              feature %in% c("vlines", "clusters","gaps", "outliers", "barrier")),
                          TRUE,
-                         FALSE)) %>% 
-  ungroup() %>%
+                         FALSE)) |> 
+  ungroup() |>
   filter(doplot==TRUE)
 
 
@@ -503,14 +505,14 @@ datasets_tb <- tibble(dt = c("features",
 ```
 
 ```{r datasets-tb-html, eval=is_html_output()}
-datasets_tb %>% 
+datasets_tb |> 
   kable(caption = "Cassowaryr data sets", col.names = c("data", "explanation")) 
 ```
 
 ```{r datasets-tb-pdf, eval=is_latex_output()}
-datasets_tb %>% 
-  kable(caption = "Cassowaryr data sets", format="latex", col.names = c("data", "explanation"), booktabs = T)  %>%
-  column_spec(1, width = "4cm") %>%
+datasets_tb |> 
+  kable(caption = "Cassowaryr data sets", format="latex", col.names = c("data", "explanation"), booktabs = T)  |>
+  column_spec(1, width = "4cm") |>
   column_spec(2, width = "8cm")
 ```
 
@@ -555,12 +557,12 @@ scagfuncs_tb <- tibble(dt = c("scree",
 ```
 
 ```{r scagfuncs-tb-html, eval=is_html_output()}
-scagfuncs_tb %>% kable(caption = "Cassowaryr Scagnostic functions") 
+scagfuncs_tb |> kable(caption = "Cassowaryr Scagnostic functions") 
 ```
 
 ```{r scagfuncs-tb-pdf, eval=is_latex_output()}
-scagfuncs_tb %>% kable(caption = "Cassowaryr Scagnostic functions", col.names = c("Function", "Explanation"), format="latex", booktabs = T)  %>%
-  column_spec(1, width = "3cm") %>%
+scagfuncs_tb |> kable(caption = "Cassowaryr Scagnostic functions", col.names = c("Function", "Explanation"), format="latex", booktabs = T)  |>
+  column_spec(1, width = "3cm") |>
   column_spec(2, width = "10cm")
 ```
 
@@ -578,11 +580,11 @@ drawfuncs_tb <- tibble(funcname = c("draw_alphahull",
 ```
 
 ```{r drawfuncs-tb-html, eval=is_html_output()}
-drawfuncs_tb %>% kable(caption = "Cassowaryr drawing functions") 
+drawfuncs_tb |> kable(caption = "Cassowaryr drawing functions") 
 ```
 
 ```{r drawfuncs-tb-pdf, eval=is_latex_output()}
-drawfuncs_tb %>% kable(caption = "Cassowaryr drawing functions", col.names = c("Function", "Explanation"), format="latex", booktabs = T)  %>%
+drawfuncs_tb |> kable(caption = "Cassowaryr drawing functions", col.names = c("Function", "Explanation"), format="latex", booktabs = T)  |>
   column_spec(1, width = "3cm")
 ```
 
@@ -601,11 +603,11 @@ calcfunc_tb <- tibble(argument = c("y", "x", "scags"),
 ```
 
 ```{r calcfunc-tb-html, eval=is_html_output()}
-calcfunc_tb %>% kable(caption="The main arguments for `calc_scags()`.") 
+calcfunc_tb |> kable(caption="The main arguments for `calc_scags()`.") 
 ```
 
 ```{r calcfunc-tb-pdf, eval=is_latex_output()}
-calcfunc_tb %>% kable(format="latex", caption="The main arguments for calc\\_scags().", col.names = c("Argument", "Explanation"), escape=FALSE, booktabs = T)  %>%
+calcfunc_tb |> kable(format="latex", caption="The main arguments for calc\\_scags().", col.names = c("Argument", "Explanation"), escape=FALSE, booktabs = T)  |>
   column_spec(2, width = "12cm")
 ```
 
@@ -613,17 +615,17 @@ calcfunc_tb %>% kable(format="latex", caption="The main arguments for calc\\_sca
 While the ```calc_scags()``` function does not take in a tibble, it is designed to be seamlessly integrated into the tidy data work flow. Currently to specify the scagnostics on long form tidy data the function needs to be used in conjunction with ```summarise()``` and ```group_by()```. The code below generates the summary data in Table `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(tab:featuresscags-pdf)','\\@ref(tab:featuresscags-html)'))`.
 
 ```{r calcscags-example, echo=TRUE}
-features_scags <- features %>%
-    group_by(feature) %>%
+features_scags <- features |>
+    group_by(feature) |>
     summarise(calc_scags(x,y, c("outlying", "clumpy2", "monotonic")))
 ```
 
 ```{r featuresscags-html, eval=is_html_output()}
-features_scags %>% kable(caption = "Summary of three scagnostics computed by `calc_scags()` on the long form of the features data.") 
+features_scags |> kable(caption = "Summary of three scagnostics computed by `calc_scags()` on the long form of the features data.") 
 ```
 
 ```{r featuresscags-pdf, eval=is_latex_output()}
-features_scags %>% kable(format="latex", caption = "Summary of three scagnostics computed by calc\\_scags() on the long form of the features data.", escape=FALSE, booktabs = T)  %>%
+features_scags |> kable(format="latex", caption = "Summary of three scagnostics computed by calc\\_scags() on the long form of the features data.", escape=FALSE, booktabs = T)  |>
   column_spec(1, width = "3cm")
 ```
 
@@ -673,13 +675,13 @@ Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:AFLW-s
 library(fitzRoy)
 aflw <- fetch_player_stats(2020, comp = "AFLW")
 
-aflw_num <- aflw %>%
+aflw_num <- aflw |>
   select_if(is.numeric)
 
 aflw_num <- aggregate(aflw_num[,5:37], 
   list(aflw$player.player.player.surname),
   mean) 
-aflw_num <- aflw_num %>%
+aflw_num <- aflw_num |>
   ungroup()
 
 aflw_scags <- calc_scags_wide(aflw_num[,2:34])
@@ -765,14 +767,14 @@ The best way to identify interesting scatter plots is to construct a large inter
 
 ```{r, AFL relevent SPLOMS, include= FALSE, echo=FALSE}
 load("data/aflw_scags.rda")
-test <- aflw_scags %>%
-  mutate(lab = paste0(Var1, ", ", Var2)) %>%
+test <- aflw_scags |>
+  mutate(lab = paste0(Var1, ", ", Var2)) |>
   mutate(plot1=ifelse(lab=="disposalEfficiency, hitouts", TRUE,FALSE),
          plot2=ifelse(lab=="totalPossessions, disposals", TRUE,FALSE),
          plot3=ifelse(lab=="marksInside50, goals", TRUE,FALSE),
          plot4=ifelse(lab=="onePercenters, handballs", TRUE,FALSE),
          plot5=ifelse(lab=="hitouts, bounces", TRUE, FALSE)
-         ) %>%
+         ) |>
   mutate(plotted = any(plot1,plot2,plot3,plot4, plot5))
 
 s1 <- ggplot(test, aes(x=outlying, skewed, colour=plot1, label=lab)) + 
@@ -807,7 +809,7 @@ subplot(ggplotly(s1, width=650, height=450),
         ggplotly(p1, width=650, height=450), 
         ggplotly(p2, width=650, height=450), 
         ggplotly(p5, width=650, height=450),
-        nrows=2, widths = c(0.3, 0.3, 0.3), heights = c(0.5, 0.5)) %>%
+        nrows=2, widths = c(0.3, 0.3, 0.3), heights = c(0.5, 0.5)) |>
   config(displayModeBar = FALSE)
 ```
 
@@ -828,7 +830,7 @@ The full data file contains 9998 posterior samples, and with such a large number
 
 ```{r eval=FALSE}
 set.seed(26)
-bbh <- read_csv("data/bbh_posterior_samples.csv") %>%
+bbh <- read_csv("data/bbh_posterior_samples.csv") |>
   sample_n(200)
 bbh_scags <- calc_scags_wide(bbh)
 save(bbh_scags, file="data/bbh_scags.rda")
@@ -841,9 +843,9 @@ load("data/bbh_scags.rda")
 
 newpal = c("#1f78b4", "#33a02c", "#e31a1c")
 
-bbh_scags <- mutate(bbh_scags, combination = paste0(Var1, ", ", Var2)) %>%
-  mutate(colours = ifelse(combination %in% c("time, ra", "dec, ra", "dec, time"), "a", "z")) %>%
-  mutate(colours = ifelse(combination=="alpha, time", "b", colours)) %>%
+bbh_scags <- mutate(bbh_scags, combination = paste0(Var1, ", ", Var2)) |>
+  mutate(colours = ifelse(combination %in% c("time, ra", "dec, ra", "dec, time"), "a", "z")) |>
+  mutate(colours = ifelse(combination=="alpha, time", "b", colours)) |>
   mutate(colours = ifelse(combination %in% c("m2, m1","chi_p, chi_tot"), "c", colours))
 
 bbh1 <- ggplot(bbh_scags, aes(x=convex, y=skinny, colour= colours,
@@ -984,21 +986,21 @@ scags_micro <- calc_scags_wide(feats_micro[,c(1,3,4,7,9,13,41)],
             "outlying", "stringy", "striated2",
             "clumpy2","sparse", "skewed"))
 
-scags_macro <- scags_macro %>%
+scags_macro <- scags_macro |>
   pivot_longer(outlying:splines, 
                names_to = "scags",
                values_to = "macro_value") 
 
-scags_micro <- scags_micro %>%
+scags_micro <- scags_micro |>
   pivot_longer(outlying:splines, 
                names_to = "scags",
                values_to = "micro_value") 
 
 scags_mac_mic <- full_join(scags_macro, scags_micro, by = c("Var1", "Var2", "scags"))
-scags_mac_mic <- scags_mac_mic %>%
-  mutate(scag_dif = abs(macro_value-micro_value)) %>%
-  group_by(scags) %>%
-  arrange(desc(scag_dif))%>%
+scags_mac_mic <- scags_mac_mic |>
+  mutate(scag_dif = abs(macro_value-micro_value)) |>
+  group_by(scags) |>
+  arrange(desc(scag_dif))|>
   slice_head(n=1)
 
 scags_mac_mic$Var1 <- str_replace_all(scags_mac_mic$Var1, "_", ' ') 
@@ -1007,11 +1009,11 @@ scags_mac_mic$Var2 <- str_replace_all(scags_mac_mic$Var2, "_", ' ')
 ```
 
 ```{r scagsmacmic-html, eval=is_html_output()}
-scags_mac_mic %>% kable(caption = "Pairs of time series features that have large differences between macroeconomic and microeconomic series on a range of scagnostics.", escape=FALSE, booktabs = T, col.names = c("Variable 1", "Variable 2", "Scagnostic", "Macro Value", "Micro Value", "Difference"))  
+scags_mac_mic |> kable(caption = "Pairs of time series features that have large differences between macroeconomic and microeconomic series on a range of scagnostics.", escape=FALSE, booktabs = T, col.names = c("Variable 1", "Variable 2", "Scagnostic", "Macro Value", "Micro Value", "Difference"))  
 ```
 
 ```{r scagsmacmic-pdf, eval=is_latex_output()}
-scags_mac_mic %>% kable(format="latex", caption = "Pairs of time series features that have large differences between macroeconomic and microeconomic series on a range of scagnostics.", escape=FALSE, booktabs = T, col.names = c("Variable 1", "Variable 2", "Scagnostic", "Macro Value", "Micro Value", "Difference")) 
+scags_mac_mic |> kable(format="latex", caption = "Pairs of time series features that have large differences between macroeconomic and microeconomic series on a range of scagnostics.", escape=FALSE, booktabs = T, col.names = c("Variable 1", "Variable 2", "Scagnostic", "Macro Value", "Micro Value", "Difference")) 
 ```
 
 
@@ -1058,18 +1060,18 @@ p1 + p2 + p3 + plot_layout(guides = "collect") & theme(legend.position = "bottom
 load("data/cets_macro.rda")
 load("data/cets_micro.rda")
 
-macro_s_ts1 <- cets_macro[[1]] %>%
-  as_tibble() %>% 
+macro_s_ts1 <- cets_macro[[1]] |>
+  as_tibble() |> 
   mutate(x = as.numeric(x), 
          t = 1:n(), 
          name = names(cets_macro)[[1]])
-macro_s_ts2 <- cets_macro[[2]] %>%
-  as_tibble() %>% 
+macro_s_ts2 <- cets_macro[[2]] |>
+  as_tibble() |> 
   mutate(x = as.numeric(x), 
          t = 1:n(), 
          name = names(cets_macro)[[2]])
-macro_s_ts3 <- cets_macro[[3]] %>%
-  as_tibble() %>% 
+macro_s_ts3 <- cets_macro[[3]] |>
+  as_tibble() |> 
   mutate(x = as.numeric(x), 
          t = 1:n(), 
          name = names(cets_macro)[[3]])
@@ -1084,18 +1086,18 @@ mac <- ggplot(macro_s_ts, aes(x=t, y=x)) +
   xlab("") + ylab("") +
   theme(axis.text = element_blank())
 
-micro_s_ts1 <- cets_micro[[1]] %>%
-  as_tibble() %>% 
+micro_s_ts1 <- cets_micro[[1]] |>
+  as_tibble() |> 
   mutate(x = as.numeric(x), 
          t = 1:n(), 
          name = names(cets_micro)[[1]])
-micro_s_ts2 <- cets_micro[[2]] %>%
-  as_tibble() %>% 
+micro_s_ts2 <- cets_micro[[2]] |>
+  as_tibble() |> 
   mutate(x = as.numeric(x), 
          t = 1:n(), 
          name = names(cets_micro)[[2]])
-micro_s_ts3 <- cets_micro[[3]] %>%
-  as_tibble() %>% 
+micro_s_ts3 <- cets_micro[[3]] |>
+  as_tibble() |> 
   mutate(x = as.numeric(x), 
          t = 1:n(), 
          name = names(cets_micro)[[3]])
@@ -1132,11 +1134,11 @@ This tells us that in the WBI data, the relationships between variables is domin
 library(readxl)
 wbi <- read_xlsx("data/World_Development_Indicators.xlsx", n_max = 2436) # Cut off extra stuff
 
-wbi_wide <- wbi %>% 
-  mutate(`2018 [YR2018]` = str_replace(`2018 [YR2018]`, "..","")) %>%
-  mutate(`2018 [YR2018]` = as.numeric(`2018 [YR2018]`)) %>%
-  select(`Country Code`, `Series Code`, `2018 [YR2018]`) %>%
-  pivot_wider(names_from = `Series Code`, values_from = `2018 [YR2018]`, id_cols = `Country Code`, values_fn = mean) %>%
+wbi_wide <- wbi |> 
+  mutate(`2018 [YR2018]` = str_replace(`2018 [YR2018]`, "..","")) |>
+  mutate(`2018 [YR2018]` = as.numeric(`2018 [YR2018]`)) |>
+  select(`Country Code`, `Series Code`, `2018 [YR2018]`) |>
+  pivot_wider(names_from = `Series Code`, values_from = `2018 [YR2018]`, id_cols = `Country Code`, values_fn = mean) |>
   filter(!is.na(`Country Code`))
 
 # Drop variables with missings, or too similar 
@@ -1145,13 +1147,13 @@ s_miss <- miss_summary(wbi_wide)
 gg_miss_var(wbi_wide)
 
 # Remove vars with more than 15 missing values
-drop <- s_miss$miss_var_summary[[1]] %>%
+drop <- s_miss$miss_var_summary[[1]] |>
   filter(pct_miss > 15)
-wbi_wide <- wbi_wide %>%
+wbi_wide <- wbi_wide |>
   select(-drop$variable)
 
 # Remove countries with more than 10 missing values
-drop_cnt <- s_miss$miss_case_summary[[1]] %>%
+drop_cnt <- s_miss$miss_case_summary[[1]] |>
   filter(pct_miss > 10)
 wbi_wide <- wbi_wide[-drop_cnt$case,]
 
@@ -1164,7 +1166,7 @@ vis_miss(wbi_wide)
 # Remove any variables that are the same
 #scag_cor <- calc_scags_wide(wbi_wide_sub[,-1], 
 #    scags = "monotonic")
-#wbi_wide_sub <- wbi_wide_sub %>%
+#wbi_wide_sub <- wbi_wide_sub |>
 #  select(-NY.GDP.MKTP.CD)
 wbi_wide <- wbi_wide[,-8] # TX.VAL.TECH.MF.ZS too few values, almost all zero
 save(wbi_wide, file="data/wbi_wide.rda")
@@ -1185,8 +1187,8 @@ load("data/wbi_wide.rda")
 load("data/wbi_scags.rda")
 
 
-wbi_scags_long <- wbi_scags %>% 
-  pivot_longer(!c(Var1, Var2), names_to = "scag", values_to = "value") %>%
+wbi_scags_long <- wbi_scags |> 
+  pivot_longer(!c(Var1, Var2), names_to = "scag", values_to = "value") |>
   arrange(desc(value))
 
 w1 <- ggplot(wbi_wide, 
@@ -1200,8 +1202,8 @@ w2 <- ggplot(wbi_wide,
   geom_point()
 
 # Summarise highest on each index
-wbi_scags_top <- wbi_scags_long %>% 
-  group_by(scag) %>%
+wbi_scags_top <- wbi_scags_long |> 
+  group_by(scag) |>
   slice_head(n=1)
 
 w3a <- ggplot(wbi_wide, 
@@ -1222,13 +1224,13 @@ w3b <- ggplot(filter(wbi_wide, AG.LND.AGRI.ZS<10), #remove outlier so it is the 
 # Most tend to be vars with too many 0's
 
 # Summarise highest on each variable pair
-wbi_scags_topvars <- wbi_scags_long %>% 
-  group_by(Var1, Var2) %>%
-  slice_head(n=1) %>%
-  ungroup() %>%
+wbi_scags_topvars <- wbi_scags_long |> 
+  group_by(Var1, Var2) |>
+  slice_head(n=1) |>
+  ungroup() |>
   arrange(scag)
 
-pair1 <- wbi_scags_topvars %>% filter(scag == "clumpy2")
+pair1 <- wbi_scags_topvars |> filter(scag == "clumpy2")
 
 #w4 <- ggplot(wbi_wide, 
 #         aes_string(x=as.character(pair1$Var1),
@@ -1237,16 +1239,16 @@ pair1 <- wbi_scags_topvars %>% filter(scag == "clumpy2")
 #  theme(aspect.ratio=1) +
 #  ggtitle(pair1$scag)
 
-pair2 <- wbi_scags_topvars %>% filter(scag == "striated2")
+pair2 <- wbi_scags_topvars |> filter(scag == "striated2")
 
-#w5 <- wbi_wide  %>%
+#w5 <- wbi_wide  |>
 #  ggplot(aes_string(x=as.character(pair2$Var1),
 #                    y=as.character(pair2$Var2))) +
 #  geom_point(aes(label = `Country Code`)) +
 #  theme(aspect.ratio=1) +
 #  ggtitle(pair2$scag)
 
-wbi_scags_topvars <- wbi_scags_topvars %>%
+wbi_scags_topvars <- wbi_scags_topvars |>
   mutate(scag = factor(scag, 
            levels = c("skinny", "striated2",
            "outlying", "clumpy2", "convex",
@@ -1303,8 +1305,6 @@ if (nrow(check_spelling) > 0) {
 This article is created using \CRANpkg{knitr} [@knitr] and \CRANpkg{rmarkdown} [@rmarkdown] in R. The source code for reproducing this paper can be found at: [https://github.com/harriet-mason/paper-cassowaryr](https://github.com/harriet-mason/paper-cassowaryr).
 
 # Appendix
-
-The data used in this paper is available at [https://github.com/harriet-mason/paper-cassowaryr/tree/main/data](https://github.com/harriet-mason/paper-cassowaryr/tree/main/data)
 
 ## A1: AFLW Data Dictionary
 
