@@ -766,7 +766,6 @@ p1a + p2a + p3a + p4a + p5a + p6a + plot_layout(nrow=2)
 The best way to identify interesting scatter plots is to construct a large interactive SPLOM of the scagnostic values,each point representing a scatter plot in the data set. This is how Plots 1 to 6 were identified, but for the sake of space, we are only going to show the scatter plots of the SPLOM that led to the selection of Plots 1, 2, and 5.
 
 ```{r, AFL relevent SPLOMS, include= FALSE, echo=FALSE}
-load("data/aflw_scags.rda")
 test <- aflw_scags |>
   mutate(lab = paste0(Var1, ", ", Var2)) |>
   mutate(plot1=ifelse(lab=="disposalEfficiency, hitouts", TRUE,FALSE),
@@ -1191,14 +1190,14 @@ wbi_scags_long <- wbi_scags |>
   pivot_longer(!c(Var1, Var2), names_to = "scag", values_to = "value") |>
   arrange(desc(value))
 
-w1 <- ggplot(wbi_wide, 
-       aes_string(x=as.character(wbi_scags_long$Var1[1]),
-                  y=as.character(wbi_scags_long$Var2[1]))) +
+w1 <- ggplot(wbi_wide,
+             aes(.data[[as.character(wbi_scags_long$Var1[1])]], 
+                 .data[[as.character(wbi_scags_long$Var2[1])]])) +
   geom_point()
 
 w2 <- ggplot(wbi_wide, 
-       aes_string(x=as.character(wbi_scags_long$Var1[2]),
-                  y=as.character(wbi_scags_long$Var2[2]))) +
+       aes(.data[[as.character(wbi_scags_long$Var1[2])]],
+           .data[[as.character(wbi_scags_long$Var2[2])]])) +
   geom_point()
 
 # Summarise highest on each index
@@ -1207,16 +1206,16 @@ wbi_scags_top <- wbi_scags_long |>
   slice_head(n=1)
 
 w3a <- ggplot(wbi_wide, 
-       aes_string(x=as.character(wbi_scags_top$Var1[1]),
-                  y=as.character(wbi_scags_top$Var2[1]))) +
+       aes(.data[[as.character(wbi_scags_top$Var1[1])]],
+           .data[[as.character(wbi_scags_top$Var2[1])]])) +
   geom_point(aes(label = `Country Code`)) +
   #ggtitle(wbi_scags_top$scag[1]) +
   theme_classic() +
   theme(axis.text = element_blank())
 
 w3b <- ggplot(filter(wbi_wide, AG.LND.AGRI.ZS<10), #remove outlier so it is the scatter plot it used for calc
-              aes_string(x=as.character(wbi_scags_top$Var1[2]),
-                         y=as.character(wbi_scags_top$Var2[2]))) +
+              aes(.data[[as.character(wbi_scags_top$Var1[2])]],
+                  .data[[as.character(wbi_scags_top$Var2[2])]])) +
   geom_point(aes(label = `Country Code`)) +
   #ggtitle(wbi_scags_top$scag[2]) +
   theme_classic() +
@@ -1286,6 +1285,7 @@ There are a number of different directions to build upon this research. The orig
 The implementation in R also makes it easy to expand the scagnostics collection and develop new measures. Other researchers can easily expand the package with new measures or enhance the current code because the software is openly available on GitHub, encouraging contributions from the broader community. 
 
 ```{r, include=FALSE, eval=FALSE}
+# Spell check
 library(spelling)
 rmd <- "mason-lee-laa-cook.rmd"
 ignore <- readLines("WORDLIST")
@@ -1298,6 +1298,10 @@ if (nrow(check_spelling) > 0) {
   print(check_spelling)
   stop("Check spelling in Rmd files!")
 }
+
+# Code to knit if issues
+# pandoc::pandoc_activate(version = '3.1.6')
+# rmarkdown::render('mason-lee-laa-cook.Rmd', output_format = 'all')
 ```
 
 # Acknowledgements
