@@ -445,8 +445,6 @@ t1 + t2 + plot_layout(nrow=1)
 
 
 ## ----AFLW Scatter Plots , echo=FALSE--------------------------------------------------------
-
-load("data/aflw.rda")
 load("data/aflw_num.rda")
 load("data/aflw_scags.rda")
 
@@ -1003,5 +1001,5 @@ w6 + w3a + w3b
 # 
 # # Code to knit if issues
 # # pandoc::pandoc_activate(version = '3.1.6')
-# # rmarkdown::render('learningtower.Rmd', output_format = 'all')
+# # rmarkdown::render('mason-lee-laa-cook.Rmd', output_format = 'all')
 

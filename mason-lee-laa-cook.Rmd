@@ -693,8 +693,6 @@ save(aflw_scags, file="data/aflw_scags.rda")
 ```
 
 ```{r, AFLW Scatter Plots , echo=FALSE}
-
-load("data/aflw.rda")
 load("data/aflw_num.rda")
 load("data/aflw_scags.rda")
 
