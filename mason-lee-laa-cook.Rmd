@@ -39,12 +39,7 @@ author:
     email:  dicook@monash.edu
 type: package
 creative_commons: CC BY
-output: 
-  rjtools::rjournal_pdf_article:
-    toc: no
-  rjtools::rjournal_web_article:
-    self_contained: yes
-    toc: no
+output: rjtools::rjournal_article
 bibliography: mason-lee-laa-cook.bib
 editor_options: 
   chunk_output_type: inline
