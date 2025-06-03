@@ -1,0 +1,201 @@
+---
+title: "reply"
+format: html
+editor: visual
+---
+
+# Review 1
+
+## General
+
+This paper concerns the CRAN package cassowaryr for calculating scagnostics. This package is an alternative to the existing scagnostics package, with the code now written in R, and some improvements made to the definition of the scagnostics themselves.  Scagnostics are a very useful tool  for screening scatterplots, and their existing implementation in the scagnostics package are known to have some flaws. This new package, particularly as it is tidyverse friendly, could help promote scagnostics as a tool to the R community.
+
+Very little of the paper is given over to the package,  its design and implementation. No comparison is made to the original scagnostics package.Though binning is mentioned in the paper, it is not available in the package. Presumably if it did include binning, then the original scagnostic definitions should be used. Presumably also, the new implementation of scagnostics is a lot slower than the original due to the R vs C++ implementation and the lack of binning, though this is not discussed.
+**Want comparison to scagnostics package. Package had issues with it. Hadley has similar code in the binostics package that has an underlying one. Could try doing that. Not sure how time comparison will work (since not in R) also no binning so hard to compare.**
+
+Much of the paper is given over to four examples, though code is not given. While the examples are very interesting, four examples is excessive. Particularly the third example is a bit "meta" (scagnostics of scagnostics...) and is rather complex for the current paper.
+
+**See detailled comments**
+
+RJ papers concerning a package should include more than just a little code demonstrating the package.
+
+
+
+## Detailed comments
+
+Page 1: There is extended  discussion of dimension reduction in the first paragraph. This is not directly relevant to the topic at hand, and should be reduced to a sentence or two.
+**Have a look and see if it can be easily left out.**
+
+The word "biplots" is used a few tines as a replacement for "scatterplot". This usage is incorrect: a biplot is where you show variables and cases on the same plot.
+**We agree and have made the changes.**
+
+Page 1: Par 2 scagnostics produce a hierarchy of variable pairs, not variables.
+Tukey reference in this paragraph needs fixing.
+**We agree and have made the changes.**
+
+Page 2: "Before any of the scagnostics are calculated, outlying points are removed." Surely not true for outlying, monotonic and other association-based measures?
+**Outlying uses both, monotonic and other association-based use ___-. To make it clear we have changed the sentence to:**
+
+Page 2 "to range" -> "to range in"
+**We agree and have made the changes.**
+
+Page 4: description of sparse: "Identifies if the data is sporadically located on the plane." This does not make sense to me.
+**We agree. To make it clear we have changed the sentence to: ____**
+
+Page 5: For dcor  include a reference to distance corrrelation.
+**We agree and have made the changes.**
+
+Page 5: In the discussion of Figure 4, you point out problems with the original scagnostic measures. When comparing this to
+Figures 4 and 6 of the Wilkinson and Wills (2008) paper, it would seem more than a suspicion that the defects evident in Figure 4 are due to binning. Why not verify this using the scagnostics package?
+**If easy we can check this with the binostics package.**
+
+Page 6: Table 1: As regards stringy, it says "This measure rarely drops below 0.5", but this does not agree with the Wilkinson and Wills figures 5 and 6.
+**Same as above.**
+
+Page 7: "in contention with" -> "align with" ?
+**We agree and have made the changes.**
+
+Page 7: The discussion of Figure 5 is confusing. The "line" plot does not score 1 on either striated measure. The caption says "line and vlines have the same result" but this is not evident in the display.
+**We agree and have made the changes. - meant same vibe, that is not scientific**
+
+Page 13: Figure 7 In the caption  it refers to the black edge, do you mean green?
+**We agree and have made the changes.**
+
+Page 13: In the discussion associates with Figure 8, you mention picking scatterplots with a low scagnostic value. Why would you do this? Up to now, it seems you were looking for high scagnostic scores.
+**Also original scagnostics paper, they look for unusual scagnsotic combinations. Doesn't have to be high, low as well. Find wording in paper, should be in package documentation. Extra note, might be worth looking if can mention combinations earlier in paper.**
+
+In Figure 9 top row the coloured dots are hard to pick out. I suggest you make them bigger.
+**We agree and have made the changes.**
+
+In Figure 10. explain that the blue/red dots represent the same plots in the three scagnostic plots. Again coloured dots are small, suggest making them bigger.
+**We agree and have made the changes.**
+
+Figure 11: I would not describe the green plot (alpha vs time) as exhibiting clumpiness. 
+**Ursula's problem.**
+
+Page 13: "The best way to identify interesting scatter plots is to construct a large interactive SPLOM" This statement needs more justification. Why a SPLOM as opossed to another display of multivariate data?
+I would like to see this interactive SPLOM included (and suggest dropping the final two examples.) It would be nice if your package included some functionality to identify interesting scatterplots, beyond top_pairs, which is not used in any of the examples.
+**In original paper they do SPLOM. Don't have to say its the best way, could also make parallel coordinate plot. Change phrasing. Whole splom would take up a lot of space in the paper.**
+
+Page 14: "The splines vs dcor plot tells us that there is a strong linear relationship". But both of these are measures of non-linear association.
+**Would have to look it up, there should be some papers that say the highest values in distance correlation (close to 1) only happens with linear relationships. Check for paper on that. If not just say strong relationship**
+
+Page 14: the scagnostics for the physics data are computed on a sample of 200 out of ~10K observations. Binning would be very useful in this case. Presumably outliers could easily be "lost" in such a small sample.
+**(Ursula problem) We are just looking for main patterns and not for outliers, but we agree that if binning is available then it could be the full data.**
+
+
+Page 16: The statement about LDA assumptions is incorrect. In any case, the LDA/QDA discussion is not directly relevant.
+**(Di problem)**
+
+Page 17: PCA regression description is not accurate, as the dimension reduction steps and regression are performed independently. Suggest removing the discussion about pca, it is not really relevant and is confusing.
+**(Di problem)**
+
+Page 17: "Macroeconomic series tend to have moderate curvature and varied trend, while microeconomic
+series tend to have strong trends and varied curvature." How is this statement supported by figure 13, where trends look about the same between micro and micro series?
+Then the Figure caption says "The
+way that trend strength is calculated, on closer inspection, could lead to describing jagginess." which seems strange and could do with more explanation.
+**(Di problem)**
+
+This third example is scagnostics calculated on features of time series rather than time series themselves. This is an interesting idea, but needs to be motivated. Also the code provided for this example is not self-contained, as the code for calculation of the feasts indices is not provided.
+**(Di problem)**
+
+Page 19: In the WBI example (Fig 14) the top clumpy2 value is (close to) 1, yet the scatterplot is not what I'd describe as clumpy. Is this a problem with the index?
+**(Di problem)**
+
+Page 19: "This tells us that in the WBI data, the relationships between variables is dominated by outliers
+(as noted by the high values on the outlying scagnostic, and to some extent also skewed and stringy),
+and no relationship (given bu the high values on convex). " There is something wrong with this sentence.
+**(Di problem)**
+
+Some references in the paper use the author's first initial/name. 
+**We agree and have made the changes.**
+
+Chapter 10 of PhD thesis of Adam Rahman is relevant:
+https://core.ac.uk/download/pdf/158325743.pdf
+**Ursula looked, I can also check. Changed some definitions and stuff. Might want to reference these types of adjustment exist and have been done before**
+
+
+
+
+
+## Code
+
+
+
+For the features data, would be useful if these patterns could be generated with different amounts of noise.
+**If functional dependence it is easy, but for the other ones it is not clear how you would add noise. Can simulate first then add noise on top if desperate.**
+
+Data with NA generates an error.
+**Should check this, shouldnt happen, will fix if it does.**
+
+The function calc_scags has an argument euclid which is not explained.
+**So true. Either explain or remove I guess.**
+
+calc_scags has no option to bin the data.
+**You can't. Should make it clearer in the paper there is no binning.**
+
+The package has no vignettes, beyond the README
+**There is a vignette [here](https://numbats.github.io/cassowaryr/articles/cassowaryr.html). Do they want it longer?**
+
+
+# Review 2
+
+## General
+
+The article outlines the most common scagnostic measures and introduces improvements to fix undesirable behaviour in the patterns they highlight and make them more intuitive. After discussing the implementation in `cassowaryr`, several examples and tests demonstrate the use of scagnostics and `cassowaryr` in practice.
+
+This paper is a welcome addition to the literature on scagnostics. By nature, these are applied measures, but some previous works do not present them in an applied way. Here, an appropriate amount of theory is presented with an outline of a software package and many worked examples to emphasize the package's intended use. The equal emphasis on all three aspects of scagnostics is a perfect accompaniment to a package intended for widespread use and a nice way to introduce the topic.
+
+There are several major areas which could be improved, however. First, major edits of the writing are required. Simple typos are present in most sections and many of the sentences have awkward wording, detracting from the tutorial the paper intends to deliver. The detailed comments below identify many of these but there are likely others which have been missed.
+
+A second major issue is the introduction of the scagnostics. While the choice to make it brief and minimally theoretical is appropriate, for several of the scagnostics this unfortunately makes the formulas presented confusing or even impossible to understand. In particular, dcor is presented without the necessary context to understand the notation used in its definition. A better balance must be struck between context and brevity when defining the measures if formulas are to be provided in their definitions. Alternatively, more detailed descriptions of these scagnostics could be combined with references to the appropriate papers giving their formulas.
+
+Finally, the title seems problematic. It is an awkward way to express the content of the article and is likely to misleading many readers. Given the pace and high publicity of research in computational statistics around 'teaching' computers to do tasks such as object recognition, speech, and translation, it seems unwise to use the term for an article which presents methods designed for human interpretation. Emphasizing the computer and claiming to 'teach' it to 'see' with scagnostics is exaggerated and gives the wrong impression of the article's content.
+
+## Detailed comments
+
+Consider reordering Table 1 and Figure 3 for clarity, skipping one to read the other breaks the flow of the article.
+
+- Clean up references and make them consistent (some use first names, others use abbreviations, still others a mix of both: this makes for jarring and confusing reading)
+- last paragraph of introduction, line 5, "scagnostics" should be "scagnostics'"
+- last sentence of first paragraph of introduction: wording feels clunky, maybe change 'is' to 'are' and drop the 'even'
+- outlying description on page 4: 'dataset' is missing an article ('the dataset', perhaps)
+- stringy description onf page 4: would benefit from explicitly stating the vertices are from the MST, all other descriptions are explicit about using the MST, A, or C
+- introduction of DCor on page 5: must define and describe what a_{kl} and b_{kl} are, otherwise the equation should not be provided and left in references
+- page 5, first sentence of Checking Scagnostics Calculations: missing apostrophe on "package's"
+- skewed description in table 1 seems to be missing 's' on the verbs, "reguarding" is spelled incorrectly rather than "regarding"
+- page 7: how strict is the restriction around 180 & 90 degrees?
+- page 7: last paragraph is highly confusing... what is the 'lines' scatterplot referenced and how does it differ from 'vlines'? The later comments make sense but the whole discussion is made confusing by errors like this
+- page 7, last paragraph: 'axis' should be 'axes', 'observation' should be plural, 'version' should be plural
+- page 9, clumpy adjusted point 3: reword to be 'vertices with adjacent angles forming'
+- table 3 on page 11 has some typos: 'stirated', 'scagnositc', etc.
+- page 11, calculate functions: '...each function is a scagnostics' should not be pluralized
+- page 12, making summaries: 'summarise' should be 'summaries'
+- page 13, end of page: spaces missing in '...SPLOM of the scagnostic values,each..." and 'Plot2'
+- page 14, non-linear shapes section: first sentence has somewhat awkward wording, the use of 'that's' is incorrect
+- page 15: 'except' should be 'expect'
+- page 16: '...from each groups' should be "...from each group's"
+- page 17: '...utilising the scagnostics' should be "...utilising the scagnostics'"
+- page 18, figure 13 caption: by 'jagginess', is 'jaggedness' meant?
+- page 19, figure 14: the description of the figure states that only a single pair ranked highest on striated2, but two points can be observed in the plot, what is the cause of this discrepancy? The caption also seems to state something different
+- page 19: '...between variables is...' should be '...between variables are...'
+- page 19: 'bu' should be 'by'
+- page 19: missing apostrophe on 'packages' (should be 'package's')
+
+## Code
+
+Usability:
+
+The documentation is thin, but this is appropriate with the vignette provided and the simplicity of the intended workflow. This package is highly user-friendly and accessible.
+
+Code:
+
+While the code is generally robust to different patterns in the data, there seem to be a few edge cases where its behaviour is undesirable and it returns strange errors. Using it on the `anscombe_tidy` data,
+```
+for (ii in 1:4)
+   test[[ii]] <- calc_scags(anscombe_tidy$x[anscombe_tidy$set == ii],
+                            anscombe_tidy$y[anscombe_tidy$set == ii])
+```
+for example, gives the error: "In alphahull::areaahull(y) : Problem in area computation (Returns NA)" for the last two patterns. The table returned either contains only NAs or has no rows. It seems the removal of the outlying points in these two patterns leads to an alpha hull around a perfectly straight line and this causes the code to fail. In addition to this failure, the error provided is somewhat uninformative to the user, and could only be deciphered here because of the simplicity of the data.
+
+The functions are clearly named, and the code is well-organized and understandable.
