@@ -1,0 +1,64 @@
+## Referee report of "Teaching Computers to See Patterns in 
+Scatterplots with Scagnostics".
+
+- **Id**: 2073-4859
+
+## General
+
+The article outlines the most common scagnostic measures and introduces improvements to fix undesirable behaviour in the patterns they highlight and make them more intuitive. After discussing the implementation in `cassowaryr`, several examples and tests demonstrate the use of scagnostics and `cassowaryr` in practice.
+
+This paper is a welcome addition to the literature on scagnostics. By nature, these are applied measures, but some previous works do not present them in an applied way. Here, an appropriate amount of theory is presented with an outline of a software package and many worked examples to emphasize the package's intended use. The equal emphasis on all three aspects of scagnostics is a perfect accompaniment to a package intended for widespread use and a nice way to introduce the topic.
+
+There are several major areas which could be improved, however. First, major edits of the writing are required. Simple typos are present in most sections and many of the sentences have awkward wording, detracting from the tutorial the paper intends to deliver. The detailed comments below identify many of these but there are likely others which have been missed.
+
+A second major issue is the introduction of the scagnostics. While the choice to make it brief and minimally theoretical is appropriate, for several of the scagnostics this unfortunately makes the formulas presented confusing or even impossible to understand. In particular, dcor is presented without the necessary context to understand the notation used in its definition. A better balance must be struck between context and brevity when defining the measures if formulas are to be provided in their definitions. Alternatively, more detailed descriptions of these scagnostics could be combined with references to the appropriate papers giving their formulas.
+
+Finally, the title seems problematic. It is an awkward way to express the content of the article and is likely to misleading many readers. Given the pace and high publicity of research in computational statistics around 'teaching' computers to do tasks such as object recognition, speech, and translation, it seems unwise to use the term for an article which presents methods designed for human interpretation. Emphasizing the computer and claiming to 'teach' it to 'see' with scagnostics is exaggerated and gives the wrong impression of the article's content.
+
+## Detailed comments
+
+Consider reordering Table 1 and Figure 3 for clarity, skipping one to read the other breaks the flow of the article.
+
+- Clean up references and make them consistent (some use first names, others use abbreviations, still others a mix of both: this makes for jarring and confusing reading)
+- last paragraph of introduction, line 5, "scagnostics" should be "scagnostics'"
+- last sentence of first paragraph of introduction: wording feels clunky, maybe change 'is' to 'are' and drop the 'even'
+- outlying description on page 4: 'dataset' is missing an article ('the dataset', perhaps)
+- stringy description onf page 4: would benefit from explicitly stating the vertices are from the MST, all other descriptions are explicit about using the MST, A, or C
+- introduction of DCor on page 5: must define and describe what a_{kl} and b_{kl} are, otherwise the equation should not be provided and left in references
+- page 5, first sentence of Checking Scagnostics Calculations: missing apostrophe on "package's"
+- skewed description in table 1 seems to be missing 's' on the verbs, "reguarding" is spelled incorrectly rather than "regarding"
+- page 7: how strict is the restriction around 180 & 90 degrees?
+- page 7: last paragraph is highly confusing... what is the 'lines' scatterplot referenced and how does it differ from 'vlines'? The later comments make sense but the whole discussion is made confusing by errors like this
+- page 7, last paragraph: 'axis' should be 'axes', 'observation' should be plural, 'version' should be plural
+- page 9, clumpy adjusted point 3: reword to be 'vertices with adjacent angles forming'
+- table 3 on page 11 has some typos: 'stirated', 'scagnositc', etc.
+- page 11, calculate functions: '...each function is a scagnostics' should not be pluralized
+- page 12, making summaries: 'summarise' should be 'summaries'
+- page 13, end of page: spaces missing in '...SPLOM of the scagnostic values,each..." and 'Plot2'
+- page 14, non-linear shapes section: first sentence has somewhat awkward wording, the use of 'that's' is incorrect
+- page 15: 'except' should be 'expect'
+- page 16: '...from each groups' should be "...from each group's"
+- page 17: '...utilising the scagnostics' should be "...utilising the scagnostics'"
+- page 18, figure 13 caption: by 'jagginess', is 'jaggedness' meant?
+- page 19, figure 14: the description of the figure states that only a single pair ranked highest on striated2, but two points can be observed in the plot, what is the cause of this discrepancy? The caption also seems to state something different
+- page 19: '...between variables is...' should be '...between variables are...'
+- page 19: 'bu' should be 'by'
+- page 19: missing apostrophe on 'packages' (should be 'package's')
+
+## Code
+
+Usability:
+
+The documentation is thin, but this is appropriate with the vignette provided and the simplicity of the intended workflow. This package is highly user-friendly and accessible.
+
+Code:
+
+While the code is generally robust to different patterns in the data, there seem to be a few edge cases where its behaviour is undesirable and it returns strange errors. Using it on the `anscombe_tidy` data,
+```
+for (ii in 1:4)
+   test[[ii]] <- calc_scags(anscombe_tidy$x[anscombe_tidy$set == ii],
+                            anscombe_tidy$y[anscombe_tidy$set == ii])
+```
+for example, gives the error: "In alphahull::areaahull(y) : Problem in area computation (Returns NA)" for the last two patterns. The table returned either contains only NAs or has no rows. It seems the removal of the outlying points in these two patterns leads to an alpha hull around a perfectly straight line and this causes the code to fail. In addition to this failure, the error provided is somewhat uninformative to the user, and could only be deciphered here because of the simplicity of the data.
+
+The functions are clearly named, and the code is well-organized and understandable.

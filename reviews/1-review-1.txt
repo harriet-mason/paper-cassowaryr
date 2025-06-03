@@ -1,0 +1,109 @@
+## Referee report of "{{Teaching Computers to See Patterns in Scatterplots with Scagnostics}}".
+
+- **Id**: {{2024-94}}
+
+## General
+
+This paper concerns the CRAN package cassowaryr for calculating scagnostics. This package is an alternative to the existing
+scagnostics package, with the code now written in R, and some improvements made to the definition of the scagnostics themselves.  Scagnostics are a very useful tool 
+for screening scatterplots, and their existing implementation in the scagnostics package are known to have some flaws.
+This new package, particularly as it is tidyverse friendly, could help promote scagnostics as a tool to the R community.
+
+Very little of the paper is given over to the package,  its design and implementation.
+No comparison is made to the original scagnostics package.
+Though binning is mentioned in the paper, it is not available in the package. Presumably if it did include binning, then the original scagnostic definitions should be used.
+Presumably also, the new implementation of scagnostics is a lot slower than the original due to the R vs C++ implementation and the lack of binning, though this is not discussed.
+
+Much of the paper is given over to four examples, though code is not given. While the examples are very interesting, four examples is excessive. Particularly the third example is a bit "meta" (scagnostics of scagnostics...) and is rather complex for the current paper.
+
+RJ papers concerning a package should include more than just a little code demonstrating the package.
+
+## Detailed comments
+
+Page 1: There is extended  discussion of dimension reduction in the first paragraph. This is not directly relevant to the topic at hand, and should be reduced to a sentence or two.
+
+The word "biplots" is used a few tines as a replacement for "scatterplot". This usage is incorrect: a biplot is where you show variables and cases on the same plot.
+
+Page 1: Par 2 scagnostics produce a hierarchy of variable pairs, not variables.
+Tukey reference in this paragraph needs fixing.
+
+Page 2: "Before any of the scagnostics are calculated, outlying points are removed." Surely not true for outlying, monotonic and other association-based measures?
+
+Page 2 "to range" -> "to range in"
+
+
+Page 4: description of sparse: "Identifies if the data is sporadically located on the plane." This does not make sense to me.
+
+Page 5: For dcor  include a reference to distance corrrelation.
+
+
+Page 5: In the discussion of Figure 4, you point out problems with the original scagnostic measures. When comparing this to
+Figures 4 and 6 of the Wilkinson and Wills (2008) paper, it would seem more than a suspicion that the defects evident in Figure 4 are due to binning. Why not verify this using the scagnostics package?
+
+
+Page 6: Table 1: As regards stringy, it says "This measure rarely drops below 0.5", but this does not agree with the Wilkinson and Wills figures 5 and 6.
+
+
+Page 7: "in contention with" -> "align with" ?
+
+Page 7: The discussion of Figure 5 is confusing. The "line" plot does not score 1 on either striated measure. The caption says "line and vlines have the same result" but this is not evident in the display.
+
+Page 13: Figure 7 In the caption  it refers to the black edge, do you mean green?
+
+
+Page 13: In the discussion associates with Figure 8, you mention picking scatterplots with a low scagnostic value. Why would you do this? Up to now, it seems you were looking for high scagnostic scores.
+
+In Figure 9 top row the coloured dots are hard to pick out. I suggest you make them bigger.
+In Figure 10. explain that the blue/red dots represent the same plots in the three scagnostic plots. Again coloured dots are small, suggest making them bigger.
+
+Figure 11: I would not describe the green plot (alpha vs time) as exhibiting clumpiness. 
+
+Page 13: "The best way to identify interesting scatter plots is to construct a large interactive SPLOM" This statement needs more justification. Why a SPLOM as opossed to another display of multivariate data?
+I would like to see this interactive SPLOM included (and suggest dropping the final two examples.) It would be nice if your package included some functionality to identify interesting scatterplots, beyond top_pairs, which is not used in any of the examples.
+
+Page 14: "The splines vs dcor plot tells us that there is a strong linear relationship". But both of these are measures of non-linear association.
+
+Page 14: the scagnostics for the physics data are computed on a sample of 200 out of ~10K observations. Binning would be very useful in this case. Presumably outliers could easily be "lost" in such a small sample.
+
+
+
+Page 16: The statement about LDA assumptions is incorrect. In any case, the LDA/QDA discussion is not directly relevant.
+
+Page 17: PCA regression description is not accurate, as the dimension reduction steps and regression are performed independently. Suggest removing the discussion about pca, it is not really relevant and is confusing.
+
+
+Page 17: "Macroeconomic series tend to have moderate curvature and varied trend, while microeconomic
+series tend to have strong trends and varied curvature." How is this statement supported by figure 13, where trends look about the same between micro and micro series?
+Then the Figure caption says "The
+way that trend strength is calculated, on closer inspection, could lead to describing jagginess." which seems strange and could do with more explanation.
+
+This third example is scagnostics calculated on features of time series rather than time series themselves. This is an interesting idea, but needs to be motivated. Also the code provided for this example is not self-contained, as the code for calculation of the feasts indices is not provided.
+
+
+Page 19: In the WBI example (Fig 14) the top clumpy2 value is (close to) 1, yet the scatterplot is not what I'd describe as clumpy. Is this a problem with the index?
+
+Page 19: "This tells us that in the WBI data, the relationships between variables is dominated by outliers
+(as noted by the high values on the outlying scagnostic, and to some extent also skewed and stringy),
+and no relationship (given bu the high values on convex). " There is something wrong with this sentence.
+
+
+Some references in the paper use the author's first initial/name. 
+
+Chapter 10 of PhD thesis of Adam Rahman is relevant:
+https://core.ac.uk/download/pdf/158325743.pdf
+
+
+
+
+## Code
+
+For the features data, would be useful if these patterns could be generated with different amounts of noise.
+
+Data with NA generates an error.
+
+The function calc_scags has an argument euclid which is not explained.
+
+calc_scags has no option to bin the data.
+
+The package has no vignettes, beyond the README
+
