@@ -150,43 +150,97 @@ There are several major areas which could be improved, however. First, major edi
 
 A second major issue is the introduction of the scagnostics. While the choice to make it brief and minimally theoretical is appropriate, for several of the scagnostics this unfortunately makes the formulas presented confusing or even impossible to understand. In particular, dcor is presented without the necessary context to understand the notation used in its definition. A better balance must be struck between context and brevity when defining the measures if formulas are to be provided in their definitions. Alternatively, more detailed descriptions of these scagnostics could be combined with references to the appropriate papers giving their formulas.
 
+**Come back to this after detailled comments**
+
 Finally, the title seems problematic. It is an awkward way to express the content of the article and is likely to misleading many readers. Given the pace and high publicity of research in computational statistics around 'teaching' computers to do tasks such as object recognition, speech, and translation, it seems unwise to use the term for an article which presents methods designed for human interpretation. Emphasizing the computer and claiming to 'teach' it to 'see' with scagnostics is exaggerated and gives the wrong impression of the article's content.
+**I agree, although it was less of an issue when we originally wrote the paper (four years ago). The title has been changed.**
 
 ## Detailed comments
 
 Consider reordering Table 1 and Figure 3 for clarity, skipping one to read the other breaks the flow of the article.
+**We agree and have made the changes.**
 
 - Clean up references and make them consistent (some use first names, others use abbreviations, still others a mix of both: this makes for jarring and confusing reading)
+**We agree and have made the changes.**
+
 - last paragraph of introduction, line 5, "scagnostics" should be "scagnostics'"
+**We agree and have made the changes.**
+
 - last sentence of first paragraph of introduction: wording feels clunky, maybe change 'is' to 'are' and drop the 'even'
+**We agree and have made the changes.**
+
 - outlying description on page 4: 'dataset' is missing an article ('the dataset', perhaps)
-- stringy description onf page 4: would benefit from explicitly stating the vertices are from the MST, all other descriptions are explicit about using the MST, A, or C
+**We agree and have made the changes.**
+
+- stringy description on page 4: would benefit from explicitly stating the vertices are from the MST, all other descriptions are explicit about using the MST, A, or C
+**We agree and have made the changes.**
+
 - introduction of DCor on page 5: must define and describe what a_{kl} and b_{kl} are, otherwise the equation should not be provided and left in references
+**We agree and have made the changes.**
+
 - page 5, first sentence of Checking Scagnostics Calculations: missing apostrophe on "package's"
+**We agree and have made the changes.**
+
 - skewed description in table 1 seems to be missing 's' on the verbs, "reguarding" is spelled incorrectly rather than "regarding"
+**We agree and have made the changes.**
+
 - page 7: how strict is the restriction around 180 & 90 degrees?
+**We agree. To make it clear we have changed the sentence to: ____**
+
 - page 7: last paragraph is highly confusing... what is the 'lines' scatterplot referenced and how does it differ from 'vlines'? The later comments make sense but the whole discussion is made confusing by errors like this
+**Check if lines should be vline or line or both? We agree. To make it clear we have changed the sentence to: ____**
+
 - page 7, last paragraph: 'axis' should be 'axes', 'observation' should be plural, 'version' should be plural
+**We agree and have made the changes.**
+
 - page 9, clumpy adjusted point 3: reword to be 'vertices with adjacent angles forming'
+**I think I specifically tried to use the terminology from the original scagnostics paper to keep it consistent. Check that. But also, if the reviewer was confused, we should probably reword this so it is clearer. **
+
 - table 3 on page 11 has some typos: 'stirated', 'scagnositc', etc.
+**We agree and have made the changes.**
+
 - page 11, calculate functions: '...each function is a scagnostics' should not be pluralized
+**We agree and have made the changes.**
+
 - page 12, making summaries: 'summarise' should be 'summaries'
+**We agree and have made the changes.**
+
 - page 13, end of page: spaces missing in '...SPLOM of the scagnostic values,each..." and 'Plot2'
+**We agree and have made the changes.**
+
 - page 14, non-linear shapes section: first sentence has somewhat awkward wording, the use of 'that's' is incorrect
+**Ursula section**
+
 - page 15: 'except' should be 'expect'
+**Ursula section**
+
 - page 16: '...from each groups' should be "...from each group's"
+**Di section**
+
 - page 17: '...utilising the scagnostics' should be "...utilising the scagnostics'"
+**Di section**
+
 - page 18, figure 13 caption: by 'jagginess', is 'jaggedness' meant?
+**Di section**
+
 - page 19, figure 14: the description of the figure states that only a single pair ranked highest on striated2, but two points can be observed in the plot, what is the cause of this discrepancy? The caption also seems to state something different
+**Di section**
+
 - page 19: '...between variables is...' should be '...between variables are...'
+**Di section**
+
 - page 19: 'bu' should be 'by'
+**Di section**
+
 - page 19: missing apostrophe on 'packages' (should be 'package's')
+**We agree and have made the changes.**
 
 ## Code
 
 Usability:
 
 The documentation is thin, but this is appropriate with the vignette provided and the simplicity of the intended workflow. This package is highly user-friendly and accessible.
+**Thanks**
 
 Code:
 
@@ -197,5 +251,6 @@ for (ii in 1:4)
                             anscombe_tidy$y[anscombe_tidy$set == ii])
 ```
 for example, gives the error: "In alphahull::areaahull(y) : Problem in area computation (Returns NA)" for the last two patterns. The table returned either contains only NAs or has no rows. It seems the removal of the outlying points in these two patterns leads to an alpha hull around a perfectly straight line and this causes the code to fail. In addition to this failure, the error provided is somewhat uninformative to the user, and could only be deciphered here because of the simplicity of the data.
+**Should check this, shouldnt happen, will fix if it does.**
 
 The functions are clearly named, and the code is well-organized and understandable.
