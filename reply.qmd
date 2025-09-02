@@ -38,7 +38,7 @@ Page 5: In the discussion of Figure 4, you point out problems with the original 
 
 Page 6: Table 1: As regards stringy, it says "This measure rarely drops below 0.5", but this does not agree with the Wilkinson and Wills figures 5 and 6. **Same as above.**
 
-Page 7: "in contention with" -\> "align with" ? **We agree and have made the changes.**
+Page 7: "in contention with" -\> "align with" ? **We are saying that the measures do not align with human intuition, but agree that phrase is needlessly complicated. We changed it to "conflicts with"**
 
 Page 7: The discussion of Figure 5 is confusing. The "line" plot does not score 1 on either striated measure. The caption says "line and vlines have the same result" but this is not evident in the display. **We agree and have made the changes. - meant same vibe, that is not scientific**
 
