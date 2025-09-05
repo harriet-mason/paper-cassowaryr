@@ -20,7 +20,7 @@ RJ papers concerning a package should include more than just a little code demon
 
 ## Detailed comments
 
-Page 1: There is extended discussion of dimension reduction in the first paragraph. This is not directly relevant to the topic at hand, and should be reduced to a sentence or two. **Have a look and see if it can be easily left out.**
+Page 1: There is extended discussion of dimension reduction in the first paragraph. This is not directly relevant to the topic at hand, and should be reduced to a sentence or two. **We agree and have reduced that section to a few sentences.**
 
 The word "biplots" is used a few tines as a replacement for "scatterplot". This usage is incorrect: a biplot is where you show variables and cases on the same plot. **We agree and have made the changes.**
 
