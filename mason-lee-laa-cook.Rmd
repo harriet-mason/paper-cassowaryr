@@ -178,7 +178,7 @@ $$s_{splines}=\max_{i\in x,y}\left[ 1-\frac{\mbox{Var}(\mbox{Residuals}_{model~i
 
 
 
-- **Dcor:** A measure of non-linear dependence which is 0 if and only if the two variables are independent. Computed using an ANOVA like calculation on the pairwise distances between observations. 
+- **Dcor:** The distance correlation [@dcor] between $X$ and $Y$. Distance correlation is a measure of non-linear dependence which is 0 if and only if the two variables are independent. It is computed using an ANOVA like calculation on the pairwise distances between observations. 
 
 $$s_{dcor}= \sqrt{\frac{\mathcal{V}(X,Y)}{\mathcal{V}(X,X)\mathcal{V}(Y,Y)}}$$  
 where

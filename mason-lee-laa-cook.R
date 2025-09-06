@@ -401,7 +401,7 @@ features_scags |> kable(format="latex", caption = "Summary of three scagnostics 
 top_scags(features_scags)
 
 
-## ----outlying-test-plot, width = 100, height = 50, out.width = "100%", fig.alt = "A scatter plot of simulated organised data where there are multiple ways of drawing the minimum spanning tree.", fig.cap = "Plot of simulated data used for testing the outlying scagnostic. The left plot shows the raw data, while the right plot presents the MST generated on that data. When we created the test we expected the red dashed line to be in the MST, but instead the green line that connects points 3 and 4 is. If the red edge is in the MST rather than the black edge, the outlying value on this plot is much higher."----
+## ----outlying-test-plot, width = 100, height = 50, out.width = "100%", fig.alt = "A scatter plot of simulated organised data where there are multiple ways of drawing the minimum spanning tree.", fig.cap = "Plot of simulated data used for testing the outlying scagnostic. The left plot shows the raw data, while the right plot presents the MST generated on that data. When we created the test we expected the red dashed line to be in the MST, but instead the green line that connects points 3 and 4 is. If the red edge is in the MST rather than the green edge, the outlying value on this plot is much higher."----
 x1<- c(0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1, 10, 10, 10)
 y1 <- c(0,0,1,2,2,3,4,4,5,6,6,7,8,8,9,10, 10, 6, 5)
 
