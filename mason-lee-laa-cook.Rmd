@@ -148,7 +148,7 @@ $$s_{stringy} = \frac{|V^{(2)}|}{|V|-|V^{(1)}|}$$
 $$s_{skewed} = \frac{q_{90}-{q_{50}}}{q_{90}-q_{10}}$$  
 
 
-- **Sparse:**  Identifies if the data is sporadically located on the plane. Calculated as the 90th percentile of MST edge lengths.
+- **Sparse:**  Identifies if the data is confined to a small number of locations on the plane. Calculated as the 90th percentile of MST edge lengths.
 
 $$s_{sparse}= q_{90}$$
 

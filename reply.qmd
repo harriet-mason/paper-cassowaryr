@@ -43,7 +43,8 @@ Page 2: "Before any of the scagnostics are calculated, outlying points are remov
 
 Page 2 "to range" -\> "to range in" **We agree and have made the changes.**
 
-Page 4: description of sparse: "Identifies if the data is sporadically located on the plane." This does not make sense to me. **We agree. To make it clear we have changed the sentence to: \_\_\_\_**
+Page 4: description of sparse: "Identifies if the data is sporadically located on the plane." This does not make sense to me. 
+*Good point. We changed the wording so it is more in line with the original explanation from the Scacnostic Distributions paper. It now reads "Identifies if the data is confined to a small number of locations on the plane". *
 
 Page 5: For dcor include a reference to distance corrrelation. **We agree and have made the changes.**
 
