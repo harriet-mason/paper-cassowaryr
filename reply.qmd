@@ -51,7 +51,8 @@ Page 5: For dcor include a reference to distance corrrelation.
 
 Page 5: In the discussion of Figure 4, you point out problems with the original scagnostic measures. When comparing this to Figures 4 and 6 of the Wilkinson and Wills (2008) paper, it would seem more than a suspicion that the defects evident in Figure 4 are due to binning. Why not verify this using the scagnostics package? **If easy we can check this with the binostics package.**
 
-Page 6: Table 1: As regards stringy, it says "This measure rarely drops below 0.5", but this does not agree with the Wilkinson and Wills figures 5 and 6. **Same as above.**
+Page 6: Table 1: As regards stringy, it says "This measure rarely drops below 0.5", but this does not agree with the Wilkinson and Wills figures 5 and 6. 
+*We agree that this does not agree with the Wilksinson and Wills figures 5 and 6. This is why it was listed as an "issue" with our calculation of the measure and we explcitly mention this issue did not exist in the binned version of the statistics. The issues table outlines problems with the cassowaryr computations of the measures. Some of them overlap with issues that might arrise in the Wilkinson (2008) calculations, but some of them are unique to the cassowaryr computation.*
 
 Page 7: "in contention with" -\> "align with" ? **We are saying that the measures do not align with human intuition, but agree that phrase is needlessly complicated. We changed it to "conflicts with"**
 
