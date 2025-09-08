@@ -60,7 +60,10 @@ We agree that this does not agree with the Wilksinson and Wills figures 5 and 6.
 We are saying that the measures do not align with human intuition, but agree that phrase is needlessly complicated. We changed it to "conflicts with"*
 
 **Page 7: The discussion of Figure 5 is confusing. The "line" plot does not score 1 on either striated measure. The caption says "line and vlines have the same result" but this is not evident in the display.**
-We agree and have made the changes. - meant same vibe, that is not scientific
+- This is actually an issue caused by interp package that I missed (and also why I am eternally annoyed that Albrech would not use the tRiad package)
+- I suspect the noise added in the line plot causes the MST edges to go beyond the error tollerance for the striated measure.
+- I might be able to fix this by tinkering with the error tollerance in the striated measure
+- Good catch by the reviewer tbh
 
 **Page 13: Figure 7 In the caption it refers to the black edge, do you mean green?**
 We agree and have made the changes.
