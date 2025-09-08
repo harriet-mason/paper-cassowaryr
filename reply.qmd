@@ -20,17 +20,17 @@ RJ papers concerning a package should include more than just a little code demon
 
 ## Detailed comments
 
-Page 1: There is extended discussion of dimension reduction in the first paragraph. This is not directly relevant to the topic at hand, and should be reduced to a sentence or two. 
-*We agree and have reduced that section to a few sentences.*
+**Page 1: There is extended discussion of dimension reduction in the first paragraph. This is not directly relevant to the topic at hand, and should be reduced to a sentence or two.** 
+We agree and have reduced that section to a few sentences.
 
-The word "biplots" is used a few tines as a replacement for "scatterplot". This usage is incorrect: a biplot is where you show variables and cases on the same plot. 
-*We agree and have made the changes.*
+**The word "biplots" is used a few tines as a replacement for "scatterplot". This usage is incorrect: a biplot is where you show variables and cases on the same plot. **
+We agree and have made the changes.
 
-Page 1: Par 2 scagnostics produce a hierarchy of variable pairs, not variables. Tukey reference in this paragraph needs fixing. 
-*We agree and have made the changes.*
+**Page 1: Par 2 scagnostics produce a hierarchy of variable pairs, not variables. Tukey reference in this paragraph needs fixing.**
+We agree and have made the changes.
 
-Page 2: "Before any of the scagnostics are calculated, outlying points are removed." Surely not true for outlying, monotonic and other association-based measures? 
-**Outlying uses both, monotonic and other association-based use the MST that has outlying points removed.**
+**Page 2: "Before any of the scagnostics are calculated, outlying points are removed." Surely not true for outlying, monotonic and other association-based measures? **
+Outlying uses both, monotonic and other association-based use the MST that has outlying points removed.
 - This is actually a good point, and I am a but unsure whether to fix this, or reply.
 - There are actually a few sections in the scagnostics distributions paper that make it unclear how outliers were originally supposed to be removed
   - A.2 - Preprocessing - "We bin our data and delete outliers before computing our geometric graphs." 
@@ -41,24 +41,29 @@ Page 2: "Before any of the scagnostics are calculated, outlying points are remov
 - Quite frankly, I think the outlying removal option should be set to FALSE by default (it is currently set to TRUE). If scagnostics should be an EDA tool, then I feel like the default should be calculated on the scatter plot put into the function. Removing the outliers can actually change the visual structure of the plot quite significantly.
 
 
-Page 2 "to range" -\> "to range in" **We agree and have made the changes.**
+**Page 2 "to range" -\> "to range in" **
+We agree and have made the changes.
 
-Page 4: description of sparse: "Identifies if the data is sporadically located on the plane." This does not make sense to me. 
-*Good point. We changed the wording so it is more in line with the original explanation from the Scacnostic Distributions paper. It now reads "Identifies if the data is confined to a small number of locations on the plane". *
+**Page 4: description of sparse: "Identifies if the data is sporadically located on the plane." This does not make sense to me. **
+Good point. We changed the wording so it is more in line with the original explanation from the Scacnostic Distributions paper. It now reads "Identifies if the data is confined to a small number of locations on the plane". 
 
-Page 5: For dcor include a reference to distance corrrelation. 
-*Good catch. We have added the reference to distance correlation.*
+**Page 5: For dcor include a reference to distance corrrelation. **
+Good catch. We have added the reference to distance correlation.
 
-Page 5: In the discussion of Figure 4, you point out problems with the original scagnostic measures. When comparing this to Figures 4 and 6 of the Wilkinson and Wills (2008) paper, it would seem more than a suspicion that the defects evident in Figure 4 are due to binning. Why not verify this using the scagnostics package? **If easy we can check this with the binostics package.**
+**Page 5: In the discussion of Figure 4, you point out problems with the original scagnostic measures. When comparing this to Figures 4 and 6 of the Wilkinson and Wills (2008) paper, it would seem more than a suspicion that the defects evident in Figure 4 are due to binning. Why not verify this using the scagnostics package?** 
+If easy we can check this with the binostics package.
 
-Page 6: Table 1: As regards stringy, it says "This measure rarely drops below 0.5", but this does not agree with the Wilkinson and Wills figures 5 and 6. 
-*We agree that this does not agree with the Wilksinson and Wills figures 5 and 6. This is why it was listed as an "issue" with our calculation of the measure and we explcitly mention this issue did not exist in the binned version of the statistics. The issues table outlines problems with the cassowaryr computations of the measures. Some of them overlap with issues that might arrise in the Wilkinson (2008) calculations, but some of them are unique to the cassowaryr computation.*
+**Page 6: Table 1: As regards stringy, it says "This measure rarely drops below 0.5", but this does not agree with the Wilkinson and Wills figures 5 and 6.**
+We agree that this does not agree with the Wilksinson and Wills figures 5 and 6. This is why it was listed as an "issue" with our calculation of the measure and we explcitly mention this issue did not exist in the binned version of the statistics. The issues table outlines problems with the cassowaryr computations of the measures. Some of them overlap with issues that might arrise in the Wilkinson (2008) calculations, but some of them are unique to the cassowaryr computation.
 
-Page 7: "in contention with" -\> "align with" ? **We are saying that the measures do not align with human intuition, but agree that phrase is needlessly complicated. We changed it to "conflicts with"**
+**Page 7: "in contention with" -\> "align with" ? **
+We are saying that the measures do not align with human intuition, but agree that phrase is needlessly complicated. We changed it to "conflicts with"*
 
-Page 7: The discussion of Figure 5 is confusing. The "line" plot does not score 1 on either striated measure. The caption says "line and vlines have the same result" but this is not evident in the display. **We agree and have made the changes. - meant same vibe, that is not scientific**
+**Page 7: The discussion of Figure 5 is confusing. The "line" plot does not score 1 on either striated measure. The caption says "line and vlines have the same result" but this is not evident in the display.**
+We agree and have made the changes. - meant same vibe, that is not scientific
 
-Page 13: Figure 7 In the caption it refers to the black edge, do you mean green? **We agree and have made the changes.**
+**Page 13: Figure 7 In the caption it refers to the black edge, do you mean green?**
+We agree and have made the changes.
 
 **Page 13: In the discussion associates with Figure 8, you mention picking scatterplots with a low scagnostic value. Why would you do this? Up to now, it seems you were looking for high scagnostic scores.**
 
@@ -71,45 +76,63 @@ We agree that this approach should have been mentioned earlier in the paper. We 
 - "should be in package documentation" - note from meeting with Ursula, not sure what this means
 
 
-In Figure 9 top row the coloured dots are hard to pick out. I suggest you make them bigger. **We agree and have made the changes.**
+**In Figure 9 top row the coloured dots are hard to pick out. I suggest you make them bigger.** 
+We agree and have made the changes.
 
-In Figure 10. explain that the blue/red dots represent the same plots in the three scagnostic plots. Again coloured dots are small, suggest making them bigger. **We agree and have made the changes.**
+**In Figure 10. explain that the blue/red dots represent the same plots in the three scagnostic plots. Again coloured dots are small, suggest making them bigger.**
+We agree and have made the changes.
 
-Figure 11: I would not describe the green plot (alpha vs time) as exhibiting clumpiness. **While they are not elliptical, the plot does show two disconnected regions of higher density, and we would expect the clumpy index to be sensitive to this gap pattern. XXX need some rephrasing in the text? maybe clumpy is better described as a gap pattern?**
+**Figure 11: I would not describe the green plot (alpha vs time) as exhibiting clumpiness.** While they are not elliptical, the plot does show two disconnected regions of higher density, and we would expect the clumpy index to be sensitive to this gap pattern. XXX need some rephrasing in the text? maybe clumpy is better described as a gap pattern?
 
-Page 13: "The best way to identify interesting scatter plots is to construct a large interactive SPLOM" This statement needs more justification. Why a SPLOM as opossed to another display of multivariate data? I would like to see this interactive SPLOM included (and suggest dropping the final two examples.) It would be nice if your package included some functionality to identify interesting scatterplots, beyond top_pairs, which is not used in any of the examples. **In original paper they do SPLOM. Don't have to say its the best way, could also make parallel coordinate plot. Change phrasing. Whole splom would take up a lot of space in the paper.**
+**Page 13: "The best way to identify interesting scatter plots is to construct a large interactive SPLOM" This statement needs more justification. Why a SPLOM as opossed to another display of multivariate data? I would like to see this interactive SPLOM included (and suggest dropping the final two examples.) It would be nice if your package included some functionality to identify interesting scatterplots, beyond top_pairs, which is not used in any of the examples. **
+In original paper they do SPLOM. Don't have to say its the best way, could also make parallel coordinate plot. Change phrasing. Whole splom would take up a lot of space in the paper.
 
-Page 14: "The splines vs dcor plot tells us that there is a strong linear relationship". But both of these are measures of non-linear association. **Would have to look it up, there should be some papers that say the highest values in distance correlation (close to 1) only happens with linear relationships. Check for paper on that. If not just say strong relationship**
+**Page 14: "The splines vs dcor plot tells us that there is a strong linear relationship". But both of these are measures of non-linear association.**
+Would have to look it up, there should be some papers that say the highest values in distance correlation (close to 1) only happens with linear relationships. Check for paper on that. If not just say strong relationship**
 
-Page 14: the scagnostics for the physics data are computed on a sample of 200 out of \~10K observations. Binning would be very useful in this case. Presumably outliers could easily be "lost" in such a small sample. **We are looking for the main patterns and not for outliers, but we agree that if binning is available then it could be the full data. We have adjusted the phrasing to clarify this.**
+**Page 14: the scagnostics for the physics data are computed on a sample of 200 out of \~10K observations. Binning would be very useful in this case. Presumably outliers could easily be "lost" in such a small sample.**
+We are looking for the main patterns and not for outliers, but we agree that if binning is available then it could be the full data. We have adjusted the phrasing to clarify this.**
 
-Page 16: The statement about LDA assumptions is incorrect. In any case, the LDA/QDA discussion is not directly relevant. **(Di problem)**
+**Page 16: The statement about LDA assumptions is incorrect. In any case, the LDA/QDA discussion is not directly relevant.**
+(Di problem)
 
-Page 17: PCA regression description is not accurate, as the dimension reduction steps and regression are performed independently. Suggest removing the discussion about pca, it is not really relevant and is confusing. **(Di problem)**
+**Page 17: PCA regression description is not accurate, as the dimension reduction steps and regression are performed independently. Suggest removing the discussion about pca, it is not really relevant and is confusing. **
+(Di problem)
 
-Page 17: "Macroeconomic series tend to have moderate curvature and varied trend, while microeconomic series tend to have strong trends and varied curvature." How is this statement supported by figure 13, where trends look about the same between micro and micro series? Then the Figure caption says "The way that trend strength is calculated, on closer inspection, could lead to describing jagginess." which seems strange and could do with more explanation. **(Di problem)**
+**Page 17: "Macroeconomic series tend to have moderate curvature and varied trend, while microeconomic series tend to have strong trends and varied curvature." How is this statement supported by figure 13, where trends look about the same between micro and micro series? Then the Figure caption says "The way that trend strength is calculated, on closer inspection, could lead to describing jagginess." which seems strange and could do with more explanation. **
+(Di problem)
 
-This third example is scagnostics calculated on features of time series rather than time series themselves. This is an interesting idea, but needs to be motivated. Also the code provided for this example is not self-contained, as the code for calculation of the feasts indices is not provided. **(Di problem)**
+**This third example is scagnostics calculated on features of time series rather than time series themselves. This is an interesting idea, but needs to be motivated. Also the code provided for this example is not self-contained, as the code for calculation of the feasts indices is not provided. **
+(Di problem)
 
-Page 19: In the WBI example (Fig 14) the top clumpy2 value is (close to) 1, yet the scatterplot is not what I'd describe as clumpy. Is this a problem with the index? **(Di problem)**
+**Page 19: In the WBI example (Fig 14) the top clumpy2 value is (close to) 1, yet the scatterplot is not what I'd describe as clumpy. Is this a problem with the index? **
+(Di problem)
 
-Page 19: "This tells us that in the WBI data, the relationships between variables is dominated by outliers (as noted by the high values on the outlying scagnostic, and to some extent also skewed and stringy), and no relationship (given bu the high values on convex). " There is something wrong with this sentence. **(Di problem)**
+**Page 19: "This tells us that in the WBI data, the relationships between variables is dominated by outliers (as noted by the high values on the outlying scagnostic, and to some extent also skewed and stringy), and no relationship (given bu the high values on convex). " There is something wrong with this sentence. **
+(Di problem)
 
-Some references in the paper use the author's first initial/name. **We agree and have made the changes.**
+**Some references in the paper use the author's first initial/name. **
+We agree and have made the changes.
 
-Chapter 10 of PhD thesis of Adam Rahman is relevant: https://core.ac.uk/download/pdf/158325743.pdf **Ursula looked, I can also check. Changed some definitions and stuff. Might want to reference these types of adjustment exist and have been done before**
+**Chapter 10 of PhD thesis of Adam Rahman is relevant: https://core.ac.uk/download/pdf/158325743.pdf **
+Ursula looked, I can also check. Changed some definitions and stuff. Might want to reference these types of adjustment exist and have been done before
 
 ## Code
 
-For the features data, would be useful if these patterns could be generated with different amounts of noise. **If functional dependence it is easy, but for the other ones it is not clear how you would add noise. Can simulate first then add noise on top if desperate.**
+**For the features data, would be useful if these patterns could be generated with different amounts of noise. **
+If functional dependence it is easy, but for the other ones it is not clear how you would add noise. Can simulate first then add noise on top if desperate.**
 
-Data with NA generates an error. **Should check this, shouldnt happen, will fix if it does.**
+**Data with NA generates an error. **
+Should check this, shouldnt happen, will fix if it does.
 
-The function calc_scags has an argument euclid which is not explained. **So true. Either explain or remove I guess.**
+**The function calc_scags has an argument euclid which is not explained. **
+So true. Either explain or remove I guess.
 
-calc_scags has no option to bin the data. **You can't. Should make it clearer in the paper there is no binning.**
+**calc_scags has no option to bin the data. **
+You can't. Should make it clearer in the paper there is no binning.
 
-The package has no vignettes, beyond the README **There is a vignette [here](https://numbats.github.io/cassowaryr/articles/cassowaryr.html). Do they want it longer?**
+**The package has no vignettes, beyond the README **
+There is a vignette [here](https://numbats.github.io/cassowaryr/articles/cassowaryr.html). Do they want it longer?
 
 # Review 2
 
