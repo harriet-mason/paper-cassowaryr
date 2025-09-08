@@ -80,7 +80,7 @@ We agree that this approach should have been mentioned earlier in the paper. We 
 
 
 **In Figure 9 top row the coloured dots are hard to pick out. I suggest you make them bigger.** 
-We agree and have made the changes.
+We agree. We made them bigger and added a black outline.
 
 **In Figure 10. explain that the blue/red dots represent the same plots in the three scagnostic plots. Again coloured dots are small, suggest making them bigger.**
 We agree and have made the changes.
