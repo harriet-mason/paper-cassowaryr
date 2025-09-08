@@ -60,7 +60,16 @@ Page 7: The discussion of Figure 5 is confusing. The "line" plot does not score 
 
 Page 13: Figure 7 In the caption it refers to the black edge, do you mean green? **We agree and have made the changes.**
 
-Page 13: In the discussion associates with Figure 8, you mention picking scatterplots with a low scagnostic value. Why would you do this? Up to now, it seems you were looking for high scagnostic scores. **Also original scagnostics paper, they look for unusual scagnsotic combinations. Doesn't have to be high, low as well. Find wording in paper, should be in package documentation. Extra note, might be worth looking if can mention combinations earlier in paper.**
+**Page 13: In the discussion associates with Figure 8, you mention picking scatterplots with a low scagnostic value. Why would you do this? Up to now, it seems you were looking for high scagnostic scores.**
+
+Up to this point in the paper, we were assessing the scagnostics with the features data, so we were hoping the scatter plots that typified each feature would have a high value on its respective scagnostic (e.g. the clusters plot would have the highest clumpy measure) for each index (i.e. trying to design ). 
+
+In the AFLW example, we are using the scagnostics to explore the data and identify interesting structures. For this reason, we are no longer looking for high or low values perse, but rather unusual scagnostic values. This is also done in the Scagnostics Distributions paper (Figure 2). The idea is that these outliers should identify plots that are visibly dissimilar from other scatter plots in the data set and might have an unexpected structure.
+
+We agree that this approach should have been mentioned earlier in the paper. We have now included a sentence in the third paragraph of the introduction that mentions using a SPLOM of scagnostic values as an EDA technique. We also included a more detailling introduction to the approach in the first paragraph of the AFLW example. 
+
+- "should be in package documentation" - note from meeting with Ursula, not sure what this means
+
 
 In Figure 9 top row the coloured dots are hard to pick out. I suggest you make them bigger. **We agree and have made the changes.**
 
