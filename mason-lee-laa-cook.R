@@ -595,6 +595,8 @@ bbh_scags <- mutate(bbh_scags, combination = paste0(Var1, ", ", Var2)) |>
 bbh1 <- ggplot(bbh_scags, aes(x=convex, y=skinny, colour= colours,
                       label = combination)) +
   geom_point() + 
+  geom_point(data = bbh_scags |> filter(colours!= "z"), size=3) +
+  geom_point(data = bbh_scags |> filter(colours!= "z"), size=3, colour="black", shape=1) +
   theme_classic() +
   scale_colour_manual(values=c(newpal, "grey")) +
   #ggtitle("Convex vs Skinny") + 
@@ -603,6 +605,8 @@ bbh1 <- ggplot(bbh_scags, aes(x=convex, y=skinny, colour= colours,
 bbh2 <- ggplot(bbh_scags, aes(x=dcor, y=splines, colour= colours,
                       label = combination)) +
   geom_point() + 
+  geom_point(data = bbh_scags |> filter(colours!= "z"), size=3) +
+  geom_point(data = bbh_scags |> filter(colours!= "z"), size=3, colour="black", shape=1) +
   theme_classic() +
   scale_colour_manual(values=c(newpal, "grey")) +
   #ggtitle("Splines vs Dcor") + 
@@ -611,6 +615,8 @@ bbh2 <- ggplot(bbh_scags, aes(x=dcor, y=splines, colour= colours,
 bbh3 <- ggplot(bbh_scags, aes(x=clumpy, y=clumpy2, colour= colours,
                       label = combination)) +
   geom_point() + 
+  geom_point(data = bbh_scags |> filter(colours!= "z"), size=3) +
+  geom_point(data = bbh_scags |> filter(colours!= "z"), size=3, colour="black", shape=1) +
   theme_classic() +
   scale_colour_manual(values=c(newpal, "grey")) +
   #ggtitle("Clumpy vs Clumpy2") + 
