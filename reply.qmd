@@ -63,7 +63,7 @@ We thank the editor, associate editors and reviews for their helpful comments to
 
 *In Figure 9 top row the coloured dots are hard to pick out. I suggest you make them bigger.* **We agree. We made them bigger and added a black outline.**
 
-*In Figure 10. explain that the blue/red dots represent the same plots in the three scagnostic plots. Again coloured dots are small, suggest making them bigger.* **We agree and have made the changes.**
+*In Figure 10. explain that the blue/red dots represent the same plots in the three scagnostic plots. Again coloured dots are small, suggest making them bigger.* **We agree. We made them bigger and added a black outline, and added a sentance in Figure 10 and Figure 11 connecting the plots.**
 
 *Figure 11: I would not describe the green plot (alpha vs time) as exhibiting clumpiness.* **While they are not elliptical, the plot does show two disconnected regions of higher density, and we would expect the clumpy index to be sensitive to this gap pattern. XXX need some rephrasing in the text? maybe clumpy is better described as a gap pattern?**
 
