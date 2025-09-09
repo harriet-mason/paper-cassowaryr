@@ -526,6 +526,8 @@ test <- aflw_scags |>
 
 s1 <- ggplot(test, aes(x=outlying, skewed, colour=plot1, label=lab)) + 
   geom_point() +
+  geom_point(data = test |> filter(plot1==TRUE), size=3) +
+  geom_point(data = test |> filter(plot1==TRUE), size=3, colour="black", shape=1) +
   theme_classic() +
   theme(legend.position ="none")+
   scale_colour_manual(values=c("grey", mypal[1]))
@@ -533,6 +535,8 @@ s1 <- ggplot(test, aes(x=outlying, skewed, colour=plot1, label=lab)) +
 
 s2 <- ggplot(test, aes(x=splines, dcor, colour=plot2, label=lab)) + 
   geom_point() +
+  geom_point(data = test |> filter(plot2==TRUE), size=3) +
+  geom_point(data = test |> filter(plot2==TRUE), size=3, colour="black", shape=1) +
   theme_classic() +
   theme(legend.position ="none")+
   scale_colour_manual(values=c("grey", mypal[2]))
@@ -540,6 +544,8 @@ s2 <- ggplot(test, aes(x=splines, dcor, colour=plot2, label=lab)) +
 
 s5 <- ggplot(test, aes(x=outlying, y = striated2, colour=plot5, label=lab)) +
   geom_point() +
+  geom_point(data = test |> filter(plot5==TRUE), size=3) +
+  geom_point(data = test |> filter(plot5==TRUE), size=3, colour="black", shape=1) +
   theme_classic() +
   theme(legend.position ="none") +
   scale_colour_manual(values=c("grey", mypal[5])) 
