@@ -939,7 +939,7 @@ To illustrate this analysis, we consider comparing two sets of time series, desc
 
 To keep the illustration simple, a small set of seven features is examined. Table `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(tab:scagsmacmic-pdf)','\\@ref(tab:scagsmacmic-html)'))` tabulates pairs of features that have the biggest difference between groups across a range of scagnostics. Plotting a handful of these in (Figure \@ref(fig:timeseries)), we can see the differences in shape that the scagnostics have identified. For example, the scagnostic *skewed* selects the pair of features, curvature and trend strength, and reveals a shape difference in these features  between macroeconomic and microeconomic time series (middle plot). Macroeconomic series tend to have moderate curvature and varied trend, while microeconomic series tend to have strong trends and varied curvature. These feature differences that are identified in the scagnostic can be seen in the time series themselves in Figure \@ref(fig:tsplots). We can see from this example, and the other comparisons in the plot, that the scagnostics have identified a differences in shape that would not have been apparent from only examining mean differences between groups. Other shape differences can be read from the other pairs of features (left and right plots).
 
-While we have shown that the scagnostics succeed in identifying difference in shapes between groups, this does not automatically transfer to a classification technique. Utilising the scagnostics ability to identify between group shape differences is an early step in using them for classification. It is not uncommon for supervised learning methods to be born from unsupervised learning methods. For example, principal component analysis  (PCA), an unsupervised learning method, transforms a data set by making linear combinations of the variables in the direction of most variance. Performing this linear transformation wile also trying to explain the variance in a response variable is a supervised version of PCA known as principal component regression. However, despite its promise, developing a classification technique based on scagnostics is beyond the scope of this paper. 
+While we have shown that the scagnostics succeed in identifying difference in shapes between groups, this does not automatically transfer to a classification technique. Utilising the scagnostics ability to identify between group shape differences is an early step in using them for classification. It is not uncommon for supervised learning methods to be born from unsupervised learning methods.  However, developing a classification technique based on scagnostics is beyond the scope of this paper. 
 
 ```{r eval=FALSE}
 # Getting the data
@@ -1014,7 +1014,7 @@ scags_mac_mic |> kable(format="latex", caption = "Pairs of time series features 
 ```
 
 
-```{r timeseries, fig.alt = "Three scatter plots of time series feautes calcuated on microeconomic and macro economic series where the plots were identified due to having the biggest difference in a particular scagnostic value.",fig.cap="Interesting differences in the visual features of two groups of time series can be detected by scagnostics. The three plots represent the variable pairs that maximised the differences between outlying (left), skewed (middle) and convex (right). While these distributions may have overlapping means, their differencs in shape have been identified by the scagnostics.", fig.width = 10, fig.height = 4, out.width="100%", layout = "l-body"}
+```{r timeseries, fig.alt = "Three scatter plots of time series feautes calculated on microeconomic and macroeconomic series where the plots were identified due to having the biggest difference in a particular scagnostic value.",fig.cap="Interesting differences in the visual features of two groups of time series can be detected by scagnostics. The three plots represent the variable pairs that maximised the differences between outlying (left), skewed (middle) and convex (right). While these distributions may have overlapping means, their differencs in shape have been identified by the scagnostics.", fig.width = 10, fig.height = 4, out.width="100%", layout = "l-body"}
 feats_mac_mic <- bind_rows(
   mutate(feats_macro, type = "macro"),
   mutate(feats_micro, type = "micro")
@@ -1386,3 +1386,7 @@ TX.VAL.TECH.MF.ZS	High-technology exports (% of manufactured exports)
 - MS.MIL.TOTL.TF.ZS	Armed forces personnel (% of total labor force)
 - FB.BNK.CAPA.ZS	Bank capital to assets ratio (%)
 - SE.COM.DURS	Compulsory education, duration (years)
+
+## A4: Macro and Micro Economic Series 
+
+Code for generating the data is available on the cassowaryr GitHub repo, in the file https://github.com/numbats/cassowaryr/blob/master/data-raw/tsfeatures.R. 

@@ -75,7 +75,7 @@ We thank the editor, associate editors and reviews for their helpful comments to
 
 *Page 16: The statement about LDA assumptions is incorrect. In any case, the LDA/QDA discussion is not directly relevant.* **The statement in the paper is correct. It was used to make an analogy, but we have taken this out because it clearly did not help the reviewer.**
 
-*Page 17: PCA regression description is not accurate, as the dimension reduction steps and regression are performed independently. Suggest removing the discussion about pca, it is not really relevant and is confusing.* **(Di problem)**
+*Page 17: PCA regression description is not accurate, as the dimension reduction steps and regression are performed independently. Suggest removing the discussion about pca, it is not really relevant and is confusing.* **Again, not incorrect, but we have removed reference to PCA from the paper.**
 
 *Page 17: "Macroeconomic series tend to have moderate curvature and varied trend, while microeconomic series tend to have strong trends and varied curvature." How is this statement supported by figure 13, where trends look about the same between micro and micro series? Then the Figure caption says "The way that trend strength is calculated, on closer inspection, could lead to describing jagginess." which seems strange and could do with more explanation.* **(Di problem)**
 
