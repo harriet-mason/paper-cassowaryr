@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.9.9)  9 SEP 2025 10:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.9.9)  9 SEP 2025 10:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -908,27 +908,27 @@ Overfull \hbox (7.91783pt too wide) in paragraph at lines 506--522
  [][] 
  []
 
-<mason-lee-laa-cook_files/figure-latex/timeseries-1.pdf, id=477, 652.4375pt x 257.96375pt>
+<mason-lee-laa-cook_files/figure-latex/timeseries-1.pdf, id=483, 652.4375pt x 257.96375pt>
 File: mason-lee-laa-cook_files/figure-latex/timeseries-1.pdf Graphic file (type pdf)
 <use mason-lee-laa-cook_files/figure-latex/timeseries-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/timeseries-1.pdf  used on input line 525.
 (pdftex.def)             Requested size: 398.33858pt x 157.50328pt.
-<mason-lee-laa-cook_files/figure-latex/tsplots-1.pdf, id=478, 831.105pt x 542.025pt>
+<mason-lee-laa-cook_files/figure-latex/tsplots-1.pdf, id=484, 831.105pt x 542.025pt>
 File: mason-lee-laa-cook_files/figure-latex/tsplots-1.pdf Graphic file (type pdf)
 <use mason-lee-laa-cook_files/figure-latex/tsplots-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/tsplots-1.pdf  used on input line 529.
 (pdftex.def)             Requested size: 398.33858pt x 259.78859pt.
 
 
-[17]
-
-[18 <./mason-lee-laa-cook_files/figure-latex/timeseries-1.pdf> <./mason-lee-laa-cook_files/figure-latex/tsplots-1.pdf>]
-<mason-lee-laa-cook_files/figure-latex/wbistatic-1.pdf, id=519, 616.3025pt x 229.85875pt>
+[17 <./mason-lee-laa-cook_files/figure-latex/timeseries-1.pdf>]
+<mason-lee-laa-cook_files/figure-latex/wbistatic-1.pdf, id=507, 616.3025pt x 229.85875pt>
 File: mason-lee-laa-cook_files/figure-latex/wbistatic-1.pdf Graphic file (type pdf)
 <use mason-lee-laa-cook_files/figure-latex/wbistatic-1.pdf>
 Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/wbistatic-1.pdf  used on input line 543.
 (pdftex.def)             Requested size: 398.33858pt x 148.56815pt.
 
+
+[18 <./mason-lee-laa-cook_files/figure-latex/tsplots-1.pdf>]
 
 [19 <./mason-lee-laa-cook_files/figure-latex/wbistatic-1.pdf>]
 
@@ -948,16 +948,16 @@ Underfull \hbox (badness 7362) in paragraph at lines 154--154
 \T1/ppl/m/n/9 (+20) https://databank.worldbank.org/source/world-development-indicators, 2021.  Ac-cessed
  []
 
-
-
-[22])
+)
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
 (Font)              using `T1/zi4/m/n' instead on input line 725.
 
 LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
 (Font)              scaled to size 9.18004pt on input line 725.
-)
+
+
+[22])
 
 [23] (./RJwrapper.aux)
  ***********
@@ -970,18 +970,18 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
 (rerunfilecheck)             Checksum: 76A68AAE5F12CE8FBF80D3AF28034728;4397.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
-(rerunfilecheck)             Checksum: 439834F3C9CD6B4463BFFF41FFD17C90;1913.
+(rerunfilecheck)             Checksum: 09BD18CE97EC5795F39732116F0A56CD;1913.
  ) 
 Here is how much of TeX's memory you used:
  27548 strings out of 469738
  504205 string characters out of 5480267
- 925977 words of memory out of 5000000
+ 923977 words of memory out of 5000000
  54983 multiletter control sequences out of 15000+600000
  681182 words of font info for 351 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  117i,12n,131p,2109b,964s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/mathpazo/fplmr.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (23 pages, 2362706 bytes).
+Output written on RJwrapper.pdf (23 pages, 2362353 bytes).
 PDF statistics:
  712 PDF objects out of 1000 (max. 8388607)
  571 compressed objects within 6 object streams

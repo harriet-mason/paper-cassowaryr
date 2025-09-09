@@ -73,7 +73,7 @@ We thank the editor, associate editors and reviews for their helpful comments to
 
 *Page 14: the scagnostics for the physics data are computed on a sample of 200 out of \~10K observations. Binning would be very useful in this case. Presumably outliers could easily be "lost" in such a small sample.* **We are looking for the main patterns and not for outliers, but we agree that if binning is available then it could be the full data. We have adjusted the phrasing to clarify this.**
 
-*Page 16: The statement about LDA assumptions is incorrect. In any case, the LDA/QDA discussion is not directly relevant.* **(Di problem)**
+*Page 16: The statement about LDA assumptions is incorrect. In any case, the LDA/QDA discussion is not directly relevant.* **The statement in the paper is correct. It was used to make an analogy, but we have taken this out because it clearly did not help the reviewer.**
 
 *Page 17: PCA regression description is not accurate, as the dimension reduction steps and regression are performed independently. Suggest removing the discussion about pca, it is not really relevant and is confusing.* **(Di problem)**
 
