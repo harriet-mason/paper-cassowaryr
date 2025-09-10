@@ -139,7 +139,7 @@ We thank the editor, associate editors and reviews for their helpful comments to
 
 -   *page 7: how strict is the restriction around 180 & 90 degrees?* **We agree. To make it clear we have changed the sentence to: \_\_\_\_**
 
--   *page 7: last paragraph is highly confusing... what is the 'lines' scatterplot referenced and how does it differ from 'vlines'? The later comments make sense but the whole discussion is made confusing by errors like this* **Check if lines should be vline or line or both? We agree. To make it clear we have changed the sentence to:    **
+-   *page 7: last paragraph is highly confusing... what is the 'lines' scatterplot referenced and how does it differ from 'vlines'? The later comments make sense but the whole discussion is made confusing by errors like this* **Issue caused by the error restriction around 180 degrees**
 
 -   *page 7, last paragraph: 'axis' should be 'axes', 'observation' should be plural, 'version' should be plural* **We agree and have made the changes.**
 
