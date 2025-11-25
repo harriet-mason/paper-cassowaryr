@@ -13,7 +13,7 @@ We thank the editor, associate editors and reviews for their helpful comments to
 
 *This paper concerns the CRAN package cassowaryr for calculating scagnostics. This package is an alternative to the existing scagnostics package, with the code now written in R, and some improvements made to the definition of the scagnostics themselves. Scagnostics are a very useful tool for screening scatterplots, and their existing implementation in the scagnostics package are known to have some flaws. This new package, particularly as it is tidyverse friendly, could help promote scagnostics as a tool to the R community.*
 
-*Very little of the paper is given over to the package, its design and implementation. No comparison is made to the original scagnostics package.Though binning is mentioned in the paper, it is not available in the package. Presumably if it did include binning, then the original scagnostic definitions should be used. Presumably also, the new implementation of scagnostics is a lot slower than the original due to the R vs C++ implementation and the lack of binning, though this is not discussed.* 
+*Very little of the paper is given over to the package, its design and implementation. No comparison is made to the original scagnostics package.Though binning is mentioned in the paper, it is not available in the package. Presumably if it did include binning, then the original scagnostic definitions should be used. Presumably also, the new implementation of scagnostics is a lot slower than the original due to the R vs C++ implementation and the lack of binning, though this is not discussed.*
 
 **Want comparison to scagnostics package. Package had issues with it. Hadley has similar code in the binostics package that has an underlying one. Could try doing that. Not sure how time comparison will work (since not in R) also no binning so hard to compare.**
 
@@ -45,7 +45,7 @@ We thank the editor, associate editors and reviews for their helpful comments to
 
 *Page 6: Table 1: As regards stringy, it says "This measure rarely drops below 0.5", but this does not agree with the Wilkinson and Wills figures 5 and 6.* **We agree that this does not agree with the Wilksinson and Wills figures 5 and 6. This is why it was listed as an "issue" with our calculation of the measure and we explcitly mention this issue did not exist in the binned version of the statistics. The issues table outlines problems with the cassowaryr computations of the measures. Some of them overlap with issues that might arise in the Wilkinson (2008) calculations, but some of them are unique to the cassowaryr computation.**
 
-*Page 7: "in contention with" -\> "align with" ?* **We are saying that the measures do not align with human intuition, but agree that phrase is needlessly complicated. We changed it to "conflicts with" **
+*Page 7: "in contention with" -\> "align with" ?* **We are saying that the measures do not align with human intuition, but agree that phrase is needlessly complicated. We changed it to "conflicts with"**
 
 *Page 7: The discussion of Figure 5 is confusing. The "line" plot does not score 1 on either striated measure. The caption says "line and vlines have the same result" but this is not evident in the display.* **This is actually an issue caused by interp package that I missed (and also why I am eternally annoyed that Albrech would not use the tRiad package) - I suspect the noise added in the line plot causes the MST edges to go beyond the error tollerance for the striated measure. - I might be able to fix this by tinkering with the error tollerance in the striated measure - Good catch by the reviewer tbh**
 
@@ -59,7 +59,7 @@ We thank the editor, associate editors and reviews for their helpful comments to
 
 **We agree that this approach should have been mentioned earlier in the paper. We have now included a sentence in the third paragraph of the introduction that mentions using a SPLOM of scagnostic values as an EDA technique. We also included a more detailling introduction to the approach in the first paragraph of the AFLW example.**
 
-- *"should be in package documentation"* **To DO note from meeting with Ursula, not sure what this means**
+-   *"should be in package documentation"* **To DO note from meeting with Ursula, not sure what this means**
 
 *In Figure 9 top row the coloured dots are hard to pick out. I suggest you make them bigger.* **We agree. We made them bigger and added a black outline.**
 
@@ -147,7 +147,7 @@ We thank the editor, associate editors and reviews for their helpful comments to
 
 -   *table 3 on page 11 has some typos: 'stirated', 'scagnositc', etc.* **We agree and have made the changes.**
 
--   *page 11, calculate functions: '...each function is a scagnostics' should not be pluralized ***We agree and have made the changes.**
+-   *page 11, calculate functions: '...each function is a scagnostics' should not be pluralized* **We agree and have made the changes.**
 
 -   *page 12, making summaries: 'summarise' should be 'summaries'* **We agree and have made the changes.**
 
