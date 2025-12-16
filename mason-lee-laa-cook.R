@@ -905,11 +905,11 @@ mac + mic
 load("data/wbi_wide.rda")
 load("data/wbi_scags.rda")
 
-
 wbi_scags_long <- wbi_scags |> 
   pivot_longer(!c(Var1, Var2), names_to = "scag", values_to = "value") |>
   arrange(desc(value))
 
+# Plot a few to check
 w1 <- ggplot(wbi_wide,
              aes(.data[[as.character(wbi_scags_long$Var1[1])]], 
                  .data[[as.character(wbi_scags_long$Var2[1])]])) +
@@ -920,52 +920,13 @@ w2 <- ggplot(wbi_wide,
            .data[[as.character(wbi_scags_long$Var2[2])]])) +
   geom_point()
 
-# Summarise highest on each index
-wbi_scags_top <- wbi_scags_long |> 
-  group_by(scag) |>
-  slice_head(n=1)
 
-w3a <- ggplot(wbi_wide, 
-       aes(.data[[as.character(wbi_scags_top$Var1[1])]],
-           .data[[as.character(wbi_scags_top$Var2[1])]])) +
-  geom_point(aes(label = `Country Code`)) +
-  #ggtitle(wbi_scags_top$scag[1]) +
-  theme_classic() +
-  theme(axis.text = element_blank())
-
-w3b <- ggplot(filter(wbi_wide, AG.LND.AGRI.ZS<10), #remove outlier so it is the scatter plot it used for calc
-              aes(.data[[as.character(wbi_scags_top$Var1[2])]],
-                  .data[[as.character(wbi_scags_top$Var2[2])]])) +
-  geom_point(aes(label = `Country Code`)) +
-  #ggtitle(wbi_scags_top$scag[2]) +
-  theme_classic() +
-  theme(axis.text = element_blank())
-# Most tend to be vars with too many 0's
-
-# Summarise highest on each variable pair
+# Extract pairs of interest
 wbi_scags_topvars <- wbi_scags_long |> 
   group_by(Var1, Var2) |>
   slice_head(n=1) |>
   ungroup() |>
   arrange(scag)
-
-pair1 <- wbi_scags_topvars |> filter(scag == "clumpy2")
-
-#w4 <- ggplot(wbi_wide, 
-#         aes_string(x=as.character(pair1$Var1),
-#                    y=as.character(pair1$Var2))) +
-#  geom_point(aes(label = `Country Code`)) +
-#  theme(aspect.ratio=1) +
-#  ggtitle(pair1$scag)
-
-pair2 <- wbi_scags_topvars |> filter(scag == "striated2")
-
-#w5 <- wbi_wide  |>
-#  ggplot(aes_string(x=as.character(pair2$Var1),
-#                    y=as.character(pair2$Var2))) +
-#  geom_point(aes(label = `Country Code`)) +
-#  theme(aspect.ratio=1) +
-#  ggtitle(pair2$scag)
 
 wbi_scags_topvars <- wbi_scags_topvars |>
   mutate(scag = factor(scag, 
@@ -977,23 +938,54 @@ w6 <- ggplot(wbi_scags_topvars,
              aes(x=scag,
                  y=value, label = vars)) +
   xlab("") + ylab("") +
-  geom_point(alpha=0.7) + coord_flip()+ 
-  theme(aspect.ratio = 1) +
-  theme_classic()
+  geom_point(alpha=0.7) + coord_flip() + 
+  theme_classic() +
+  theme(aspect.ratio = 1,
+        axis.text.x = element_blank()) 
+
+# Summarise highest on outlying index
+wbi_scags_out <- wbi_scags_long |> 
+  filter(scag == "outlying")
+
+w6a <- ggplot(wbi_wide, 
+       aes(.data[[as.character(wbi_scags_out$Var1[1])]],
+           .data[[as.character(wbi_scags_out$Var2[1])]])) +
+  geom_point(aes(label = `Country Code`)) +
+  theme_classic() +
+  theme(axis.text = element_blank())
+
+w6b <- ggplot(wbi_wide, aes(.data[[as.character(wbi_scags_out$Var1[2])]],
+                  .data[[as.character(wbi_scags_out$Var2[2])]])) +
+  geom_point(aes(label = `Country Code`)) +
+  theme_classic() +
+  theme(axis.text = element_blank())
+
+w6c <- ggplot(wbi_wide, aes(.data[[as.character(wbi_scags_out$Var1[3])]],
+                  .data[[as.character(wbi_scags_out$Var2[3])]])) +
+  geom_point(aes(label = `Country Code`)) +
+  theme_classic() +
+  theme(axis.text = element_blank())
+
+w6d <- ggplot(wbi_wide, aes(.data[[as.character(wbi_scags_out$Var1[4])]],
+                  .data[[as.character(wbi_scags_out$Var2[4])]])) +
+  geom_point(aes(label = `Country Code`)) +
+  theme_classic() +
+  theme(axis.text = element_blank())
 
 
-## ----wbiinteractive, fig.alt = "Three scatter plots, the first shows the top scagnostic for each scatter plot in the world bank data, the second is the scatter plot that returned the highest clumpy 2 value, while the third is the one that returned the highest convext value. The first plot gives a summary of the overall shape of the data, neither the second or third plot have any interesting visual features.", fig.cap = "Using scagnostics to explore the variety of relationships present in the WBI data. The side-by-side dotplot (left) shows one point for each pair of variables, with its highest scagnostic value among all scagnostics calculated. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. There is one pair that has clumpy as the highest value. The plots, middle and right, show the pair of variables with highest value on clumpy2 and convex, respectively. (Mouseover allows identification of variable pairs, and countries.)",  include=knitr::is_html_output(), eval=knitr::is_html_output(), fig.height=3.5, fig.width=9, layout = "l-body"----
-# ws1 <- ggplotly(w6)
-# ws2 <- ggplotly(w3a)
-# ws3 <- ggplotly(w3b)
-# subplot(ws1, ws2, ws3, nrows=1, widths = c(0.33, 0.33, 0.33), heights = 0.6)
+
+## ----wbiinteractive, fig.cap = "Using scagnostics to explore the variety of relationships present in the WBI data. The side-by-side dotplot (left) shows the top scagnostics values. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. The other two plots show pairs of indicators that have high values on outlying. (Mouseover allows identification of variable pairs, and countries.)", fig.alt = "Three scatter plots, the first shows the top scagnostic for each scatter plot in the world bank data, the second is the scatter plot that returned the highest clumpy 2 value, while the third is the one that returned the highest convext value. The first plot gives a summary of the overall shape of the data, neither the second or third plot have any interesting visual features.",  include=knitr::is_html_output(), eval=knitr::is_html_output(), fig.height=2.5, fig.width=9, layout = "l-body"----
+# ws6 <- ggplotly(w6)
+# ws6a <- ggplotly(w6a)
+# 
+# ws6c <- ggplotly(w6c)
+# subplot(ws6, ws6a, ws6c, nrows=1, titleX = TRUE, titleY = TRUE,
+#         margin = 0.04, widths=c(0.33, 0.33, 0.33))
 
 
-## ----wbistatic, fig.alt = "Three scatter plots, the first shows the top scagnostic for each scatter plot in the world bank data, the second is the scatter plot that returned the highest clumpy 2 value, while the third is the one that returned the highest convext value. The first plot gives a summary of the overall shape of the data, neither the second or third plot have any interesting visual features.", fig.cap="Using scagnostics to explore the variety of relationships present in the WBI data. The side-by-side dotplot (left) shows one point for each pair of variables, with its highest scagnostic value among all scagnostics calculated. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. There is one pair that has clumpy as the highest value. The plots, middle and right, show the pair of variables with highest value on clumpy2 and convex, respectively.", fig.height=3.5, fig.width=9, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()----
-w6 <- w6 + ggtitle("Top scagnostic for each pair") 
-w3a <- w3a + ggtitle("Top clumpy2")
-w3b <- w3b + ggtitle("Top convex")
-w6 + w3a + w3b
+## ----wbistatic, fig.cap="Using scagnostics to explore the variety of relationships present in the WBI data. The side-by-side dotplot (left) shows the top scagnostics values. Most of the pairs of indicators exhibit outliers, skewed, stringy or convex. The other two plots show pairs of indicators that have high values on outlying.", fig.alt = "Three scatter plots, the first shows the top scagnostic for each scatter plot in the world bank data, the second is the scatter plot that returned the highest clumpy 2 value, while the third is the one that returned the highest convext value. The first plot gives a summary of the overall shape of the data, neither the second or third plot have any interesting visual features.", fig.height=3.5, fig.width=9, out.width="100%", include=knitr::is_latex_output(), eval=knitr::is_latex_output()----
+w6 <- w6 + ggtitle("Top scagnostic values") 
+w6 + w6a + w6c
 
 
 ## ----include=FALSE, eval=FALSE------------------------------------------------

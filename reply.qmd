@@ -81,9 +81,9 @@ We thank the editor, associate editors and reviews for their helpful comments to
 
 *This third example is scagnostics calculated on features of time series rather than time series themselves. This is an interesting idea, but needs to be motivated. Also the code provided for this example is not self-contained, as the code for calculation of the feasts indices is not provided.* **See note above. Exmaple is removed**
 
-*Page 19: In the WBI example (Fig 14) the top clumpy2 value is (close to) 1, yet the scatterplot is not what I'd describe as clumpy. Is this a problem with the index?* **Yes, what we imagine to be structure based on the index name does not always match what the structure looks like to our eyes.**
+*Page 19: In the WBI example (Fig 14) the top clumpy2 value is (close to) 1, yet the scatterplot is not what I'd describe as clumpy. Is this a problem with the index?* **Yes, what we imagine to be structure based on the index name does not always match what the structure looks like to our eyes. We've changed the pairs of variables to only examine top pairs on outlying. This is a little less confusing.**
 
-*Page 19: "This tells us that in the WBI data, the relationships between variables is dominated by outliers (as noted by the high values on the outlying scagnostic, and to some extent also skewed and stringy), and no relationship (given bu the high values on convex). " There is something wrong with this sentence.* **(Di problem)**
+*Page 19: "This tells us that in the WBI data, the relationships between variables is dominated by outliers (as noted by the high values on the outlying scagnostic, and to some extent also skewed and stringy), and no relationship (given bu the high values on convex). " There is something wrong with this sentence.* **Fixed**
 
 *Some references in the paper use the author's first initial/name.* **We agree and have made the changes.**
 
