@@ -13,7 +13,7 @@ We thank the editor, associate editors and reviews for their helpful comments to
 
 *This paper concerns the CRAN package cassowaryr for calculating scagnostics. This package is an alternative to the existing scagnostics package, with the code now written in R, and some improvements made to the definition of the scagnostics themselves. Scagnostics are a very useful tool for screening scatterplots, and their existing implementation in the scagnostics package are known to have some flaws. This new package, particularly as it is tidyverse friendly, could help promote scagnostics as a tool to the R community.*
 
-*Very little of the paper is given over to the package, its design and implementation. No comparison is made to the original scagnostics package.Though binning is mentioned in the paper, it is not available in the package. Presumably if it did include binning, then the original scagnostic definitions should be used. Presumably also, the new implementation of scagnostics is a lot slower than the original due to the R vs C++ implementation and the lack of binning, though this is not discussed.* 
+*Very little of the paper is given over to the package, its design and implementation. No comparison is made to the original scagnostics package.Though binning is mentioned in the paper, it is not available in the package. Presumably if it did include binning, then the original scagnostic definitions should be used. Presumably also, the new implementation of scagnostics is a lot slower than the original due to the R vs C++ implementation and the lack of binning, though this is not discussed.*
 
 **Want comparison to scagnostics package. Package had issues with it. Hadley has similar code in the binostics package that has an underlying one. Could try doing that. Not sure how time comparison will work (since not in R) also no binning so hard to compare.**
 
@@ -45,7 +45,7 @@ We thank the editor, associate editors and reviews for their helpful comments to
 
 *Page 6: Table 1: As regards stringy, it says "This measure rarely drops below 0.5", but this does not agree with the Wilkinson and Wills figures 5 and 6.* **We agree that this does not agree with the Wilksinson and Wills figures 5 and 6. This is why it was listed as an "issue" with our calculation of the measure and we explcitly mention this issue did not exist in the binned version of the statistics. The issues table outlines problems with the cassowaryr computations of the measures. Some of them overlap with issues that might arise in the Wilkinson (2008) calculations, but some of them are unique to the cassowaryr computation.**
 
-*Page 7: "in contention with" -\> "align with" ?* **We are saying that the measures do not align with human intuition, but agree that phrase is needlessly complicated. We changed it to "conflicts with" **
+*Page 7: "in contention with" -\> "align with" ?* **We are saying that the measures do not align with human intuition, but agree that phrase is needlessly complicated. We changed it to "conflicts with"**
 
 *Page 7: The discussion of Figure 5 is confusing. The "line" plot does not score 1 on either striated measure. The caption says "line and vlines have the same result" but this is not evident in the display.* **This is actually an issue caused by interp package that I missed (and also why I am eternally annoyed that Albrech would not use the tRiad package) - I suspect the noise added in the line plot causes the MST edges to go beyond the error tollerance for the striated measure. - I might be able to fix this by tinkering with the error tollerance in the striated measure - Good catch by the reviewer tbh**
 
@@ -59,17 +59,17 @@ We thank the editor, associate editors and reviews for their helpful comments to
 
 **We agree that this approach should have been mentioned earlier in the paper. We have now included a sentence in the third paragraph of the introduction that mentions using a SPLOM of scagnostic values as an EDA technique. We also included a more detailling introduction to the approach in the first paragraph of the AFLW example.**
 
-- *"should be in package documentation"* **To DO note from meeting with Ursula, not sure what this means**
+-   *"should be in package documentation"* **To DO note from meeting with Ursula, not sure what this means**
 
 *In Figure 9 top row the coloured dots are hard to pick out. I suggest you make them bigger.* **We agree. We made them bigger and added a black outline.**
 
 *In Figure 10. explain that the blue/red dots represent the same plots in the three scagnostic plots. Again coloured dots are small, suggest making them bigger.* **We agree. We made them bigger and added a black outline, and added a sentance in Figure 10 and Figure 11 connecting the plots.**
 
-*Figure 11: I would not describe the green plot (alpha vs time) as exhibiting clumpiness.* **While they are not elliptical, the plot does show two disconnected regions of higher density, and we would expect the clumpy index to be sensitive to this gap pattern. XXX need some rephrasing in the text? maybe clumpy is better described as a gap pattern?**
+*Figure 11: I would not describe the green plot (alpha vs time) as exhibiting clumpiness.* **While they are not elliptical, the plot does show two disconnected regions of higher density, and we would expect the clumpy index to be sensitive to this gap pattern, based on the definition in terms of edge lengths in the MST.**
 
 *Page 13: "The best way to identify interesting scatter plots is to construct a large interactive SPLOM" This statement needs more justification. Why a SPLOM as opossed to another display of multivariate data? I would like to see this interactive SPLOM included (and suggest dropping the final two examples.) It would be nice if your package included some functionality to identify interesting scatterplots, beyond top_pairs, which is not used in any of the examples.* **We agree that the use of the word "best" was poor phrasing on our part. We realised the information in this paragraph is now included in the introduction to the AFLW example, so we just removed it. Even though the interactive SPLOM is more manageable than the original data set, the entire interactive SPLOM would take up a lot of space and be difficult to read if fit within the bounds of the paper. The purpose of cassowaryr is largely to calculate scagnostics and it is designed to fit within an ecosystem that is better equipt to do the functionality. Since the data is returned in a tidy data format, it can be fed into outlier detection or visualisation tools directly by the user. For example, the calc_scags_wide function gives the scagnostics back as a wide data frame, which can be passed into ggpairs if the user wants to make a SPLOM. Any functionality that does exist in the package was largely for our own benefit to avoid copy and pasting code. If you have any suggestions for specific functionality additions, we would be happy to look into implementing them.**
 
-*Page 14: "The splines vs dcor plot tells us that there is a strong linear relationship". But both of these are measures of non-linear association.* **Would have to look it up, there should be some papers that say the highest values in distance correlation (close to 1) only happens with linear relationships. Check for paper on that. If not just say strong relationship**
+*Page 14: "The splines vs dcor plot tells us that there is a strong linear relationship". But both of these are measures of non-linear association.* **We agree, and rephrased it to functional relationship.**
 
 *Page 14: the scagnostics for the physics data are computed on a sample of 200 out of \~10K observations. Binning would be very useful in this case. Presumably outliers could easily be "lost" in such a small sample.* **We are looking for the main patterns and not for outliers, but we agree that if binning is available then it could be the full data. We have adjusted the phrasing to clarify this.**
 
@@ -119,7 +119,7 @@ We thank the editor, associate editors and reviews for their helpful comments to
 
 ## *Detailed comments*
 
-*Consider reordering Table 1 and Figure 3 for clarity, skipping one to read the other breaks the flow of the article.* **We agree and have made the changes.**
+*Consider reordering Table 1 and Figure 3 for clarity, skipping one to read the other breaks the flow of the article.* **We feel that swapping the table and the figures would only end up shifting this jumping back and forth issue from Table 1 to Figures 3 and 4. As there is a discussion of the figures in the paragraph, we feel that this version of the paper would be less cohesive.**
 
 -   *Clean up references and make them consistent (some use first names, others use abbreviations, still others a mix of both: this makes for jarring and confusing reading)* **We agree and have made the changes.**
 
@@ -139,7 +139,7 @@ We thank the editor, associate editors and reviews for their helpful comments to
 
 -   *page 7: how strict is the restriction around 180 & 90 degrees?* **We agree. To make it clear we have changed the sentence to: \_\_\_\_**
 
--   *page 7: last paragraph is highly confusing... what is the 'lines' scatterplot referenced and how does it differ from 'vlines'? The later comments make sense but the whole discussion is made confusing by errors like this* **Check if lines should be vline or line or both? We agree. To make it clear we have changed the sentence to:    **
+-   *page 7: last paragraph is highly confusing... what is the 'lines' scatterplot referenced and how does it differ from 'vlines'? The later comments make sense but the whole discussion is made confusing by errors like this* **Issue caused by the error restriction around 180 degrees**
 
 -   *page 7, last paragraph: 'axis' should be 'axes', 'observation' should be plural, 'version' should be plural* **We agree and have made the changes.**
 
@@ -147,7 +147,7 @@ We thank the editor, associate editors and reviews for their helpful comments to
 
 -   *table 3 on page 11 has some typos: 'stirated', 'scagnositc', etc.* **We agree and have made the changes.**
 
--   *page 11, calculate functions: '...each function is a scagnostics' should not be pluralized ***We agree and have made the changes.**
+-   *page 11, calculate functions: '...each function is a scagnostics' should not be pluralized* **We agree and have made the changes.**
 
 -   *page 12, making summaries: 'summarise' should be 'summaries'* **We agree and have made the changes.**
 

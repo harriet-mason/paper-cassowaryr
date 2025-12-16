@@ -2,7 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
+<<<<<<< HEAD
 <meta name="generator" content="quarto-1.7.30">
+=======
+<meta name="generator" content="quarto-1.8.24">
+>>>>>>> ed8f5b5a5c4fbec487d9071a3f3fa557af4454f4
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -27,14 +31,25 @@ ul.task-list li input[type="checkbox"] {
 <script src="reply_files/libs/clipboard/clipboard.min.js"></script>
 <script src="reply_files/libs/quarto-html/quarto.js" type="module"></script>
 <script src="reply_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<<<<<<< HEAD
+=======
+<script src="reply_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+>>>>>>> ed8f5b5a5c4fbec487d9071a3f3fa557af4454f4
 <script src="reply_files/libs/quarto-html/popper.min.js"></script>
 <script src="reply_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="reply_files/libs/quarto-html/anchor.min.js"></script>
 <link href="reply_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<<<<<<< HEAD
 <link href="reply_files/libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="reply_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="reply_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="reply_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+=======
+<link href="reply_files/libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="reply_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="reply_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="reply_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+>>>>>>> ed8f5b5a5c4fbec487d9071a3f3fa557af4454f4
 
 
 </head>
@@ -94,7 +109,11 @@ ul.task-list li input[type="checkbox"] {
 <p><em>Page 5: For dcor include a reference to distance corrrelation.</em> <strong>Good catch. We have added the reference to distance correlation.</strong></p>
 <p><em>Page 5: In the discussion of Figure 4, you point out problems with the original scagnostic measures. When comparing this to Figures 4 and 6 of the Wilkinson and Wills (2008) paper, it would seem more than a suspicion that the defects evident in Figure 4 are due to binning. Why not verify this using the scagnostics package?</em> <strong>If easy we can check this with the binostics package.</strong></p>
 <p><em>Page 6: Table 1: As regards stringy, it says “This measure rarely drops below 0.5”, but this does not agree with the Wilkinson and Wills figures 5 and 6.</em> <strong>We agree that this does not agree with the Wilksinson and Wills figures 5 and 6. This is why it was listed as an “issue” with our calculation of the measure and we explcitly mention this issue did not exist in the binned version of the statistics. The issues table outlines problems with the cassowaryr computations of the measures. Some of them overlap with issues that might arise in the Wilkinson (2008) calculations, but some of them are unique to the cassowaryr computation.</strong></p>
+<<<<<<< HEAD
 <p><em>Page 7: “in contention with” -&gt; “align with” ?</em> <strong>We are saying that the measures do not align with human intuition, but agree that phrase is needlessly complicated. We changed it to “conflicts with” </strong></p>
+=======
+<p><em>Page 7: “in contention with” -&gt; “align with” ?</em> <strong>We are saying that the measures do not align with human intuition, but agree that phrase is needlessly complicated. We changed it to “conflicts with”</strong></p>
+>>>>>>> ed8f5b5a5c4fbec487d9071a3f3fa557af4454f4
 <p><em>Page 7: The discussion of Figure 5 is confusing. The “line” plot does not score 1 on either striated measure. The caption says “line and vlines have the same result” but this is not evident in the display.</em> <strong>This is actually an issue caused by interp package that I missed (and also why I am eternally annoyed that Albrech would not use the tRiad package) - I suspect the noise added in the line plot causes the MST edges to go beyond the error tollerance for the striated measure. - I might be able to fix this by tinkering with the error tollerance in the striated measure - Good catch by the reviewer tbh</strong></p>
 <p><em>Page 13: Figure 7 In the caption it refers to the black edge, do you mean green?</em> <strong>We agree and have made the changes.</strong></p>
 <p><em>Page 13: In the discussion associates with Figure 8, you mention picking scatterplots with a low scagnostic value. Why would you do this? Up to now, it seems you were looking for high scagnostic scores.</em></p>
@@ -106,12 +125,21 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p><em>In Figure 9 top row the coloured dots are hard to pick out. I suggest you make them bigger.</em> <strong>We agree. We made them bigger and added a black outline.</strong></p>
 <p><em>In Figure 10. explain that the blue/red dots represent the same plots in the three scagnostic plots. Again coloured dots are small, suggest making them bigger.</em> <strong>We agree. We made them bigger and added a black outline, and added a sentance in Figure 10 and Figure 11 connecting the plots.</strong></p>
+<<<<<<< HEAD
 <p><em>Figure 11: I would not describe the green plot (alpha vs time) as exhibiting clumpiness.</em> <strong>While they are not elliptical, the plot does show two disconnected regions of higher density, and we would expect the clumpy index to be sensitive to this gap pattern. XXX need some rephrasing in the text? maybe clumpy is better described as a gap pattern?</strong></p>
 <p><em>Page 13: “The best way to identify interesting scatter plots is to construct a large interactive SPLOM” This statement needs more justification. Why a SPLOM as opossed to another display of multivariate data? I would like to see this interactive SPLOM included (and suggest dropping the final two examples.) It would be nice if your package included some functionality to identify interesting scatterplots, beyond top_pairs, which is not used in any of the examples.</em> <strong>We agree that the use of the word “best” was poor phrasing on our part. We realised the information in this paragraph is now included in the introduction to the AFLW example, so we just removed it. Even though the interactive SPLOM is more manageable than the original data set, the entire interactive SPLOM would take up a lot of space and be difficult to read if fit within the bounds of the paper. The purpose of cassowaryr is largely to calculate scagnostics and it is designed to fit within an ecosystem that is better equipt to do the functionality. Since the data is returned in a tidy data format, it can be fed into outlier detection or visualisation tools directly by the user. For example, the calc_scags_wide function gives the scagnostics back as a wide data frame, which can be passed into ggpairs if the user wants to make a SPLOM. Any functionality that does exist in the package was largely for our own benefit to avoid copy and pasting code. If you have any suggestions for specific functionality additions, we would be happy to look into implementing them.</strong></p>
 <p><em>Page 14: “The splines vs dcor plot tells us that there is a strong linear relationship”. But both of these are measures of non-linear association.</em> <strong>Would have to look it up, there should be some papers that say the highest values in distance correlation (close to 1) only happens with linear relationships. Check for paper on that. If not just say strong relationship</strong></p>
 <p><em>Page 14: the scagnostics for the physics data are computed on a sample of 200 out of ~10K observations. Binning would be very useful in this case. Presumably outliers could easily be “lost” in such a small sample.</em> <strong>We are looking for the main patterns and not for outliers, but we agree that if binning is available then it could be the full data. We have adjusted the phrasing to clarify this.</strong></p>
 <p><em>Page 16: The statement about LDA assumptions is incorrect. In any case, the LDA/QDA discussion is not directly relevant.</em> <strong>The statement in the paper is correct. It was used to make an analogy, but we have taken this out because it clearly did not help the reviewer.</strong></p>
 <p><em>Page 17: PCA regression description is not accurate, as the dimension reduction steps and regression are performed independently. Suggest removing the discussion about pca, it is not really relevant and is confusing.</em> <strong>Again, not incorrect, but we have removed reference to PCA from the paper.</strong></p>
+=======
+<p><em>Figure 11: I would not describe the green plot (alpha vs time) as exhibiting clumpiness.</em> <strong>While they are not elliptical, the plot does show two disconnected regions of higher density, and we would expect the clumpy index to be sensitive to this gap pattern, based on the definition in terms of edge lengths in the MST.</strong></p>
+<p><em>Page 13: “The best way to identify interesting scatter plots is to construct a large interactive SPLOM” This statement needs more justification. Why a SPLOM as opossed to another display of multivariate data? I would like to see this interactive SPLOM included (and suggest dropping the final two examples.) It would be nice if your package included some functionality to identify interesting scatterplots, beyond top_pairs, which is not used in any of the examples.</em> <strong>We agree that the use of the word “best” was poor phrasing on our part. We realised the information in this paragraph is now included in the introduction to the AFLW example, so we just removed it. Even though the interactive SPLOM is more manageable than the original data set, the entire interactive SPLOM would take up a lot of space and be difficult to read if fit within the bounds of the paper. The purpose of cassowaryr is largely to calculate scagnostics and it is designed to fit within an ecosystem that is better equipt to do the functionality. Since the data is returned in a tidy data format, it can be fed into outlier detection or visualisation tools directly by the user. For example, the calc_scags_wide function gives the scagnostics back as a wide data frame, which can be passed into ggpairs if the user wants to make a SPLOM. Any functionality that does exist in the package was largely for our own benefit to avoid copy and pasting code. If you have any suggestions for specific functionality additions, we would be happy to look into implementing them.</strong></p>
+<p><em>Page 14: “The splines vs dcor plot tells us that there is a strong linear relationship”. But both of these are measures of non-linear association.</em> <strong>We agree, and rephrased it to functional relationship.</strong></p>
+<p><em>Page 14: the scagnostics for the physics data are computed on a sample of 200 out of ~10K observations. Binning would be very useful in this case. Presumably outliers could easily be “lost” in such a small sample.</em> <strong>We are looking for the main patterns and not for outliers, but we agree that if binning is available then it could be the full data. We have adjusted the phrasing to clarify this.</strong></p>
+<p><em>Page 16: The statement about LDA assumptions is incorrect. In any case, the LDA/QDA discussion is not directly relevant.</em> <strong>The statement in the paper is correct. It was used to make an analogy, but we have taken this out because it clearly did not help the reviewer.</strong></p>
+<p><em>Page 17: PCA regression description is not accurate, as the dimension reduction steps and regression are performed independently. Suggest removing the discussion about pca, it is not really relevant and is confusing.</em> <strong>(Di problem)</strong></p>
+>>>>>>> ed8f5b5a5c4fbec487d9071a3f3fa557af4454f4
 <p><em>Page 17: “Macroeconomic series tend to have moderate curvature and varied trend, while microeconomic series tend to have strong trends and varied curvature.” How is this statement supported by figure 13, where trends look about the same between micro and micro series? Then the Figure caption says “The way that trend strength is calculated, on closer inspection, could lead to describing jagginess.” which seems strange and could do with more explanation.</em> <strong>(Di problem)</strong></p>
 <p><em>This third example is scagnostics calculated on features of time series rather than time series themselves. This is an interesting idea, but needs to be motivated. Also the code provided for this example is not self-contained, as the code for calculation of the feasts indices is not provided.</em> <strong>(Di problem)</strong></p>
 <p><em>Page 19: In the WBI example (Fig 14) the top clumpy2 value is (close to) 1, yet the scatterplot is not what I’d describe as clumpy. Is this a problem with the index?</em> <strong>(Di problem)</strong></p>
@@ -141,7 +169,11 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="detailed-comments-1" class="level2">
 <h2 class="anchored" data-anchor-id="detailed-comments-1"><em>Detailed comments</em></h2>
+<<<<<<< HEAD
 <p><em>Consider reordering Table 1 and Figure 3 for clarity, skipping one to read the other breaks the flow of the article.</em> <strong>We agree and have made the changes.</strong></p>
+=======
+<p><em>Consider reordering Table 1 and Figure 3 for clarity, skipping one to read the other breaks the flow of the article.</em> <strong>We feel that swapping the table and the figures would only end up shifting this jumping back and forth issue from Table 1 to Figures 3 and 4. As there is a discussion of the figures in the paragraph, we feel that this version of the paper would be less cohesive.</strong></p>
+>>>>>>> ed8f5b5a5c4fbec487d9071a3f3fa557af4454f4
 <ul>
 <li><p><em>Clean up references and make them consistent (some use first names, others use abbreviations, still others a mix of both: this makes for jarring and confusing reading)</em> <strong>We agree and have made the changes.</strong></p></li>
 <li><p><em>last paragraph of introduction, line 5, “scagnostics” should be “scagnostics’”</em> <strong>We agree and have made the changes.</strong></p></li>
@@ -152,11 +184,19 @@ ul.task-list li input[type="checkbox"] {
 <li><p><em>page 5, first sentence of Checking Scagnostics Calculations: missing apostrophe on “package’s”</em> <strong>We agree and have made the changes.</strong></p></li>
 <li><p><em>skewed description in table 1 seems to be missing ‘s’ on the verbs, “reguarding” is spelled incorrectly rather than “regarding”</em> <strong>We agree and have made the changes.</strong></p></li>
 <li><p><em>page 7: how strict is the restriction around 180 &amp; 90 degrees?</em> <strong>We agree. To make it clear we have changed the sentence to: ____</strong></p></li>
+<<<<<<< HEAD
 <li><p><em>page 7: last paragraph is highly confusing… what is the ‘lines’ scatterplot referenced and how does it differ from ‘vlines’? The later comments make sense but the whole discussion is made confusing by errors like this</em> <strong>Check if lines should be vline or line or both? We agree. To make it clear we have changed the sentence to: </strong></p></li>
 <li><p><em>page 7, last paragraph: ‘axis’ should be ‘axes’, ‘observation’ should be plural, ‘version’ should be plural</em> <strong>We agree and have made the changes.</strong></p></li>
 <li><p><em>page 9, clumpy adjusted point 3: reword to be ‘vertices with adjacent angles forming’</em> <strong>I think I specifically tried to use the terminology from the original scagnostics paper to keep it consistent. Check that. But also, if the reviewer was confused, we should probably reword this so it is clearer.</strong></p></li>
 <li><p><em>table 3 on page 11 has some typos: ‘stirated’, ‘scagnositc’, etc.</em> <strong>We agree and have made the changes.</strong></p></li>
 <li><p><em>page 11, calculate functions: ‘…each function is a scagnostics’ should not be pluralized </em><strong>We agree and have made the changes.</strong></p></li>
+=======
+<li><p><em>page 7: last paragraph is highly confusing… what is the ‘lines’ scatterplot referenced and how does it differ from ‘vlines’? The later comments make sense but the whole discussion is made confusing by errors like this</em> <strong>Issue caused by the error restriction around 180 degrees</strong></p></li>
+<li><p><em>page 7, last paragraph: ‘axis’ should be ‘axes’, ‘observation’ should be plural, ‘version’ should be plural</em> <strong>We agree and have made the changes.</strong></p></li>
+<li><p><em>page 9, clumpy adjusted point 3: reword to be ‘vertices with adjacent angles forming’</em> <strong>I think I specifically tried to use the terminology from the original scagnostics paper to keep it consistent. Check that. But also, if the reviewer was confused, we should probably reword this so it is clearer.</strong></p></li>
+<li><p><em>table 3 on page 11 has some typos: ‘stirated’, ‘scagnositc’, etc.</em> <strong>We agree and have made the changes.</strong></p></li>
+<li><p><em>page 11, calculate functions: ‘…each function is a scagnostics’ should not be pluralized</em> <strong>We agree and have made the changes.</strong></p></li>
+>>>>>>> ed8f5b5a5c4fbec487d9071a3f3fa557af4454f4
 <li><p><em>page 12, making summaries: ‘summarise’ should be ‘summaries’</em> <strong>We agree and have made the changes.</strong></p></li>
 <li><p><em>page 13, end of page: spaces missing in ‘…SPLOM of the scagnostic values,each…” and ’Plot2’</em> <strong>We agree and have made the changes.</strong></p></li>
 <li><p><em>page 14, non-linear shapes section: first sentence has somewhat awkward wording, the use of ‘that’s’ is incorrect</em> <strong>We agree and have rephrased the sentence.</strong></p></li>
@@ -237,6 +277,7 @@ ul.task-list li input[type="checkbox"] {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
+<<<<<<< HEAD
         const codeEl = trigger.previousElementSibling.cloneNode(true);
         for (const childEl of codeEl.children) {
           if (isCodeAnnotation(childEl)) {
@@ -244,6 +285,16 @@ ul.task-list li input[type="checkbox"] {
           }
         }
         return codeEl.innerText;
+=======
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+>>>>>>> ed8f5b5a5c4fbec487d9071a3f3fa557af4454f4
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

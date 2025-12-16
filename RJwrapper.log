@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.17)  16 DEC 2025 11:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.17)  16 DEC 2025 11:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1096,13 +1096,13 @@ Package pdftex.def Info: mason-lee-laa-cook_files/figure-latex/wbistatic-1.pdf
 
 
 [19]
-Underfull \hbox (badness 10000) in paragraph at lines 151--151
+Underfull \hbox (badness 10000) in paragraph at lines 150--150
 []\T1/ppl/m/n/9 (+20) World Bank.  World De-vel-op-ment In-di-ca-tors. The Worl
 d Bank Group.
  []
 
 
-Underfull \hbox (badness 7362) in paragraph at lines 151--151
+Underfull \hbox (badness 7362) in paragraph at lines 150--150
 \T1/ppl/m/n/9 (+20) https://databank.worldbank.org/source/world-development-ind
 icators, 2021.  Ac-cessed
  []
@@ -1133,10 +1133,10 @@ Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  27815 strings out of 473190
- 505928 string characters out of 5715800
- 923473 words of memory out of 5000000
+ 505931 string characters out of 5715800
+ 923453 words of memory out of 5000000
  50116 multiletter control sequences out of 15000+600000
- 612953 words of font info for 342 fonts, out of 8000000 for 9000
+ 612949 words of font info for 342 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  117i,11n,131p,2109b,932s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/inconsolata/Inconsolat
@@ -1149,10 +1149,10 @@ mi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
 sr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/loca
 l/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texli
 ve/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (21 pages, 2235352 bytes).
+Output written on RJwrapper.pdf (21 pages, 2235384 bytes).
 PDF statistics:
- 660 PDF objects out of 1000 (max. 8388607)
- 527 compressed objects within 6 object streams
+ 661 PDF objects out of 1000 (max. 8388607)
+ 528 compressed objects within 6 object streams
  100 named destinations out of 1000 (max. 500000)
  65289 words of extra memory for PDF output out of 74296 (max. 10000000)
 
