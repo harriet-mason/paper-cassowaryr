@@ -116,7 +116,8 @@ d1 + d2 + d3
   
 The nine scagnostics defined by @scagdist are detailed below with an explanation and a formula. They were all constructed to range in [0,1], and later scagnostics have maintained this scale. To give further understanding in how these measures work, the scagnostics *skinny*, *outlying*, and *clumpy* are given an additional visual explanation in Figure \@ref(fig:scagdrawn). We will let $A=$ alpha hull, $C=$ convex hull, $M$ = minimum spanning tree, and $s=$ the scagnostic measure.
   
-Before any of the scagnostics are calculated, outlying points are removed. Outliers are defined as any point whose adjacent edges in the MST have edges larger $q_{75} + 1.5(q_{75} - q_{25})$, where $q_i$ refers to the i$^{th}$ percentile of the sorted edge lengths of the MST.
+Before any of the scagnostics are calculated, the data goes through a pre-processing step where outlying points are removed. Outliers are defined as any point whose adjacent edges in the MST have edges larger $q_{75} + 1.5(q_{75} - q_{25})$, where $q_i$ refers to the i$^{th}$ percentile of the sorted edge lengths of the MST. By default, all the scagnostics are calculated on the processed data, excluding *outlying* as it compares the MST of the raw data to the MST of the processed data. However, this is not set in stone, and the package offers the option to calculate scagnostics on the orignal data if the user prefers. 
+
 
 ```{r scagdrawn, out.width = "100%", fig.alt = "A hand drawn illustration showing the algorithm of the skinny, outlying and clumpy calculations. In each drawing the edges used in the calculation are highlighted in both the mathematical formula and in the illustration of the scatter plot.", fig.cap = " An visualisation of the calculation used to compute the skinny (top), outlying (middle), and clumpy (bottom) scagnostics. These three measure definitions are quite distinct, and each illustrates a unique method of capturing a visual feature in a scatter plot."}
 knitr::include_graphics("figures/drawnmeasures.png")
@@ -661,9 +662,11 @@ t1 + t2 + plot_layout(nrow=1)
 
 ## AFLW player statistics
 
-The Australian Football League Women's (AFLW) is the national semi-professional Australia Rules football league for female players. Here we will analyse data sourced from the official AFL website with information on the 2020 season, in which the league had 14 teams and 1932 players. These variables are recorded per player per game, so the stats are averaged for each player over the course of the season. The description of each statistic in the data set can be found in the appendix A1. There are 68 variables, 33 of which are numeric. The the others are categorical, e.g. players names or match ids, and they would not be used in scagnostic calculations. This means there are 528 possible scatterplots; significantly more than a single person could view and analyse themselves. To pick out which pair wise plots might be interesting to examine, we use a SPLOM of scagnostic values, similar to the approach taken by @scagdist. Outliers in the scagnostics SPLOM should identify unexpected structure in specific variable pairs by discerning plots that are distinct from others in the same data set.
-  
-Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:AFLW-scatters-static)','\\@ref(fig:AFLW-scatters-interactive)'))`  displays five scatter plots (Plots 1 to 5 in the figure) that were identified as interesting due to having a particularly high or low value on a scagnostic, or some unusual combination of two or more scagnostics. In addition to these five, there is a 6th plot (Plot 6 in the figure) that is included to display what a middling value on almost all of the scagnostics looks like. Most scatter plots score middling values on the scagnostics, so Plot 6 is also a good indication of what we would look at if we picked variables to plot ourselves with no intuition. The visual structure that changes significantly between Plots 1 to 5, and the lack of interesting visual features in Plot 6, shows the benefit of using scagnostics in the early stages of exploratory data analysis. 
+The Australian Football League Women's (AFLW) is the national semi-professional Australia Rules football league for female players. Here we will analyse data sourced from the official AFL website with information on the 2020 season, in which the league had 14 teams and 1932 players. These variables are recorded per player per game, so the stats are averaged for each player over the course of the season. The description of each statistic in the data set can be found in the appendix A1. There are 68 variables, 33 of which are numeric. The the others are categorical, e.g. players names or match ids, and they would not be used in scagnostic calculations. This means there are 528 possible scatterplots; significantly more than a single person could view and analyse themselves. 
+
+To pick out which pair wise plots might be interesting to examine, we use a SPLOM of scagnostic values. Technically, any high-dimensional visualisation approach, such as a parallel co-ordinate plot, can be utilised to find interesting pairs, but we opted to use a SPLOM as it is the approach taken by @scagdist. When looking at the SPLOM, the points that stick to the main mass and have standard values on all the scagnostics are exemplar plots for this data set, while unusual plots that require further inspection will appear as outliers. We used a SPLOM to identify these plots for the AFLW data. 
+
+Figure `r knitr::asis_output(ifelse(knitr::is_latex_output(), '\\@ref(fig:AFLW-scatters-static)','\\@ref(fig:AFLW-scatters-interactive)'))`  displays five scatter plots (Plots 1 to 5 in the figure) that were identified as interesting due to being outliers in the scagnostic SPLOM. having a particularly high or low value on a scagnostic, or some unusual combination of two or more scagnostics. In addition to these five, there is a 6th plot (Plot 6 in the figure) that is included to display what a middling value on almost all of the scagnostics looks like. Most scatter plots score middling values on the scagnostics, so Plot 6 is also a good indication of what we would look at if we picked variables to plot ourselves with no intuition. The visual structure that changes significantly between Plots 1 to 5, and the lack of interesting visual features in Plot 6, shows the benefit of using scagnostics in the early stages of exploratory data analysis. 
 
 ```{r, AFL DATA, include=FALSE, eval=FALSE}
 library(fitzRoy)
@@ -754,8 +757,6 @@ p6a <- p6 + ggtitle("Plot 6")
 
 p1a + p2a + p3a + p4a + p5a + p6a + plot_layout(nrow=2)
 ```
-
-The best way to identify interesting scatter plots is to construct a large interactive SPLOM of the scagnostic values,each point representing a scatter plot in the data set. This is how Plots 1 to 6 were identified, but for the sake of space, we are only going to show the scatter plots of the SPLOM that led to the selection of Plots 1, 2, and 5.
 
 ```{r, AFL relevent SPLOMS, include= FALSE, echo=FALSE}
 test <- aflw_scags |>
@@ -848,6 +849,8 @@ bbh_scags <- mutate(bbh_scags, combination = paste0(Var1, ", ", Var2)) |>
 bbh1 <- ggplot(bbh_scags, aes(x=convex, y=skinny, colour= colours,
                       label = combination)) +
   geom_point() + 
+  geom_point(data = bbh_scags |> filter(colours!= "z"), size=3) +
+  geom_point(data = bbh_scags |> filter(colours!= "z"), size=3, colour="black", shape=1) +
   theme_classic() +
   scale_colour_manual(values=c(newpal, "grey")) +
   #ggtitle("Convex vs Skinny") + 
@@ -856,6 +859,8 @@ bbh1 <- ggplot(bbh_scags, aes(x=convex, y=skinny, colour= colours,
 bbh2 <- ggplot(bbh_scags, aes(x=dcor, y=splines, colour= colours,
                       label = combination)) +
   geom_point() + 
+  geom_point(data = bbh_scags |> filter(colours!= "z"), size=3) +
+  geom_point(data = bbh_scags |> filter(colours!= "z"), size=3, colour="black", shape=1) +
   theme_classic() +
   scale_colour_manual(values=c(newpal, "grey")) +
   #ggtitle("Splines vs Dcor") + 
@@ -864,6 +869,8 @@ bbh2 <- ggplot(bbh_scags, aes(x=dcor, y=splines, colour= colours,
 bbh3 <- ggplot(bbh_scags, aes(x=clumpy, y=clumpy2, colour= colours,
                       label = combination)) +
   geom_point() + 
+  geom_point(data = bbh_scags |> filter(colours!= "z"), size=3) +
+  geom_point(data = bbh_scags |> filter(colours!= "z"), size=3, colour="black", shape=1) +
   theme_classic() +
   scale_colour_manual(values=c(newpal, "grey")) +
   #ggtitle("Clumpy vs Clumpy2") + 
