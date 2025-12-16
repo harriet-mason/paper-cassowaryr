@@ -1397,7 +1397,3 @@ TX.VAL.TECH.MF.ZS	High-technology exports (% of manufactured exports)
 - MS.MIL.TOTL.TF.ZS	Armed forces personnel (% of total labor force)
 - FB.BNK.CAPA.ZS	Bank capital to assets ratio (%)
 - SE.COM.DURS	Compulsory education, duration (years)
-
-## A4: Macro and Micro Economic Series 
-
-Code for generating the data is available on the cassowaryr GitHub repo, in the file https://github.com/numbats/cassowaryr/blob/master/data-raw/tsfeatures.R. 
