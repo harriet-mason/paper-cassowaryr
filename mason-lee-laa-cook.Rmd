@@ -142,6 +142,11 @@ $$s_{outlying}=\frac{\mbox{length}(M_{outliers})}{\mbox{length}(M)}$$
 - **Stringy:** This measure identifies a "stringy" shape with no branches, such as a thin line of data. It is calculated by comparing the number of vertices of degree two in the MST ($V^{(2)}$) with the total number of vertices in the MST ($V$), dropping those of degree one ($V^{(1)}$).  
 
 $$s_{stringy} = \frac{|V^{(2)}|}{|V|-|V^{(1)}|}$$  
+ This formulation corresponds to the later and commonly used definition of stringy introduced in @wilkinson2006high. An earlier definition was proposed in @scag, where stringy was defined as the ratio between the diameter of the MST and its total edge length:
+
+$$ s_{stringy2} = \frac{\mbox{diameter}(T)}{\mbox{length}(T)}$$ 
+ Both definitions aim to quantify how strongly a scatterplot exhibits a connected, path-like or “snake-like” structure with minimal branching, but they emphasize different properties of the MST. The diameter-based definition measures the dominance of the longest path relative to the total tree length. The vertex-based definition instead quantifies stringy through the prevalence of degree-two vertices and the absence of branching. This vertex-based formulation more directly reflects branching structure and is the definition adopted in most subsequent scagnostics work and modern implementations.
+
 
 
 - **Skewed:** A measure of skewness in the edge lengths of the MST (not in the distribution of the data). It is calculated as the ratio between the 90th to 50th percentile range and the central 80th interpercentile range.  
