@@ -37,6 +37,14 @@ author:
     url: https://dicook.org
     orcid: 0000-0002-3813-7155
     email:  dicook@monash.edu
+  - name: Tina Rashid Jafari
+    affiliation: Monash University
+    address:
+    - Department of Econometrics and Business Statistics
+    - Melbourne, Australia
+    url: https://tinarj.github.io
+    orcid: 0009-0008-3605-5341
+    email:  tina.rashidjafari@monash.edu
 type: package
 creative_commons: CC BY
 output: rjtools::rjournal_article
